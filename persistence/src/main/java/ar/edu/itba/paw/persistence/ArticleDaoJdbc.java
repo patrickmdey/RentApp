@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
@@ -40,9 +41,19 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public List<Article> filter(String name) {
         return jdbcTemplate.query(
-                "SELECT * FROM \"Articles\" WHERE ? like LOWER(title)",
+                "SELECT * FROM Articles WHERE ? like LOWER(title)",
                 new Object[]{name.toLowerCase()},
                 ROW_MAPPER);
+    }
+
+    @Override
+    public List<Article> list() {
+        return jdbcTemplate.query("SELECT * FROM ARTICLES", ROW_MAPPER);
+    }
+
+    @Override
+    public Optional<Article> findById(long id) {
+        return jdbcTemplate.query("SELECT * FROM ARTICLES WHERE ID = ?", new Object[]{id}, ROW_MAPPER).stream().findFirst();
     }
 
     @Override
