@@ -3,7 +3,7 @@ begin;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-create table "Users"
+create table Users
 (
 	id serial
 		constraint users_pk
@@ -18,9 +18,9 @@ create table "Users"
 );
 
 create unique index users_email_uindex
-	on "Users" (email);
+	on Users (email);
 
-create table "Article_Categories"
+create table Article_Categories
 (
 	id serial
 		constraint article_categories_pk
@@ -29,9 +29,9 @@ create table "Article_Categories"
 );
 
 create unique index article_categories_description_uindex
-	on "Article_Categories" (description);
+	on Article_Categories (description);
 
-create table "Articles"
+create table Articles
 (
 	id serial
 		constraint articles_pk
@@ -41,28 +41,28 @@ create table "Articles"
 	price_per_day decimal not null,
 	id_owner serial not null
 		constraint articles_users_id_fk
-			references "Users"
+			references Users
 				on delete cascade,
 	id_category serial
 		constraint articles_article_categories_id_fk
-			references "Article_Categories" (id)
+			references Article_Categories (id)
 				on delete restrict
 );
 
 
 
-create table "Article_Pictures"
+create table Article_Pictures
 (
 	id uuid default uuid_generate_v4() not null
 		constraint article_pictures_pk
 			primary key,
 	id_article serial not null
 		constraint article_pictures_articles_id_fk
-			references "Articles" (id)
+			references Articles (id)
 				on update cascade on delete cascade
 );
 
-create table "Rent_Proposals"
+create table Rent_Proposals
 (
 	id serial not null
 		constraint rent_proposals_pk
@@ -73,15 +73,15 @@ create table "Rent_Proposals"
 	approved bool default false,
 	id_article serial not null
 		constraint rent_proposals_articles_id_fk
-			references "Articles" (id)
+			references Articles (id)
 				on update cascade on delete cascade,
 	id_renter serial not null
 		constraint rent_proposals_users_id_fk
-			references "Users" (id)
+			references Users (id)
 				on update cascade on delete cascade
 );
 
 create unique index rent_proposals_id_renter_uindex
-	on "Rent_Proposals" (id_renter);
+	on Rent_Proposals (id_renter);
 
 commit;
