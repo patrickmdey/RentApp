@@ -14,5 +14,5 @@ public interface UserDao {
 
     User save(User user);
 
-    User register(String email, String password);
+    User register(String email, String password, String firstName, String lastName, String location, int type);
 }

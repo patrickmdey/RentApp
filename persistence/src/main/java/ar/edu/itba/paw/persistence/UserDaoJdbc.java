@@ -21,16 +21,22 @@ public class UserDaoJdbc implements UserDao {
     private SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<User> ROW_MAPPER =
             (resultSet, rowNum) -> new User(
-                    resultSet.getInt("userId"),
+                    resultSet.getInt("id"),
                     resultSet.getString("email"),
-                    resultSet.getString("password"));
+                    resultSet.getString("password"),
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"),
+                    resultSet.getString("location"),
+                    resultSet.getInt("type"));
 
     @Autowired
     public UserDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
 
-        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("users")
-                .usingGeneratedKeyColumns("userId");
+        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("Users")
+                .usingGeneratedKeyColumns("id");
+
+
 
     }
 
@@ -47,7 +53,7 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public Optional<User> findById(long id) {
 
-        List<User> users = jdbcTemplate.query("SELECT * FROM users WHERE userId = ?", new Object[]{id}, ROW_MAPPER);
+        List<User> users = jdbcTemplate.query("SELECT * FROM Users WHERE id = ?", new Object[]{id}, ROW_MAPPER);
 
         return users.stream().findFirst();
     }
@@ -58,12 +64,16 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User register(String email, String password) {
+    public User register(String email, String password, String firstName, String lastName, String location, int type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
+        data.put("first_name", firstName);
+        data.put("last_name", lastName);
+        data.put("location", location);
+        data.put("type", type);
         int userId = jdbcInsert.execute(data);
 
-        return new User(userId, email, password);
+        return new User(userId, email, password, firstName, lastName, location, type);
     }
 }
