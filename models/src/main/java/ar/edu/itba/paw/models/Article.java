@@ -20,6 +20,14 @@ public class Article {
         this.idOwner = idOwner;
     }
 
+    public Article(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner) {
+        this.title = title;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+        this.idCategory = idCategory;
+        this.idOwner = idOwner;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Repository
 public class ArticleDaoJdbc implements ArticleDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -22,7 +26,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                     resultSet.getFloat("price_per_day"),
                     resultSet.getInt("id_category"),
                     resultSet.getInt("id_owner")
-                    );
+            );
 
     @Autowired
     public ArticleDaoJdbc(DataSource dataSource) {
@@ -39,5 +43,18 @@ public class ArticleDaoJdbc implements ArticleDao {
                 "SELECT * FROM \"Articles\" WHERE ? like LOWER(title)",
                 new Object[]{name.toLowerCase()},
                 ROW_MAPPER);
+    }
+
+    @Override
+    public Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("title", title);
+        data.put("description", description);
+        data.put("price_per_day", pricePerDay);
+        data.put("id_category", idCategory);
+        data.put("id_owner", idOwner);
+        Integer articleId = jdbcInsert.execute(data);
+
+        return new Article(articleId, title, description, pricePerDay, idCategory, idOwner);
     }
 }
