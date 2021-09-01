@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
-    User get(String id);
+    User get(Integer id);
 
     List<User> list();
 

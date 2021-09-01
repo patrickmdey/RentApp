@@ -23,7 +23,7 @@ public class HelloWorldController {
         return mav;
     }
 
-    @RequestMapping("/create")
+    @RequestMapping("/register")
     public ModelAndView register(@RequestParam(value = "email", required = true) String email,
                                  @RequestParam(value = "password", required = true) String password) {
         final ModelAndView mav = new ModelAndView("index");
@@ -33,12 +33,10 @@ public class HelloWorldController {
     }
 
     @RequestMapping("/{userId}")
-    public ModelAndView userProfile(@PathVariable("userId") long userId) {
+    public ModelAndView userProfile(@PathVariable("userId") Integer userId) {
         final ModelAndView mav = new ModelAndView("index");
         User user = userService.findById(userId).orElseThrow(UserNotFoundException::new);
         mav.addObject("currentUser", user);
         return mav;
     }
-
-
 }

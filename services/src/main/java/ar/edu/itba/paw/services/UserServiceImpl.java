@@ -15,14 +15,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    public Optional<User> findById(long id) {
+    @Override
+    public Optional<User> findById(Integer id) {
         return this.userDao.findById(id);
     }
 
+    @Override
     public List<User> list() {
         return this.userDao.list();
     }
 
+    @Override
     public User register(String email, String password) {
         return this.userDao.register(email, password);
     }
