@@ -35,9 +35,6 @@ public class UserDaoJdbc implements UserDao {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("Users")
                 .usingGeneratedKeyColumns("id");
-
-
-
     }
 
     @Override
