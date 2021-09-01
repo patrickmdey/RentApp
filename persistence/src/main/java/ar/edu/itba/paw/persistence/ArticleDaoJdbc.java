@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.ArticlesDao;
+import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.models.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import javax.sql.DataSource;
 import java.util.List;
 
-public class ArticlesDaoJdbc implements ArticlesDao {
+public class ArticleDaoJdbc implements ArticleDao {
 
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert jdbcInsert;
@@ -25,7 +25,7 @@ public class ArticlesDaoJdbc implements ArticlesDao {
                     );
 
     @Autowired
-    public ArticlesDaoJdbc(DataSource dataSource) {
+    public ArticleDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("Articles")

@@ -4,7 +4,7 @@ import ar.edu.itba.paw.models.Article;
 
 import java.util.List;
 
-public interface ArticlesService {
+public interface ArticleService {
 
     List<Article> filter(String name);
 }
