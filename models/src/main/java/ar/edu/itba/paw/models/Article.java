@@ -9,6 +9,16 @@ public class Article {
     private Integer idCategory;
     private Integer idOwner;
 
+    public Article(Integer id, String title,
+                   String description, Float pricePerDay,
+                   Integer idCategory, Integer idOwner) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.pricePerDay = pricePerDay;
+        this.idCategory = idCategory;
+        this.idOwner = idOwner;
+    }
 
     public Integer getId() {
         return id;
