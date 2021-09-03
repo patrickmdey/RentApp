@@ -68,6 +68,8 @@ public class HelloWorldController {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
+        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
+        mav.addObject("owner", user);
         return mav;
     }
 }
