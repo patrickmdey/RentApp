@@ -1,0 +1,39 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.card-style {
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin: 5px;
+}
+
+.article-title {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.article-location {
+    color: midnightblue;
+    font-family: sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.article-price {
+    color: midnightblue;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+form {
+    margin: 5px;
+}
