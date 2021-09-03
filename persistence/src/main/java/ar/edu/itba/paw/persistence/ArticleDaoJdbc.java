@@ -17,8 +17,8 @@ import java.util.Optional;
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
 
-    private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert jdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<Article> ROW_MAPPER =
             (resultSet, rowNum) -> new Article(
                     resultSet.getInt("id"),

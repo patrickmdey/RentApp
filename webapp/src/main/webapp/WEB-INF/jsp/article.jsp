@@ -37,10 +37,9 @@
             <div class="card card-style">
                 <h3>Categories</h3>
                 <ul>
-                    <li class="badge bg-primary">Bike</li>
-                    <li class="badge bg-primary">Services</li>
-                    <li class="badge bg-primary">Brand</li>
-                    <li class="badge bg-primary color-red">Popular</li>
+                    <c:forEach var="category" items="${article.categories}">
+                        <li class="badge bg-primary">${category}</li>
+                    </c:forEach>
                 </ul>
             </div>
         </div>

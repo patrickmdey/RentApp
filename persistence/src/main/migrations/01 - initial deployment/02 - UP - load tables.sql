@@ -1,21 +1,13 @@
-begin;
+INSERT INTO category (description)
+VALUES ('Technology'), ('Camping'), ('Cars'), ('Kitchen'), ('Tools'), ('Sailing'), ('Travel');
 
---INSERT INTO account (id, first_name, last_name, email, location, password, photo, type) VALUES (DEFAULT, 'Lucas', 'Dellisola', 'lucas@mail.com', 'Ezeiza', 'NOPASS', null, 1);
-/*
-INSERT INTO article_Categories (id, description)VALUES  (DEFAULT, 'Technology'),
-        (DEFAULT, 'Camping'),
-        (DEFAULT, 'Cars'),
-        (DEFAULT, 'Kitchen'),
-        (DEFAULT, 'Tools'),
-        (DEFAULT, 'Sailing'),
-        (DEFAULT, 'Travel');
+INSERT INTO article (title, description, price_per_day, owner_id)
+VALUES  ('Mountain bike Futura Lynce R29 ',
+        'un sistema de suspensión delantera la hace más liviana que aquellas que tienen doble suspensión. Esto se traduce en más velocidad, mejor nivel y mantenimiento sencillo.',
+        700, 1),
+       ('Playstation 5',
+        'Guardá tus apps, fotos, videos y mucho más en el disco duro, que cuenta con una capacidad de 825 GB.', 1500, 1),
+       ('Caña Shimano Solara Baitcast 2', 'Ideal para la pesca de taruchas-truchas y dorados con artificiales ', 500, 1);
 
-INSERT INTO Articles (id, title, description, price_per_day, id_owner, id_category)
-VALUES (DEFAULT, 'Carpa de Verano', 'Esta carpa te va a cuidar cuando vayas de campamento', 1000, 1, 2),
-       (DEFAULT, 'Camara Digital', 'Super camara full HD 4K color ', 5000, 1, 1),
-       (DEFAULT, 'Sierra Electrica', 'Sierra electrica 1000 wats. Te faena hasta al vecino.', 500, 1, 5),
-       (DEFAULT, 'Taxi habilitado en capital', 'Alquilo mi taxi para quien se quiera hacer unos mangos durante el finde. Tiene todo al dia y hasta la licencia habilitada en CABA', 900, 1, 3);
+INSERT INTO article_category (category_id, article_id) VALUES (14,4), (8,5), (13,6);
 
-
-commit;
-*/

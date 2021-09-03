@@ -1,16 +1,18 @@
 package ar.edu.itba.paw.models;
 
+import java.util.List;
+
 public class Article {
 
     private Integer id;
     private String title;
     private String description;
     private Float pricePerDay;
-    private String[] categories;
+    private List<String> categories;
     private Integer idOwner;
 
     public Article(Integer id, String title, String description, Float pricePerDay,
-                   String[] categories, Integer idOwner) {
+                   List<String> categories, Integer idOwner) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -19,7 +21,7 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public Article(String title, String description, Float pricePerDay, String[] categories, Integer idOwner) {
+    public Article(String title, String description, Float pricePerDay, List<String> categories, Integer idOwner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
@@ -55,11 +57,11 @@ public class Article {
         this.pricePerDay = pricePerDay;
     }
 
-    public String[] getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 

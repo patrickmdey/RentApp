@@ -3,7 +3,12 @@ package ar.edu.itba.paw.models;
 public class Category {
 
     private String description;
-    private Integer id;
+    private long id;
+
+    public Category(long id, String description){
+        this.id = id;
+        this.description = description;
+    }
 
     public String getDescription() {
         return description;
@@ -13,7 +18,11 @@ public class Category {
         this.description = description;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
