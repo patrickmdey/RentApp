@@ -25,15 +25,15 @@ public class ArticleDaoJdbc implements ArticleDao {
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getFloat("price_per_day"),
-                    resultSet.getInt("id_category"),
-                    resultSet.getInt("id_owner")
+                    null,
+                    resultSet.getInt("owner_id")
             );
 
     @Autowired
     public ArticleDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
 
-        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("Articles")
+        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("article")
                 .usingGeneratedKeyColumns("id");
 
     }
@@ -41,19 +41,19 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public List<Article> filter(String name) {
         return jdbcTemplate.query(
-                "SELECT * FROM Articles WHERE ? like LOWER(title)",
+                "SELECT * FROM article WHERE ? like LOWER(title)",
                 new Object[]{name.toLowerCase()},
                 ROW_MAPPER);
     }
 
     @Override
     public List<Article> list() {
-        return jdbcTemplate.query("SELECT * FROM ARTICLES", ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * FROM article", ROW_MAPPER);
     }
 
     @Override
     public Optional<Article> findById(long id) {
-        return jdbcTemplate.query("SELECT * FROM ARTICLES WHERE ID = ?", new Object[]{id}, ROW_MAPPER).stream().findFirst();
+        return jdbcTemplate.query("SELECT * FROM article WHERE id = ?", new Object[]{id}, ROW_MAPPER).stream().findFirst();
     }
 
     @Override
@@ -62,10 +62,10 @@ public class ArticleDaoJdbc implements ArticleDao {
         data.put("title", title);
         data.put("description", description);
         data.put("price_per_day", pricePerDay);
-        data.put("id_category", idCategory);
-        data.put("id_owner", idOwner);
+        data.put("category_id", idCategory);
+        data.put("owner_id", idOwner);
         Integer articleId = jdbcInsert.execute(data);
 
-        return new Article(articleId, title, description, pricePerDay, idCategory, idOwner);
+        return new Article(articleId, title, description, pricePerDay, null, idOwner);
     }
 }

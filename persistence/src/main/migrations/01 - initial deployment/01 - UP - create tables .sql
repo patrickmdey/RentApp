@@ -1,87 +1,77 @@
+BEGIN;
 
-begin;
-
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-create table Users
+CREATE TABLE picture
 (
-	id serial
-		constraint users_pk
-			primary key,
-	first_name varchar not null,
-	last_name varchar not null,
-	email varchar not null,
-	location varchar not null,
-	password varchar not null,
-	photo varchar,
-	type int not null
+    id   SERIAL NOT NULL,
+    data BYTEA  NOT NULL,
+    PRIMARY KEY (id)
 );
 
-create unique index users_email_uindex
-	on Users (email);
-
-create table Article_Categories
+CREATE TABLE category
 (
-	id serial
-		constraint article_categories_pk
-			primary key,
-	description varchar not null
+    id          SERIAL,
+    description VARCHAR NOT NULL UNIQUE,
+    PRIMARY KEY (id)
 );
 
-create unique index article_categories_description_uindex
-	on Article_Categories (description);
-
-create table Articles
+CREATE TABLE account
 (
-	id serial
-		constraint articles_pk
-			primary key,
-	title varchar not null,
-	description varchar not null,
-	price_per_day decimal not null,
-	id_owner serial not null
-		constraint articles_users_id_fk
-			references Users
-				on delete cascade,
-	id_category serial
-		constraint articles_article_categories_id_fk
-			references Article_Categories (id)
-				on delete restrict
+    id         SERIAL  NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name  VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL UNIQUE,
+    location   VARCHAR NOT NULL,
+    password   VARCHAR NOT NULL,
+    picture    INT,
+    type       INT     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE article
+(
+    id            SERIAL,
+    title         VARCHAR NOT NULL,
+    description   VARCHAR NOT NULL,
+    price_per_day decimal NOT NULL,
+    owner_id      INT     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (owner_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE article_picture
+(
+    picture_id INT NOT NULL,
+    article_id INT NOT NULL,
+    PRIMARY KEY (picture_id, article_id),
+    FOREIGN KEY (picture_id) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
-
-create table Article_Pictures
+CREATE TABLE article_category
 (
-	id uuid default uuid_generate_v4() not null
-		constraint article_pictures_pk
-			primary key,
-	id_article serial not null
-		constraint article_pictures_articles_id_fk
-			references Articles (id)
-				on update cascade on delete cascade
+    category_id INT NOT NULL,
+    article_id  INT NOT NULL,
+    PRIMARY KEY (category_id, article_id),
+    FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-create table Rent_Proposals
+
+CREATE TABLE rent_proposal
 (
-	id serial not null
-		constraint rent_proposals_pk
-			primary key,
-	start_date date not null,
-	end_date date not null,
-	message varchar not null,
-	approved bool default false,
-	id_article serial not null
-		constraint rent_proposals_articles_id_fk
-			references Articles (id)
-				on update cascade on delete cascade,
-	id_renter serial not null
-		constraint rent_proposals_users_id_fk
-			references Users (id)
-				on update cascade on delete cascade
+    id         SERIAL             NOT NULL,
+    start_date DATE               NOT NULL,
+    end_date   DATE               NOT NULL,
+    message    VARCHAR            NOT NULL,
+    approved   BOOL DEFAULT FALSE NOT NULL,
+    article_id INT                NOT NULL,
+    renter_id  INT                NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (renter_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (start_date, end_date, article_id, renter_id)
 );
 
-create unique index rent_proposals_id_renter_uindex
-	on Rent_Proposals (id_renter);
-
-commit;
+COMMIT;
