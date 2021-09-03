@@ -9,5 +9,5 @@ VALUES  ('Mountain bike Futura Lynce R29 ',
         'Guardá tus apps, fotos, videos y mucho más en el disco duro, que cuenta con una capacidad de 825 GB.', 1500, 1),
        ('Caña Shimano Solara Baitcast 2', 'Ideal para la pesca de taruchas-truchas y dorados con artificiales ', 500, 1);
 
-INSERT INTO article_category (category_id, article_id) VALUES (14,4), (8,5), (13,6);
+INSERT INTO article_category (category_id, article_id) VALUES (14,1), (8,2), (13,3);
 

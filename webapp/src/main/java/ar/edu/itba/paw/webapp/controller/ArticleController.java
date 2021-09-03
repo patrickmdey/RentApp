@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.models.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +18,13 @@ public class ArticleController {
     ArticleService articleService;
 
 
+    @RequestMapping("/marketplace/{query}")
+    public ModelAndView searchArticle(@PathVariable("query") String query){
+        final ModelAndView mav = new ModelAndView("search");
+        List<Article> searchedArticles = articleService.filter(query);
+        mav.addObject("searchResult",searchedArticles);
+        return mav;
+    }
 
     @RequestMapping("/marketplace")
     public ModelAndView marketplace() {

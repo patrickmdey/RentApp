@@ -41,7 +41,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public List<Article> filter(String name) {
         return jdbcTemplate.query(
-                "SELECT * FROM article WHERE ? like LOWER(title)",
+                "SELECT * FROM article WHERE '%?%' like LOWER(title)",
                 new Object[]{name.toLowerCase()},
                 ROW_MAPPER);
     }
