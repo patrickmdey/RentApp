@@ -1,14 +1,17 @@
+BEGIN;
 
-begin;
+DROP TABLE picture CASCADE;
 
-drop table Article_Pictures cascade;
+DROP TABLE category CASCADE;
 
-drop table Rent_Proposals cascade;
+DROP TABLE account CASCADE;
 
-drop table Articles cascade;
+DROP TABLE article CASCADE;
 
-drop table Users cascade;
+DROP TABLE article_picture CASCADE;
 
-drop table Article_Categories cascade;
+DROP TABLE article_category CASCADE;
 
-commit;
+DROP TABLE rent_proposal CASCADE;
+
+COMMIT;

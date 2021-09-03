@@ -33,7 +33,7 @@ public class UserDaoJdbc implements UserDao {
     public UserDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
 
-        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("Users")
+        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("account")
                 .usingGeneratedKeyColumns("id");
     }
 
@@ -50,7 +50,7 @@ public class UserDaoJdbc implements UserDao {
     @Override
     public Optional<User> findById(long id) {
 
-        List<User> users = jdbcTemplate.query("SELECT * FROM Users WHERE id = ?", new Object[]{id}, ROW_MAPPER);
+        List<User> users = jdbcTemplate.query("SELECT * FROM account WHERE id = ?", new Object[]{id}, ROW_MAPPER);
 
         return users.stream().findFirst();
     }

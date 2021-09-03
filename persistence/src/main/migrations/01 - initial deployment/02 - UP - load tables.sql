@@ -1,10 +1,8 @@
 begin;
 
-INSERT INTO Users (id, first_name, last_name, email, location, password, photo, type)
-VALUES (DEFAULT, 'Lucas', 'Dellisola', 'lucas@mail.com', 'Ezeiza', 'NOPASS', null, 1);
-
-INSERT INTO Article_Categories (id, description)
-VALUES  (DEFAULT, 'Technology'),
+--INSERT INTO account (id, first_name, last_name, email, location, password, photo, type) VALUES (DEFAULT, 'Lucas', 'Dellisola', 'lucas@mail.com', 'Ezeiza', 'NOPASS', null, 1);
+/*
+INSERT INTO article_Categories (id, description)VALUES  (DEFAULT, 'Technology'),
         (DEFAULT, 'Camping'),
         (DEFAULT, 'Cars'),
         (DEFAULT, 'Kitchen'),
@@ -20,3 +18,4 @@ VALUES (DEFAULT, 'Carpa de Verano', 'Esta carpa te va a cuidar cuando vayas de c
 
 
 commit;
+*/
