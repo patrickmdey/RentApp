@@ -21,21 +21,26 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private CategoryDao categoryDao;
 
-    @Override
-    public List<Article> filter(String name) {
-        return articleDao.filter(name);
+    private List<Article> filter(String name) {
+        return this.articleDao.filter(name);
     }
-
 
     private void appendCategories(Article article){
         article.setCategories(this.categoryDao.listByArticle(article.getId()));
     }
 
-    @Override
-    public List<Article> list() {
+    private List<Article> list() {
         List<Article> articles = this.articleDao.list();
         articles.forEach(this::appendCategories);
         return this.articleDao.list();
+    }
+
+    @Override
+    public List<Article> get(String name) {
+        if (name == null)
+            return this.list();
+
+        return this.filter(name);
     }
 
     @Override

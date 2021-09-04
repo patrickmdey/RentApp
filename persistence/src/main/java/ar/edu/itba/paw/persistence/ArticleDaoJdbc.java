@@ -9,10 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
@@ -40,9 +37,10 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public List<Article> filter(String name) {
+        System.out.println(name);
         return jdbcTemplate.query(
-                "SELECT * FROM article WHERE '%?%' like LOWER(title)",
-                new Object[]{name.toLowerCase()},
+                "SELECT * FROM article WHERE LOWER(title) like ?",
+                new Object[]{"%"+name.toLowerCase()+"%"},
                 ROW_MAPPER);
     }
 

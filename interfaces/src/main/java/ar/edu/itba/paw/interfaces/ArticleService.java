@@ -7,10 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleService {
-
-    List<Article> filter(String name);
-
-    List<Article> list();
+    List<Article> get(String name);
 
     Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner);
 

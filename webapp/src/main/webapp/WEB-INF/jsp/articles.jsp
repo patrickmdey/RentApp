@@ -9,8 +9,9 @@
     <title>Title</title>
 </head>
 <body>
+<h:navbar/>
 <div class="container">
-    <div class="row justify-content-between">
+    <div class="row justify-content-around align-items-center">
         <c:forEach var="article" items="${articles}">
             <div class="col-3">
                 <h:articleCard title="${article.title}" description="${article.description}" id="${article.id}"/>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -17,19 +18,12 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-
-    @RequestMapping("/marketplace/{query}")
-    public ModelAndView searchArticle(@PathVariable("query") String query){
-        final ModelAndView mav = new ModelAndView("search");
-        List<Article> searchedArticles = articleService.filter(query);
-        mav.addObject("searchResult",searchedArticles);
-        return mav;
-    }
-
     @RequestMapping("/marketplace")
-    public ModelAndView marketplace() {
+    public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
         final ModelAndView mav = new ModelAndView("articles");
-        List<Article> articles = articleService.list();
+        List<Article> articles = articleService.get(name);
+        System.out.println(articles.isEmpty());
+        articles.forEach(article -> System.out.println(article.getTitle()));
         mav.addObject("articles", articles);
         return mav;
     }
