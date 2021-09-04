@@ -3,9 +3,8 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.CategoryDao;
+import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private UserDao userDao;
 
     private List<Article> filter(String name) {
         return this.articleDao.filter(name);
@@ -46,7 +48,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> findById(Integer articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
-        toReturn.ifPresent(this::appendCategories);
+        toReturn.ifPresent(article -> {
+            article.setUser(userDao.findById(article.getIdOwner()).get()); //No va a fallar nunca, siempre tiene que tener un owner
+            appendCategories(article);
+        });
         return toReturn;
     }
 

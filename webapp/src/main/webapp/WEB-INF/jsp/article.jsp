@@ -22,10 +22,10 @@
             <div class="col-md-1"></div>
             <div class="col-md-7">
                 <div class="card-body">
-                    <h2 class="card-title h2">${article.title}</h2>
-                    <p class="lead text-muted article-location"><i class="bi-geo-alt-fill"></i>${owner.location}</p>
-                    <h4 class="card-text h4 article-price">$${article.pricePerDay} per day</h4>
-                    <p class="card-text lead"><small>${article.description}</small></p>
+                    <h2 class="card-title article-title">${article.title}</h2>
+                    <p class="article-location"><i class="bi-geo-alt-fill"></i>${article.user.location}</p>
+                    <p class="card-text article-price">$${article.pricePerDay} per day</p>
+                    <p class="card-text">${article.description}</p>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <div class="row">
                     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
                          style="max-height: 20px" alt="#">
-                    <p class="lead">${owner.firstName} ${owner.lastName}</p>
+                    <p>${article.user.firstName} ${article.user.lastName}</p>
                 </div>
             </div>
 
