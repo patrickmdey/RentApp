@@ -11,7 +11,8 @@
     padding: 30px;
     border: 1px solid #eee;
     border-radius: 6px;
-    margin: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .article-title {
@@ -21,19 +22,25 @@
 }
 
 .article-location {
-    color: midnightblue;
-    font-family: sans-serif;
-    font-weight: normal;
-    font-size: 18px;
+    color: midnightblue !important;
+    margin: 20px 0;
 }
 
 .article-price {
-    color: midnightblue;
-    font-family: sans-serif;
-    font-weight: bold;
-    font-size: 28px;
+    color: red;
+    margin: 10px 0;
 }
 
-form {
-    margin: 5px;
+.send-email-input {
+    margin-bottom: 10px;
+}
+
+.badge {
+    padding: 25px;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.category-list {
+
 }
