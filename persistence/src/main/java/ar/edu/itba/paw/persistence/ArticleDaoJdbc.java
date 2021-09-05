@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,14 +17,16 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+    private final SimpleJdbcInsert jdbcInsertCategories;
+
     private static final RowMapper<Article> ROW_MAPPER =
             (resultSet, rowNum) -> new Article(
-                    resultSet.getInt("id"),
+                    resultSet.getLong("id"),
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getFloat("price_per_day"),
                     null,
-                    resultSet.getInt("owner_id")
+                    resultSet.getLong("owner_id")
             );
 
     @Autowired
@@ -32,6 +35,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("article")
                 .usingGeneratedKeyColumns("id");
+
+        jdbcInsertCategories = new SimpleJdbcInsert(dataSource).withTableName("article_category");
 
     }
 
@@ -55,15 +60,22 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner) {
+    public Article create(String title, String description, Float pricePerDay,List<Category> categories, Long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
         data.put("description", description);
         data.put("price_per_day", pricePerDay);
-        data.put("category_id", idCategory);
         data.put("owner_id", idOwner);
-        Integer articleId = jdbcInsert.execute(data);
 
-        return new Article(articleId, title, description, pricePerDay, null, idOwner);
+        Long articleId =  jdbcInsert.executeAndReturnKey(data).longValue();
+        
+        for (Category category: categories) {
+            Map<String, Object> categoryData = new HashMap<>();
+            categoryData.put("category_id", category.getId());
+            categoryData.put("article_id",articleId);
+            jdbcInsertCategories.execute(categoryData);
+        }
+
+        return new Article(articleId, title, description, pricePerDay, categories, idOwner);
     }
 }

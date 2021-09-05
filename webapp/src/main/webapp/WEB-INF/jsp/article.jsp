@@ -42,7 +42,7 @@
                 <ul class="category-list">
                     <c:forEach var="category" items="${article.categories}">
                         <li>
-                            <h1 class="badge badge-style bg-primary enable-rounded">${category}</h1>
+                            <h1 class="badge badge-style bg-primary enable-rounded">${category.description}</h1>
                         </li>
                     </c:forEach>
                 </ul>

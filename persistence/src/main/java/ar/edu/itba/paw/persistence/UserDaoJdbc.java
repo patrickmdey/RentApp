@@ -44,7 +44,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public List<User> list() {
-        return null;
+        return jdbcTemplate.query("SELECT * from account",ROW_MAPPER);
     }
 
     @Override

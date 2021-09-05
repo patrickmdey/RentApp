@@ -34,13 +34,13 @@ public class UserController {
     @RequestMapping("/")
     public ModelAndView helloWorld() {
         final ModelAndView mav = new ModelAndView("index");
-        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
+        User user = userService.findById(new Long(1)).orElseThrow(UserNotFoundException::new);
         mav.addObject("currentUser", user);
         return mav;
     }
 
     @RequestMapping("/{userId}")
-    public ModelAndView userProfile(@PathVariable("userId") Integer userId) {
+    public ModelAndView userProfile(@PathVariable("userId") Long userId) {
         final ModelAndView mav = new ModelAndView("index");
         User user = userService.findById(userId).orElseThrow(UserNotFoundException::new);
         mav.addObject("currentUser", user);
