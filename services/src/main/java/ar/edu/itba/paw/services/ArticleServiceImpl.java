@@ -27,7 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
         return this.articleDao.filter(name);
     }
 
-    private void appendCategories(Article article){
+    private void appendCategories(Article article) {
         article.setCategories(this.categoryDao.listByArticle(article.getId()));
     }
 
@@ -48,16 +48,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> findById(Integer articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
-        toReturn.ifPresent(article -> {
-            article.setUser(userDao.findById(article.getIdOwner()).get()); //No va a fallar nunca, siempre tiene que tener un owner
-            appendCategories(article);
-        });
+        toReturn.ifPresent(this::appendCategories);
         return toReturn;
     }
 
 
     @Override
     public Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner) {
-        return articleDao.create(title,description, pricePerDay, idCategory, idOwner);
+        return articleDao.create(title, description, pricePerDay, idCategory, idOwner);
     }
 }

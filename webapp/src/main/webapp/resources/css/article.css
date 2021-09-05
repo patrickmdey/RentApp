@@ -8,7 +8,7 @@
 
 .card-style {
     background-color: #fff;
-    padding: 30px;
+    padding: 25px;
     border: 1px solid #eee;
     border-radius: 6px;
     margin-top: 8px;
@@ -35,12 +35,13 @@
     margin-bottom: 10px;
 }
 
-.badge {
-    padding: 25px;
-    font-size: x-large;
-    font-weight: bold;
+.category-list {
+    align-items: center;
+    justify-content: start;
 }
 
-.category-list {
-
+.badge-style {
+    padding: 125px;
+    font-size: x-large;
+    font-weight: bold;
 }

@@ -10,15 +10,6 @@ public class Article {
     private Float pricePerDay;
     private List<String> categories;
     private Integer idOwner;
-    private User owner;
-
-    public User getUser() {
-        return owner;
-    }
-
-    public void setUser(User owner) {
-        this.owner = owner;
-    }
 
     public Article(Integer id, String title, String description, Float pricePerDay,
                    List<String> categories, Integer idOwner) {

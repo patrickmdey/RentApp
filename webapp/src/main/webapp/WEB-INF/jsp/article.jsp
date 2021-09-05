@@ -23,9 +23,8 @@
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title article-title">${article.title}</h2>
-                    <p class="article-location"><i class="bi-geo-alt-fill"></i>${article.user.location}</p>
-                    <p class="card-text article-price">$${article.pricePerDay} per day</p>
-                    <p class="card-text">${article.description}</p>
+                    <p class="article-location"><i class="bi-geo-alt-fill"></i>${owner.location}</p>
+                    <h4 class="card-text h4 article-price">$${article.pricePerDay} per day</h4>
                 </div>
             </div>
         </div>
@@ -42,7 +41,9 @@
                 <h3 class="h3">Categories</h3>
                 <ul class="category-list">
                     <c:forEach var="category" items="${article.categories}">
-                        <li class="badge bg-primary enable-rounded">${category}</li>
+                        <li>
+                            <h1 class="badge badge-style bg-primary enable-rounded">${category}</h1>
+                        </li>
                     </c:forEach>
                 </ul>
             </div>
@@ -54,7 +55,7 @@
                 <div class="row">
                     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
                          style="max-height: 20px" alt="#">
-                    <p>${article.user.firstName} ${article.user.lastName}</p>
+                    <p>${owner.firstName} ${owner.lastName}</p>
                 </div>
             </div>
 
@@ -76,7 +77,7 @@
                         </div>
                         <div class="col-12 justify-content-center">
                             <div class="button">
-                                <button type="button" class="btn-primary">Send Email</button>
+                                <button type="button" class="rounded btn-primary">Send Email</button>
                             </div>
                         </div>
                     </div>

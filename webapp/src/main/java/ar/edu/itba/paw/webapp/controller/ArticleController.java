@@ -1,8 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.ArticleService;
+import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,9 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     ArticleService articleService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/marketplace")
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
@@ -32,6 +38,8 @@ public class ArticleController {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
+        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        mav.addObject("owner", owner);
         return mav;
     }
 }
