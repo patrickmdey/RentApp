@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
@@ -39,7 +42,7 @@ public class UserDaoJdbcTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTestUtils.deleteFromTables(jdbcTemplate, "account");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "account");
     }
 
     @Test

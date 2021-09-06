@@ -37,7 +37,7 @@ public class UserServiceTest {
     @Test
     public void testRegister() {
         Mockito.when(mockDao.register(Mockito.eq(EMAIL), Mockito.eq(PASSWORD),
-                Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
+                        Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
                 .thenReturn(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal()));
 
         User testUser = userService.register(EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal());
@@ -55,10 +55,10 @@ public class UserServiceTest {
     @Test
     public void testFindById() {
         Mockito.when(mockDao.register(Mockito.eq(EMAIL), Mockito.eq(PASSWORD),
-                Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
+                        Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
                 .thenReturn(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal()));
 
-        Optional<User> testUser = userService.findById(1);
+        Optional<User> testUser = userService.findById((long) 1);
 
         Assert.assertNotNull(testUser);
         Assert.assertTrue(testUser.isPresent());
