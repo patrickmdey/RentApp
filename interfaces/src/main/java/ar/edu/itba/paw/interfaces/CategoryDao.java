@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface CategoryDao {
     //List<Category> filter(String name);
 
-    List<String> listByArticle(long articleId);
+    List<Category> listByArticle(long articleId);
+
+    List<Category> listAll();
 
     //Optional<Category> findById(long id);
 

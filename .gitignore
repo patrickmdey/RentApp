@@ -49,3 +49,7 @@ Thumbs.db
 *.mov
 *.wmv
 
+
+jdbc:hsqldb:mem/
+
+persistence/mem/
