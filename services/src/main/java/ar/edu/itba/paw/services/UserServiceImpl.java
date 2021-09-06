@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public Optional<User> findById(Integer id) {
+    public Optional<User> findById(long id) {
         return this.userDao.findById(id);
     }
 
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User register(String email, String password, String firstName, String lastName, String location, int type) {
+    public Optional<User> register(String email, String password, String firstName, String lastName, String location, int type) {
         return this.userDao.register(email, password, firstName, lastName, location, type);
     }
 }

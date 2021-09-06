@@ -23,7 +23,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                     resultSet.getString("description"),
                     resultSet.getFloat("price_per_day"),
                     null,
-                    resultSet.getInt("owner_id")
+                    resultSet.getLong("owner_id")
             );
 
     @Autowired
@@ -40,7 +40,7 @@ public class ArticleDaoJdbc implements ArticleDao {
         System.out.println(name);
         return jdbcTemplate.query(
                 "SELECT * FROM article WHERE LOWER(title) like ?",
-                new Object[]{"%"+name.toLowerCase()+"%"},
+                new Object[]{"%" + name.toLowerCase() + "%"},
                 ROW_MAPPER);
     }
 
@@ -55,15 +55,15 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner) {
+    public Optional<Article> create(String title, String description, Float pricePerDay, long idCategory, long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
         data.put("description", description);
         data.put("price_per_day", pricePerDay);
         data.put("category_id", idCategory);
         data.put("owner_id", idOwner);
-        Integer articleId = jdbcInsert.execute(data);
+        long articleId = jdbcInsert.execute(data);
 
-        return new Article(articleId, title, description, pricePerDay, null, idOwner);
+        return Optional.of(new Article(articleId, title, description, pricePerDay, null, idOwner));
     }
 }

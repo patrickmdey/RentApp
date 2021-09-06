@@ -2,7 +2,7 @@ package ar.edu.itba.paw.models;
 
 public class User {
 
-    private Integer id;
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -23,7 +23,7 @@ public class User {
             ;//Throw exception
     }
 
-    public User(int id, String email, String password, String firstName, String lastName, String location, int type) {
+    public User(long id, String email, String password, String firstName, String lastName, String location, int type) {
         this.id = id;
         this.email = email;
         this.password = password;

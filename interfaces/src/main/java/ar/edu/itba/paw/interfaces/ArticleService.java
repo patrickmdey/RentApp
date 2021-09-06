@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ArticleService {
     List<Article> get(String name);
 
-    Article create(String title, String description, Float pricePerDay, Integer idCategory, Integer idOwner);
+    Optional<Article> create(String title, String description, Float pricePerDay, long idCategory, long idOwner);
 
     Optional<Article> findById(Integer articleId);
 }

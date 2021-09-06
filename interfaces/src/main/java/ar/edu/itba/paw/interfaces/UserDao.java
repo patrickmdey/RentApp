@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
-    User get(Integer id);
+    Optional<User> get(long id);
 
     List<User> list();
 
@@ -14,5 +14,5 @@ public interface UserDao {
 
     User save(User user);
 
-    User register(String email, String password, String firstName, String lastName, String location, int type);
+    Optional<User> register(String email, String password, String firstName, String lastName, String location, int type);
 }

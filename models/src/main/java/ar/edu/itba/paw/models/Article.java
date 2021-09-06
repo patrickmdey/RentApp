@@ -4,15 +4,15 @@ import java.util.List;
 
 public class Article {
 
-    private Integer id;
+    private long id;
     private String title;
     private String description;
     private Float pricePerDay;
     private List<String> categories;
-    private Integer idOwner;
+    private long idOwner;
 
-    public Article(Integer id, String title, String description, Float pricePerDay,
-                   List<String> categories, Integer idOwner) {
+    public Article(long id, String title, String description, Float pricePerDay,
+                   List<String> categories, long idOwner) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -21,7 +21,7 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public Article(String title, String description, Float pricePerDay, List<String> categories, Integer idOwner) {
+    public Article(String title, String description, Float pricePerDay, List<String> categories, long idOwner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
@@ -29,7 +29,7 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
@@ -65,11 +65,11 @@ public class Article {
         this.categories = categories;
     }
 
-    public Integer getIdOwner() {
+    public long getIdOwner() {
         return idOwner;
     }
 
-    public void setIdOwner(Integer idOwner) {
+    public void setIdOwner(long idOwner) {
         this.idOwner = idOwner;
     }
 
