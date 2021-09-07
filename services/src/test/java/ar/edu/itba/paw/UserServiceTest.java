@@ -38,11 +38,13 @@ public class UserServiceTest {
     public void testRegister() {
         Mockito.when(mockDao.register(Mockito.eq(EMAIL), Mockito.eq(PASSWORD),
                         Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
-                .thenReturn(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal()));
+                .thenReturn(Optional.of(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal())));
 
-        User testUser = userService.register(EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal());
+        Optional<User> optTestUser = userService.register(EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal());
 
-        Assert.assertNotNull(testUser);
+        Assert.assertTrue(optTestUser.isPresent());
+
+        User testUser = optTestUser.get();
 
         Assert.assertEquals(EMAIL, testUser.getEmail());
         Assert.assertEquals(PASSWORD, testUser.getPassword());
@@ -56,7 +58,7 @@ public class UserServiceTest {
     public void testFindById() {
         Mockito.when(mockDao.register(Mockito.eq(EMAIL), Mockito.eq(PASSWORD),
                         Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
-                .thenReturn(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal()));
+                .thenReturn(Optional.of(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal())));
 
         Optional<User> testUser = userService.findById((long) 1);
 
