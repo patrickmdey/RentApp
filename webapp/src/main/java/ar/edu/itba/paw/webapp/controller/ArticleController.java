@@ -34,7 +34,7 @@ public class ArticleController {
     @Autowired
     RentService rentService;
 
-    @RequestMapping("/marketplace")
+    @RequestMapping("/")
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(name);

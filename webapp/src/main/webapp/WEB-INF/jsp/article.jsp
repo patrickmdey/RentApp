@@ -3,6 +3,9 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+
+<c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <head>
     <link href="<c:url value="/resources/css/article.css" />" rel="stylesheet">
@@ -12,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>${article.title}</title>
 </head>
-<body style="background-color: #eaedea;">
+<body class="article-background">
 <h:navbar/>
 <div class="main-container">
     <div class="card card-style">
@@ -64,32 +67,32 @@
 
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.rentRequestTitle"/></h3>
-                <form:form modelAttribute="rentForm" action="${articleId}" method="post">
+                <form:form modelAttribute="rentForm" action="${articleUrl}" method="post">
                     <div class="row">
                         <div class="col-12 send-email-input">
-                            <form:label path="name">Name</form:label>
+                            <form:label path="name"><spring:message code="article.form.name"/></form:label>
                             <form:input type="text" path="name" class="form-control form-control-custom"
                                         placeholder="Your Name"/>
                             <form:errors path="name" element="p" cssClass="text-danger"/>
                         </div>
                         <div class="col-12 send-email-input">
-                            <form:label path="email">Email</form:label>
+                            <form:label path="email"><spring:message code="article.form.email"/></form:label>
                             <form:input type="email" path="email" class="form-control form-control-custom"
                                         placeholder="Your Email"/>
                             <form:errors path="email" element="p" cssStyle="color: red"/>
                         </div>
                         <div class="col-6 send-email-input">
-                            <form:label path="startDate">Start Date</form:label>
+                            <form:label path="startDate"><spring:message code="article.form.startDate"/></form:label>
                             <form:input type="text" path="startDate" class="form-control form-control-custom"/>
                             <form:errors path="startDate" element="p" cssStyle="color: red"/>
                         </div>
                         <div class="col-6 send-email-input">
-                            <form:label path="endDate">End Date</form:label>
+                            <form:label path="endDate"><spring:message code="article.form.endDate"/></form:label>
                             <form:input type="text" path="endDate" class="form-control form-control-custom"/>
                             <form:errors path="endDate" element="p" cssStyle="color: red"/>
                         </div>
                         <div class="col-12 send-email-input">
-                            <form:label path="message">Message</form:label>
+                            <form:label path="message"><spring:message code="article.form.message"/></form:label>
                             <form:input name="message" path="message" class="form-control form-control-custom "
                                         placeholder="Your Message"/>
                             <form:errors path="message" element="p" cssStyle="color: red"/>

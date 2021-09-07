@@ -40,17 +40,13 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping("/")
-    public ModelAndView helloWorld() {
-
-        emailService.sendMessage("dellisolalucas@gmail.com","aSDASDASDA", "ASDASDASDASDASDASDASDASD");
-
-
-        final ModelAndView mav = new ModelAndView("index");
-        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
-        mav.addObject("currentUser", user);
-        return mav;
-    }
+//    @RequestMapping("/")
+//    public ModelAndView helloWorld() {
+//        final ModelAndView mav = new ModelAndView("marketplace");
+//        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
+//        mav.addObject("currentUser", user);
+//        return mav;
+//    }
 
     @RequestMapping("/{userId}")
     public ModelAndView userProfile(@PathVariable("userId") Integer userId) {
