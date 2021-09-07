@@ -33,10 +33,13 @@ public class CategoryDaoJdbc implements CategoryDao {
 
     @Override
     public List<Category> listByArticle(long articleId) {
+
         return jdbcTemplate.query("SELECT * FROM category WHERE id IN(" +
-                "SELECT DISTINCT category.id FROM category JOIN article_category ON category.id = category_id " +
-                "WHERE article_id = ?)", new Object[] {articleId}, ROW_MAPPER);
+                "SELECT DISTINCT category_id FROM article_category WHERE article_id = ?)",
+                new Object[] {articleId}, ROW_MAPPER);
     }
+
+
 
     @Override
     public List<Category> listAll() {

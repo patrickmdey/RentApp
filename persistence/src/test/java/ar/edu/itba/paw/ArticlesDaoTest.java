@@ -6,13 +6,9 @@ import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
-import org.junit.experimental.categories.Categories;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,7 +19,6 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,14 +43,17 @@ public class ArticlesDaoTest {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Before
-    public void setUp(){
+
+
+    @After
+    public void cleanUp(){
         jdbcTemplate = new JdbcTemplate(ds);
         JdbcTestUtils.deleteFromTables(jdbcTemplate,"article");
         JdbcTestUtils.deleteFromTables(jdbcTemplate,"category");
         JdbcTestUtils.deleteFromTables(jdbcTemplate,"article_category");
         JdbcTestUtils.deleteFromTables(jdbcTemplate,"account");
     }
+
 
     private List<Article> populateDataBase(int elements){
         List<Article> articles = new ArrayList<>(elements);
@@ -76,7 +74,7 @@ public class ArticlesDaoTest {
                     description,
                     pricePerDay,
                     categories.subList(0,Math.min(i+1,categories.size())),
-                    idOwner));
+                    idOwner).get());
         }
         return articles;
     }
@@ -91,7 +89,7 @@ public class ArticlesDaoTest {
         final float pricePerDay = 500;
         final Long idOwner = owner.getId();
         final List<Category> categories = categoryDao.listAll();
-        final Article article = articleDao.create(title,description,pricePerDay,categories,idOwner);
+        final Article article = articleDao.create(title,description,pricePerDay,categories,idOwner).get();
 
         assertNotNull(article);
         assertEquals(article.getTitle(),title);

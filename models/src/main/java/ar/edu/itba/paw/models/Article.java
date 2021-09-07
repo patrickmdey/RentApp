@@ -2,8 +2,9 @@ package ar.edu.itba.paw.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class Article implements ValidableObject {
+public class Article {
 
     private Long id;
     private String title;
@@ -74,22 +75,18 @@ public class Article implements ValidableObject {
         this.idOwner = idOwner;
     }
 
-    public List<String> isValid() {
-        List<String> errors = new ArrayList<>();
 
-        if (!Validations.isValid(title))
-            errors.add("The title is not valid");
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return Objects.equals(id, article.id) && Objects.equals(title, article.title) && Objects.equals(description, article.description) && Objects.equals(pricePerDay, article.pricePerDay) && Objects.equals(categories, article.categories) && Objects.equals(idOwner, article.idOwner);
+    }
 
-        if(!Validations.isValid(description))
-            errors.add("The description is not valid");
-
-        if (!Validations.isValid(pricePerDay) || pricePerDay <= 0)
-            errors.add("The price per day is not valid");
-
-        if ( categories.size()  == 0)
-            errors.add("The article has no categories");
-
-        return errors;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, pricePerDay, categories, idOwner);
     }
 
 }

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.ArticleDao;
+import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.*;
 
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
+
+    @Autowired
+    CategoryDao categoryDao;
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -43,10 +47,14 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public List<Article> filter(String name) {
         System.out.println(name);
-        return jdbcTemplate.query(
+        List<Article> articles =
+                jdbcTemplate.query(
                 "SELECT * FROM article WHERE LOWER(title) like ?",
                 new Object[]{"%" + name.toLowerCase() + "%"},
                 ROW_MAPPER);
+
+        articles.forEach(t -> t.setCategories(categoryDao.listByArticle(t.getId())));
+        return articles;
     }
 
     @Override
@@ -56,8 +64,20 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public Optional<Article> findById(long id) {
-        return jdbcTemplate.query("SELECT * FROM article WHERE id = ?", new Object[]{id}, ROW_MAPPER).stream().findFirst();
+        Optional<Article> optArticle = jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
+                                                            new Object[]{id}, ROW_MAPPER)
+                                                .stream()
+                                                .findFirst();
+
+        if (!optArticle.isPresent())
+            return Optional.empty();
+
+        Article article = optArticle.get();
+        article.setCategories(categoryDao.listByArticle(article.getId()));
+
+        return Optional.of(article);
     }
+
 
     @Override
     public Optional<Article> create(String title, String description, Float pricePerDay,List<Category> categories, Long idOwner) {
