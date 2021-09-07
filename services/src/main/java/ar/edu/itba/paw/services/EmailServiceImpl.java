@@ -17,16 +17,16 @@ import java.util.Properties;
 @Service
 public class EmailServiceImpl implements EmailService {
     @Override
-    public void sendMessage(List<String> recipients, String title, String body) throws MessagingException {
+    public void sendMessage(List<String> recipients, String title, String body) {
 
     }
 
     @Override
-    public void sendMessage(String recipient, String title, String body) throws MessagingException {
-        Properties props = new Properties();
+    public void sendMessage(String recipient, String title, String body) {
+        Properties props = System.getProperties();
         props.put("mail.smtp.ssl.enable", "true");
         props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "pyd.com.ar");
         props.put("mail.smtp.port", "465");
 
@@ -37,13 +37,21 @@ public class EmailServiceImpl implements EmailService {
             }
         });
 
-        Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("paw_itba@pyd.com.ar",false));
-        msg.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipient));
-        msg.setSubject(title);
-        msg.setText(body);
-        msg.setSentDate(new Date());
+        session.setDebug(true);
 
-        Transport.send(msg);
+        try {
+
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress("paw_itba@pyd.com.ar", false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            msg.setSubject(title);
+            msg.setText(body);
+            msg.setSentDate(new Date());
+
+            Transport.send(msg);
+        }
+        catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
     }
 }
