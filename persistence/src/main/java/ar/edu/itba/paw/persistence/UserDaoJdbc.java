@@ -21,7 +21,7 @@ public class UserDaoJdbc implements UserDao {
     private SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<User> ROW_MAPPER =
             (resultSet, rowNum) -> new User(
-                    resultSet.getInt("id"),
+                    resultSet.getLong("id"),
                     resultSet.getString("email"),
                     resultSet.getString("password"),
                     resultSet.getString("first_name"),
@@ -38,7 +38,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User get(Integer id) {
+    public Optional<User> get(long id) {
         return null;
     }
 
@@ -61,7 +61,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User register(String email, String password, String firstName, String lastName, String location, int type) {
+    public Optional<User> register(String email, String password, String firstName, String lastName, String location, int type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
@@ -71,6 +71,6 @@ public class UserDaoJdbc implements UserDao {
         data.put("type", type);
         int userId = jdbcInsert.execute(data);
 
-        return new User(userId, email, password, firstName, lastName, location, type);
+        return Optional.of(new User(userId, email, password, firstName, lastName, location, type));
     }
 }

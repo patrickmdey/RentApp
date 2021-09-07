@@ -45,7 +45,7 @@ public class ArticleDaoJdbc implements ArticleDao {
         System.out.println(name);
         return jdbcTemplate.query(
                 "SELECT * FROM article WHERE LOWER(title) like ?",
-                new Object[]{"%"+name.toLowerCase()+"%"},
+                new Object[]{"%" + name.toLowerCase() + "%"},
                 ROW_MAPPER);
     }
 
@@ -60,7 +60,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Article create(String title, String description, Float pricePerDay,List<Category> categories, Long idOwner) {
+    public Optional<Article> create(String title, String description, Float pricePerDay,List<Category> categories, Long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
         data.put("description", description);
@@ -76,6 +76,6 @@ public class ArticleDaoJdbc implements ArticleDao {
             jdbcInsertCategories.execute(categoryData);
         }
 
-        return new Article(articleId, title, description, pricePerDay, categories, idOwner);
+        return Optional.of(new Article(articleId, title, description, pricePerDay, categories, idOwner));
     }
 }

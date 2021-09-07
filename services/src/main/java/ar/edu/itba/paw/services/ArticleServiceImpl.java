@@ -55,7 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Article create(String title, String description, Float pricePerDay, List<Category> categories, Long idOwner) {
+    public Optional<Article> create(String title, String description, Float pricePerDay, List<Category> categories, Long idOwner) {
         return articleDao.create(title, description, pricePerDay,categories, idOwner);
     }
 }

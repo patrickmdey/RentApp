@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 public class UserController {
     @Autowired
@@ -23,11 +25,14 @@ public class UserController {
                                  @RequestParam(value = "location", required = true) String location,
                                  @RequestParam(value = "type", required = true) int type) {
         final ModelAndView mav = new ModelAndView("index");
-        final User user = userService.register(email, password, firstName, lastName, location, type);
-        mav.addObject("currentUserEmail", user.getEmail());
-        mav.addObject("currentUserFirstName", user.getEmail());
-        mav.addObject("currentUserLastName", user.getEmail());
-        mav.addObject("currentUserLocation", user.getEmail());
+        final Optional<User> user = userService.register(email, password, firstName, lastName, location, type);
+        if (user.isPresent()) {
+            mav.addObject("currentUserEmail", user.get().getEmail());
+            mav.addObject("currentUserFirstName", user.get().getFirstName());
+            mav.addObject("currentUserLastName", user.get().getLastName());
+            mav.addObject("currentUserLocation", user.get().getLocation());
+        } else
+            throw new UserNotFoundException();
         return mav;
     }
 

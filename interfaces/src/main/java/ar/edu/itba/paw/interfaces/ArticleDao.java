@@ -15,6 +15,6 @@ public interface ArticleDao {
 
     Optional<Article> findById(long id);
 
-    Article create(String title, String description, Float pricePerDay, List<Category> categories,Long idOwner);
+    Optional<Article> create(String title, String description, Float pricePerDay, long idCategory, long idOwner);
 
 }
