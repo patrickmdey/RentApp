@@ -4,6 +4,7 @@
 <html>
 <head>
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/articleCard.css" />" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Title</title>
@@ -11,11 +12,9 @@
 <body>
 <h:navbar/>
 <div class="container">
-    <div class="row justify-content-around align-items-center">
+    <div class="marketplace-grid">
         <c:forEach var="article" items="${articles}">
-            <div class="col-3">
-                <h:articleCard title="${article.title}" description="${article.description}" id="${article.id}"/>
-            </div>
+            <h:articleCard title="${article.title}" price="${article.pricePerDay}" id="${article.id}"/>
         </c:forEach>
     </div>
 </div>
