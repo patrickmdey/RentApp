@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.ArticleService;
+import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.User;
@@ -22,6 +23,9 @@ public class ArticleController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    RentService rentService;
 
     @RequestMapping("/marketplace")
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {

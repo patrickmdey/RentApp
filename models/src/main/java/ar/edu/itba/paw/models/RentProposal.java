@@ -4,13 +4,27 @@ import java.util.Date;
 
 public class RentProposal {
 
-    private Integer id;
+    private long id;
     private String comment;
     private Boolean approved;
     private Date startDate;
     private Date endDate;
     private Integer idArticle;
     private Integer idRenter;
+
+    public RentProposal(long id, String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
+        this(comment, approved, startDate, endDate, idArticle, idRenter);
+        this.id = id;
+    }
+
+    public RentProposal(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
+        this.comment = comment;
+        this.approved = approved;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.idArticle = idArticle;
+        this.idRenter = idRenter;
+    }
 
     public Integer getId() {
         return id;

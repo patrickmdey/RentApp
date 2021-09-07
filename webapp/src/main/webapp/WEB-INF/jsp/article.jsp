@@ -61,23 +61,27 @@
 
             <div class="card card-style">
                 <h3 class="h3">Send rent request</h3>
-                <form>
+                <form:form modelAttribute="rentForm" action="${articleId}" method="post">
                     <div class="row">
                         <div class="col-12 send-email-input">
-                            <input type="text" name="name" class="form-control form-control-custom"
-                                   placeholder="Your Name">
+                            <form:label path="name">Name</form:label>
+                            <form:input type="text" path="name" class="form-control form-control-custom"
+                                        placeholder="Your Name"/>
+                            <form:errors path="name" element="p" cssClass="text-danger"/>
                         </div>
                         <div class="col-12 send-email-input">
                             <input type="email" name="email" class="form-control form-control-custom"
                                    placeholder="Your Email">
                         </div>
                         <div class="col-12 send-email-input">
-                                <textarea name="#" class="form-control form-control-custom "
-                                          placeholder="Your Message"></textarea>
+                            <form:label path="message">Message</form:label>
+                            <form:input name="message" path="message" class="form-control form-control-custom "
+                                        placeholder="Your Message"/>
+                            <form:errors path="message" element="p" cssStyle="color: red"/>
                         </div>
                         <div class="col-12 justify-content-center">
                             <div class="button">
-                                <button type="button" class="rounded btn-primary">Send Email</button>
+                                <button type="submit" class="rounded btn-primary">Send Email</button>
                             </div>
                         </div>
                     </div>
