@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <link href="<c:url value="/resources/css/article.css" />" rel="stylesheet">
@@ -70,8 +71,20 @@
                             <form:errors path="name" element="p" cssClass="text-danger"/>
                         </div>
                         <div class="col-12 send-email-input">
-                            <input type="email" name="email" class="form-control form-control-custom"
-                                   placeholder="Your Email">
+                            <form:label path="email">Email</form:label>
+                            <form:input type="email" path="email" class="form-control form-control-custom"
+                                        placeholder="Your Email"/>
+                            <form:errors path="email" element="p" cssStyle="color: red"/>
+                        </div>
+                        <div class="col-6 send-email-input">
+                            <form:label path="startDate">Start Date</form:label>
+                            <form:input type="text" path="startDate" class="form-control form-control-custom"/>
+                            <form:errors path="startDate" element="p" cssStyle="color: red"/>
+                        </div>
+                        <div class="col-6 send-email-input">
+                            <form:label path="endDate">End Date</form:label>
+                            <form:input type="text" path="endDate" class="form-control form-control-custom"/>
+                            <form:errors path="endDate" element="p" cssStyle="color: red"/>
                         </div>
                         <div class="col-12 send-email-input">
                             <form:label path="message">Message</form:label>
@@ -85,7 +98,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

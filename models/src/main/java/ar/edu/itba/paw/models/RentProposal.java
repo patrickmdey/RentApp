@@ -26,7 +26,7 @@ public class RentProposal {
         this.idRenter = idRenter;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
