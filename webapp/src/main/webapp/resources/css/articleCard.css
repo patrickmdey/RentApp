@@ -1,0 +1,19 @@
+.card-style {
+    width: 18rem;
+    margin: 3px;
+    padding: 7px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 10px;
+}
+
+.article-price {
+    color: orangered;
+    margin-right: 15px;
+}
+

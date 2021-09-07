@@ -1,3 +1,12 @@
 .nav-bar-color {
-     background-color: #22577A!important;
- }
+    background-color: #22577A !important;
+}
+
+.marketplace-grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    grid-gap: 10px;
+    padding: 10px;
+    margin: 1% 5%;
+    justify-content: center;
+}

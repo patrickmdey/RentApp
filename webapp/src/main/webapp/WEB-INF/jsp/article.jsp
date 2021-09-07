@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <link href="<c:url value="/resources/css/article.css" />" rel="stylesheet">
@@ -25,7 +26,8 @@
                 <div class="card-body">
                     <h2 class="card-title article-title">${article.title}</h2>
                     <p class="article-location"><i class="bi-geo-alt-fill"></i>${owner.location}</p>
-                    <h4 class="card-text h4 article-price">$${article.pricePerDay} per day</h4>
+                    <h4 class="card-text h4 article-price"><spring:message code="article.price"
+                                                                           arguments="${article.pricePerDay}"/></h4>
                 </div>
             </div>
         </div>
@@ -34,12 +36,12 @@
     <div class="row">
         <div class="col-lg-8 col-md-7 col-12">
             <div class="card card-style">
-                <h3 class="h3">Description</h3>
+                <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <p class="lead">${article.description}</p>
             </div>
 
             <div class="card card-style">
-                <h3 class="h3">Categories</h3>
+                <h3 class="h3"><spring:message code="article.categoriesTitle"/></h3>
                 <ul class="category-list">
                     <c:forEach var="category" items="${article.categories}">
                         <li>
@@ -52,16 +54,16 @@
 
         <div class="col-lg-4 col-md-5 col-12">
             <div class="card card-style">
-                <h3 class="h3">Owner</h3>
+                <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
                     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
                          style="max-height: 20px" alt="#">
-                    <p>${owner.firstName} ${owner.lastName}</p>
+                    <p class="lead">${owner.firstName} ${owner.lastName}</p>
                 </div>
             </div>
 
             <div class="card card-style">
-                <h3 class="h3">Send rent request</h3>
+                <h3 class="h3"><spring:message code="article.rentRequestTitle"/></h3>
                 <form:form modelAttribute="rentForm" action="${articleId}" method="post">
                     <div class="row">
                         <div class="col-12 send-email-input">
@@ -94,7 +96,8 @@
                         </div>
                         <div class="col-12 justify-content-center">
                             <div class="button">
-                                <button type="submit" class="rounded btn-primary">Send Email</button>
+                                <button type="submit" class="rounded btn-primary"><spring:message
+                                        code="article.sendRequestButton"/></button>
                             </div>
                         </div>
                     </div>
