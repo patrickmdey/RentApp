@@ -1,10 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/" var="marketplace"/>
+<c:url value="/create-article" var="createArticle"/>
 <html>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark mb-3 nav-bar-color">
     <div class="container">
-        <a class="navbar-brand" href="${marketplace}">AlquileresYa</a>
+        <a class="navbar-brand" href="${marketplace}">AlquilaloYa</a>
+        <a href="${createArticle}">Add Article<i class="bi-plus"></i></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

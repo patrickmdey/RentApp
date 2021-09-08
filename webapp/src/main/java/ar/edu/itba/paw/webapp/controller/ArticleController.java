@@ -1,12 +1,14 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ArticleController {
@@ -30,7 +33,7 @@ public class ArticleController {
 
     @Autowired
     UserService userService;
-    
+
     @Autowired
     RentService rentService;
 
@@ -56,16 +59,31 @@ public class ArticleController {
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm,
-                                    @PathVariable Integer articleId, BindingResult errors) {
-        System.out.println(errors.hasErrors());
-        System.out.println(Arrays.toString(errors.getAllErrors().stream().map(ObjectError::toString).toArray()));
-        if(errors.hasErrors()){
+                                       @PathVariable Integer articleId, BindingResult errors) {
+        if (errors.hasErrors())
             return viewArticle(rentForm, articleId);
-        }
+
 
         rentService.create(rentForm.getMessage(), false, rentForm.getStartDate(), rentForm.getEndDate(), articleId, 1);
-        
-        final ModelAndView mav = new ModelAndView("feedback");
-        return mav;
+
+        return new ModelAndView("feedback");
+    }
+
+    @RequestMapping("/create-article")
+    public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
+        return new ModelAndView("create-article");
+    }
+
+    @RequestMapping(value = "/create-article", method = RequestMethod.POST)
+    public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
+                                      BindingResult errors) {
+
+        if (errors.hasErrors())
+            return viewCreateArticleForm(createArticleForm);
+
+        Article article = articleService.create(createArticleForm.getName(), createArticleForm.getDescription(),
+                createArticleForm.getPricePerDay(), 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+
+        return marketplace(article.getTitle());
     }
 }
