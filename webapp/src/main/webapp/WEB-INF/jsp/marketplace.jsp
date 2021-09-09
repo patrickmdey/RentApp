@@ -2,14 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <html>
-<head>
-    <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/articleCard.css" />" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <title>RentIt</title>
-</head>
+<h:head/>
 <body class="article-background">
 <h:navbar/>
 <div class="container">
@@ -18,6 +11,12 @@
             Aca van filtros
         </div>
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
+            <c:if test="${query != null && query.length() > 0 }">
+                Showing results for <c:out value="${query}"/>
+            </c:if>
+            <c:if test="${articles.size() == 0}">
+                No results found
+            </c:if>
             <div class="row row-cols-3">
                 <c:forEach var="article" items="${articles}">
                     <div class="col d-flex justify-content-center">

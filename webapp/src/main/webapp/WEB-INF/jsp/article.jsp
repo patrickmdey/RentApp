@@ -8,12 +8,12 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <head>
-    <link href="<c:url value="/resources/css/article.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/articleCard.css" />" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <title>${article.title}</title>
+    <title>RentIt</title>
 </head>
 <body class="article-background">
 <h:navbar/>

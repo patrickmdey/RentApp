@@ -47,6 +47,7 @@ public class ArticleController {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(name);
         mav.addObject("articles", articles);
+        mav.addObject("query", name);
         return mav;
     }
 

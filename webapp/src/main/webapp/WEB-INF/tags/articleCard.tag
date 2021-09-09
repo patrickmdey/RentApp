@@ -26,8 +26,7 @@
                                                                                  arguments="${price}"/></p>
         </div>
         <div class="card-location-container">
-            <p class="article-location"><i class="bi-geo-alt-fill"></i>${location}</p>
-
+            <p class="article-location"><i class="bi-geo-alt-fill"></i><c:out value="${location}"/></p>
         </div>
     </div>
     <a href="article/${id}" class="stretched-link"></a>
