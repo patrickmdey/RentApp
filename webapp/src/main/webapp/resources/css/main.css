@@ -1,8 +1,12 @@
+* {
+    font-family: 'Noto Sans', sans-serif;
+}
+
 .nav-bar-color {
     background-color: #22577A !important;
 }
 
-.article-background{
+.article-background {
     background-color: #eaedea;
 }
 
