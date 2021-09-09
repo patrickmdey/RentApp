@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.CategoryDao;
+import ar.edu.itba.paw.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,6 +19,9 @@ public class CategoryDaoJdbc implements CategoryDao {
     private static final RowMapper<String> ROW_MAPPER =
             (resultSet, rowNum) -> new String(resultSet.getString("description"));
 
+    private static final RowMapper<Category> WHOLE_ROW_MAPPER = (resultSet, rowNum) ->
+            new Category(resultSet.getLong("id"), resultSet.getString("description"));
+
     @Autowired
     public CategoryDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -31,6 +35,11 @@ public class CategoryDaoJdbc implements CategoryDao {
     public List<String> listByArticle(long articleId) {
         return jdbcTemplate.query("SELECT * FROM category WHERE id IN(" +
                 "SELECT DISTINCT category.id FROM category JOIN article_category ON category.id = category_id " +
-                "WHERE article_id = ?)", new Object[] {articleId}, ROW_MAPPER);
+                "WHERE article_id = ?)", new Object[]{articleId}, ROW_MAPPER);
+    }
+
+    @Override
+    public List<Category> listCategories() {
+        return jdbcTemplate.query("SELECT * FROM category", WHOLE_ROW_MAPPER);
     }
 }

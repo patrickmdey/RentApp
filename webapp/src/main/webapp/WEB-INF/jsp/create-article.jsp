@@ -39,6 +39,15 @@
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
                     <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
                 </div>
+
+                <div class="row justify-content-center">
+                    <ul class="category-list">
+                        <c:forEach var="category" items="${categories}">
+                            <form:button
+                                    class="btn btn-outline-secondary text-dark enable-rounded">${category.description}</form:button>
+                        </c:forEach>
+                    </ul>
+                </div>
                 <div class="col-12 justify-content-center">
                     <div class="button">
                         <button type="submit" class="rounded btn-primary"><spring:message

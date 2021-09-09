@@ -11,6 +11,8 @@ public interface CategoryDao {
 
     List<String> listByArticle(long articleId);
 
+    List<Category> listCategories();
+
     //Optional<Category> findById(long id);
 
 }

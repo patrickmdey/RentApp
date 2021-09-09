@@ -8,6 +8,7 @@ import ar.edu.itba.paw.interfaces.CategoryService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
@@ -73,7 +74,10 @@ public class ArticleController {
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        return new ModelAndView("create-article");
+        final ModelAndView mav = new ModelAndView("create-article");
+        List<Category> categories = categoryService.listCategories();
+        mav.addObject("categories", categories);
+        return mav;
     }
 
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
