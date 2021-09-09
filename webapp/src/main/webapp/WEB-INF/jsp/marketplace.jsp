@@ -13,10 +13,19 @@
 <body>
 <h:navbar/>
 <div class="container">
-    <div class="marketplace-grid">
-        <c:forEach var="article" items="${articles}">
-            <h:articleCard title="${article.title}" price="${article.pricePerDay}" id="${article.id}"/>
-        </c:forEach>
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            Aca van filtros
+        </div>
+        <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
+            <div class="row row-cols-3">
+                <c:forEach var="article" items="${articles}">
+                    <div class="col d-flex justify-content-center">
+                        <h:articleCard title="${article.title}" price="${article.pricePerDay}" id="${article.id}"/>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
     </div>
 </div>
 </body>

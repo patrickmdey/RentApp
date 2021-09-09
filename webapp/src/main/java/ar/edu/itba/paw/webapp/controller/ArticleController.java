@@ -41,8 +41,6 @@ public class ArticleController {
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(name);
-        System.out.println(articles.isEmpty());
-        articles.forEach(article -> System.out.println(article.getTitle()));
         mav.addObject("articles", articles);
         return mav;
     }

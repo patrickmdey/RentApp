@@ -8,19 +8,28 @@
 <html>
 <body>
 <div class="card card-style text-dark bg-light">
-    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" class="card-img-top"
-         alt="...">
-    <div class="card-body">
-        <h5 class="card-title font-weight-bold">
+
+    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" class="card-image"
+         alt="${title} image}">
+
+
+    <div class="card-title-container">
+        <h5 class="h5 font-weight-bold">
             <c:out value="${title}"/>
         </h5>
-        <div class="card-content">
+    </div>
+    <div class="card-content">
+
+        <div class="card-price-container">
             <p class="card-text lead article-price"><spring:message code="article.price"
                                                                     arguments="${price}"/></p>
-            <p class="article-location lead"><i class="bi-geo-alt-fill"></i>Location</p>
         </div>
-        <a href="article/${id}" class="stretched-link"></a>
+        <div class="card-categories-container">
+            <p class="article-location lead"><i class="bi-geo-alt-fill"></i>Location</p>
+
+        </div>
     </div>
+    <a href="article/${id}" class="stretched-link"></a>
 </div>
 </body>
 </html>
