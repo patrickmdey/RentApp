@@ -62,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Optional<Article> create(String title, String description, Float pricePerDay, long idOwner) {
-        return articleDao.create(title, description, pricePerDay, idOwner);
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
+        return articleDao.createArticle(title, description, pricePerDay, idOwner);
     }
 }

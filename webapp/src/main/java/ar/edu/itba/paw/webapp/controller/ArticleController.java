@@ -4,6 +4,7 @@ import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.ArticleService;
+import ar.edu.itba.paw.interfaces.CategoryService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
@@ -36,6 +37,9 @@ public class ArticleController {
 
     @Autowired
     RentService rentService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @RequestMapping("/")
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
@@ -79,7 +83,7 @@ public class ArticleController {
         if (errors.hasErrors())
             return viewCreateArticleForm(createArticleForm);
 
-        Article article = articleService.create(createArticleForm.getName(), createArticleForm.getDescription(),
+        Article article = articleService.createArticle(createArticleForm.getName(), createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(), 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
         return marketplace(article.getTitle());

@@ -55,7 +55,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Optional<Article> create(String title, String description, Float pricePerDay, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
         data.put("description", description);
