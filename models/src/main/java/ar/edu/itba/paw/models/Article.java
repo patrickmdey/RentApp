@@ -10,6 +10,7 @@ public class Article {
     private Float pricePerDay;
     private List<String> categories;
     private long idOwner;
+    private String location;
 
     public Article(long id, String title, String description, Float pricePerDay,
                    List<String> categories, long idOwner) {
@@ -73,4 +74,11 @@ public class Article {
         this.idOwner = idOwner;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

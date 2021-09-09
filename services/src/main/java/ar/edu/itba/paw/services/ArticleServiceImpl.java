@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +32,16 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCategories(this.categoryDao.listByArticle(article.getId()));
     }
 
+    private void appendLocation(Article article) {
+        Optional<User> owner = userDao.findById(article.getIdOwner());
+        owner.ifPresent(user -> article.setLocation(user.getLocation()));
+    }
+
     private List<Article> list() {
         List<Article> articles = this.articleDao.list();
         articles.forEach(this::appendCategories);
-        return this.articleDao.list();
+        articles.forEach(this::appendLocation);
+        return articles;
     }
 
     @Override
@@ -49,6 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Optional<Article> findById(Integer articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
         toReturn.ifPresent(this::appendCategories);
+        toReturn.ifPresent(this::appendLocation);
         return toReturn;
     }
 
