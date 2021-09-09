@@ -8,21 +8,22 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <head>
+    <link rel="stylesheet" href="<c:url value="/resources/css/article.css"/>">
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/articleCard.css" />" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
     <title>RentIt</title>
 </head>
 <body class="article-background">
 <h:navbar/>
 <div class="main-container">
     <div class="card card-style">
-        <div class="row g-0">
+        <div class="row">
             <div class="col-md-4">
                 <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
-                     class="img-fluid rounded-start" alt="...">
+                     class="rounded-start" width="100%" height="auto" alt="...">
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
