@@ -36,12 +36,25 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name) {
-        System.out.println(name);
-        return jdbcTemplate.query(
-                "SELECT * FROM article WHERE LOWER(title) like ?",
-                new Object[]{"%" + name.toLowerCase() + "%"},
-                ROW_MAPPER);
+    public List<Article> filter(String name, Long category, String orderBy) {
+        StringBuilder query = new StringBuilder("SELECT * FROM article");
+        ArrayList<Object> params = new ArrayList<>();
+        params.add("%" + name.toLowerCase() + "%");
+
+        query.append(" WHERE LOWER(article.title) LIKE ? ");
+
+        if (category != null) {
+            query.append("AND article.id IN (SELECT article_id FROM article_category " +
+                    "WHERE category_id = ?)");
+            params.add(category);
+        }
+
+        if (orderBy != null) {
+            query.append(" ORDER BY ?");
+            params.add(orderBy);
+        }
+
+        return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
     }
 
     @Override

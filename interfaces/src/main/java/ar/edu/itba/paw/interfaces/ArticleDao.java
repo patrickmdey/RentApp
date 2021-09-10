@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ArticleDao {
 
-    List<Article> filter(String name);
+    List<Article> filter(String name, Long category, String orderBy);
 
     List<Article> list();
 

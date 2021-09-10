@@ -24,8 +24,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserDao userDao;
 
-    private List<Article> filter(String name) {
-        return this.articleDao.filter(name);
+    private List<Article> filter(String name, Long category, String orderBy) {
+        return this.articleDao.filter(name, category, orderBy);
     }
 
     private void appendCategories(Article article) {
@@ -45,11 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> get(String name) {
-        if (name == null)
+    public List<Article> get(String name, Long category, String orderBy) {
+
+        if (name == null && category == null && orderBy == null)
             return this.list();
 
-        return this.filter(name);
+        return this.filter(name, category, orderBy);
     }
 
     @Override
