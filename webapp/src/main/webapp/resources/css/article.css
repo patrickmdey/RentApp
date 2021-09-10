@@ -11,8 +11,11 @@
     padding: 25px;
     border: 1px solid #eee;
     border-radius: 6px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 8px 0;
+}
+
+.card-style.secondary-card {
+    min-width: 100%;
 }
 
 .article-location {

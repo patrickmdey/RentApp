@@ -8,22 +8,21 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <head>
-    <link rel="stylesheet" href="<c:url value="/resources/css/article.css"/>">
+    <link href="<c:url value="/resources/css/article.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/articleCard.css" />" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-    <title>RentIt</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>${article.title}</title>
 </head>
 <body class="article-background">
 <h:navbar/>
 <div class="main-container">
     <div class="card card-style">
-        <div class="row">
+        <div class="row g-0">
             <div class="col-md-4">
                 <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
-                     class="rounded-start" width="100%" height="auto" alt="...">
+                     class="img-fluid rounded-start" width="100%" height="auto" alt="...">
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
@@ -33,7 +32,7 @@
                     <div class="row">
                         <ul class="category-list">
                             <c:forEach var="category" items="${article.categories}">
-                                <h3 class="badge bg-light text-dark enable-rounded h3">${category}</h3>
+                                <h5><span class="badge bg-light text-dark">${category}</span></h5>
                             </c:forEach>
                         </ul>
                     </div>
@@ -107,14 +106,14 @@
 
     <div class="row">
         <div class="col-lg-8 col-md-7 col-12">
-            <div class="card card-style">
+            <div class="card card-style secondary-card">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <p class="lead">${article.description}</p>
             </div>
         </div>
 
         <div class="col-lg-4 col-md-5 col-12">
-            <div class="card card-style">
+            <div class="card card-style secondary-card">
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
                     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"

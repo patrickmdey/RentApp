@@ -1,6 +1,8 @@
-* {
+h1, h2, h3, h4, h5, h6, p {
     font-family: 'Noto Sans', sans-serif;
+    color: #06121A;
 }
+
 
 .nav-bar-color {
     background-color: #22577A !important;
@@ -17,4 +19,12 @@
     padding: 10px;
     margin: 1% 5%;
     justify-content: center;
+}
+
+.error-container {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
