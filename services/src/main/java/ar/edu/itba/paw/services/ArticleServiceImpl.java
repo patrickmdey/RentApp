@@ -5,12 +5,15 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -24,10 +27,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserDao userDao;
 
-    private List<Article> filter(String name, Long category, String orderBy) {
-        return this.articleDao.filter(name, category, orderBy);
-    }
-
     private void appendCategories(Article article) {
         article.setCategories(this.categoryDao.listByArticle(article.getId()));
     }
@@ -37,20 +36,25 @@ public class ArticleServiceImpl implements ArticleService {
         owner.ifPresent(user -> article.setLocation(user.getLocation()));
     }
 
-    private List<Article> list() {
-        List<Article> articles = this.articleDao.list();
-        articles.forEach(this::appendCategories);
-        articles.forEach(this::appendLocation);
-        return articles;
-    }
-
     @Override
     public List<Article> get(String name, Long category, String orderBy) {
+        List<Article> articles;
+        List<String> orderOptions = Arrays.stream(OrderOptions.values()).
+                map(OrderOptions::getColumn).collect(Collectors.toList());
 
-        if (name == null && category == null && orderBy == null)
-            return this.list();
+        if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
+            orderBy = null;
 
-        return this.filter(name, category, orderBy);
+        if (name == null && category == null && orderBy == null) {
+            articles = this.articleDao.list();
+        } else {
+            articles = this.articleDao.filter(name, category, orderBy);
+        }
+
+        articles.forEach(this::appendCategories);
+        articles.forEach(this::appendLocation);
+
+        return articles;
     }
 
     @Override

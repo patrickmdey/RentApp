@@ -12,41 +12,29 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-lg-3">
+            <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
+                <div class="form-input">
+                    <form:label path="query"/>
+                    <form:input type="query" path="query" placeholder="Search"/>
+                </div>
 
-
-<%--            <div class="card bg-light">--%>
-<%--                <c:forEach var="category" items="${categories}">--%>
-<%--                    <div class="form-check">--%>
-<%--                        <input class="form-check-input" type="radio" name="radioDefault" id="formRadioChecked"--%>
-<%--                               checked="">--%>
-<%--                        <label class="form-check-label" for="formRadioChecked">${category.description}</label>--%>
-<%--                    </div>--%>
-<%--                </c:forEach>--%>
-<%--            </div>--%>
-
-            <div class="card bg-light">
-                <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
-                    <div class="form-input">
-                        <form:label path="category"><spring:message code="article.form.name"/></form:label>
-                        <form:select path="category" class="form-control form-control-custom">
-                            <option value="">Select</option>
-                            <c:forEach var="category" items="${categories}">
-                                <option value="${category.id}">${category.description}</option>
-                            </c:forEach>
-                        </form:select>
-                    </div>
-                    <div class="form-input">
-                        <form:label path="orderBy"><spring:message code="article.form.name"/></form:label>
-                        <form:select path="orderBy" class="form-control form-control-custom">
-                            <c:forEach var="option" items="${orderOptions}">
-                                <option value="${option.column}"><spring:message code="${option.description}"/></option>
-                            </c:forEach>
-                        </form:select>
-                        <form:errors path="orderBy" element="p" cssClass="text-danger"/>
-                    </div>
-                    <button type="submit">Search</button>
-                </form:form>
-            </div>
+                <div class="form-check card bg-light">
+                    <form:label path="category"><spring:message code="search.form.category"/></form:label>
+                    <form:radiobuttons path="category" items="${categories}"
+                                       itemValue="id" itemLabel="description"/>
+                </div>
+                <div class="form-input">
+                    <form:label path="orderBy"><spring:message code="article.form.name"/></form:label>
+                    <form:select path="orderBy" class="form-control form-control-custom">
+                        <c:forEach var="option" items="${orderOptions}">
+                            <option value="${option.column}" ${option.column == searchForm.orderBy? "selected":""}>
+                                <spring:message code="${option.description}"/>
+                            </option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+                <button type="submit">Search</button>
+            </form:form>
         </div>
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
             <c:if test="${query != null && query.length() > 0 }">

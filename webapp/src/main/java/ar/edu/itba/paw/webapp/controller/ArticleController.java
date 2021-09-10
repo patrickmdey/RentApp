@@ -49,7 +49,6 @@ public class ArticleController {
                                     @RequestParam(value = "query", required = false) String name,
                                     @RequestParam(value = "category", required = false) Long category,
                                     @RequestParam(value = "orderBy", required = false) String orderBy) {
-        System.out.println(category);
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(name, category, orderBy);
         mav.addObject("articles", articles);
@@ -98,14 +97,6 @@ public class ArticleController {
 
         Article article = articleService.createArticle(createArticleForm.getName(), createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(), 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
-
-
-
-
-
-
-
-//        articleService.get(searchForm.getName(), filterForm.getCat, getPrice, );
 
         return marketplace(null, article.getTitle(), null, null);
     }
