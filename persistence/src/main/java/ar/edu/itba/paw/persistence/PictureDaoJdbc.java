@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.ArticlePictureDao;
-import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.interfaces.PictureDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,7 +11,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
-public class ArticlePictureDaoJdbc implements ArticlePictureDao {
+public class PictureDaoJdbc implements PictureDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -20,7 +19,7 @@ public class ArticlePictureDaoJdbc implements ArticlePictureDao {
             (resultSet, rowNum) -> resultSet.getLong("picture_id");
 
     @Autowired
-    public ArticlePictureDaoJdbc(DataSource dataSource) {
+    public PictureDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("article_picture");

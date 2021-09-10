@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.CategoryDao;
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PictureDao pictureDao;
 
     private List<Article> filter(String name) {
         return this.articleDao.filter(name);

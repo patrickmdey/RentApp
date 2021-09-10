@@ -33,6 +33,13 @@
                     <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
                 </div>
 
+                <div class="col-12 form-input">
+                    <form:label path="images"><spring:message code="article.form.uploadImage"/></form:label>
+                    <form:input type="file" accept=".jpg, .png, .jpeg" path="images"
+                                class="form-control form-control-custom"/>
+                    <form:errors path="images" element="p" cssStyle="color: red"/>
+                </div>
+
                 <div class="row justify-content-center">
                     <ul class="category-list">
                         <c:forEach var="category" items="${categories}">

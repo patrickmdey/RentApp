@@ -2,7 +2,7 @@ package ar.edu.itba.paw.interfaces;
 
 import java.util.List;
 
-public interface ArticlePictureDao {
+public interface PictureService {
 
     public boolean addPictureToArticle(long pictureId, long articleId);
 
