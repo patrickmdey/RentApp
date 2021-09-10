@@ -22,6 +22,9 @@ public class CategoryDaoJdbc implements CategoryDao {
                     resultSet.getString("description")
             );
 
+    private static final RowMapper<Category> WHOLE_ROW_MAPPER = (resultSet, rowNum) ->
+            new Category(resultSet.getLong("id"), resultSet.getString("description"));
+
     @Autowired
     public CategoryDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -39,10 +42,8 @@ public class CategoryDaoJdbc implements CategoryDao {
                 new Object[] {articleId}, ROW_MAPPER);
     }
 
-
-
     @Override
-    public List<Category> listAll() {
-        return jdbcTemplate.query("SELECT * FROM category", ROW_MAPPER);
+    public List<Category> listCategories() {
+        return jdbcTemplate.query("SELECT * FROM category", WHOLE_ROW_MAPPER);
     }
 }

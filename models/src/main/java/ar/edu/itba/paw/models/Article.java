@@ -10,8 +10,9 @@ public class Article {
     private String title;
     private String description;
     private Float pricePerDay;
-    private List<Category> categories;
-    private Long idOwner;
+    private List<String> categories;
+    private long idOwner;
+    private String location;
 
     public Article(Long id, String title, String description, Float pricePerDay,
                    List<Category> categories, Long idOwner) {
@@ -75,6 +76,13 @@ public class Article {
         this.idOwner = idOwner;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     @Override
     public boolean equals(Object o) {

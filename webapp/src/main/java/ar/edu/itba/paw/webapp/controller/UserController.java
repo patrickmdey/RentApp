@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    EmailService emailService;
 
     @RequestMapping("/register")
     public ModelAndView register(@RequestParam(value = "email", required = true) String email,
@@ -36,13 +40,13 @@ public class UserController {
         return mav;
     }
 
-    @RequestMapping("/")
-    public ModelAndView helloWorld() {
-        final ModelAndView mav = new ModelAndView("index");
-        User user = userService.findById(new Long(1)).orElseThrow(UserNotFoundException::new);
-        mav.addObject("currentUser", user);
-        return mav;
-    }
+//    @RequestMapping("/")
+//    public ModelAndView helloWorld() {
+//        final ModelAndView mav = new ModelAndView("marketplace");
+//        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
+//        mav.addObject("currentUser", user);
+//        return mav;
+//    }
 
     @RequestMapping("/{userId}")
     public ModelAndView userProfile(@PathVariable("userId") Long userId) {

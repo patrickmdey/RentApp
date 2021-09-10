@@ -1,0 +1,39 @@
+.card-style {
+    padding: 7px;
+    height: 50vh;
+    width: 95%;
+    margin: 10px 2px;
+}
+
+.card-image {
+    height: 55%;
+    width: 100%;
+}
+
+.card-title-container {
+    height: 15%;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 10px;
+    height: 30%;
+}
+
+.card-price-container {
+    height: 50%;
+
+}
+
+.card-location-container {
+    height: 50%;
+}
+
+.article-price {
+    color: orangered;
+}
+

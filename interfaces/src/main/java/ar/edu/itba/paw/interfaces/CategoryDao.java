@@ -13,6 +13,8 @@ public interface CategoryDao {
 
     List<Category> listAll();
 
+    List<Category> listCategories();
+
     //Optional<Category> findById(long id);
 
 }

@@ -1,4 +1,3 @@
-BEGIN;
 
 CREATE TABLE IF NOT EXISTS picture
 (
@@ -74,4 +73,3 @@ CREATE TABLE IF NOT EXISTS rent_proposal
     UNIQUE (start_date, end_date, article_id, renter_id)
 );
 
-COMMIT;
