@@ -1,16 +1,15 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.CategoryDao;
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,7 +19,7 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
 
     @Autowired
-    private CategoryDao categoryDao;
+    private ArticleCategoryDao articleCategoryDao;
 
     @Autowired
     private UserDao userDao;
@@ -30,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private void appendCategories(Article article) {
-        article.setCategories(this.categoryDao.listByArticle(article.getId()));
+        article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
 
     private void appendLocation(Article article) {
@@ -63,7 +62,17 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
-        return articleDao.createArticle(title, description, pricePerDay, idOwner);
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay,List<Category> categories, long idOwner) {
+
+        Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
+
+        if (optArticle.isPresent()){
+            Article article = optArticle.get();
+            categories.forEach(t-> articleCategoryDao.addToArticle(article.getId(),t));
+            article.setCategories(categories);
+            optArticle = Optional.of(article);
+        }
+
+        return optArticle;
     }
 }

@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.models.Article;
@@ -17,11 +18,10 @@ import java.util.*;
 public class ArticleDaoJdbc implements ArticleDao {
 
     @Autowired
-    CategoryDao categoryDao;
+    ArticleCategoryDao articleCategoryDao;
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
-    private final SimpleJdbcInsert jdbcInsertCategories;
 
     private static final RowMapper<Article> ROW_MAPPER =
             (resultSet, rowNum) -> new Article(
@@ -29,7 +29,6 @@ public class ArticleDaoJdbc implements ArticleDao {
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getFloat("price_per_day"),
-                    null,
                     resultSet.getLong("owner_id")
             );
 
@@ -39,8 +38,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("article")
                 .usingGeneratedKeyColumns("id");
-
-        jdbcInsertCategories = new SimpleJdbcInsert(dataSource).withTableName("article_category");
 
     }
 
@@ -53,7 +50,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                 new Object[]{"%" + name.toLowerCase() + "%"},
                 ROW_MAPPER);
 
-        articles.forEach(t -> t.setCategories(categoryDao.listByArticle(t.getId())));
+        articles.forEach(t -> t.setCategories(articleCategoryDao.findFromArticle(t.getId())));
         return articles;
     }
 
@@ -73,7 +70,7 @@ public class ArticleDaoJdbc implements ArticleDao {
             return Optional.empty();
 
         Article article = optArticle.get();
-        article.setCategories(categoryDao.listByArticle(article.getId()));
+        article.setCategories(articleCategoryDao.findFromArticle(article.getId()));
 
         return Optional.of(article);
     }
@@ -87,15 +84,8 @@ public class ArticleDaoJdbc implements ArticleDao {
         data.put("price_per_day", pricePerDay);
         data.put("owner_id", idOwner);
 
-        Long articleId =  jdbcInsert.executeAndReturnKey(data).longValue();
-        
-        for (Category category: categories) {
-            Map<String, Object> categoryData = new HashMap<>();
-            categoryData.put("category_id", category.getId());
-            categoryData.put("article_id",articleId);
-            jdbcInsertCategories.execute(categoryData);
-        }
+        long articleId =  jdbcInsert.executeAndReturnKey(data).longValue();
 
-        return Optional.of(new Article(articleId, title, description, pricePerDay, categories, idOwner));
+        return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
     }
 }

@@ -22,8 +22,7 @@ public class CategoryDaoJdbc implements CategoryDao {
                     resultSet.getString("description")
             );
 
-    private static final RowMapper<Category> WHOLE_ROW_MAPPER = (resultSet, rowNum) ->
-            new Category(resultSet.getLong("id"), resultSet.getString("description"));
+
 
     @Autowired
     public CategoryDaoJdbc(DataSource dataSource) {
@@ -35,15 +34,7 @@ public class CategoryDaoJdbc implements CategoryDao {
     }
 
     @Override
-    public List<Category> listByArticle(long articleId) {
-
-        return jdbcTemplate.query("SELECT * FROM category WHERE id IN(" +
-                "SELECT DISTINCT category_id FROM article_category WHERE article_id = ?)",
-                new Object[] {articleId}, ROW_MAPPER);
-    }
-
-    @Override
-    public List<Category> listCategories() {
-        return jdbcTemplate.query("SELECT * FROM category", WHOLE_ROW_MAPPER);
+    public List<Category> listAll() {
+        return jdbcTemplate.query("SELECT * FROM category", ROW_MAPPER);
     }
 }

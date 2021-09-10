@@ -64,16 +64,14 @@ public class ArticlesDaoTest {
             final String title = "Producto Titulo " + i;
             final String description = "Es un producto con una descripcion" + i;
             final float pricePerDay = 100 * i;
-            final Long idOwner = owner.getId();
-            final List<Category> categories = categoryDao.listAll();
+            final long idOwner = owner.getId();
 
             //TODO: Asi se hace?
 
-            articles.add(articleDao.create(
+            articles.add(articleDao.createArticle(
                     title,
                     description,
                     pricePerDay,
-                    categories.subList(0,Math.min(i+1,categories.size())),
                     idOwner).get());
         }
         return articles;
@@ -87,16 +85,14 @@ public class ArticlesDaoTest {
         final String title = "Producto lindo";
         final String description = "Es un producto muy lindo";
         final float pricePerDay = 500;
-        final Long idOwner = owner.getId();
-        final List<Category> categories = categoryDao.listAll();
-        final Article article = articleDao.create(title,description,pricePerDay,categories,idOwner).get();
+        final long idOwner = owner.getId();
+        final Article article = articleDao.createArticle(title,description,pricePerDay,idOwner).get();
 
         assertNotNull(article);
         assertEquals(article.getTitle(),title);
         assertEquals(article.getDescription(),description);
         assertEquals(article.getPricePerDay(),pricePerDay);
         assertEquals(article.getIdOwner(),idOwner);
-        assertEquals(article.getCategories(),categories);
     }
 
     @Test

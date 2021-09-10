@@ -6,16 +6,16 @@ import java.util.Objects;
 
 public class Article {
 
-    private Long id;
+    private long id;
     private String title;
     private String description;
     private Float pricePerDay;
-    private List<String> categories;
+    private List<Category> categories = new ArrayList<>();
     private long idOwner;
     private String location;
 
-    public Article(Long id, String title, String description, Float pricePerDay,
-                   List<Category> categories, Long idOwner) {
+    public Article(long id, String title, String description, Float pricePerDay,
+                   List<Category> categories, long idOwner) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,15 +24,15 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public Article(String title, String description, Float pricePerDay, List<Category> categories, Long idOwner) {
+    public Article(long id,String title, String description, Float pricePerDay,long idOwner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
-        this.categories = categories;
+        this.id = id;
         this.idOwner = idOwner;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -68,11 +68,11 @@ public class Article {
         this.categories = categories;
     }
 
-    public Long getIdOwner() {
+    public long getIdOwner() {
         return idOwner;
     }
 
-    public void setIdOwner(Long idOwner) {
+    public void setIdOwner(long idOwner) {
         this.idOwner = idOwner;
     }
 

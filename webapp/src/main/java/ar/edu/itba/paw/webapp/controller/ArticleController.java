@@ -88,8 +88,12 @@ public class ArticleController {
         if (errors.hasErrors())
             return viewCreateArticleForm(createArticleForm);
 
-        Article article = articleService.createArticle(createArticleForm.getName(), createArticleForm.getDescription(),
-                createArticleForm.getPricePerDay(), 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+        Article article = articleService.createArticle(
+                createArticleForm.getName(),
+                createArticleForm.getDescription(),
+                createArticleForm.getPricePerDay(),
+                createArticleForm.getCategories(),
+                1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
         return marketplace(article.getTitle());
     }

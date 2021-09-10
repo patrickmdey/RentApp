@@ -49,7 +49,7 @@ public class UserController {
 //    }
 
     @RequestMapping("/{userId}")
-    public ModelAndView userProfile(@PathVariable("userId") Long userId) {
+    public ModelAndView userProfile(@PathVariable("userId") long userId) {
         final ModelAndView mav = new ModelAndView("index");
         User user = userService.findById(userId).orElseThrow(UserNotFoundException::new);
         mav.addObject("currentUser", user);

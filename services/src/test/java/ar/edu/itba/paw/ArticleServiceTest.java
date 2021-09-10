@@ -36,17 +36,17 @@ public class ArticleServiceTest {
         final String title = "";
         final String description = "";
         final Float pricePerDay = Float.valueOf(123);
-        final Long idOwner = Long.valueOf(2);
+        final long idOwner = Long.valueOf(2);
         final List<Category> categories = new ArrayList<>();
         categories.add(new Category(1,"Tourism"));
         categories.add(new Category(2,"Kitchen"));
 
 
-        Mockito.when(mockDao.create(Mockito.eq(title), Mockito.eq(description),
-                        Mockito.eq(pricePerDay), Mockito.eq(categories), Mockito.eq(idOwner)))
+        Mockito.when(mockDao.createArticle(Mockito.eq(title), Mockito.eq(description),
+                        Mockito.eq(pricePerDay), Mockito.eq(idOwner)))
                 .thenReturn(Optional.of(new Article(1L, title, description, pricePerDay, categories, idOwner)));
 
-        Optional<Article> optArticle = articleService.create(title,description,pricePerDay,categories,idOwner);
+        Optional<Article> optArticle = articleService.createArticle(title,description,pricePerDay,categories,idOwner);
 
         Assert.assertTrue(optArticle.isPresent());
         Article article = optArticle.get();

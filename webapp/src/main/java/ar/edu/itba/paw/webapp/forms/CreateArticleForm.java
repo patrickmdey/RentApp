@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateArticleForm {
 
@@ -50,5 +51,9 @@ public class CreateArticleForm {
     public void addCategory(Category category) {
         if (!categories.contains(category))
             categories.add(category);
+    }
+
+    public List<Category> getCategories(){
+        return categories;
     }
 }
