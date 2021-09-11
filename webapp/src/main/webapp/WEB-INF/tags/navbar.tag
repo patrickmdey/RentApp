@@ -5,10 +5,10 @@
 <body>
 
 <nav class="navbar shadow-sm navbar-expand-lg navbar-dark py-3 nav-bar-color mb-3">
-    <div class="container-fluid">
+    <div class="container-fluid nav-bar">
 
-        <a class="navbar-brand" href="${marketplace} align-items-center">
-            <img src="<c:url value="/resources/image/rentapp-logo.png"/>" alt="RentApp">
+        <a class="navbar-brand" href="${marketplace}">
+            <img src="<c:url value="/resources/image/rentapp-logo.png"/>" width="20%" height="auto" alt="RentApp">
         </a>
         <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
