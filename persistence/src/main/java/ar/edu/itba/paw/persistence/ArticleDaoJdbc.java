@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.OrderOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -42,16 +43,32 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name) {
-        System.out.println(name);
-        List<Article> articles =
-                jdbcTemplate.query(
-                "SELECT * FROM article WHERE LOWER(title) like ?",
-                new Object[]{"%" + name.toLowerCase() + "%"},
-                ROW_MAPPER);
+    public List<Article> filter(String name, Long category, String orderBy) {
+        StringBuilder query = new StringBuilder("SELECT * FROM article");
+        ArrayList<Object> params = new ArrayList<>();
 
-        articles.forEach(t -> t.setCategories(articleCategoryDao.findFromArticle(t.getId())));
-        return articles;
+        if(name != null && name.length() > 0) {
+            query.append(" WHERE LOWER(article.title) LIKE ? ");
+            params.add("%" + name.toLowerCase() + "%");
+        }
+
+        if (category != null) {
+            if (name == null || name.length() == 0)
+                query.append(" WHERE true ");
+            query.append("AND article.id IN (SELECT article_id FROM article_category " +
+                    "WHERE category_id = ?) ");
+            params.add(category);
+        }
+
+        if (orderBy != null) {
+            query.append(" ORDER BY ");
+            query.append(orderBy);
+        }
+
+        params.forEach(System.out::println);
+        System.out.println(query);
+
+        return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
     }
 
     @Override
@@ -70,7 +87,6 @@ public class ArticleDaoJdbc implements ArticleDao {
             return Optional.empty();
 
         Article article = optArticle.get();
-        article.setCategories(articleCategoryDao.findFromArticle(article.getId()));
 
         return Optional.of(article);
     }

@@ -7,10 +7,10 @@ import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -24,10 +24,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserDao userDao;
 
-    private List<Article> filter(String name) {
-        return this.articleDao.filter(name);
-    }
-
     private void appendCategories(Article article) {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
@@ -37,19 +33,25 @@ public class ArticleServiceImpl implements ArticleService {
         owner.ifPresent(user -> article.setLocation(user.getLocation()));
     }
 
-    private List<Article> list() {
-        List<Article> articles = this.articleDao.list();
+    @Override
+    public List<Article> get(String name, Long category, String orderBy) {
+        List<Article> articles;
+        List<String> orderOptions = Arrays.stream(OrderOptions.values()).
+                map(OrderOptions::getColumn).collect(Collectors.toList());
+
+        if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
+            orderBy = null;
+
+        if (name == null && category == null && orderBy == null) {
+            articles = this.articleDao.list();
+        } else {
+            articles = this.articleDao.filter(name, category, orderBy);
+        }
+
         articles.forEach(this::appendCategories);
         articles.forEach(this::appendLocation);
+
         return articles;
-    }
-
-    @Override
-    public List<Article> get(String name) {
-        if (name == null)
-            return this.list();
-
-        return this.filter(name);
     }
 
     @Override

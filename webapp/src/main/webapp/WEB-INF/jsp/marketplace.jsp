@@ -1,6 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:url value="/" var="marketplaceUrl"/>
 <html>
 <h:head/>
 <body class="article-background">
@@ -8,7 +12,29 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-lg-3">
-            Aca van filtros
+            <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
+                <div class="form-input">
+                    <form:label path="query"/>
+                    <form:input type="query" path="query" placeholder="Search"/>
+                </div>
+
+                <div class="form-check card bg-light">
+                    <form:label path="category"><spring:message code="search.form.category"/></form:label>
+                    <form:radiobuttons path="category" items="${categories}"
+                                       itemValue="id" itemLabel="description"/>
+                </div>
+                <div class="form-input">
+                    <form:label path="orderBy"><spring:message code="article.form.name"/></form:label>
+                    <form:select path="orderBy" class="form-control form-control-custom">
+                        <c:forEach var="option" items="${orderOptions}">
+                            <option value="${option.column}" ${option.column == searchForm.orderBy? "selected":""}>
+                                <spring:message code="${option.description}"/>
+                            </option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+                <button type="submit">Search</button>
+            </form:form>
         </div>
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
             <c:if test="${query != null && query.length() > 0 }">

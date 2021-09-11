@@ -9,9 +9,11 @@ import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
+import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -43,11 +45,17 @@ public class ArticleController {
     CategoryService categoryService;
 
     @RequestMapping("/")
-    public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
+    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
+                                    @RequestParam(value = "query", required = false) String name,
+                                    @RequestParam(value = "category", required = false) Long category,
+                                    @RequestParam(value = "orderBy", required = false) String orderBy) {
         final ModelAndView mav = new ModelAndView("marketplace");
-        List<Article> articles = articleService.get(name);
+        List<Article> articles = articleService.get(name, category, orderBy);
         mav.addObject("articles", articles);
         mav.addObject("query", name);
+        List<Category> categories = categoryService.listCategories();
+        mav.addObject("categories", categories);
+        mav.addObject("orderOptions", OrderOptions.values());
         return mav;
     }
 
@@ -84,7 +92,6 @@ public class ArticleController {
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors) {
-
         if (errors.hasErrors())
             return viewCreateArticleForm(createArticleForm);
 
@@ -95,6 +102,8 @@ public class ArticleController {
                 createArticleForm.getCategories(),
                 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return marketplace(article.getTitle());
+        return marketplace(null, article.getTitle(), null, null);
     }
+
+
 }
