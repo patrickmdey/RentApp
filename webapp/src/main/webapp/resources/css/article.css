@@ -24,8 +24,6 @@
     margin-bottom: 10px;
 }
 
-.badge-style {
-    padding: 125px;
-    font-size: x-large;
-    font-weight: bold;
+.badge.bg-background-grey {
+    background-color: #eaedea;
 }
