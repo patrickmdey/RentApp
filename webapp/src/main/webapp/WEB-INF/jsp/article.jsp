@@ -32,7 +32,7 @@
                     <div class="row">
                         <ul class="category-list">
                             <c:forEach var="category" items="${article.categories}">
-                                <h5><span class="badge bg-light text-dark">${category}</span></h5>
+                                <h5><span class="badge bg-light text-dark">${category.description}</span></h5>
                             </c:forEach>
                         </ul>
                     </div>
