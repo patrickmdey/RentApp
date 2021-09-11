@@ -83,6 +83,12 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
+        <!--        java mailing-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
