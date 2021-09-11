@@ -65,9 +65,6 @@ public class ArticleDaoJdbc implements ArticleDao {
             query.append(orderBy);
         }
 
-        params.forEach(System.out::println);
-        System.out.println(query);
-
         return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
     }
 

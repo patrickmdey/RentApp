@@ -44,21 +44,20 @@ public class ArticlesDaoTest {
     private JdbcTemplate jdbcTemplate;
 
 
-
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,"article");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,"category");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,"article_category");
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,"account");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "article");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "category");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "article_category");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "account");
     }
 
 
-    private List<Article> populateDataBase(int elements){
+    private List<Article> populateDataBase(int elements) {
         List<Article> articles = new ArrayList<>(elements);
 
-        for (int i = 0 ; i < elements; i++){
+        for (int i = 0; i < elements; i++) {
             User owner = userDao.list().stream().findFirst().get();
 
             final String title = "Producto Titulo " + i;
@@ -86,13 +85,13 @@ public class ArticlesDaoTest {
         final String description = "Es un producto muy lindo";
         final float pricePerDay = 500;
         final long idOwner = owner.getId();
-        final Article article = articleDao.createArticle(title,description,pricePerDay,idOwner).get();
+        final Article article = articleDao.createArticle(title, description, pricePerDay, idOwner).get();
 
         assertNotNull(article);
-        assertEquals(article.getTitle(),title);
-        assertEquals(article.getDescription(),description);
-        assertEquals(article.getPricePerDay(),pricePerDay);
-        assertEquals(article.getIdOwner(),idOwner);
+        assertEquals(article.getTitle(), title);
+        assertEquals(article.getDescription(), description);
+        assertEquals(article.getPricePerDay(), pricePerDay);
+        assertEquals(article.getIdOwner(), idOwner);
     }
 
     @Test
@@ -109,21 +108,21 @@ public class ArticlesDaoTest {
     public void testFilter() {
         final List<Article> articlesDb = populateDataBase(4);
 
-        final List<Article> result = articleDao.filter("3");
+        final List<Article> result = articleDao.filter("3", null, null);
 
         assertNotNull(result);
-        assertEquals(1,result.size());
-        assertEquals(articlesDb.get(3),result.stream().findFirst().get());
+        assertEquals(1, result.size());
+        assertEquals(articlesDb.get(3), result.stream().findFirst().get());
     }
 
     @Test
-    public void testFindByIdExists(){
+    public void testFindByIdExists() {
         final List<Article> articlesDb = populateDataBase(4);
         final Article expectedArticle = articlesDb.get(2);
 
         final Optional<Article> result = articleDao.findById(expectedArticle.getId());
 
-        assertEquals(true,result.isPresent());
+        assertEquals(true, result.isPresent());
         assertEquals(expectedArticle, result.get());
     }
 
@@ -133,7 +132,7 @@ public class ArticlesDaoTest {
 
         final Optional<Article> result = articleDao.findById(900);
 
-        assertEquals(false,result.isPresent());
+        assertEquals(false, result.isPresent());
     }
 
 }

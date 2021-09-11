@@ -3,6 +3,7 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,13 +65,13 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay,List<Category> categories, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, long idOwner) {
 
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
-        if (optArticle.isPresent()){
+        if (optArticle.isPresent()) {
             Article article = optArticle.get();
-            categories.forEach(t-> articleCategoryDao.addToArticle(article.getId(),t));
+            categories.forEach(t -> articleCategoryDao.addToArticle(article.getId(), t));
             article.setCategories(categories);
             optArticle = Optional.of(article);
         }
