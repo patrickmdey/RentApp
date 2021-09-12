@@ -4,17 +4,22 @@ import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.webapp.forms.AccountForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
     @Autowired
     UserService userService;
 
@@ -22,37 +27,81 @@ public class UserController {
     EmailService emailService;
 
     @RequestMapping("/register")
-    public ModelAndView register(@RequestParam(value = "email", required = true) String email,
-                                 @RequestParam(value = "password", required = true) String password,
-                                 @RequestParam(value = "first-name", required = true) String firstName,
-                                 @RequestParam(value = "last-name", required = true) String lastName,
-                                 @RequestParam(value = "location", required = true) String location,
-                                 @RequestParam(value = "type", required = true) int type) {
-        final ModelAndView mav = new ModelAndView("index");
-        final Optional<User> user = userService.register(email, password, firstName, lastName, location, type);
-        if (user.isPresent()) {
-            mav.addObject("currentUserEmail", user.get().getEmail());
-            mav.addObject("currentUserFirstName", user.get().getFirstName());
-            mav.addObject("currentUserLastName", user.get().getLastName());
-            mav.addObject("currentUserLocation", user.get().getLocation());
-        } else
-            throw new UserNotFoundException();
+    public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
+        final ModelAndView mav = new ModelAndView("account/create");
+
         return mav;
     }
 
-//    @RequestMapping("/")
-//    public ModelAndView helloWorld() {
-//        final ModelAndView mav = new ModelAndView("marketplace");
-//        User user = userService.findById(1).orElseThrow(UserNotFoundException::new);
-//        mav.addObject("currentUser", user);
-//        return mav;
-//    }
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ModelAndView register(@Valid @ModelAttribute("accountForm") AccountForm accountForm,
+                                 BindingResult errors) {
 
-    @RequestMapping("/{userId}")
-    public ModelAndView userProfile(@PathVariable("userId") long userId) {
-        final ModelAndView mav = new ModelAndView("index");
-        User user = userService.findById(userId).orElseThrow(UserNotFoundException::new);
-        mav.addObject("currentUser", user);
+        if (errors.hasErrors())
+            return register(accountForm);
+
+        Optional<User> user = userService.register(
+                accountForm.getEmail(),
+                accountForm.getPassword(),
+                accountForm.getConfirmPassword(),
+                accountForm.getFirstName(),
+                accountForm.getLastName(),
+                accountForm.getLocation(),
+                accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
+        );
+
+        return login();
+    }
+
+
+    @RequestMapping("/login")
+    public ModelAndView login() {
+        final ModelAndView mav = new ModelAndView("account/login");
         return mav;
     }
+
+
+    @RequestMapping("/edit")
+    public ModelAndView edit(@ModelAttribute("accountForm") AccountForm accountForm) {
+        final ModelAndView mav = new ModelAndView("account/edit");
+
+        populateForm(accountForm);
+        return mav;
+
+    }
+
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ModelAndView edit(@Valid @ModelAttribute("accountForm") AccountForm accountForm, BindingResult errors) {
+
+        final ModelAndView mav = new ModelAndView("account/edit");
+
+        if (errors.hasErrors())
+            return mav;
+
+        return view(accountForm);
+    }
+
+
+    @RequestMapping("/view")
+    public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm) {
+        final ModelAndView mav = new ModelAndView("account/view");
+
+        populateForm(accountForm);
+
+        return mav;
+    }
+
+    private AccountForm populateForm(AccountForm accountForm){
+        User user = loggedUser();
+        accountForm.setEmail(user.getEmail());
+        accountForm.setFirstName(user.getFirstName());
+        accountForm.setLastName(user.getLastName());
+        accountForm.setIsOwner(user.getType() == UserType.Owner);
+        accountForm.setLocation(user.getLocation());
+
+        return accountForm;
+    }
+
+
 }

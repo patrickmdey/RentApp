@@ -40,7 +40,7 @@ public class UserServiceTest {
                         Mockito.eq(FIRST_NAME), Mockito.eq(LAST_NAME), Mockito.eq(LOCATION), Mockito.eq(TYPE.ordinal())))
                 .thenReturn(Optional.of(new User(1, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal())));
 
-        Optional<User> optTestUser = userService.register(EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal());
+        Optional<User> optTestUser = userService.register(EMAIL, PASSWORD, PASSWORD ,FIRST_NAME, LAST_NAME, LOCATION,TYPE);
 
         Assert.assertTrue(optTestUser.isPresent());
 

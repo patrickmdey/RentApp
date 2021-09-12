@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class ArticleController {
+@RequestMapping({"/marketplace", "/"})
+public class ArticleController extends BaseController {
     @Autowired
     ArticleService articleService;
 
@@ -42,7 +43,7 @@ public class ArticleController {
     @Autowired
     CategoryService categoryService;
 
-    @RequestMapping("/")
+    @RequestMapping()
     public ModelAndView marketplace(@RequestParam(value = "name", required = false) String name) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(name);
