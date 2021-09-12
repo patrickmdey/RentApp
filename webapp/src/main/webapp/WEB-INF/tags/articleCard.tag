@@ -8,7 +8,7 @@
 
 <html>
 <body>
-<div class="card card-style shadow-sm text-dark bg-light">
+<div class="card marketplace-card-style shadow-sm text-dark bg-light">
 
     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" class="card-image"
          alt="${title} image}">
