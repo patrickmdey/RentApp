@@ -7,9 +7,9 @@
 <c:url value="/" var="marketplaceUrl"/>
 <html>
 <h:head title="RentApp"/>
-<body class="article-background">
+<body class="bg-color-grey">
 <h:navbar/>
-<div class="container">
+<div class="container container-height">
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
@@ -19,12 +19,12 @@
                 </div>
 
                 <div class="form-check card bg-light">
-                    <form:label path="category"><spring:message code="search.form.category"/></form:label>
+                    <form:label path="category"><spring:message code="search.rentRequestForm.category"/></form:label>
                     <form:radiobuttons path="category" items="${categories}"
                                        itemValue="id" itemLabel="description"/>
                 </div>
                 <div class="form-input">
-                    <form:label path="orderBy"><spring:message code="article.form.name"/></form:label>
+                    <form:label path="orderBy"><spring:message code="article.rentRequestForm.name"/></form:label>
                     <form:select path="orderBy" class="form-control form-control-custom">
                         <c:forEach var="option" items="${orderOptions}">
                             <option value="${option.column}" ${option.column == searchForm.orderBy? "selected":""}>
@@ -54,6 +54,7 @@
         </div>
     </div>
 </div>
+<h:footer/>
 </body>
 <h:mainScript/>
 </html>

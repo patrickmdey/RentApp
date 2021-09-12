@@ -15,20 +15,15 @@ import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ArticleController {
@@ -66,24 +61,28 @@ public class ArticleController {
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         mav.addObject("owner", owner);
+        System.out.println("GET DE ARTICLE");
         return mav;
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
-    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm,
-                                       @PathVariable Integer articleId, BindingResult errors) {
-        if (errors.hasErrors())
+    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
+        System.out.println("POST DE ARTICLE");
+
+        if (errors.hasErrors()) {
+            System.out.println("err");
+            errors.getAllErrors().forEach(System.out::println);
             return viewArticle(rentForm, articleId);
+        }
 
-
-        rentService.create(rentForm.getMessage(), false, rentForm.getStartDate(), rentForm.getEndDate(), articleId, 1);
+        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, 1);
 
         return new ModelAndView("feedback");
     }
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        final ModelAndView mav = new ModelAndView("create-article");
+        final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         return mav;

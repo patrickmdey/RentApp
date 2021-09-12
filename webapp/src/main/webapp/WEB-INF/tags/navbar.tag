@@ -4,11 +4,11 @@
 <html>
 <body>
 
-<nav class="navbar shadow-sm navbar-expand-lg navbar-dark py-3 nav-bar-color mb-3">
+<nav class="navbar shadow-sm navbar-expand-lg bg-color-primary navbar-dark py-3 nav-bar-style mb-3">
     <div class="container-fluid nav-bar">
 
-        <a class="navbar-brand" href="${marketplace}">
-            <img src="<c:url value="/resources/image/rentapp-logo.png"/>" width="20%" height="auto" alt="RentApp">
+        <a class="navbar-brand mb-1" href="${marketplace}">
+            <img src="<c:url value="/resources/image/rentapp-logo.png"/>" height="50px" alt="RentApp">
         </a>
         <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
