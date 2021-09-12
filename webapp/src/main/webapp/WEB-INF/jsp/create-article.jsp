@@ -8,9 +8,9 @@
 <c:url value="/create-article" var="articleUrl"/>
 <html>
 <h:head title="Publish Form"/>
-<body class="article-background">
+<body class="bg-color-grey">
 <h:navbar/>
-<div class="main-container">
+<div class="main-container container-height">
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post">
             <div class="form-container">
@@ -55,6 +55,7 @@
         </form:form>
     </div>
 </div>
+<h:footer/>
 </body>
 <h:mainScript/>
 </html>

@@ -7,9 +7,9 @@
 <c:url value="/" var="marketplaceUrl"/>
 <html>
 <h:head title="RentApp"/>
-<body class="article-background">
+<body class="bg-color-grey">
 <h:navbar/>
-<div class="container">
+<div class="container container-height">
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
@@ -54,6 +54,7 @@
         </div>
     </div>
 </div>
+<h:footer/>
 </body>
 <h:mainScript/>
 </html>
