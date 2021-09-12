@@ -66,11 +66,12 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
-    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm,
-                                       @PathVariable("articleId") Integer articleId, BindingResult errors) {
+    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
         System.out.println("POST DE ARTICLE");
 
         if (errors.hasErrors()) {
+            System.out.println("err");
+            errors.getAllErrors().forEach(System.out::println);
             return viewArticle(rentForm, articleId);
         }
 
