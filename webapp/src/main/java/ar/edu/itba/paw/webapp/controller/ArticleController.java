@@ -92,17 +92,23 @@ public class ArticleController {
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors) {
-        if (errors.hasErrors())
+        if (errors.hasErrors()) {
+            System.out.println("err");
+            errors.getAllErrors().forEach(System.out::println);
             return viewCreateArticleForm(createArticleForm);
+        }
+
+        System.out.println(createArticleForm.getFile());
 
         Article article = articleService.createArticle(
                 createArticleForm.getName(),
                 createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
+                createArticleForm.getFile(),
                 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return marketplace(null, article.getTitle(), null, null);
+        return marketplace(new SearchForm(), article.getTitle(), null, null);
     }
 
 

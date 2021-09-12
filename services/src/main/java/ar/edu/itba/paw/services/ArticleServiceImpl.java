@@ -1,12 +1,10 @@
 package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.*;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.OrderOptions;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +23,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private ArticleImageDao articleImageDao;
+
     private void appendCategories(Article article) {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
@@ -32,6 +36,11 @@ public class ArticleServiceImpl implements ArticleService {
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
         owner.ifPresent(user -> article.setLocation(user.getLocation()));
+    }
+
+    private void appendImages(Article article) {
+        List<Long> images = this.articleImageDao.findFromArticle(article.getId());
+        article.setImages(images);
     }
 
     @Override
@@ -51,6 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         articles.forEach(this::appendCategories);
         articles.forEach(this::appendLocation);
+        articles.forEach(this::appendImages);
 
         return articles;
     }
@@ -65,15 +75,20 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, MultipartFile image, long idOwner) {
 
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (optArticle.isPresent()) {
             Article article = optArticle.get();
-            categories.forEach(t -> articleCategoryDao.addToArticle(article.getId(), t));
-            article.setCategories(categories);
+            if (categories != null) {
+                categories.forEach(t -> articleCategoryDao.addToArticle(article.getId(), t));
+                article.setCategories(categories);
+            }
             optArticle = Optional.of(article);
+
+            Optional<DBImage> img = imageService.create(image);
+            img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
         }
 
         return optArticle;

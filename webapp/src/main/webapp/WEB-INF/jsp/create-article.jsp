@@ -12,7 +12,7 @@
 <h:navbar/>
 <div class="main-container">
     <div class="card shadow card-style create-card mx-3">
-        <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post">
+        <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post" enctype="multipart/form-data">
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="create-article.title"/></h3>
                 <div class="form-input">
@@ -32,8 +32,8 @@
                 <div class="form input-group">
                     <span class="input-group-text">$</span>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
+                    <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
                 </div>
-                <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
             </div>
 
 
@@ -41,10 +41,11 @@
                 <ul class="list-elements">
                     <c:forEach var="category" items="${categories}">
                         <form:button
-                                class="btn btn-sm btn-outline-primary text-dark enable-rounded ma-1">${category.description}</form:button>
+                                class="btn btn-sm btn-outline-primary text-dark enable-rounded ma-1" type="button">${category.description}</form:button>
                     </c:forEach>
                 </ul>
             </div>
+            <h:imageInput/>
             <div class="form-container">
                 <div class="button">
                     <button type="submit" class="rounded btn btn-primary"><spring:message

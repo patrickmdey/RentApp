@@ -5,12 +5,13 @@
 <%@ attribute name="price" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="location" required="true" %>
+<%@attribute name="image_id" required="true" %>
 
 <html>
 <body>
 <div class="card card-style shadow-sm text-dark bg-light">
 
-    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" class="card-image"
+    <img src="<c:url value="/image/${image_id}"/>" class="card-image"
          alt="${title} image}">
 
 
