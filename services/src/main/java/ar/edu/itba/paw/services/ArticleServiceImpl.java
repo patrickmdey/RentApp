@@ -35,7 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> get(String name, Long category, String orderBy) {
+    public List<Article> get(String name, String user, Long category, String orderBy) {
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
                 map(OrderOptions::getColumn).collect(Collectors.toList());
@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (name == null && category == null && orderBy == null) {
             articles = this.articleDao.list();
         } else {
-            articles = this.articleDao.filter(name, category, orderBy);
+            articles = this.articleDao.filter(name, user, category, orderBy);
         }
 
         articles.forEach(this::appendCategories);
