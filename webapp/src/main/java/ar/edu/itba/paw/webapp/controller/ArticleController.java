@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -52,7 +54,7 @@ public class ArticleController {
         return mav;
     }
 
-    @RequestMapping("/article/{articleId}")
+    @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm, @PathVariable("articleId") Integer articleId) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
@@ -72,7 +74,7 @@ public class ArticleController {
             return viewArticle(rentForm, articleId);
         }
 
-        rentService.create(rentForm.getMessage(), false, rentForm.getStartDate(), rentForm.getEndDate(), articleId, 1);
+        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, 1);
 
         return new ModelAndView("feedback");
     }

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class RentProposalForm {
@@ -14,22 +15,23 @@ public class RentProposalForm {
 
     private static final String DATE_REGEX = "^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
 
-    @NotNull
+
     @NotEmpty
+    @Size(min = 5)
     private String name;
 
-    @NotNull
+
+    @NotEmpty
     @Email
     @Pattern(regexp = EMAIL_REGEX)
     private String email;
 
     @NotNull
-    private Date startDate;
+    private String startDate;
 
     @NotNull
-    private Date endDate;
+    private String endDate;
 
-    @NotNull
     @NotEmpty
     private String message;
 
@@ -57,20 +59,20 @@ public class RentProposalForm {
         this.message = message;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 

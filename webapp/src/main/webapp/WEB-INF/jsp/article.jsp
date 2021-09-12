@@ -55,7 +55,7 @@
                     <div class="modal-header article-background">
                         <p class="modal-title lead fw-bold"><spring:message
                                 code="article.rentRequestTitle"/></p>
-                        <button type="button" class="btn-close btn-dark" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
 
@@ -67,7 +67,7 @@
                                 <spring:message code="article.rentRequestForm.name.input" var="enterName"/>
                                 <form:input type="text" path="name" class="form-control form-control-custom"
                                             placeholder="${enterName}"/>
-                                <form:errors path="name" element="p" cssClass="text-danger">
+                                <form:errors path="name" element="p" cssClass="color-rentapp-red">
                                     <spring:message code="article.rentRequestForm.name.input.error"/>
                                 </form:errors>
                             </div>
@@ -77,7 +77,7 @@
                                 <spring:message code="article.rentRequestForm.email.input" var="enterEmail"/>
                                 <form:input type="email" path="email" class="form-control form-control-custom"
                                             placeholder="${enterEmail}"/>
-                                <form:errors path="email" element="p" cssStyle="color: red">
+                                <form:errors path="email" element="p" cssClass="color-rentapp-red">
                                     <spring:message code="article.rentRequestForm.email.input.error"/>
                                 </form:errors>
                             </div>
@@ -85,7 +85,7 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-                                <form:errors path="startDate" element="p" cssStyle="color: red">
+                                <form:errors path="startDate" element="p" cssClass="color-rentapp-red">
                                     <spring:message code="article.rentRequestForm.startDate.input.error"/>
                                 </form:errors>
                             </div>
@@ -93,7 +93,7 @@
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
-                                <form:errors path="endDate" element="p" cssStyle="color: red">
+                                <form:errors path="endDate" element="p" cssClass="color-rentapp-red">
                                     <spring:message code="article.rentRequestForm.endDate.input.error"/>
                                 </form:errors>
                             </div>
@@ -112,8 +112,8 @@
                     </div>
                     <div class="modal-footer article-background">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success"><spring:message
-                                code="article.sendRequestButton"/></button>
+                        <form:button type="submit" class="btn btn-success"><spring:message
+                                code="article.sendRequestButton"/></form:button>
                     </div>
                 </form:form>
             </div>
