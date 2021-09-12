@@ -59,22 +59,25 @@ public class ArticleController {
         return mav;
     }
 
-    @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
+    @RequestMapping("/article/{articleId}")
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm, @PathVariable("articleId") Integer articleId) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         mav.addObject("owner", owner);
+        System.out.println("GET DE ARTICLE");
         return mav;
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm,
-                                       @PathVariable Integer articleId, BindingResult errors) {
-        if (errors.hasErrors())
-            return viewArticle(rentForm, articleId);
+                                       @PathVariable("articleId") Integer articleId, BindingResult errors) {
+        System.out.println("POST DE ARTICLE");
 
+        if (errors.hasErrors()) {
+            return viewArticle(rentForm, articleId);
+        }
 
         rentService.create(rentForm.getMessage(), false, rentForm.getStartDate(), rentForm.getEndDate(), articleId, 1);
 

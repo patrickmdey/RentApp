@@ -22,7 +22,7 @@
                     <form:errors path="name" element="p" cssStyle="color: red"/>
                 </div>
                 <div class="form-input">
-                    <spring:message code="article.rentRequestForm.description" var="description"/>
+                    <spring:message code="article.createArticleForm.description" var="description"/>
                     <form:input type="text" path="description" class="form-control form-control-custom"
                                 placeholder="${description}"/>
                     <form:errors path="description" element="p" cssStyle="color: red"/>

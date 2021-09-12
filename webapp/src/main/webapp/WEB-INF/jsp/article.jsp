@@ -57,51 +57,71 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><spring:message
-                            code="article.rentRequestTitle"/></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body article-background">
-                    <form:form modelAttribute="rentForm" action="${articleUrl}" method="post">
-                    <div class="row">
-                        <div class="col-12 form-input">
-                            <form:label path="name"><spring:message code="article.form.name"/></form:label>
-                            <form:input type="text" path="name" class="form-control form-control-custom"
-                                        placeholder="Your Name"/>
-                            <form:errors path="name" element="p" cssClass="text-danger"/>
-                        </div>
-                        <div class="col-12 form-input">
-                            <form:label path="email"><spring:message code="article.form.email"/></form:label>
-                            <form:input type="email" path="email" class="form-control form-control-custom"
-                                        placeholder="Your Email"/>
-                            <form:errors path="email" element="p" cssStyle="color: red"/>
-                        </div>
-                        <div class="col-6 form-input">
-                            <form:label path="startDate"><spring:message
-                                    code="article.form.startDate"/></form:label>
-                            <form:input type="text" path="startDate" class="form-control form-control-custom"/>
-                            <form:errors path="startDate" element="p" cssStyle="color: red"/>
-                        </div>
-                        <div class="col-6 form-input">
-                            <form:label path="endDate"><spring:message code="article.form.endDate"/></form:label>
-                            <form:input type="text" path="endDate" class="form-control form-control-custom"/>
-                            <form:errors path="endDate" element="p" cssStyle="color: red"/>
-                        </div>
-                        <div class="col-12 form-input">
-                            <form:label path="message"><spring:message code="article.form.message"/></form:label>
-                            <form:textarea name="message" path="message" class="form-control form-control-custom "
-                                           placeholder="Your Message"/>
-                            <form:errors path="message" element="p" cssStyle="color: red"/>
-                        </div>
+                <form:form modelAttribute="rentForm" action="${articleUrl}" method="POST">
+
+                    <div class="modal-header article-background">
+                        <p class="modal-title lead fw-bold"><spring:message
+                                code="article.rentRequestTitle"/></p>
+                        <button type="button" class="btn-close btn-dark" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <form:button type="submit" class="btn btn-success"><spring:message
-                            code="article.sendRequestButton"/></form:button>
-                </div>
+                    <div class="modal-body article-background">
+                        <div class="row">
+                            <div class="col-12 form-input">
+                                <form:label path="name"><spring:message
+                                        code="article.rentRequestForm.name"/></form:label>
+                                <spring:message code="article.rentRequestForm.name.input" var="enterName"/>
+                                <form:input type="text" path="name" class="form-control form-control-custom"
+                                            placeholder="${enterName}"/>
+                                <form:errors path="name" element="p" cssClass="text-danger">
+                                    <spring:message code="article.rentRequestForm.name.input.error"/>
+                                </form:errors>
+                            </div>
+                            <div class="col-12 form-input">
+                                <form:label path="email"><spring:message
+                                        code="article.rentRequestForm.email"/></form:label>
+                                <spring:message code="article.rentRequestForm.email.input" var="enterEmail"/>
+                                <form:input type="email" path="email" class="form-control form-control-custom"
+                                            placeholder="${enterEmail}"/>
+                                <form:errors path="email" element="p" cssStyle="color: red">
+                                    <spring:message code="article.rentRequestForm.email.input.error"/>
+                                </form:errors>
+                            </div>
+                            <div class="col-6 form-input">
+                                <form:label path="startDate"><spring:message
+                                        code="article.rentRequestForm.startDate"/></form:label>
+                                <form:input type="date" path="startDate" class="form-control form-control-custom"/>
+                                <form:errors path="startDate" element="p" cssStyle="color: red">
+                                    <spring:message code="article.rentRequestForm.startDate.input.error"/>
+                                </form:errors>
+                            </div>
+                            <div class="col-6 form-input">
+                                <form:label path="endDate"><spring:message
+                                        code="article.rentRequestForm.endDate"/></form:label>
+                                <form:input type="date" path="endDate" class="form-control form-control-custom"/>
+                                <form:errors path="endDate" element="p" cssStyle="color: red">
+                                    <spring:message code="article.rentRequestForm.endDate.input.error"/>
+                                </form:errors>
+                            </div>
+                            <div class="col-12 form-input">
+                                <form:label path="message"><spring:message
+                                        code="article.rentRequestForm.message"/></form:label>
+                                <spring:message code="article.rentRequestForm.message.input" var="enterMessage"/>
+                                <form:textarea name="message" path="message" class="form-control form-control-custom "
+                                               placeholder="${enterMessage}"/>
+                                <form:errors path="message" element="p" cssStyle="color: red">
+                                    <spring:message code="article.rentRequestForm.message.input.error"/>
+                                </form:errors>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer article-background">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success"><spring:message
+                                code="article.sendRequestButton"/></button>
+                    </div>
                 </form:form>
             </div>
         </div>
