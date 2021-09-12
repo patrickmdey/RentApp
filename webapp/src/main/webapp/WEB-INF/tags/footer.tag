@@ -2,10 +2,10 @@
 <div class="footer-style bg-color-primary">
     <div class="card-body row my-n4">
         <div class="col-4 footer-image-col">
-            <img class="mt-n3" src="<c:url value="/resources/image/rentapp-footer-logo.png"/>" height="180px" width="auto"
+            <img class="mt-n3" src="<c:url value="/resources/image/rentapp-favicon.png"/>" height="180px" width="auto"
                  alt="RentApp">
         </div>
-        <div class="col-4 footer-col">
+        <div class="col-4">
             <ul class="list-unstyled">
                 <li><h3 class="h3 fw-bold color-grey">Contact</h3></li>
                 <li><p class="lead color-grey">Email: <a href="paw2021b3@gmail.com" class="color-secondary">paw2021b3@gmail.com</a>
@@ -13,8 +13,8 @@
                 </li>
             </ul>
         </div>
-        <div class="col-4 footer-col">
-            <ul class="list-unstyled">
+        <div class="col-4">
+            <ul class="col-6 list-unstyled">
                 <h3 class="h3 fw-bold color-grey">Team members</h3>
                 <li><p class="color-grey">Santos Rosati</p></li>
                 <li><p class="color-grey">Matias Lombardi</p></li>
