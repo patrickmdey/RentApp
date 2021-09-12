@@ -16,12 +16,16 @@
 }
 
 .article-price {
-    color: orangered;
+    color: #EF6461;
     margin: 10px 0;
 }
 
 .form-input {
-    margin-bottom: 10px;
+    margin: 6px 0;
+}
+
+label {
+    margin: 5px 0;
 }
 
 .badge.bg-background-grey {

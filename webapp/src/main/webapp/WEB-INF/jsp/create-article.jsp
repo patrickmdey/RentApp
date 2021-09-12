@@ -16,19 +16,19 @@
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="create-article.title"/></h3>
                 <div class="form-input">
-                    <spring:message code="article.form.name" var="articleName"/>
+                    <spring:message code="article.rentRequestForm.name" var="articleName"/>
                     <form:input type="text" path="name" class="form-control form-control-custom"
                                 placeholder="${articleName}"/>
                     <form:errors path="name" element="p" cssStyle="color: red"/>
                 </div>
                 <div class="form-input">
-                    <spring:message code="article.form.description" var="description"/>
+                    <spring:message code="article.rentRequestForm.description" var="description"/>
                     <form:input type="text" path="description" class="form-control form-control-custom"
                                 placeholder="${description}"/>
                     <form:errors path="description" element="p" cssStyle="color: red"/>
                 </div>
 
-                <p class="text-muted"><spring:message code="article.form.price"/></p>
+                <p class="text-muted"><spring:message code="article.createArticleForm.price"/></p>
                 <div class="form input-group">
                     <span class="input-group-text">$</span>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
@@ -48,7 +48,7 @@
             <div class="form-container">
                 <div class="button">
                     <button type="submit" class="rounded btn btn-primary"><spring:message
-                            code="article.form.publish"/></button>
+                            code="article.createArticleForm.publish"/></button>
                 </div>
             </div>
 

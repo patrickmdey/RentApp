@@ -19,12 +19,12 @@
                 </div>
 
                 <div class="form-check card bg-light">
-                    <form:label path="category"><spring:message code="search.form.category"/></form:label>
+                    <form:label path="category"><spring:message code="search.rentRequestForm.category"/></form:label>
                     <form:radiobuttons path="category" items="${categories}"
                                        itemValue="id" itemLabel="description"/>
                 </div>
                 <div class="form-input">
-                    <form:label path="orderBy"><spring:message code="article.form.name"/></form:label>
+                    <form:label path="orderBy"><spring:message code="article.rentRequestForm.name"/></form:label>
                     <form:select path="orderBy" class="form-control form-control-custom">
                         <c:forEach var="option" items="${orderOptions}">
                             <option value="${option.column}" ${option.column == searchForm.orderBy? "selected":""}>
