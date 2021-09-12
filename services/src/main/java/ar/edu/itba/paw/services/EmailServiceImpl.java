@@ -1,7 +1,13 @@
 package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -14,6 +20,13 @@ import java.util.Properties;
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    @Autowired
+    private SpringTemplateEngine thymeleafTemplateEngine;
+
+    @Autowired
+    private JavaMailSender emailSender;
+
     @Override
     public void sendMessage(List<String> recipients, String title, String body) {
 

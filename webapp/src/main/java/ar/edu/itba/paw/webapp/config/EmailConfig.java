@@ -37,4 +37,35 @@ public class EmailConfig {
 
         return mailSender;
     }
+
+    @Bean
+    public ITemplateResolver thymeleafTemplateResolver() {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setPrefix("email/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML");
+        templateResolver.setCharacterEncoding("UTF-8");
+        return templateResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine thymeleafTemplateEngine(ITemplateResolver templateResolver) {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        templateEngine.setTemplateEngineMessageSource(emailMessageSource());
+        return templateEngine;
+    }
+
+    @Bean
+    public MessageSource emailMessageSource() {
+        final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+
+        messageSource.setBasename("classpath:i18n/email-messages");
+
+        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
+
+        messageSource.setCacheSeconds(5);
+
+        return messageSource;
+    }
 }
