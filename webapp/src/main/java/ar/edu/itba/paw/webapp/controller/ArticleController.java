@@ -15,20 +15,13 @@ import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ArticleController {
@@ -86,7 +79,7 @@ public class ArticleController {
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        final ModelAndView mav = new ModelAndView("create-article");
+        final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         return mav;

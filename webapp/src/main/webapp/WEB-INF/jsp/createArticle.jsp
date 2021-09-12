@@ -25,7 +25,9 @@
                     <spring:message code="article.createArticleForm.description" var="description"/>
                     <form:input type="text" path="description" class="form-control form-control-custom"
                                 placeholder="${description}"/>
-                    <form:errors path="description" element="p" cssStyle="color: red"/>
+                    <form:errors path="description" element="p" cssStyle="color: red">
+                        <spring:message code="article.createArticleForm.description.error"/>
+                    </form:errors>
                 </div>
 
                 <p class="text-muted"><spring:message code="article.createArticleForm.price"/></p>
@@ -33,7 +35,11 @@
                     <span class="input-group-text">$</span>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
                 </div>
-                <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
+                <form:errors path="pricePerDay" element="p" cssStyle="color: red">
+                    <spring:message code="article.createArticleForm.price.error"/>
+                </form:errors>
+
+
             </div>
 
 
