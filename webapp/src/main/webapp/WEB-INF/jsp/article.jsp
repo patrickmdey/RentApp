@@ -21,8 +21,14 @@
     <div class="card card-style">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
-                     class="img-fluid rounded-start" width="100%" height="auto" alt="...">
+                <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img" class="img-fluid rounded-start" width="100%" height="auto" alt="main image">
+                <div class="d-flex">
+                    <c:forEach var="image" items="${article.images}">
+                        <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image}"/>')">
+                            <img src="<c:url value="/image/${image}"/>" width="30px" height="30px" alt="image">
+                        </button>
+                    </c:forEach>
+                </div>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
@@ -132,5 +138,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<script>
+    const htmlImg = document.getElementById("main-img");
+    const baseURL = window.location.href.split('article/')[0] + "image/";
+    function setActiveImage(src) {
+        console.log(src);
+        htmlImg.setAttribute("src", src);
+    }
+</script>
 <script src="<c:url value="/resources/js/main.js" />" defer></script>
 </html>

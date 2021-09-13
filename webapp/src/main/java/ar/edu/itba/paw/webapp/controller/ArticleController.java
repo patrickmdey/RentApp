@@ -64,7 +64,7 @@ public class ArticleController {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
-        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new) ;
         mav.addObject("owner", owner);
         return mav;
     }
@@ -91,24 +91,20 @@ public class ArticleController {
 
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
-                                      BindingResult errors) {
+                                      BindingResult errors, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
         if (errors.hasErrors()) {
-            System.out.println("err");
-            errors.getAllErrors().forEach(System.out::println);
             return viewCreateArticleForm(createArticleForm);
         }
-
-        System.out.println(createArticleForm.getFile());
 
         Article article = articleService.createArticle(
                 createArticleForm.getName(),
                 createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
-                createArticleForm.getFile(),
+                createArticleForm.getFiles(),
                 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return marketplace(new SearchForm(), article.getTitle(), null, null);
+        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()));
     }
 
 

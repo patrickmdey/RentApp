@@ -23,8 +23,8 @@ public class CreateArticleForm {
     @Min(1)
     private float pricePerDay;
 
-    @NotNull
-    private MultipartFile file;
+    @NotNull // TODO: check each file.isEmpty
+    private List<MultipartFile> files;
 
     private ArrayList<Category> categories;
 
@@ -61,11 +61,11 @@ public class CreateArticleForm {
         return categories;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public List<MultipartFile> getFiles() {
+        return files;
     }
 
-    public void setFile(MultipartFile image) {
-        this.file = image;
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
     }
 }

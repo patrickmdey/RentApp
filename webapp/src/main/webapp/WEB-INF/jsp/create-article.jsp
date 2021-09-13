@@ -45,7 +45,10 @@
                     </c:forEach>
                 </ul>
             </div>
-            <h:imageInput/>
+
+            <div class="form-container">
+                <h:imageInput multiple="multiple"/>
+            </div>
             <div class="form-container">
                 <div class="button">
                     <button type="submit" class="rounded btn btn-primary"><spring:message

@@ -68,14 +68,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> findById(Integer articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
-        toReturn.ifPresent(this::appendCategories);
-        toReturn.ifPresent(this::appendLocation);
+        if (toReturn.isPresent()) {
+            appendCategories(toReturn.get());
+            appendLocation(toReturn.get());
+            appendImages(toReturn.get());
+        }
         return toReturn;
     }
 
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, MultipartFile image, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, List<MultipartFile> images, long idOwner) {
 
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
@@ -87,8 +90,10 @@ public class ArticleServiceImpl implements ArticleService {
             }
             optArticle = Optional.of(article);
 
-            Optional<DBImage> img = imageService.create(image);
-            img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
+            images.forEach(image -> {
+                Optional<DBImage> img = imageService.create(image);
+                img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
+            });
         }
 
         return optArticle;
