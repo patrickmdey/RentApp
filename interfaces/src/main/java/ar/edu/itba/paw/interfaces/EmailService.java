@@ -16,4 +16,6 @@ public interface EmailService {
 
     void sendMailRequestToOwner(String to, Map<String, String> values);
 
+    void sendMailRequestToRenter(String to, Map<String, String> values);
+
 }

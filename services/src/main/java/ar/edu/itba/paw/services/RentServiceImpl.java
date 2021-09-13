@@ -35,7 +35,9 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Optional<RentProposal> create(String message, Boolean approved, Date startDate, Date endDate, Integer idArticle, String renterName, Integer idRenter) {
+    public Optional<RentProposal> create(String message, Boolean approved, Date startDate,
+                                         Date endDate, Integer idArticle, String renterName,
+                                         String renterEmail, Integer idRenter) {
         Optional<Article> article = articleService.findById(idArticle);
         if (article.isPresent()) {
             Optional<User> owner = userService.findById(article.get().getIdOwner());
@@ -56,6 +58,8 @@ public class RentServiceImpl implements RentService {
                     values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //HARCODEADO
 
                     emailService.sendMailRequestToOwner(owner.get().getEmail(), values);
+
+                    emailService.sendMailRequestToRenter(renterEmail, values);
                 }
             }
         }

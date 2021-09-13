@@ -13,5 +13,5 @@ public interface RentService {
 
     Optional<RentProposal> create(String comment, Boolean approved, Date startDate,
                                   Date endDate, Integer idArticle,
-                                  String renterName, Integer idRenter);
+                                  String renterName, String renterEmail, Integer idRenter);
 }

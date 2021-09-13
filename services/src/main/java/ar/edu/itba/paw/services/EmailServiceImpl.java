@@ -67,6 +67,21 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void sendMailRequestToRenter(String to, Map<String, String> values) {
+        Context thymeleafContext = new Context();
+        thymeleafContext.setVariable("renterName", values.get("renterName"));
+        thymeleafContext.setVariable("ownerName", values.get("ownerName"));
+        thymeleafContext.setVariable("startDate", values.get("startDate"));
+        thymeleafContext.setVariable("endDate", values.get("endDate"));
+        thymeleafContext.setVariable("articleName", values.get("articleName"));
+        thymeleafContext.setVariable("imgSrc", "/resources/image/rentapp-logo.png");
+        thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
+        String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
+
+        sendHtmlMessage(to, "Request Sent: " + values.get("articleName"), htmlBody);
+    }
+
+    @Override
     public void sendMessage(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("noreply@rentapp.paw.com");

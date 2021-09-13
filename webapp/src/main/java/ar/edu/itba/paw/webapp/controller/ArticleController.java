@@ -73,7 +73,9 @@ public class ArticleController {
             return viewArticle(rentForm, articleId);
         }
 
-        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, rentForm.getName(), 1);
+        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
+                new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
+                articleId, rentForm.getName(), rentForm.getEmail(), 1);
 
         return new ModelAndView("feedback");
     }
