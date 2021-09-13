@@ -3,10 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.CategoryService;
-import ar.edu.itba.paw.interfaces.RentService;
-import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.models.OrderOptions;
@@ -23,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ArticleController {
@@ -38,6 +37,9 @@ public class ArticleController {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    EmailService emailService;
 
     @RequestMapping("/")
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
@@ -61,21 +63,17 @@ public class ArticleController {
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         mav.addObject("owner", owner);
-        System.out.println("GET DE ARTICLE");
         return mav;
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
-        System.out.println("POST DE ARTICLE");
 
         if (errors.hasErrors()) {
-            System.out.println("err");
-            errors.getAllErrors().forEach(System.out::println);
             return viewArticle(rentForm, articleId);
         }
 
-        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, 1);
+        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, rentForm.getName(), 1);
 
         return new ModelAndView("feedback");
     }
@@ -103,6 +101,4 @@ public class ArticleController {
 
         return marketplace(null, article.getTitle(), null, null);
     }
-
-
 }
