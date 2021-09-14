@@ -66,15 +66,11 @@ public class CreateArticleForm {
         this.images = images;
     }
 
-    public ArrayList<Category> getCategories() {
-        return categories;
-    }
-
     public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
     }
 
-    public List<Category> getCategories(){
+    public List<Category> getCategories() {
         return categories;
     }
 }

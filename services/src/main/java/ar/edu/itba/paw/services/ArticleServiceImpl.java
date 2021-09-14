@@ -28,10 +28,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private PictureDao pictureDao;
 
-    private List<Article> filter(String name) {
-        return this.articleDao.filter(name);
-    }
-
     private void appendCategories(Article article) {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
