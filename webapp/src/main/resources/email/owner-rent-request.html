@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<img th:src="${imgSrc}">
+<table>
+    <tbody>
+    <tr>
+        <td></td>
+        <td>
+            <h3 th:text="${ownerName}"></h3>
+            <h3 th:text="#{email.owner.header(${articleName.toUpperCase()})}"
+                style="font-weight: bold"></h3>
+            <h4 th:text="#{email.owner.subtitle}"></h4>
+            <p th:text="#{email.owner.renterName(${renterName})}"></p>
+            <p th:text="#{email.owner.startDate(${startDate})}"></p>
+            <p th:text="#{email.owner.endDate(${endDate})}"></p>
+            <p th:text="#{email.owner.message}" style="font-weight: bold"></p>
+            <p th:text="${requestMessage}"></p>
+            <h6><a th:href="${callbackUrl}" th:text="#{email.owner.callBack}"></a></h6>
+
+        </td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
