@@ -55,24 +55,24 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
-    public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm, @PathVariable("articleId") Integer articleId) {
+    public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
+                                    @PathVariable("articleId") Integer articleId,
+                                    @RequestParam(value = "requestFormHasErrors", required = false) Boolean requestFormHasErrors) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         mav.addObject("owner", owner);
-        System.out.println("GET DE ARTICLE");
+        mav.addObject("requestFormHasErrors", requestFormHasErrors);
         return mav;
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
-        System.out.println("POST DE ARTICLE");
-
         if (errors.hasErrors()) {
             System.out.println("err");
             errors.getAllErrors().forEach(System.out::println);
-            return viewArticle(rentForm, articleId);
+            return viewArticle(rentForm, articleId, true);
         }
 
         rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()), articleId, 1);

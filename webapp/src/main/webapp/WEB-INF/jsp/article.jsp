@@ -146,4 +146,14 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script src="<c:url value="/resources/js/main.js" />" defer></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+    <c:if test="${requestFormHasErrors}">
+    $(document).ready(function () {
+        $('#rentFormModal').modal('show');
+    });
+    </c:if>
+</script>
+
 </html>
