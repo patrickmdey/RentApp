@@ -8,7 +8,7 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <h:head title="${article.title}"/>
-pre<body class="bg-color-grey">
+<body class="bg-color-grey">
 <h:navbar/>
 <div class="main-container">
     <div class="card card-style">
