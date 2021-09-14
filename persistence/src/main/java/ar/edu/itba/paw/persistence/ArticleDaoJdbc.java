@@ -43,19 +43,22 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, String orderBy) {
-        StringBuilder query = new StringBuilder("SELECT * FROM article");
+    public List<Article> filter(String name, Long category, String orderBy, Long user) {
+        StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
         ArrayList<Object> params = new ArrayList<>();
 
         if(name != null && name.length() > 0) {
-            query.append(" WHERE LOWER(article.title) LIKE ? ");
+            query.append(" AND LOWER(article.title) LIKE ? ");
             params.add("%" + name.toLowerCase() + "%");
         }
 
+        if(user != null) {
+            query.append(" AND owner_id = ? ");
+            params.add(user);
+        }
+
         if (category != null) {
-            if (name == null || name.length() == 0)
-                query.append(" WHERE true ");
-            query.append("AND article.id IN (SELECT article_id FROM article_category " +
+            query.append(" AND article.id IN (SELECT article_id FROM article_category " +
                     "WHERE category_id = ?) ");
             params.add(category);
         }
