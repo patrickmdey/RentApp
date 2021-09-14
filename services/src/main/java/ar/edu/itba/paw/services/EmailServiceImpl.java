@@ -29,23 +29,17 @@ public class EmailServiceImpl implements EmailService {
 
     }
 
-    private void sendHtmlMessage(String to, String subject, String htmlBody) throws MessagingException {
+    private void sendHtmlMessage(String to, String subject, String htmlBody) {
         MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(htmlBody, true);
-        emailSender.send(message);
-    }
-
-    @Override
-    public void sendMessageUsingThymeleafTemplate(String to, String subject) {
-
-        Context thymeleafContext = new Context();
-        thymeleafContext.setVariable("renter", "Kachow");
-        String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
-
-        sendHtmlMessage(to, subject, htmlBody);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+            emailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override
@@ -87,12 +81,5 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
-//        emailSender.send(message);
-
-        try {
-            sendMessageUsingThymeleafTemplate(to, subject);
-        } catch (MessagingException e) {
-            throw new RuntimeException();
-        }
     }
 }
