@@ -8,7 +8,7 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <html>
 <h:head title="${article.title}"/>
-<body class="article-background">
+pre<body class="bg-color-grey">
 <h:navbar/>
 <div class="main-container">
     <div class="card card-style">
@@ -21,7 +21,8 @@
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title display-6">${article.title}</h2>
-                    <p class="article-location"><i class="bi-geo-alt-fill"></i>${owner.location}</p>
+                    <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${owner.location}
+                    </p>
                     <div class="row">
                         <ul class="category-list">
                             <c:forEach var="category" items="${article.categories}">
@@ -33,9 +34,10 @@
                             </c:forEach>
                         </ul>
                     </div>
-                    <h4 class="card-text h4 article-price"><spring:message code="article.price"
-                                                                           arguments="${article.pricePerDay}"/></h4>
-                    <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal"
+                    <p class="card-text lead fw-bold article-price color-rentapp-red"><spring:message
+                            code="article.price"
+                            arguments="${article.pricePerDay}"/></p>
+                    <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
                             data-bs-target="#rentFormModal">
                         Rent request
                     </button>
@@ -52,14 +54,14 @@
             <div class="modal-content">
                 <form:form modelAttribute="rentForm" action="${articleUrl}" method="POST">
 
-                    <div class="modal-header article-background">
+                    <div class="modal-header bg-color-grey">
                         <p class="modal-title lead fw-bold"><spring:message
                                 code="article.rentRequestTitle"/></p>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
 
-                    <div class="modal-body article-background">
+                    <div class="modal-body bg-color-grey">
                         <div class="row">
                             <div class="col-12 form-input">
                                 <form:label path="name"><spring:message
@@ -67,7 +69,7 @@
                                 <spring:message code="article.rentRequestForm.name.input" var="enterName"/>
                                 <form:input type="text" path="name" class="form-control form-control-custom"
                                             placeholder="${enterName}"/>
-                                <form:errors path="name" element="p" cssClass="color-rentapp-red">
+                                <form:errors path="name" element="p" cssStyle="color: #EF6461">
                                     <spring:message code="article.rentRequestForm.name.input.error"/>
                                 </form:errors>
                             </div>
@@ -77,7 +79,7 @@
                                 <spring:message code="article.rentRequestForm.email.input" var="enterEmail"/>
                                 <form:input type="email" path="email" class="form-control form-control-custom"
                                             placeholder="${enterEmail}"/>
-                                <form:errors path="email" element="p" cssClass="color-rentapp-red">
+                                <form:errors path="email" element="p" cssStyle="color: #EF6461">
                                     <spring:message code="article.rentRequestForm.email.input.error"/>
                                 </form:errors>
                             </div>
@@ -85,7 +87,7 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-                                <form:errors path="startDate" element="p" cssClass="color-rentapp-red">
+                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">
                                     <spring:message code="article.rentRequestForm.startDate.input.error"/>
                                 </form:errors>
                             </div>
@@ -93,7 +95,7 @@
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
-                                <form:errors path="endDate" element="p" cssClass="color-rentapp-red">
+                                <form:errors path="endDate" element="p" cssStyle="color: #EF6461">
                                     <spring:message code="article.rentRequestForm.endDate.input.error"/>
                                 </form:errors>
                             </div>
@@ -104,13 +106,13 @@
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
                                 <form:errors path="message" element="p" cssStyle="color: red">
-                                    <spring:message code="article.rentRequestForm.message.input.error"/>
+                                    <%--                                    <spring:message code="article.rentRequestForm.message.input.error"/>--%>
                                 </form:errors>
                             </div>
                         </div>
 
                     </div>
-                    <div class="modal-footer article-background">
+                    <div class="modal-footer bg-color-grey">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                         <form:button type="submit" class="btn btn-success"><spring:message
                                 code="article.sendRequestButton"/></form:button>

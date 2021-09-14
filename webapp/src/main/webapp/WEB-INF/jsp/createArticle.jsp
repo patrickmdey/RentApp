@@ -46,8 +46,8 @@
             <div class="category-list-container my-2">
                 <ul class="list-elements">
                     <c:forEach var="category" items="${categories}">
-                        <form:button
-                                class="btn btn-sm btn-outline-primary text-dark enable-rounded ma-1">${category.description}</form:button>
+                        <button
+                                class="btn btn-sm bg-color-secondary color-rentapp-black enable-rounded ma-1">${category.description}</button>
                     </c:forEach>
                 </ul>
             </div>
