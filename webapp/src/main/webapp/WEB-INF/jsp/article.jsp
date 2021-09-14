@@ -14,7 +14,8 @@
     <div class="card card-style">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img" class="img-fluid rounded-start" width="100%" height="auto" alt="main image">
+                <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
+                     class="img-fluid rounded-start" width="100%" height="auto" alt="main image">
                 <div class="d-flex">
                     <c:forEach var="image" items="${article.images}">
                         <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image}"/>')">
@@ -162,6 +163,7 @@
 <script>
     const htmlImg = document.getElementById("main-img");
     const baseURL = window.location.href.split('article/')[0] + "image/";
+
     function setActiveImage(src) {
         console.log(src);
         htmlImg.setAttribute("src", src);

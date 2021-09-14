@@ -80,7 +80,7 @@ public class ArticleController {
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        final ModelAndView mav = new ModelAndView("createArticle");
+        final ModelAndView mav = new ModelAndView("create-article");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         return mav;
