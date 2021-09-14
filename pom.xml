@@ -17,6 +17,7 @@
         <org.com.sun.mail.version>1.6.2</org.com.sun.mail.version>
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
         <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
+        <commons.fileupload.version>1.4</commons.fileupload.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -89,6 +90,12 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${org.hibernate.validator}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
             </dependency>
 
         </dependencies>

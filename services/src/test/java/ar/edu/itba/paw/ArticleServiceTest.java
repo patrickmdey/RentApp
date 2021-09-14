@@ -2,13 +2,9 @@ package ar.edu.itba.paw;
 
 
 import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
-import ar.edu.itba.paw.services.UserServiceImpl;
-import org.apache.commons.logging.Log;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +42,8 @@ public class ArticleServiceTest {
                         Mockito.eq(pricePerDay), Mockito.eq(idOwner)))
                 .thenReturn(Optional.of(new Article(1L, title, description, pricePerDay, categories, idOwner)));
 
-        Optional<Article> optArticle = articleService.createArticle(title,description,pricePerDay,categories,idOwner);
+        // TODO: real images
+        Optional<Article> optArticle = articleService.createArticle(title,description,pricePerDay,categories, null, idOwner);
 
         Assert.assertTrue(optArticle.isPresent());
         Article article = optArticle.get();
