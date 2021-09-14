@@ -123,9 +123,11 @@
                     <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
                          style="max-height: 20px" alt="#">
                     <p class="lead">${owner.firstName} ${owner.lastName}</p>
+
                     <c:url var="userFilterUrl" value="/">
                         <c:param name="user" value="${owner.id}"/>
                     </c:url>
+
                     <a class="navbar-brand" href="${userFilterUrl}">See more</a>
                 </div>
             </div>

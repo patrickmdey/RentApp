@@ -3,10 +3,11 @@ package ar.edu.itba.paw.webapp.forms;
 public class SearchForm {
     private String query;
 
-
     private Long category;
 
     private String orderBy;
+
+    private Long user;
 
     public String getQuery() {
         return query;
@@ -30,5 +31,13 @@ public class SearchForm {
 
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public Long getUser() {
+        return user;
+    }
+
+    public void setUser(Long user) {
+        this.user = user;
     }
 }

@@ -15,8 +15,10 @@
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
                 <div class="form-input">
                     <form:label path="query"/>
-                    <form:input type="query" path="query" placeholder="Search"/>
+                    <form:input type="text" path="query" placeholder="Search"/>
                 </div>
+
+                <form:input type="number" path="user" cssClass="d-none"/>
 
                 <div class="form-check card bg-light">
                     <form:label path="category"><spring:message code="search.form.category"/></form:label>
