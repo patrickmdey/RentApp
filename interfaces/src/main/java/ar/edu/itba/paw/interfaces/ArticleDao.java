@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ArticleDao {
 
-    List<Article> filter(String name, Long category, String orderBy, Long user);
+    List<Article> filter(String name, Long category, String orderBy, Long user, Long location);
 
     List<Article> list();
 

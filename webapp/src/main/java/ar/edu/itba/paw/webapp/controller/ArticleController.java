@@ -4,10 +4,7 @@ import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.*;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.OrderOptions;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
@@ -20,9 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ArticleController {
@@ -45,12 +41,17 @@ public class ArticleController {
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser());
+                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation());
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
+
+        mav.addObject("locations",
+                Arrays.stream(Locations.values())
+                        .sorted(Comparator.comparing(Locations::getName))
+                        .collect(Collectors.toList()));
         return mav;
     }
 
@@ -85,7 +86,7 @@ public class ArticleController {
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        final ModelAndView mav = new ModelAndView("create-article");
+        final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         return mav;

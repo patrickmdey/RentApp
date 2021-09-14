@@ -108,7 +108,7 @@ public class ArticlesDaoTest {
     public void testFilter() {
         final List<Article> articlesDb = populateDataBase(4);
 
-        final List<Article> result = articleDao.filter("3", null, null, null);
+        final List<Article> result = articleDao.filter("3", null, null, null, null);
 
         assertNotNull(result);
         assertEquals(1, result.size());

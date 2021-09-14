@@ -8,48 +8,47 @@
 <c:url value="/create-article" var="articleUrl"/>
 <html>
 <h:head title="Publish Form"/>
-<body class="bg-color-grey">
+<body class="article-background">
 <h:navbar/>
-<div class="main-container container-height">
+<div class="main-container">
     <div class="card shadow card-style create-card mx-3">
-        <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post">
+        <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post"
+                   enctype="multipart/form-data">
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="create-article.title"/></h3>
                 <div class="form-input">
-                    <spring:message code="article.rentRequestForm.name" var="articleName"/>
+                    <spring:message code="article.createArticleForm.name" var="articleName"/>
                     <form:input type="text" path="name" class="form-control form-control-custom"
-                                placeholder="${articleName}"/>
-                    <form:errors path="name" element="p" cssStyle="color: red"/>
+                                placeholder="Article Name"/>
+                    <form:errors path="name" element="p" cssClass="text-danger"/>
                 </div>
-                <div class="form-input">
-                    <spring:message code="article.createArticleForm.description" var="description"/>
+                <div class="col-12 form-input">
+                    <form:label path="description"><spring:message
+                            code="article.createArticleForm.description"/></form:label>
                     <form:input type="text" path="description" class="form-control form-control-custom"
-                                placeholder="${description}"/>
-                    <form:errors path="description" element="p" cssStyle="color: red">
-                        <spring:message code="article.createArticleForm.description.error"/>
-                    </form:errors>
+                                placeholder="Description"/>
+                    <form:errors path="description" element="p" cssStyle="color: red"/>
                 </div>
-
-                <p class="text-muted"><spring:message code="article.createArticleForm.price"/></p>
-                <div class="form input-group">
-                    <span class="input-group-text">$</span>
+                <div class="col-12 form-input">
+                    <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
+                    <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
                 </div>
-                <form:errors path="pricePerDay" element="p" cssStyle="color: red">
-                    <spring:message code="article.createArticleForm.price.error"/>
-                </form:errors>
-
-
             </div>
 
 
             <div class="category-list-container my-2">
                 <ul class="list-elements">
                     <c:forEach var="category" items="${categories}">
-                        <button
-                                class="btn btn-sm bg-color-secondary color-rentapp-black enable-rounded ma-1">${category.description}</button>
+                        <form:button
+                                class="btn btn-sm btn-outline-primary text-dark enable-rounded ma-1"
+                                type="button">${category.description}</form:button>
                     </c:forEach>
                 </ul>
+            </div>
+
+            <div class="form-container">
+                <h:imageInput multiple="multiple"/>
             </div>
             <div class="form-container">
                 <div class="button">
@@ -57,11 +56,13 @@
                             code="article.createArticleForm.publish"/></button>
                 </div>
             </div>
-
         </form:form>
     </div>
 </div>
-<h:footer/>
 </body>
-<h:mainScript/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="<c:url value="/resources/js/main.js" />" defer></script>
 </html>
+
