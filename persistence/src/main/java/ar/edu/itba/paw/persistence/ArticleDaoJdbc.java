@@ -43,7 +43,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, String user, Long category, String orderBy) {
+    public List<Article> filter(String name, Long category, String orderBy, Long user) {
         StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
         ArrayList<Object> params = new ArrayList<>();
 
@@ -52,11 +52,9 @@ public class ArticleDaoJdbc implements ArticleDao {
             params.add("%" + name.toLowerCase() + "%");
         }
 
-        if(user != null && user.length() > 0) {
-            query.append(" AND owner_id IN (" +
-                    "SELECT account.id FROM account WHERE " +
-                    "LOWER(account.first_name) LIKE ?) ");
-            params.add("%" + user + "%");
+        if(user != null) {
+            query.append(" AND owner_id = ? ");
+            params.add(user);
         }
 
         if (category != null) {

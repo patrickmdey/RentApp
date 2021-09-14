@@ -3,7 +3,6 @@ package ar.edu.itba.paw.webapp.forms;
 public class SearchForm {
     private String query;
 
-    private String user;
 
     private Long category;
 
@@ -15,14 +14,6 @@ public class SearchForm {
 
     public void setQuery(String query) {
         this.query = query;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public Long getCategory() {

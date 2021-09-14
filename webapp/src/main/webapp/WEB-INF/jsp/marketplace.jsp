@@ -18,11 +18,6 @@
                     <form:input type="query" path="query" placeholder="Search"/>
                 </div>
 
-                <div class="form-input">
-                    <form:label path="user"/>
-                    <form:input type="user" path="user" placeholder="User"/>
-                </div>
-
                 <div class="form-check card bg-light">
                     <form:label path="category"><spring:message code="search.form.category"/></form:label>
                     <form:radiobuttons path="category" items="${categories}"

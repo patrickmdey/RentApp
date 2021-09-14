@@ -46,14 +46,12 @@ public class ArticleController {
 
     @RequestMapping("/")
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
-                                    @RequestParam(value = "query", required = false) String name,
-                                    @RequestParam(value = "user", required = false) String user,
-                                    @RequestParam(value = "category", required = false) Long category,
-                                    @RequestParam(value = "orderBy", required = false) String orderBy) {
+                                    @RequestParam(name = "user", required = false) Long user) {
         final ModelAndView mav = new ModelAndView("marketplace");
-        List<Article> articles = articleService.get(name, user, category, orderBy);
+        List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
+                searchForm.getOrderBy(), user);
         mav.addObject("articles", articles);
-        mav.addObject("query", name);
+        mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
@@ -103,7 +101,7 @@ public class ArticleController {
                 createArticleForm.getCategories(),
                 1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return marketplace(null, article.getTitle(), null, null, null);
+        return marketplace(new SearchForm(), null);
     }
 
 
