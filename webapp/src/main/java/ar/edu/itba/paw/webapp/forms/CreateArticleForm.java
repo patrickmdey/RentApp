@@ -22,6 +22,10 @@ public class CreateArticleForm {
     @Min(1)
     private float pricePerDay;
 
+    @NotEmpty
+    private String[] images;
+
+    @NotEmpty
     private ArrayList<Category> categories;
 
     public String getName() {
@@ -48,9 +52,26 @@ public class CreateArticleForm {
         this.pricePerDay = pricePerDay;
     }
 
+
     public void addCategory(Category category) {
         if (!categories.contains(category))
             categories.add(category);
+    }
+
+    public String[] getImages() {
+        return images;
+    }
+
+    public void setImages(String[] images) {
+        this.images = images;
+    }
+
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
     }
 
     public List<Category> getCategories(){
