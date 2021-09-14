@@ -8,8 +8,6 @@ import java.util.Map;
 
 public interface EmailService {
 
-    void sendMessageUsingThymeleafTemplate(String to, String subject);
-
     void sendMessage(List<String> recipients, String title, String body);
 
     void sendMessage(String recipient, String title, String body);
