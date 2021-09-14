@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<img th:src="@{../../webapp/resources/image/rentapp-logo.png}">
 <table>
     <tbody>
     <tr>
@@ -16,7 +17,7 @@
             <p th:text="#{email.renter.article(${articleName})}"></p>
             <p th:text="#{email.renter.startDate(${startDate})}"></p>
             <p th:text="#{email.renter.endDate(${endDate})}"></p>
-            <h6><a th:href="${callbackUrl}" th:text="#{email.renter.callToAction}"></a></h6>
+            <h6><a th:href="${callbackUrl}" th:text="#{email.renter.callBack}"></a></h6>
         </td>
         <td></td>
     </tr>
