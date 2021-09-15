@@ -16,26 +16,23 @@
                    enctype="multipart/form-data">
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="create-article.title"/></h3>
-
                 <div class="form-input">
-                    <spring:message code="article.rentRequestForm.name" var="articleName"/>
+                    <spring:message code="article.createArticleForm.name" var="articleName"/>
                     <form:input type="text" path="name" class="form-control form-control-custom"
-                                placeholder="${articleName}"/>
-                    <form:errors path="name" element="p" cssStyle="color: red"/>
+                                placeholder="Article Name"/>
+                    <form:errors path="name" element="p" cssClass="text-danger"/>
                 </div>
-                <div class="form-input">
-                    <spring:message code="article.createArticleForm.description" var="description"/>
+                <div class="col-12 form-input">
+                    <form:label path="description"><spring:message
+                            code="article.createArticleForm.description"/></form:label>
                     <form:input type="text" path="description" class="form-control form-control-custom"
-                                placeholder="${description}"/>
-                    <form:errors path="description" element="p" cssStyle="color: red">
-                        <spring:message code="article.createArticleForm.description.error"/>
-                    </form:errors>
+                                placeholder="Description"/>
+                    <form:errors path="description" element="p" cssStyle="color: red"/>
                 </div>
-
-                <p class="text-muted"><spring:message code="article.createArticleForm.price"/></p>
-                <div class="form input-group">
-                    <span class="input-group-text">$</span>
+                <div class="col-12 form-input">
+                    <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
+                    <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
                 </div>
                 <form:errors path="pricePerDay" element="p" cssStyle="color: red">
                     <spring:message code="article.createArticleForm.price.error"/>

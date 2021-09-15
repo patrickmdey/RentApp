@@ -8,6 +8,8 @@ public class SearchForm {
     private String orderBy;
 
     private Long user;
+    
+    private Long location;
 
     public String getQuery() {
         return query;
@@ -39,5 +41,13 @@ public class SearchForm {
 
     public void setUser(Long user) {
         this.user = user;
+    }
+
+    public Long getLocation() {
+        return location;
+    }
+
+    public void setLocation(Long location) {
+        this.location = location;
     }
 }

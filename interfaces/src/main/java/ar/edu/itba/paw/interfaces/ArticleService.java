@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleService {
-    List<Article> get(String name, Long category, String orderBy, Long user);
+    List<Article> get(String name, Long category, String orderBy, Long user, Long location);
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> image, long idOwner);
 

@@ -43,7 +43,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user) {
+    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location) {
         StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
         ArrayList<Object> params = new ArrayList<>();
 
@@ -61,6 +61,12 @@ public class ArticleDaoJdbc implements ArticleDao {
             query.append(" AND article.id IN (SELECT article_id FROM article_category " +
                     "WHERE category_id = ?) ");
             params.add(category);
+        }
+
+        if(location != null){
+            query.append(" AND owner_id IN (SELECT account.id FROM account " +
+                    "WHERE account.location = ?) ");
+            params.add(location);
         }
 
         if (orderBy != null) {

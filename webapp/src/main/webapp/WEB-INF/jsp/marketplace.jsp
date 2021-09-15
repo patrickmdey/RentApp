@@ -29,12 +29,27 @@
                     <form:label path="orderBy"><spring:message code="article.rentRequestForm.name"/></form:label>
                     <form:select path="orderBy" class="form-control form-control-custom">
                         <c:forEach var="option" items="${orderOptions}">
-                            <option value="${option.column}" ${option.column == searchForm.orderBy? "selected":""}>
+                            <form:option value="${option.column}">
                                 <spring:message code="${option.description}"/>
-                            </option>
+                            </form:option>
                         </c:forEach>
                     </form:select>
                 </div>
+
+                <div class="form-input">
+                    <form:label path="location">
+                        <spring:message code="article.rentRequestForm.name"/>
+                    </form:label>
+                    <form:select path="location" class="form-control form-control-custom">
+                        <c:forEach var="loc" items="${locations}">
+                            <form:option value="${loc.ordinal()}" label="${loc.name}">
+                                <c:out value="${loc.name}"/>
+                            </form:option>
+                        </c:forEach>
+                    </form:select>
+                </div>
+
+
                 <button type="submit">Search</button>
             </form:form>
         </div>
@@ -49,7 +64,8 @@
                 <c:forEach var="article" items="${articles}">
                     <div class="col d-flex justify-content-center">
                         <h:articleCard title="${article.title}" price="${article.pricePerDay}" id="${article.id}"
-                                       location="${article.location}" image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                                       location="${article.location}"
+                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
                     </div>
                 </c:forEach>
             </div>
