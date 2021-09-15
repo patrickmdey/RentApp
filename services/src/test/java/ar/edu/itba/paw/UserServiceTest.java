@@ -34,6 +34,7 @@ public class UserServiceTest {
     @Mock
     private UserDao mockDao;
 
+    /*
     @Test
     public void testRegister() {
         Mockito.when(mockDao.register(Mockito.eq(EMAIL), Mockito.eq(PASSWORD),
@@ -72,4 +73,5 @@ public class UserServiceTest {
         Assert.assertEquals(LOCATION, testUser.get().getLocation());
         Assert.assertEquals(TYPE, testUser.get().getType());
     }
+     */
 }

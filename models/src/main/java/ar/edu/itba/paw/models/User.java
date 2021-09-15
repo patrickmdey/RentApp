@@ -7,11 +7,11 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private String location;
+    private Long location;
     private String photo;
     private UserType type;
 
-    public User(String email, String password, String firstName, String lastName, String location, int type) {
+    public User(String email, String password, String firstName, String lastName, Long location, int type) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -23,7 +23,7 @@ public class User {
             ;//Throw exception
     }
 
-    public User(long id, String email, String password, String firstName, String lastName, String location, int type) {
+    public User(long id, String email, String password, String firstName, String lastName, Long location, int type) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -72,11 +72,11 @@ public class User {
         this.email = email;
     }
 
-    public String getLocation() {
+    public Long getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Long location) {
         this.location = location;
     }
 

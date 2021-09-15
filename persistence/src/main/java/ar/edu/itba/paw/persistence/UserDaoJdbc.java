@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +27,7 @@ public class UserDaoJdbc implements UserDao {
                     resultSet.getString("password"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
-                    resultSet.getString("location"),
+                    resultSet.getLong("location"),
                     resultSet.getInt("type"));
 
     @Autowired
@@ -61,7 +62,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public Optional<User> register(String email, String password, String firstName, String lastName, String location, int type) {
+    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, int type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
@@ -71,7 +72,7 @@ public class UserDaoJdbc implements UserDao {
         data.put("type", type);
         int userId = jdbcInsert.execute(data);
 
-        return Optional.of(new User(userId, email, password, firstName, lastName, location, type));
+        return Optional.of(new User(userId, email, password, firstName, lastName, (long) Locations.valueOf("PALERMO").ordinal(), type));
     }
 
     @Override
