@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> get(String name, Long category, String orderBy, Long user) {
+    public List<Article> get(String name, Long category, String orderBy, Long user, Long page) {
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
                 map(OrderOptions::getColumn).collect(Collectors.toList());
@@ -52,15 +52,14 @@ public class ArticleServiceImpl implements ArticleService {
         if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
             orderBy = null;
 
-        if (name == null && category == null && orderBy == null && user == null) {
-            articles = this.articleDao.list();
-        } else {
-            articles = this.articleDao.filter(name, category, orderBy, user);
-        }
+        articles = this.articleDao.filter(name, category, orderBy, user, page);
 
-        articles.forEach(this::appendCategories);
-        articles.forEach(this::appendLocation);
-        articles.forEach(this::appendImages);
+
+        articles.forEach(article -> {
+            appendCategories(article);
+            appendImages(article);
+            appendLocation(article);
+        });
 
         return articles;
     }
@@ -74,6 +73,11 @@ public class ArticleServiceImpl implements ArticleService {
             appendImages(toReturn.get());
         }
         return toReturn;
+    }
+
+    @Override
+    public Long getMaxPage() {
+        return articleDao.getMaxPage();
     }
 
 
@@ -98,4 +102,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         return optArticle;
     }
+
+
 }

@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ArticleController {
@@ -42,15 +40,17 @@ public class ArticleController {
     EmailService emailService;
 
     @RequestMapping("/")
-    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm) {
+    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser());
+                searchForm.getOrderBy(), searchForm.getUser(), page);
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
+        mav.addObject("maxPage", articleService.getMaxPage());
         return mav;
     }
 

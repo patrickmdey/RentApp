@@ -49,10 +49,47 @@
                 <c:forEach var="article" items="${articles}">
                     <div class="col d-flex justify-content-center">
                         <h:articleCard title="${article.title}" price="${article.pricePerDay}" id="${article.id}"
-                                       location="${article.location}" image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                                       location="${article.location}"
+                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
                     </div>
                 </c:forEach>
             </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <c:if test="${param.page} > 1">
+                        <li class="page-item">
+                            <c:url value="${marketplaceUrl}" var="paginationUrlMinus1">
+                                <c:param name="page" value="${param.page - 1}"/>
+                            </c:url>
+                            <a class="page-link" href="${paginationUrlMinus1}" aria-label="Previous">
+                                <span class="color-rentapp-black" aria-hidden="true">Anterior</span>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:url value="${marketplaceUrl}" var="paginationUrlPlus1">
+                        <c:param name="page" value="${param.page + 1}"/>
+                    </c:url>
+                    <li class="page-item"><a href="#"></a></li>
+                    <c:url value="${marketplaceUrl}" var="paginationUrlPlus2">
+                        <c:param name="page" value="${param.page + 2}"/>
+                    </c:url>
+                    <li class="page-item"><a class="page-link" href="${paginationUrlPlus2}"></a>${param.page + 2}</li>
+                    <li><p class="lead">...</p></li>
+                    <c:url value="${marketplaceUrl}" var="paginationUrlLast">
+                        <c:param name="page" value="${maxPage}"/>
+                    </c:url>
+                    <li class="page-item"><a class="page-link" href="${paginationUrlLast}"></a>${maxPage}</li>
+                    <c:if test="${param.page} < ${maxPage}">
+                        <li class="page-item">
+                            <a class="page-link color-rentapp-black" href="${paginationUrlPlus1}" aria-label="Next">
+                                <span aria-hidden="true">Siguiente</span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+
         </div>
     </div>
 </div>

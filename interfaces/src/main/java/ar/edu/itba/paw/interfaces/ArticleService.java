@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleService {
-    List<Article> get(String name, Long category, String orderBy, Long user);
+    List<Article> get(String name, Long category, String orderBy, Long user, Long page);
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, List<MultipartFile> image, long idOwner);
 
     Optional<Article> findById(Integer articleId);
+
+    Long getMaxPage();
 }

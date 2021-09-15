@@ -18,6 +18,8 @@ import java.util.*;
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
 
+    private static final Long OFFSET = 4L;
+
     @Autowired
     ArticleCategoryDao articleCategoryDao;
 
@@ -43,16 +45,16 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user) {
+    public List<Article> filter(String name, Long category, String orderBy, Long user, Long page) {
         StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
         ArrayList<Object> params = new ArrayList<>();
 
-        if(name != null && name.length() > 0) {
+        if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE ? ");
             params.add("%" + name.toLowerCase() + "%");
         }
 
-        if(user != null) {
+        if (user != null) {
             query.append(" AND owner_id = ? ");
             params.add(user);
         }
@@ -66,22 +68,24 @@ public class ArticleDaoJdbc implements ArticleDao {
         if (orderBy != null) {
             query.append(" ORDER BY ");
             query.append(orderBy);
+        } else {
+            query.append(" ORDER BY title");
         }
+
+        query.append(" LIMIT ? OFFSET ?");
+        params.add(OFFSET);
+        params.add((page - 1) * OFFSET);
+
 
         return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
     }
 
     @Override
-    public List<Article> list() {
-        return jdbcTemplate.query("SELECT * FROM article", ROW_MAPPER);
-    }
-
-    @Override
     public Optional<Article> findById(long id) {
         Optional<Article> optArticle = jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
-                                                            new Object[]{id}, ROW_MAPPER)
-                                                .stream()
-                                                .findFirst();
+                        new Object[]{id}, ROW_MAPPER)
+                .stream()
+                .findFirst();
 
         if (!optArticle.isPresent())
             return Optional.empty();
@@ -100,8 +104,15 @@ public class ArticleDaoJdbc implements ArticleDao {
         data.put("price_per_day", pricePerDay);
         data.put("owner_id", idOwner);
 
-        long articleId =  jdbcInsert.executeAndReturnKey(data).longValue();
+        long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
+    }
+
+    @Override
+    public Long getMaxPage() {
+        Integer size = jdbcTemplate.query("SELECT * FROM article", ROW_MAPPER).size();
+        Long toSum = (size % OFFSET == 0) ? 0L : 1L;
+        return size + toSum;
     }
 }
