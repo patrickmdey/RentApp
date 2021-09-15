@@ -8,5 +8,5 @@ public interface ArticleCategoryDao {
 
     public List<Category> findFromArticle(long articleId);
 
-    public Category addToArticle(long articleId, Category category);
+    public Long addToArticle(long articleId, Long category);
 }

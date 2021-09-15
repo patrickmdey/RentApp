@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ArticleController extends BaseController {
@@ -94,6 +92,8 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+
+
         if (errors.hasErrors()) {
             return viewCreateArticleForm(createArticleForm);
         }

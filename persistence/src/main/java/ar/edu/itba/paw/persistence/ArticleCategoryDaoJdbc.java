@@ -41,10 +41,10 @@ public class ArticleCategoryDaoJdbc implements ArticleCategoryDao {
     }
 
     @Override
-    public Category addToArticle(long articleId, Category category) {
+    public Long addToArticle(long articleId, Long category) {
         Map<String, Object> categoryData = new HashMap<>();
-        categoryData.put("category_id", category.getId());
-        categoryData.put("article_id",articleId);
+        categoryData.put("category_id", category);
+        categoryData.put("article_id", articleId);
         jdbcInsert.execute(categoryData);
         return category;
     }

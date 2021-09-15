@@ -78,22 +78,23 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, List<MultipartFile> images, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
 
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (optArticle.isPresent()) {
             Article article = optArticle.get();
             if (categories != null) {
-                categories.forEach(t -> articleCategoryDao.addToArticle(article.getId(), t));
-                article.setCategories(categories);
+                categories.forEach(cat_id -> articleCategoryDao.addToArticle(article.getId(), cat_id));
+                this.appendCategories(article);
             }
-            optArticle = Optional.of(article);
 
             images.forEach(image -> {
                 Optional<DBImage> img = imageService.create(image);
                 img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
             });
+
+            optArticle = Optional.of(article);
         }
 
         return optArticle;

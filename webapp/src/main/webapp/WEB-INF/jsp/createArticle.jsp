@@ -45,7 +45,7 @@
             <div class="category-list-container my-2">
                 <ul class="list-elements">
                     <c:forEach items="${categories}" var="category">
-                        <form:checkbox path="categories" value="${category}"/>
+                        <form:checkbox path="categories" value="${category.id}"/>
                         <c:out value="${category.description}"/>
                     </c:forEach>
                     <form:errors path="categories" element="p" cssStyle="color: #EF6461"/>

@@ -26,7 +26,7 @@ public class CreateArticleForm {
     @NotNull // TODO: check each file.isEmpty
     private List<MultipartFile> files;
 
-    private ArrayList<Category> categories;
+    private List<Long> categories;
 
     public String getName() {
         return name;
@@ -52,13 +52,12 @@ public class CreateArticleForm {
         this.pricePerDay = pricePerDay;
     }
 
-    public void addCategory(Category category) {
-        if (!categories.contains(category))
-            categories.add(category);
+    public List<Long> getCategories(){
+        return categories;
     }
 
-    public List<Category> getCategories(){
-        return categories;
+    public void setCategories(List<Long> categories) {
+        this.categories = categories;
     }
 
     public List<MultipartFile> getFiles() {

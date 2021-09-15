@@ -40,4 +40,9 @@ public class Category {
     public int hashCode() {
         return Objects.hash(description, id);
     }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }
