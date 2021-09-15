@@ -28,7 +28,7 @@
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title display-6">${article.title}</h2>
-                    <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${owner.location}
+                    <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${article.location}
                     </p>
                     <div class="row">
                         <ul class="category-list">

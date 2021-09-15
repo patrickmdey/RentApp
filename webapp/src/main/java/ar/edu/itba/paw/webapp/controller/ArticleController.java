@@ -64,6 +64,8 @@ public class ArticleController extends BaseController {
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        article.setLocation(Locations.values()[Math.toIntExact(owner.getLocation())].getName());
+
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
         return mav;
@@ -108,7 +110,7 @@ public class ArticleController extends BaseController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
-                1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+                loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
         return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
     }
