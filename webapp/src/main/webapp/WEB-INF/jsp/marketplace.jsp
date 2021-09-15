@@ -63,7 +63,8 @@
                                 <c:param name="page" value="${param.page - 1}"/>
                             </c:url>
                             <a class="page-link" href="${paginationUrlMinus1}" aria-label="Previous">
-                                <span class="color-rentapp-black" aria-hidden="true">Anterior</span>
+                                <span class="color-rentapp-black" aria-hidden="true"><spring:message
+                                        code="pagination.previous"/></span>
                             </a>
                         </li>
                     </c:if>
@@ -83,7 +84,7 @@
                     <c:if test="${param.page} < ${maxPage}">
                         <li class="page-item">
                             <a class="page-link color-rentapp-black" href="${paginationUrlPlus1}" aria-label="Next">
-                                <span aria-hidden="true">Siguiente</span>
+                                <span aria-hidden="true"><spring:message code="pagination.next"/></span>
                             </a>
                         </li>
                     </c:if>
