@@ -111,8 +111,9 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public Long getMaxPage() {
-        Integer size = jdbcTemplate.query("SELECT * FROM article", ROW_MAPPER).size();
-        Long toSum = (size % OFFSET == 0) ? 0L : 1L;
-        return size + toSum;
+        Integer size = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article", Integer.class);
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+        return (size / OFFSET) + toSum;
     }
 }
