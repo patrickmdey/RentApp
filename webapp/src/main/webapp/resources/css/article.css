@@ -4,10 +4,14 @@
     border: 1px solid #eee;
     border-radius: 6px;
     margin: 8px 0;
+    max-height: 50vh;
+    width: 100%;
 }
 
-.card-style.secondary-card {
-    min-width: 100%;
+.article-img {
+    min-width: 30vh;
+    max-height: 37vh;
+    max-width: 80%;
 }
 
 .article-location {

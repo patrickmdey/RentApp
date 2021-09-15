@@ -13,9 +13,9 @@
 <div class="main-container">
     <div class="card card-style">
         <div class="row g-0">
-            <div class="col-md-4">
+            <div class="col-md-4 justify-content-ceter align-items-center">
                 <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
-                     class="img-fluid rounded-start" width="100%" height="auto" alt="main image">
+                     class="img-thumbnail rounded-start article-img" sizes="" alt="main image">
                 <div class="d-flex">
                     <c:forEach var="image" items="${article.images}">
                         <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image}"/>')">
@@ -24,22 +24,19 @@
                     </c:forEach>
                 </div>
             </div>
-            <div class="col-md-1"></div>
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title display-6">${article.title}</h2>
                     <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${article.location}
                     </p>
-                    <div class="row">
-                        <ul class="category-list">
-                            <c:forEach var="category" items="${article.categories}">
-                                <c:url var="marketplaceUrl" value="/"><c:param name="category"
-                                                                               value="${category.id}"/></c:url>
-                                <h5><a href="${marketplaceUrl}"> <span
-                                        class="badge bg-background-grey text-dark">${category.description}</span></a>
-                                </h5>
-                            </c:forEach>
-                        </ul>
+                    <div class="d-flex">
+                        <c:forEach var="category" items="${article.categories}">
+                            <c:url var="marketplaceUrl" value="/"><c:param name="category"
+                                                                           value="${category.id}"/></c:url>
+                            <h5><a href="${marketplaceUrl}"> <span
+                                    class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
+                            </h5>
+                        </c:forEach>
                     </div>
                     <p class="card-text lead fw-bold article-price color-rentapp-red"><spring:message
                             code="article.price"
@@ -130,20 +127,19 @@
     </div>
 
 
-    <div class="row">
+    <div class="row w-100">
         <div class="col-lg-8 col-md-7 col-12">
-            <div class="card card-style secondary-card">
+            <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <p class="lead">${article.description}</p>
             </div>
         </div>
 
         <div class="col-lg-4 col-md-5 col-12">
-            <div class="card card-style secondary-card">
+            <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
-                    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
-                         style="max-height: 20px" alt="#">
+                    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" alt="#">
                     <p class="lead">${owner.firstName} ${owner.lastName}</p>
 
                     <c:url var="userFilterUrl" value="/">
