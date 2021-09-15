@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:url value="/marketplace" var="marketplace"/>
-<c:url value="/marketplace/create-article" var="createArticle"/>
+<c:url value="/" var="marketplace"/>
+<c:url value="/create-article" var="createArticle"/>
 
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>

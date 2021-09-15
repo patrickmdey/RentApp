@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
-<h:head/>
+<h:head title="Mi perfil"/>
 
 <body>
 <h:navbar/>

@@ -85,7 +85,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping("/create-article")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
-        final ModelAndView mav = new ModelAndView("create-article");
+        final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         return mav;

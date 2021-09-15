@@ -6,7 +6,7 @@
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <html>
-<h:head/>
+<h:head title="Edit profile"/>
 
 <body>
 <h:navbar/>

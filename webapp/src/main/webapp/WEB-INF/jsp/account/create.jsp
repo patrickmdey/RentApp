@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
-<h:head/>
+<h:head title="create"/>
 
 <body>
     <h:navbar/>

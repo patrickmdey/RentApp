@@ -11,7 +11,7 @@
 <c:url value="/user/register" var="registerUrl"/>
 
 <html>
-<h:head/>
+<h:head title="Login"/>
 <body>
 <h:navbar/>
 

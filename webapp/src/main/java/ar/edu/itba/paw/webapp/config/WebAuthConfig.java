@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.concurrent.TimeUnit;
 
-@ComponentScan({ "ar.edu.itba.paw.webapp.auth" })
+@ComponentScan({ "ar.edu.itba.paw.webapp.auth"})
 @Configuration
 @EnableWebSecurity
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
@@ -39,12 +39,16 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.sessionManagement()
-                .invalidSessionUrl("/user/login")
-                .and().authorizeRequests()
-                    .antMatchers("/user/login", "/user/register").permitAll()
-                    .antMatchers("/marketplace/create-article").hasRole("OWNER")
-                .antMatchers("/user/view","/user/edit").hasAnyRole("OWNER","RENTER")
+        http
+//                .sessionManagement()
+//                .invalidSessionUrl("/user/login")
+//                .
+//                .and()
+                .authorizeRequests()
+                .anyRequest().permitAll()
+//                    .antMatchers("**").permitAll()
+//                    .antMatchers("/marketplace/create-article").hasRole("OWNER")
+//                .antMatchers("/user/view","/user/edit").hasAnyRole("OWNER","RENTER")
                 .and().formLogin()
                     .defaultSuccessUrl("/marketplace",false)
                     .loginPage("/user/login")
