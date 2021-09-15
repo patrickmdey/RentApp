@@ -13,6 +13,7 @@ public class Article {
     private List<Category> categories = new ArrayList<>();
     private long idOwner;
     private String location;
+    private List<Long> images;
 
     public Article(long id, String title, String description, Float pricePerDay,
                    List<Category> categories, long idOwner) {
@@ -97,4 +98,11 @@ public class Article {
         return Objects.hash(id, title, description, pricePerDay, categories, idOwner);
     }
 
+    public void setImages(List<Long> images) {
+        this.images = images;
+    }
+
+    public List<Long> getImages() {
+        return images;
+    }
 }

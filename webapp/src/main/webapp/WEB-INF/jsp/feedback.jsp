@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <html>
-<h:head/>
+<h:head title="Feedback"/>
 <body>
 <h:navbar/>
 <h1 class="h1 justify">

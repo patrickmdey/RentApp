@@ -1,41 +1,31 @@
-.main-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 15%;
-    margin-right: 15%;
-}
-
 .card-style {
     background-color: #fff;
     padding: 25px;
     border: 1px solid #eee;
     border-radius: 6px;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin: 8px 0;
+}
+
+.card-style.secondary-card {
+    min-width: 100%;
 }
 
 .article-location {
-    color: midnightblue !important;
     margin: 20px 0;
 }
 
 .article-price {
-    color: orangered;
     margin: 10px 0;
 }
 
 .form-input {
-    margin-bottom: 10px;
+    margin: 6px 0;
 }
 
-.category-list {
-    align-items: center;
-    justify-content: start;
+label {
+    margin: 5px 0;
 }
 
-.badge-style {
-    padding: 125px;
-    font-size: x-large;
-    font-weight: bold;
+.badge.bg-background-grey {
+    background-color: #eaedea;
 }

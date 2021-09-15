@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.forms;
 
 import ar.edu.itba.paw.models.Category;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,9 @@ public class CreateArticleForm {
     @NotNull
     @Min(1)
     private float pricePerDay;
+
+    @NotNull // TODO: check each file.isEmpty
+    private List<MultipartFile> files;
 
     private ArrayList<Category> categories;
 
@@ -55,5 +59,13 @@ public class CreateArticleForm {
 
     public List<Category> getCategories(){
         return categories;
+    }
+
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
     }
 }

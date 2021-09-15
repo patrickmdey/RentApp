@@ -42,7 +42,8 @@ public class ArticleServiceTest {
                         Mockito.eq(pricePerDay), Mockito.eq(idOwner)))
                 .thenReturn(Optional.of(new Article(1L, title, description, pricePerDay, categories, idOwner)));
 
-        Optional<Article> optArticle = articleService.createArticle(title,description,pricePerDay,categories,idOwner);
+        // TODO: real images
+        Optional<Article> optArticle = articleService.createArticle(title,description,pricePerDay,categories, null, idOwner);
 
         Assert.assertTrue(optArticle.isPresent());
         Article article = optArticle.get();
