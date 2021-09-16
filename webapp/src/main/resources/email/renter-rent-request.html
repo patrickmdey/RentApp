@@ -3,22 +3,27 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body>
-<img th:src="@{../../webapp/resources/image/rentapp-logo.png}">
+<body style="border: 7px solid #22577A; background-color: #EAEDEA">
+<img th:src="${imgSrc}">
 <table>
     <tbody>
     <tr>
         <td></td>
+        <td></td>
+        <td></td>
         <td>
-            <h3 th:text="${renterName}"></h3>
-            <h3 th:text="#{email.renter.header(${ownerName})}"></h3>
-            <h3 th:text="#{email.renter.subtitle(${ownerName})}"></h3>
+            <p><strong th:text="#{email.greetings(${renterName})}" style="font-size: large;"></strong></p>
+            <p><strong th:text="#{email.renter.header(${ownerName})}" style="font-size: large"></strong></p>
+            <p th:text="#{email.renter.subtitle(${ownerName})}" style="font-size: large"></p>
+            <hr/>
             <h4 th:text="#{email.renter.details}"></h4>
             <p th:text="#{email.renter.article(${articleName})}"></p>
             <p th:text="#{email.renter.startDate(${startDate})}"></p>
             <p th:text="#{email.renter.endDate(${endDate})}"></p>
-            <h6><a th:href="${callbackUrl}" th:text="#{email.renter.callBack}"></a></h6>
+            <p style="font-size: large"><a th:href="${callbackUrl}" th:text="#{email.renter.callBack}"></a></p>
         </td>
+        <td></td>
+        <td></td>
         <td></td>
     </tr>
     </tbody>

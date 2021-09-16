@@ -6,12 +6,15 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +70,10 @@ public class EmailServiceImpl implements EmailService {
         thymeleafContext.setVariable("startDate", values.get("startDate"));
         thymeleafContext.setVariable("endDate", values.get("endDate"));
         thymeleafContext.setVariable("articleName", values.get("articleName"));
-        thymeleafContext.setVariable("imgSrc", "/resources/image/rentapp-logo.png");
+
+        URL url = getClass().getResource("/resources/image/rentapp-logo.png");
+
+        thymeleafContext.setVariable("imgSrc", url.getFile());
         thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
 
