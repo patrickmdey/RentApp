@@ -109,7 +109,7 @@
                                 <spring:message code="article.rentRequestForm.message.input" var="enterMessage"/>
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
-                                <form:errors path="message" element="p" cssStyle="color: red">
+                                <form:errors path="message" element="p" cssStyle="color: #EF6461">
                                     <%--                                    <spring:message code="article.rentRequestForm.message.input.error"/>--%>
                                 </form:errors>
                             </div>
@@ -139,8 +139,11 @@
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
-                    <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png" alt="#">
-                    <p class="lead">${owner.firstName} ${owner.lastName}</p>
+                    <div class="avatar-container col-5">
+                        <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
+                             alt="#">
+                    </div>
+                    <span class="lead col-5">${owner.firstName} ${owner.lastName}</span>
 
                     <c:url var="userFilterUrl" value="/">
                         <c:param name="user" value="${owner.id}"/>

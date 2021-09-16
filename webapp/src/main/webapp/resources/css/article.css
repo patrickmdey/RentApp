@@ -33,3 +33,15 @@ label {
 .badge.bg-background-grey {
     background-color: #eaedea;
 }
+
+.avatar-container {
+    width: 80px;
+    height: 80px;
+
+}
+
+.avatar-container img {
+    height: 100%;
+    max-width: 100%;
+    border-radius: 50%;
+}
