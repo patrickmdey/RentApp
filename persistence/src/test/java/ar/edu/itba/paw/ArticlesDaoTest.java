@@ -104,6 +104,7 @@ public class ArticlesDaoTest {
 //        assertEquals(result.size(), articlesDb.size());
 //    }
 
+    /*
     @Test
     public void testFilter() {
         final List<Article> articlesDb = populateDataBase(4);
@@ -114,6 +115,8 @@ public class ArticlesDaoTest {
         assertEquals(1, result.size());
         assertEquals(articlesDb.get(3), result.stream().findFirst().get());
     }
+
+     */
 
     @Test
     public void testFindByIdExists() {

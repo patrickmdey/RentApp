@@ -53,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
             orderBy = null;
 
-        articles = this.articleDao.filter(name, category, orderBy, user, page);
+        articles = this.articleDao.filter(name, category, orderBy, user, location, page);
 
 
         articles.forEach(article -> {
