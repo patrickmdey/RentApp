@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.*;
+import java.util.List;
 
 @Controller
 public class ArticleController extends BaseController {
@@ -39,15 +40,17 @@ public class ArticleController extends BaseController {
     EmailService emailService;
 
     @RequestMapping("/")
-    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm) {
+    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation());
+                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
+        mav.addObject("maxPage", articleService.getMaxPage());
 
         mav.addObject("locations",
                 Arrays.stream(Locations.values())
