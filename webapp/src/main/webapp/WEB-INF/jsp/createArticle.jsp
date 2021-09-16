@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -15,43 +15,53 @@
         <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post"
                    enctype="multipart/form-data">
             <div class="form-container">
-                <h3 class="h3 fw-bold my-2"><spring:message code="create-article.title"/></h3>
+                <h3 class="h3 fw-bold my-2"><spring:message code="article.createArticleForm.title"/></h3>
+                <hr/>
                 <div class="form-input">
-                    <spring:message code="article.createArticleForm.name" var="articleName"/>
+                    <form:label path="name"><spring:message code="article.createArticleForm.name"/></form:label>
+                    <spring:message code="article.createArticleForm.name.input" var="articleName"/>
                     <form:input type="text" path="name" class="form-control form-control-custom"
-                                placeholder="Article Name"/>
-                    <form:errors path="name" element="p" cssClass="text-danger"/>
+                                placeholder="${articleName}"/>
+                    <form:errors path="name" element="p" cssClass="error">
+                        <spring:message code="article.createArticleForm.name.error"/>
+                    </form:errors>
                 </div>
                 <div class="col-12 form-input">
                     <form:label path="description"><spring:message
                             code="article.createArticleForm.description"/></form:label>
-                    <form:input type="text" path="description" class="form-control form-control-custom"
-                                placeholder="Description"/>
-                    <form:errors path="description" element="p" cssStyle="color: red"/>
+                    <spring:message code="article.createArticleForm.description.input" var="articleDescription"/>
+                    <form:textarea type="text" path="description" class="form-control form-control-custom"
+                                   placeholder="${articleDescription}"/>
+                    <form:errors path="description" element="p" cssClass="error">
+                        <spring:message code="article.createArticleForm.description.error"/>
+                    </form:errors>
                 </div>
                 <div class="col-12 form-input">
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
-                    <form:errors path="pricePerDay" element="p" cssStyle="color: red"/>
+                    <form:errors path="pricePerDay" element="p" cssClass="error"/>
                 </div>
-                <form:errors path="pricePerDay" element="p" cssStyle="color: red">
+                <form:errors path="pricePerDay" element="p" cssClass="error">
                     <spring:message code="article.createArticleForm.price.error"/>
                 </form:errors>
             </div>
 
+            <form:label path="categories"><spring:message
+                    code="article.createArticleForm.category"/></form:label>
             <div class="category-list-container my-2">
                 <ul class="list-elements">
                     <c:forEach items="${categories}" var="category">
                         <form:checkbox path="categories" value="${category.id}"/>
                         <c:out value="${category.description}"/>
                     </c:forEach>
-                    <form:errors path="categories" element="p" cssStyle="color: #EF6461"/>
+                    <form:errors path="categories" element="p" cssClass="error">
+                        <spring:message code="article.createArticleForm.category.error"/>
+                    </form:errors>
                 </ul>
             </div>
 
-            <div class="form-container">
-                <h:imageInput multiple="multiple"/>
-            </div>
+            <h:imageInput multiple="multiple"/>
+
             <div class="form-container">
                 <div class="button">
                     <button type="submit" class="rounded btn btn-primary"><spring:message

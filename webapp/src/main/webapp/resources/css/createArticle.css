@@ -1,16 +1,11 @@
 .card-style.create-card {
-    width: 65%;
-    height: auto;
+    width: 70%;
+    height: 1000px;
     padding: 10px;
 }
 
 .form-container {
     margin: 0 5%;
-}
-
-.form-container + .button {
-    display: flex;
-    justify-content: end;
 }
 
 .form-container > * {

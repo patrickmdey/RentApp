@@ -2,10 +2,10 @@ package ar.edu.itba.paw.models;
 
 public enum OrderOptions {
 
-    LOWER_PRICE("enum.order.lower_price", "price_per_day ASC"),
-    HIGHER_PRICE("enum.order.higher_price", "price_per_day DESC"),
-    LOWER_ARTICLE("enum.order.lower_article", "title ASC"),
-    HIGHER_ARTICLE("enum.order.higher_article", "title DESC");
+    LOWER_PRICE("enum.order.lowerPrice", "price_per_day ASC"),
+    HIGHER_PRICE("enum.order.higherPrice", "price_per_day DESC"),
+    LOWER_ARTICLE("enum.order.lowerArticle", "title ASC"),
+    HIGHER_ARTICLE("enum.order.higherArticle", "title DESC");
 
     public String getDescription() {
         return description;

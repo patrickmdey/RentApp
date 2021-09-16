@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -15,7 +15,8 @@
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
                 <div class="form-input">
                     <form:label path="query"/>
-                    <form:input type="text" path="query" placeholder="Search"/>
+                    <spring:message code="filterForm.search" var="searchPlaceholder"/>
+                    <form:input type="text" path="query" placeholder="${searchPlaceholder}"/>
                 </div>
 
                 <form:input type="number" path="user" cssClass="d-none"/>
@@ -26,7 +27,7 @@
                                        itemValue="id" itemLabel="description"/>
                 </div>
                 <div class="form-input">
-                    <form:label path="orderBy"><spring:message code="article.rentRequestForm.name"/></form:label>
+                    <form:label path="orderBy"><spring:message code="filterForm.orderBy"/></form:label>
                     <form:select path="orderBy" class="form-control form-control-custom">
                         <c:forEach var="option" items="${orderOptions}">
                             <form:option value="${option.column}">
@@ -38,7 +39,7 @@
 
                 <div class="form-input">
                     <form:label path="location">
-                        <spring:message code="article.rentRequestForm.name"/>
+                        <spring:message code="filterForm.location"/>
                     </form:label>
                     <form:select path="location" class="form-control form-control-custom">
                         <c:forEach var="loc" items="${locations}">
@@ -53,6 +54,7 @@
                 <button type="submit">Search</button>
             </form:form>
         </div>
+
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
             <c:if test="${query != null && query.length() > 0 }">
                 Showing results for <c:out value="${query}"/>

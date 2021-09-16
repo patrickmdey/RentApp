@@ -43,7 +43,7 @@
                             arguments="${article.pricePerDay}"/></p>
                     <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
                             data-bs-target="#rentFormModal">
-                        Rent request
+                        <spring:message code="article.rent"/>
                     </button>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
                                 <form:errors path="message" element="p" cssStyle="color: #EF6461">
-                                    <%--                                    <spring:message code="article.rentRequestForm.message.input.error"/>--%>
+                                    <spring:message code="article.rentRequestForm.message.input.error"/>
                                 </form:errors>
                             </div>
                         </div>
