@@ -94,16 +94,17 @@ public class ArticlesDaoTest {
         assertEquals(article.getIdOwner(), idOwner);
     }
 
-    @Test
-    public void testList() {
-        List<Article> articlesDb = populateDataBase(4);
+//    @Test
+//    public void testList() {
+//        List<Article> articlesDb = populateDataBase(4);
+//
+//        final List<Article> result = articleDao.();
+//
+//        assertNotNull(result);
+//        assertEquals(result.size(), articlesDb.size());
+//    }
 
-        final List<Article> result = articleDao.list();
-
-        assertNotNull(result);
-        assertEquals(result.size(), articlesDb.size());
-    }
-
+    /*
     @Test
     public void testFilter() {
         final List<Article> articlesDb = populateDataBase(4);
@@ -114,6 +115,8 @@ public class ArticlesDaoTest {
         assertEquals(1, result.size());
         assertEquals(articlesDb.get(3), result.stream().findFirst().get());
     }
+
+     */
 
     @Test
     public void testFindByIdExists() {

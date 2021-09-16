@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface ArticleDao {
 
-    List<Article> filter(String name, Long category, String orderBy, Long user, Long location);
-
-    List<Article> list();
+    List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page);
 
     Optional<Article> findById(long id);
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner);
+
+    Long getMaxPage();
 
 
 }
