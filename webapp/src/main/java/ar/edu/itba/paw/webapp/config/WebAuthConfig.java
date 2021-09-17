@@ -39,14 +39,17 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
 //                .sessionManagement()
-//                .invalidSessionUrl("/user/login")
+//                .invalidSessionUrl("/")
 //                .
+////                .
 //                .and()
                 .authorizeRequests()
+                .antMatchers("/user/view", "/user/edit").authenticated()
+                .antMatchers("/user/delete").fullyAuthenticated()
+                .antMatchers("/create-article").hasRole("RENTER")
+
                 .anyRequest().permitAll()
-//                    .antMatchers("**").permitAll()
-//                    .antMatchers("/marketplace/create-article").hasRole("OWNER")
-//                .antMatchers("/user/view","/user/edit").hasAnyRole("OWNER","RENTER")
+
                 .and().formLogin()
                 .defaultSuccessUrl("/", false)
                     .loginPage("/user/login")
