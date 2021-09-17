@@ -14,7 +14,5 @@ public interface ArticleService {
 
     Optional<Article> findById(Integer articleId);
 
-    List<Article> findByOwner(long ownerId);
-
     Long getMaxPage();
 }

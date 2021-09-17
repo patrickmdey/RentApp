@@ -10,16 +10,24 @@
 <h:navbar/>
 <p>MANEJO DE CUENTA</p>
 
-<c:forEach var="request" items="${requests}">
-    <div style="border: 3px solid #EF6461; margin: 15px 0">
-        <h1>Request</h1>
-        <p class="lead">Desde: ${request.startDate}</p>
-        <p class="lead">Hasta: ${request.endDate}</p>
-        <p class="lead">Estado: ${request.approved}</p>
-        <h3>Mensaje:</h3>
-        <p class="lead">${request.message}</p>
+<div class="row">
+    <div class="col-3">
+        <button class="btn btn-lg bg-color-primary"><spring:message code="myAccount.ownerRequests.title"/></button>
     </div>
-</c:forEach>
+    <div class="col-9">
+        <h1 class="h1"><spring:message code="myAccount.ownerRequests.title"/></h1>
+        <c:forEach var="request" items="${requests}">
+            <div style="border: 3px solid #EF6461; margin: 15px 0">
+                <h1>Request de ${request.renter.firstName} ${request.renter.lastName}</h1>
+                <p class="lead">Desde: ${request.startDate}</p>
+                <p class="lead">Hasta: ${request.endDate}</p>
+                <p class="lead">Estado: ${request.approved}</p>
+                <h3>Mensaje:</h3>
+                <p class="lead">${request.message}</p>
+            </div>
+        </c:forEach>
+    </div>
+</div>
 
 </body>
 </html>

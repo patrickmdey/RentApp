@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public interface RentDao {
 
-    List<RentProposal> list();
+    List<RentProposal> list(long ownerId);
 
     Optional<RentProposal> findById(long id);
 
 
-    Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter);
+    Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer articleId, long renterId);
 }

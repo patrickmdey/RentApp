@@ -71,9 +71,7 @@ public class EmailServiceImpl implements EmailService {
         thymeleafContext.setVariable("endDate", values.get("endDate"));
         thymeleafContext.setVariable("articleName", values.get("articleName"));
 
-        URL url = getClass().getResource("/resources/image/rentapp-logo.png");
-
-        thymeleafContext.setVariable("imgSrc", url.getFile());
+        thymeleafContext.setVariable("imgSrc", "/resources/image/rentapp-logo.png");
         thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
 

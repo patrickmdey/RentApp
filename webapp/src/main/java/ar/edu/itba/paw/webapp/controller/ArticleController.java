@@ -83,9 +83,12 @@ public class ArticleController extends BaseController {
             return viewArticle(rentForm, articleId, true);
         }
 
-        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
+        System.out.println(loggedUser().getId());
+
+        RentProposal proposal = rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, rentForm.getName(), rentForm.getEmail(), 1);
+                articleId, rentForm.getName(), rentForm.getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+        proposal.setRenter(loggedUser());
 
         return new ModelAndView("feedback");
     }

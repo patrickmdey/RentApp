@@ -77,11 +77,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findByOwner(long ownerId) {
-        return articleDao.findByOwner(ownerId);
-    }
-
-    @Override
     public Long getMaxPage() {
         return articleDao.getMaxPage();
     }

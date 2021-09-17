@@ -27,28 +27,8 @@ public class RentServiceImpl implements RentService {
     private UserService userService;
 
     @Override
-    public List<RentProposal> list() {
-        return rentDao.list();
-    }
-
-    @Override
     public List<RentProposal> ownerRequests(long ownerId) {
-        List<RentProposal> proposals = rentDao.list();
-
-        List<Long> ownedArticlesId = articleService.findByOwner(ownerId).
-                stream().map(Article::getId).collect(Collectors.toList());
-
-        List<RentProposal> ownerRequests = new ArrayList<>();
-
-        proposals.forEach(proposal -> {
-            if (ownedArticlesId.contains(proposal.getIdArticle()))
-                ownerRequests.add(proposal);
-        });
-
-        //TODO: articleID deberia ser un long ?
-        //proposals.stream().filter(proposal -> ownedArticlesId.contains(proposal.getIdArticle())).collect(Collectors.toList());
-
-        return ownerRequests;
+        return rentDao.list(ownerId);
     }
 
     @Override
@@ -58,13 +38,13 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public Optional<RentProposal> create(String message, Boolean approved, Date startDate,
-                                         Date endDate, Integer idArticle, String renterName,
-                                         String renterEmail, Integer idRenter) {
-        Optional<Article> article = articleService.findById(idArticle);
+                                         Date endDate, Integer articleId, String renterName,
+                                         String renterEmail, long renterId) {
+        Optional<Article> article = articleService.findById(articleId);
         if (article.isPresent()) {
             Optional<User> owner = userService.findById(article.get().getIdOwner());
 
-            Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, idArticle, idRenter);
+            Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
             if (proposal.isPresent()) {
 
                 Map<String, String> values = new HashMap<>();
@@ -84,6 +64,8 @@ public class RentServiceImpl implements RentService {
                     emailService.sendMailRequestToOwner(owner.get().getEmail(), values);
 
                     emailService.sendMailRequestToRenter(renterEmail, values);
+
+                    return proposal;
                 }
             }
         }

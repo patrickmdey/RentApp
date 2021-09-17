@@ -9,21 +9,22 @@ public class RentProposal {
     private Boolean approved;
     private Date startDate;
     private Date endDate;
-    private long idArticle;
-    private Integer idRenter;
+    private long articleId;
+    private long renterId;
+    private User renter;
 
-    public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long idArticle, Integer idRenter) {
-        this(message, approved, startDate, endDate, idArticle, idRenter);
+    public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
+        this(message, approved, startDate, endDate, articleId, renterId);
         this.id = id;
     }
 
-    public RentProposal(String message, Boolean approved, Date startDate, Date endDate, long idArticle, Integer idRenter) {
+    public RentProposal(String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
         this.message = message;
         this.approved = approved;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.idArticle = idArticle;
-        this.idRenter = idRenter;
+        this.articleId = articleId;
+        this.renterId = renterId;
     }
 
     public long getId() {
@@ -62,25 +63,33 @@ public class RentProposal {
         this.endDate = endDate;
     }
 
-    public long getIdArticle() {
-        return idArticle;
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setIdArticle(long idArticle) {
-        this.idArticle = idArticle;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    public Integer getIdRenter() {
-        return idRenter;
+    public long getRenterId() {
+        return renterId;
     }
 
-    public void setIdRenter(Integer idRenter) {
-        this.idRenter = idRenter;
+    public void setRenterId(long renterId) {
+        this.renterId = renterId;
+    }
+
+    public User getRenter() {
+        return renter;
+    }
+
+    public void setRenter(User renter) {
+        this.renter = renter;
     }
 
     @Override
     public String toString() {
         return '\n' + "startDate: " + startDate + " | endDate: " +
-                endDate + " | Message: " + message + " | Article id: " + idArticle + '\n';
+                endDate + " | Message: " + message + " | Article id: " + articleId + '\n';
     }
 }
