@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.UserDao;
-import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -72,12 +71,31 @@ public class UserDaoJdbc implements UserDao {
         data.put("type", type);
         int userId = jdbcInsert.execute(data);
 
-        return Optional.of(new User(userId, email, password, firstName, lastName, (long) Locations.valueOf("PALERMO").ordinal(), type));
+        return Optional.of(new User(userId, email, password, firstName, lastName, location, type));
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         List<User> users = jdbcTemplate.query("SELECT * FROM account WHERE email = ?", new Object[]{email}, ROW_MAPPER);
         return users.stream().findFirst();
+    }
+
+    @Override
+    public void update(long id, String firstName, String lastName, String email, Long location, int type) {
+
+        jdbcTemplate.update("UPDATE account\n" +
+                "SET first_name = ?,\n" +
+                "    last_name  = ?,\n" +
+                "    email      = ?,\n" +
+                "    location   = ?,\n" +
+                "    type       = ?\n" +
+                "WHERE id = ?;", firstName, lastName, email, location, type, id);
+    }
+
+    @Override
+    public void delete(long id) {
+        jdbcTemplate.update("DELETE\n" +
+                "FROM account\n" +
+                "WHERE id = ?;", id);
     }
 }

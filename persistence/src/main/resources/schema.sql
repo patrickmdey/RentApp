@@ -17,12 +17,29 @@ CREATE TABLE IF NOT EXISTS account
 (
     id         SERIAL  NOT NULL,
     first_name VARCHAR NOT NULL,
-    last_name  VARCHAR NOT NULL,
-    email      VARCHAR NOT NULL UNIQUE,
-    location   VARCHAR NOT NULL,
-    password   VARCHAR NOT NULL,
-    picture    INT,
-    type       INT     NOT NULL,
+    last_name
+    VARCHAR
+    NOT
+    NULL,
+    email
+    VARCHAR
+    NOT
+    NULL
+    UNIQUE,
+    location
+    INTEGER
+    NOT
+    NULL,
+    password
+    VARCHAR
+    NOT
+    NULL,
+    picture
+    INT,
+    type
+    INT
+    NOT
+    NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
 );

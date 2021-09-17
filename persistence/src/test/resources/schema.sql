@@ -16,9 +16,11 @@ CREATE TABLE IF NOT EXISTS account
     id         IDENTITY  NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name  VARCHAR(100) NOT NULL,
-    email      VARCHAR(100) NOT NULL UNIQUE,
-    location   VARCHAR(100) NOT NULL,
-    password   VARCHAR(500) NOT NULL,
+    email      VARCHAR (
+    100
+                       ) NOT NULL UNIQUE,
+    location INTEGER NOT NULL,
+    password VARCHAR(500) NOT NULL,
     picture    INT,
     type       INT     NOT NULL,
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
