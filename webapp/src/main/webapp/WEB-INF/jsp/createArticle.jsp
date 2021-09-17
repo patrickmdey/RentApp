@@ -8,7 +8,7 @@
 <c:url value="/create-article" var="articleUrl"/>
 <html>
 <h:head title="Publish Form"/>
-<body class="article-background">
+<body class="bg-color-grey">
 <h:navbar/>
 <div class="main-container">
     <div class="card shadow card-style create-card mx-3">
@@ -44,29 +44,24 @@
                 <form:errors path="pricePerDay" element="p" cssClass="error">
                     <spring:message code="article.createArticleForm.price.error"/>
                 </form:errors>
-            </div>
 
-            <form:label path="categories"><spring:message
-                    code="article.createArticleForm.category"/></form:label>
-            <div class="category-list-container my-2">
-                <ul class="list-elements">
+
+                <form:label path="categories"><spring:message
+                        code="article.createArticleForm.category"/></form:label>
+                <div class="category-list-container my-2 mx-1">
                     <c:forEach items="${categories}" var="category">
-                        <form:checkbox path="categories" value="${category.id}"/>
+                        <form:checkbox cssClass="list-element" path="categories" value="${category.id}"/>
                         <c:out value="${category.description}"/>
                     </c:forEach>
                     <form:errors path="categories" element="p" cssClass="error">
                         <spring:message code="article.createArticleForm.category.error"/>
                     </form:errors>
-                </ul>
-            </div>
-
-            <h:imageInput multiple="multiple"/>
-
-            <div class="form-container">
-                <div class="button">
-                    <button type="submit" class="rounded btn btn-primary"><spring:message
-                            code="article.createArticleForm.publish"/></button>
                 </div>
+
+                <h:imageInput multiple="multiple"/>
+
+                <button type="submit" class="rounded btn btn-primary"><spring:message
+                        code="article.createArticleForm.publish"/></button>
             </div>
         </form:form>
     </div>
