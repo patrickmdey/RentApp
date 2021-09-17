@@ -15,7 +15,7 @@ public interface ArticleDao {
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner);
 
-    Long getMaxPage();
+    Long getMaxPage(String name, Long category, Long user, Long location);
 
 
 }

@@ -14,5 +14,5 @@ public interface ArticleService {
 
     Optional<Article> findById(Integer articleId);
 
-    Long getMaxPage();
+    Long getMaxPage(String name, Long category, Long user, Long location);
 }
