@@ -16,7 +16,7 @@ public class RentDaoJdbc implements RentDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<RentProposal> ROW_MAPPER = (resultSet, rowNum) ->
-            new RentProposal(resultSet.getString("comment"),
+            new RentProposal(resultSet.getString("message"),
                     resultSet.getBoolean("approved"),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("end_date"),

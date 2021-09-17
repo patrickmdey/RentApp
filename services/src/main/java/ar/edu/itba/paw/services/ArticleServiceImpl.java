@@ -36,7 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
         owner.ifPresent(user -> article.setLocation
-                        (Locations.values()[Math.toIntExact(user.getLocation())].getName()));
+                (Locations.values()[Math.toIntExact(user.getLocation())].getName()));
     }
 
     private void appendImages(Article article) {
@@ -74,6 +74,11 @@ public class ArticleServiceImpl implements ArticleService {
             appendImages(toReturn.get());
         }
         return toReturn;
+    }
+
+    @Override
+    public List<Article> findByOwner(long ownerId) {
+        return articleDao.findByOwner(ownerId);
     }
 
     @Override

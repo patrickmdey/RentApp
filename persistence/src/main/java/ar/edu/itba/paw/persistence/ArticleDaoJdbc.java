@@ -65,7 +65,7 @@ public class ArticleDaoJdbc implements ArticleDao {
             params.add(category);
         }
 
-        if(location != null){
+        if (location != null) {
             query.append(" AND owner_id IN (SELECT account.id FROM account " +
                     "WHERE account.location = ?) ");
             params.add(location);
@@ -99,6 +99,11 @@ public class ArticleDaoJdbc implements ArticleDao {
         Article article = optArticle.get();
 
         return Optional.of(article);
+    }
+
+    @Override
+    public List<Article> findByOwner(long ownerId) {
+        return jdbcTemplate.query("SELECT * FROM article WHERE owner_id = ?", new Object[]{ownerId}, ROW_MAPPER);
     }
 
 

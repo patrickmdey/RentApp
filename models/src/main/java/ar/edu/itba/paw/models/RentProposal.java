@@ -5,20 +5,20 @@ import java.util.Date;
 public class RentProposal {
 
     private long id;
-    private String comment;
+    private String message;
     private Boolean approved;
     private Date startDate;
     private Date endDate;
-    private Integer idArticle;
+    private long idArticle;
     private Integer idRenter;
 
-    public RentProposal(long id, String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
-        this(comment, approved, startDate, endDate, idArticle, idRenter);
+    public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long idArticle, Integer idRenter) {
+        this(message, approved, startDate, endDate, idArticle, idRenter);
         this.id = id;
     }
 
-    public RentProposal(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
-        this.comment = comment;
+    public RentProposal(String message, Boolean approved, Date startDate, Date endDate, long idArticle, Integer idRenter) {
+        this.message = message;
         this.approved = approved;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -30,12 +30,12 @@ public class RentProposal {
         return id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Boolean getApproved() {
@@ -62,11 +62,11 @@ public class RentProposal {
         this.endDate = endDate;
     }
 
-    public Integer getIdArticle() {
+    public long getIdArticle() {
         return idArticle;
     }
 
-    public void setIdArticle(Integer idArticle) {
+    public void setIdArticle(long idArticle) {
         this.idArticle = idArticle;
     }
 
@@ -76,5 +76,11 @@ public class RentProposal {
 
     public void setIdRenter(Integer idRenter) {
         this.idRenter = idRenter;
+    }
+
+    @Override
+    public String toString() {
+        return '\n' + "startDate: " + startDate + " | endDate: " +
+                endDate + " | Message: " + message + " | Article id: " + idArticle + '\n';
     }
 }

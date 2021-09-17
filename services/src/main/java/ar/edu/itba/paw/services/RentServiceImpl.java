@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RentServiceImpl implements RentService {
@@ -28,6 +29,26 @@ public class RentServiceImpl implements RentService {
     @Override
     public List<RentProposal> list() {
         return rentDao.list();
+    }
+
+    @Override
+    public List<RentProposal> ownerRequests(long ownerId) {
+        List<RentProposal> proposals = rentDao.list();
+
+        List<Long> ownedArticlesId = articleService.findByOwner(ownerId).
+                stream().map(Article::getId).collect(Collectors.toList());
+
+        List<RentProposal> ownerRequests = new ArrayList<>();
+
+        proposals.forEach(proposal -> {
+            if (ownedArticlesId.contains(proposal.getIdArticle()))
+                ownerRequests.add(proposal);
+        });
+
+        //TODO: articleID deberia ser un long ?
+        //proposals.stream().filter(proposal -> ownedArticlesId.contains(proposal.getIdArticle())).collect(Collectors.toList());
+
+        return ownerRequests;
     }
 
     @Override
