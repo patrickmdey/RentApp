@@ -13,5 +13,5 @@ public interface UserService {
 
     List<User> list();
 
-    Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, String location, UserType type);
+    Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, UserType type);
 }

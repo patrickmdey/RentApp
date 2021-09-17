@@ -47,6 +47,8 @@ public class UserDaoJdbcTest {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, "account");
     }
 
+    /*
+
     @Test
     public void testRegister() {
         final User user = userDaoJdbc.register(EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, LOCATION, TYPE.ordinal()).get();
@@ -62,6 +64,8 @@ public class UserDaoJdbcTest {
         Assert.assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "account"));
 
     }
+
+     */
 
 
 }

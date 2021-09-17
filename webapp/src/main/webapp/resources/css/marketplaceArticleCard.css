@@ -5,13 +5,22 @@
     margin: 10px 2px;
 }
 
+.marketplace-card-img-container {
+    display: flex;
+    justify-content: center;
+    height: 60%;
+}
+
 .card-image {
-    height: 55%;
-    width: 100%;
+    width: 27vh;
+}
+
+
+.marketplace-card-info-container {
+    height: 40%;
 }
 
 .card-title-container {
-    height: 15%;
     margin-top: 10px;
     margin-left: 10px;
 }
@@ -21,16 +30,12 @@
     flex-direction: column;
     align-items: start;
     margin-left: 10px;
-    height: 30%;
 }
 
 .card-price-container {
-    height: 50%;
-
 }
 
 .card-location-container {
-    height: 50%;
 }
 
 .article-price {

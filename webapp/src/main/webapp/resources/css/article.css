@@ -4,10 +4,14 @@
     border: 1px solid #eee;
     border-radius: 6px;
     margin: 8px 0;
+    max-height: 50vh;
+    width: 100%;
 }
 
-.card-style.secondary-card {
-    min-width: 100%;
+.article-img {
+    min-width: 30vh;
+    max-height: 37vh;
+    max-width: 80%;
 }
 
 .article-location {
@@ -28,4 +32,16 @@ label {
 
 .badge.bg-background-grey {
     background-color: #eaedea;
+}
+
+.avatar-container {
+    width: 80px;
+    height: 80px;
+
+}
+
+.avatar-container img {
+    height: 100%;
+    max-width: 100%;
+    border-radius: 50%;
 }

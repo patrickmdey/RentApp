@@ -1,28 +1,22 @@
 .card-style.create-card {
-    width: 65%;
-    height: auto;
+    width: 70%;
     padding: 10px;
-}
-
-.form-container {
-    margin: 0 5%;
-}
-
-.form-container + .button {
-    display: flex;
-    justify-content: end;
-}
-
-.form-container > * {
-    margin: 3% 0;
+    max-height: 80vh;
 }
 
 .category-list-container {
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: center;
 }
 
-.list-elements > * {
-    margin: 5px;
+.list-element {
+    margin: 0 12px;
+    border: 3px solid #22577A;
+}
+
+.form-image-input{
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
 }

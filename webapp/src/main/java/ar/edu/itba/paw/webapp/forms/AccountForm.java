@@ -24,8 +24,7 @@ public class AccountForm {
     private String email;
 
     @NotNull
-    @NotEmpty
-    private String location;
+    private Long location;
 
     @NotNull
     @NotEmpty
@@ -62,11 +61,11 @@ public class AccountForm {
         this.email = email;
     }
 
-    public String getLocation() {
+    public Long getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Long location) {
         this.location = location;
     }
 

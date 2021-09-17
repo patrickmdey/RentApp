@@ -35,7 +35,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
-        owner.ifPresent(user -> article.setLocation(user.getLocation()));
+        owner.ifPresent(user -> article.setLocation
+                        (Locations.values()[Math.toIntExact(user.getLocation())].getName()));
     }
 
     private void appendImages(Article article) {
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> get(String name, Long category, String orderBy, Long user) {
+    public List<Article> get(String name, Long category, String orderBy, Long user, Long location, Long page) {
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
                 map(OrderOptions::getColumn).collect(Collectors.toList());
@@ -52,15 +53,14 @@ public class ArticleServiceImpl implements ArticleService {
         if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
             orderBy = null;
 
-        if (name == null && category == null && orderBy == null && user == null) {
-            articles = this.articleDao.list();
-        } else {
-            articles = this.articleDao.filter(name, category, orderBy, user);
-        }
+        articles = this.articleDao.filter(name, category, orderBy, user, location, page);
 
-        articles.forEach(this::appendCategories);
-        articles.forEach(this::appendLocation);
-        articles.forEach(this::appendImages);
+
+        articles.forEach(article -> {
+            appendCategories(article);
+            appendImages(article);
+            appendLocation(article);
+        });
 
         return articles;
     }
@@ -76,26 +76,34 @@ public class ArticleServiceImpl implements ArticleService {
         return toReturn;
     }
 
+    @Override
+    public Long getMaxPage() {
+        return articleDao.getMaxPage();
+    }
+
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Category> categories, List<MultipartFile> images, long idOwner) {
+    public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
 
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (optArticle.isPresent()) {
             Article article = optArticle.get();
             if (categories != null) {
-                categories.forEach(t -> articleCategoryDao.addToArticle(article.getId(), t));
-                article.setCategories(categories);
+                categories.forEach(cat_id -> articleCategoryDao.addToArticle(article.getId(), cat_id));
+                this.appendCategories(article);
             }
-            optArticle = Optional.of(article);
 
             images.forEach(image -> {
                 Optional<DBImage> img = imageService.create(image);
                 img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
             });
+
+            optArticle = Optional.of(article);
         }
 
         return optArticle;
     }
+
+
 }

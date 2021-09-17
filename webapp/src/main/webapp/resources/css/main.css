@@ -1,6 +1,5 @@
 h1, h2, h3, h4, h5, h6, p {
     font-family: 'Noto Sans', sans-serif;
-    color: #06121A !important;
 }
 
 .color-primary {
@@ -48,10 +47,6 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: center;
 }
 
-.article-background {
-    background-color: #eaedea;
-}
-
 .container-height {
     min-height: 85vh;
 }
@@ -70,6 +65,14 @@ h1, h2, h3, h4, h5, h6, p {
     align-items: center;
     margin-left: 15%;
     margin-right: 15%;
+}
+
+.form-container {
+    margin: 0 5%;
+}
+
+.form-container > * {
+    margin: 3% 0;
 }
 
 .footer-style {

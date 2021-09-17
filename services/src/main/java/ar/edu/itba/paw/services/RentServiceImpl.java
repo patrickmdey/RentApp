@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -49,10 +50,12 @@ public class RentServiceImpl implements RentService {
 
                 if (owner.isPresent()) {
 
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
                     values.put("ownerName", owner.get().getFirstName());
                     values.put("renterName", renterName);
-                    values.put("startDate", startDate.toString());
-                    values.put("endDate", endDate.toString());
+                    values.put("startDate", dateFormatter.format(startDate));
+                    values.put("endDate", dateFormatter.format(endDate));
                     values.put("articleName", article.get().getTitle());
                     values.put("requestMessage", message);
                     values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //HARCODEADO

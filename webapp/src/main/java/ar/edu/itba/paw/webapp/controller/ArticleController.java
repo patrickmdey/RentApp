@@ -4,10 +4,7 @@ import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.*;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.OrderOptions;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
@@ -20,9 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ArticleController extends BaseController {
@@ -42,15 +40,22 @@ public class ArticleController extends BaseController {
     EmailService emailService;
 
     @RequestMapping("/")
-    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm) {
+    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser());
+                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
+        mav.addObject("maxPage", articleService.getMaxPage());
+
+        mav.addObject("locations",
+                Arrays.stream(Locations.values())
+                        .sorted(Comparator.comparing(Locations::getName))
+                        .collect(Collectors.toList()));
         return mav;
     }
 
@@ -62,6 +67,8 @@ public class ArticleController extends BaseController {
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        article.setLocation(Locations.values()[Math.toIntExact(owner.getLocation())].getName());
+
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
         return mav;
@@ -94,6 +101,8 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+
+
         if (errors.hasErrors()) {
             return viewCreateArticleForm(createArticleForm);
         }
@@ -104,7 +113,7 @@ public class ArticleController extends BaseController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
-                1).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+                loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
         return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
     }

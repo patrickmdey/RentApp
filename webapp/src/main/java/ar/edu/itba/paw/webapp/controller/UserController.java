@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -29,6 +33,9 @@ public class UserController extends BaseController {
     @RequestMapping("/register")
     public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/create");
+        mav.addObject("locations", Arrays.stream(Locations.values())
+                        .sorted(Comparator.comparing(Locations::getName))
+                        .collect(Collectors.toList()));
 
         return mav;
     }

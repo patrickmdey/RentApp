@@ -35,7 +35,14 @@
                 <controls:TextBox path="email" type="text" labelCode="account.form.email"/>
             </div>
             <div class="col">
-                <controls:TextBox path="location" type="text" labelCode="account.form.location"/>
+                <form:select path="location" class="form-control form-control-custom">
+                    <c:forEach var="loc" items="${locations}">
+                        <form:option value="${loc.ordinal()}" label="${loc.name}">
+                            <c:out value="${loc.name}"/>
+                        </form:option>
+                    </c:forEach>
+                </form:select>
+<%--                <controls:TextBox path="location" type="text" labelCode="account.form.location"/> --%>
             </div>
 
         </div>

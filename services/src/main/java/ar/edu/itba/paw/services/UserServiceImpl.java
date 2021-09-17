@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, String location, UserType type) {
+    public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
         return this.userDao.register(email, passwordHash, firstName, lastName, location, type.ordinal());
     }

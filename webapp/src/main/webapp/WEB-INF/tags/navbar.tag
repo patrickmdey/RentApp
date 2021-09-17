@@ -4,6 +4,8 @@
 
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>
+<c:url value="/user/login" var="login"/>
+<c:url value="/user/register" var="register"/>
 
 
 <html>
@@ -25,8 +27,8 @@
                 <a class="nav-link active mx-1" aria-current="page" href="${marketplace}">Marketplace</a>
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-link active mx-1" aria-current="page" href="#">LogIn</a>
-                <a class="nav-link active mx-1" aria-current="page" href="#">SignUp</a>
+                <a class="nav-link active mx-1" aria-current="page" href="${login}">LogIn</a>
+                <a class="nav-link active mx-1" aria-current="page" href="${register}">SignUp</a>
             </div>
         </div>
     </div>

@@ -14,7 +14,7 @@ public interface UserDao {
 
     User save(User user);
 
-    Optional<User> register(String email, String password, String firstName, String lastName, String location, int type);
+    Optional<User> register(String email, String password, String firstName, String lastName, Long location, int type);
 
     Optional<User> findByEmail(String email);
 }
