@@ -48,7 +48,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 //                    .antMatchers("/marketplace/create-article").hasRole("OWNER")
 //                .antMatchers("/user/view","/user/edit").hasAnyRole("OWNER","RENTER")
                 .and().formLogin()
-                .defaultSuccessUrl("/user/view", false)
+                .defaultSuccessUrl("/", false)
                     .loginPage("/user/login")
                     .usernameParameter("email")
                     .passwordParameter("password")

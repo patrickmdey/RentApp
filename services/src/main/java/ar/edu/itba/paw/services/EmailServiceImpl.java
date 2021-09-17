@@ -6,14 +6,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.*;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +72,16 @@ public class EmailServiceImpl implements EmailService {
 
         thymeleafContext.setVariable("imgSrc", url.getFile());
         thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
+        String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
+
+        sendHtmlMessage(to, "Request Sent: " + values.get("articleName"), htmlBody);
+    }
+
+    @Override
+    public void sendNewUserMail(String to, Map<String, String> values) {
+        Context thymeleafContext = new Context();
+
+
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
 
         sendHtmlMessage(to, "Request Sent: " + values.get("articleName"), htmlBody);
