@@ -28,8 +28,23 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public List<RentProposal> ownerRequests(long ownerId) {
-        return rentDao.list(ownerId);
+
+        List<RentProposal> proposals = rentDao.list(ownerId);
+        proposals.forEach(proposal -> {
+            appendArticle(proposal);
+            appendRenter(proposal);
+        });
+        return proposals;
     }
+
+    private void appendRenter(RentProposal proposal) {
+        proposal.setRenter(userService.findById(proposal.getRenterId()).orElseThrow(RuntimeException::new));
+    }
+
+    private void appendArticle(RentProposal proposal) {
+        proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(RuntimeException::new));
+    }
+
 
     @Override
     public Optional<RentProposal> findById(long id) {

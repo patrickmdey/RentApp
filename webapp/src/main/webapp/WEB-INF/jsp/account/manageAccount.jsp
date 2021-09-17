@@ -8,23 +8,20 @@
 <h:head title="Manage Account"/>
 <body class="bg-color-grey">
 <h:navbar/>
-<p>MANEJO DE CUENTA</p>
-
 <div class="row">
     <div class="col-3">
-        <button class="btn btn-lg bg-color-primary"><spring:message code="myAccount.ownerRequests.title"/></button>
+        <button class="btn btn-lg bg-color-primary color-grey"><spring:message
+                code="myAccount.ownerRequests.title"/></button>
     </div>
-    <div class="col-9">
+    <div class="col-8">
         <h1 class="h1"><spring:message code="myAccount.ownerRequests.title"/></h1>
+        <hr/>
         <c:forEach var="request" items="${requests}">
-            <div style="border: 3px solid #EF6461; margin: 15px 0">
-                <h1>Request de ${request.renter.firstName} ${request.renter.lastName}</h1>
-                <p class="lead">Desde: ${request.startDate}</p>
-                <p class="lead">Hasta: ${request.endDate}</p>
-                <p class="lead">Estado: ${request.approved}</p>
-                <h3>Mensaje:</h3>
-                <p class="lead">${request.message}</p>
-            </div>
+
+            <h:requestCard articleName="${request.article.title}" renterFirstName="${request.renter.firstName}"
+                           renteLastName="${request.renter.lastName}"
+                           startDate="${request.startDate}" endDate="${request.endDate}"
+                           message="${request.message}" id="${request.id}"/>
         </c:forEach>
     </div>
 </div>

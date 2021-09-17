@@ -12,6 +12,7 @@ public class RentProposal {
     private long articleId;
     private long renterId;
     private User renter;
+    private Article article;
 
     public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
         this(message, approved, startDate, endDate, articleId, renterId);
@@ -85,6 +86,14 @@ public class RentProposal {
 
     public void setRenter(User renter) {
         this.renter = renter;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     @Override
