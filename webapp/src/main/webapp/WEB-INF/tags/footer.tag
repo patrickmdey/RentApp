@@ -8,7 +8,7 @@
         <div class="col-4">
             <ul class="list-unstyled">
                 <li><h3 class="h3 fw-bold color-grey">Contact</h3></li>
-                <li><p class="lead color-grey">Email: <a href="paw2021b3@gmail.com" class="color-secondary">paw2021b3@gmail.com</a>
+                <li><p class="lead color-grey">Email: <a href="mailto:paw2021b3@gmail.com" class="color-secondary">paw2021b3@gmail.com</a>
                 </p>
                 </li>
             </ul>
