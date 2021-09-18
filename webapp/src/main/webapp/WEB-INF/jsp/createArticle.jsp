@@ -5,7 +5,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
-<c:url value="/create-article" var="articleUrl"/>
+<c:choose>
+    <c:when test="${articleId == null}">
+        <c:url value="/create-article" var="articleUrl"/>
+    </c:when>
+    <c:otherwise>
+        <c:url value="/article/${articleId}/edit" var="articleUrl"/>
+    </c:otherwise>
+</c:choose>
 <html>
 <h:head title="Publish Form"/>
 <body class="bg-color-grey">
@@ -58,7 +65,9 @@
                     </form:errors>
                 </div>
 
-                <h:imageInput multiple="multiple"/>
+                <c:if test="${articleId == null}">
+                    <h:imageInput multiple="multiple"/>
+                </c:if>
 
                 <button type="submit" class="rounded btn btn-primary"><spring:message
                         code="article.createArticleForm.publish"/></button>

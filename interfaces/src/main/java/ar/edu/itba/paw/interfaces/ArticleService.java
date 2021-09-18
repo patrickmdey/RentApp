@@ -12,6 +12,9 @@ public interface ArticleService {
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> image, long idOwner);
 
+    Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories);
+
+
     Optional<Article> findById(Integer articleId);
 
     Long getMaxPage(String name, Long category, Long user, Long location);

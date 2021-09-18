@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +12,8 @@ public interface ArticleDao {
     Optional<Article> findById(long id);
 
     Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner);
+
+    int editArticle(long id, String title, String description, Float pricePerDay);
 
     Long getMaxPage(String name, Long category, Long user, Long location);
 
