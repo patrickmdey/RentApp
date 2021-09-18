@@ -46,7 +46,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/view", "/user/edit").authenticated()
                 .antMatchers("/user/delete").fullyAuthenticated()
-                .antMatchers("/create-article").hasRole("RENTER")
+                .antMatchers("/create-article").hasRole("OWNER")
 
                 .anyRequest().permitAll()
 
