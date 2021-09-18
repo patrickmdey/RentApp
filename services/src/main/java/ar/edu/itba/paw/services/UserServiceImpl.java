@@ -20,8 +20,10 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public Optional<User> findById(long id) {
-        return this.userDao.findById(id);
+    public Optional<User> findById(Long id) {
+        if(id != null)
+            return this.userDao.findById(id);
+        return Optional.empty();
     }
 
     @Override

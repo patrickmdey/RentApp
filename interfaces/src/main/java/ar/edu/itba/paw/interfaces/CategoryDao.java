@@ -10,4 +10,6 @@ public interface CategoryDao {
 
     List<Category> listAll();
 
+    Optional<Category> findById(Long category);
+
 }

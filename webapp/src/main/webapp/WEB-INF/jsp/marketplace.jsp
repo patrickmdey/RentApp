@@ -50,6 +50,7 @@
                         <spring:message code="filterForm.location"/>
                     </form:label>
                     <form:select path="location" class="form-control form-control-custom">
+                        <form:option value="" label="Todas las ubicaciones">Todas las ubicaciones</form:option>
                         <c:forEach var="loc" items="${locations}">
                             <form:option value="${loc.ordinal()}" label="${loc.name}">
                                 <c:out value="${loc.name}"/>
@@ -64,9 +65,49 @@
         </div>
 
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
-            <c:if test="${query != null && query.length() > 0 }">
+
+            <!-- ACA SE MUESTRAN LOS PARAMETROS DE LA URL -->
+            <c:if test="${ query != null && query.length() > 0 }">
                 Showing results for <c:out value="${query}"/>
             </c:if>
+
+
+            <c:if test="${ param.category != null }">
+                Searching category
+                <c:url value="/" var="removeCategoryUrl">
+                    <c:forEach var="p" items="${param}">
+                        <c:if test="${p.key != 'category'}">
+                            <c:param name="${p.key}" value="${p.value}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:url>
+                <div class="badge bg-primary">
+                    <c:out value="${category}"/>
+                    <a href="${removeCategoryUrl}" class="text-light">X</a>
+                </div>
+            </c:if>
+
+            <c:if test="${ param.location != null && param.location.length() > 0 }">
+                Searching location
+                <c:out value="${locationsEnum[searchForm.location].name}"/>
+            </c:if>
+
+            <c:if test="${ param.user != null && param.user.length() > 0}">
+                Searching user
+                <c:url value="/" var="removeUserUrl">
+                    <c:forEach var="p" items="${param}">
+                        <c:if test="${p.key != 'user'}">
+                            <c:param name="${p.key}" value="${p.value}"/>
+                        </c:if>
+                    </c:forEach>
+                </c:url>
+                <div class="badge bg-primary">
+                    <c:out value="${userFilter.firstName}"/>
+                    <a href="${removeUserUrl}" class="text-light">X</a>
+                </div>
+            </c:if>
+
+
             <c:if test="${articles.size() == 0}">
                 No results found
             </c:if>

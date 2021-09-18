@@ -9,6 +9,10 @@ import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +43,12 @@ public class ArticleController extends BaseController {
     @Autowired
     EmailService emailService;
 
+    @ModelAttribute(value = "locationsEnum")
+    public Locations[] locationsEnum()
+    {
+        return Locations.values();
+    }
+
     @RequestMapping("/")
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
@@ -56,6 +66,10 @@ public class ArticleController extends BaseController {
         mav.addObject("locations", Arrays.stream(Locations.values())
                         .sorted(Comparator.comparing(Locations::getName))
                         .collect(Collectors.toList()));
+
+        mav.addObject("category", categoryService.findById(searchForm.getCategory()));
+
+        mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));
         return mav;
     }
 
