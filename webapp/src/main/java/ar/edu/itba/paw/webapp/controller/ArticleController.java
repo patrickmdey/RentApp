@@ -99,7 +99,7 @@ public class ArticleController extends BaseController {
 
         rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, rentForm.getName(), rentForm.getEmail(), 1);
+                articleId, rentForm.getName(), rentForm.getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("feedback");
     }
@@ -128,6 +128,45 @@ public class ArticleController extends BaseController {
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
                 loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+
+        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
+    }
+
+    @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
+    public ModelAndView viewEditArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm editArticleForm, BindingResult errors, @PathVariable("articleId") Long articleId) {
+        final ModelAndView mav = new ModelAndView("createArticle");
+        List<Category> categories = categoryService.listCategories();
+
+        Optional<Article> articleOpt = articleService.findById(articleId.intValue());
+
+        if (articleOpt.isPresent()) {
+            Article article = articleOpt.get();
+            editArticleForm.setName(article.getTitle());
+            editArticleForm.setCategories(article.getCategories().stream().map(Category::getId).collect(Collectors.toList()));
+            editArticleForm.setDescription(article.getDescription());
+            editArticleForm.setPricePerDay(article.getPricePerDay());
+        }
+
+        mav.addObject("categories", categories);
+        mav.addObject("articleId", articleId);
+        return mav;
+    }
+
+    @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
+    public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
+                                      BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+
+        if (errors.hasErrors()) {
+            errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
+            return viewCreateArticleForm(createArticleForm);
+        }
+
+        Article article = articleService.editArticle(
+                articleId,
+                createArticleForm.getName(),
+                createArticleForm.getDescription(),
+                createArticleForm.getPricePerDay(),
+                createArticleForm.getCategories()).orElseThrow(CannotCreateArticleException::new);
 
         return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
     }

@@ -23,7 +23,7 @@ public class CreateArticleForm {
     @Min(1)
     private float pricePerDay;
 
-    @NotNull // TODO: check each file.isEmpty
+    // TODO: check each file.isEmpty
     private List<MultipartFile> files;
 
     private List<Long> categories;

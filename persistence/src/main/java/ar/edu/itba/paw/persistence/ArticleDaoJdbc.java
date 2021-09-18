@@ -2,10 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.OrderOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -63,7 +60,7 @@ public class ArticleDaoJdbc implements ArticleDao {
             params.add(category);
         }
 
-        if(location != null){
+        if (location != null) {
             query.append(" AND owner_id IN (SELECT account.id FROM account " +
                     "WHERE account.location = ?) ");
             params.add(location);
@@ -120,6 +117,11 @@ public class ArticleDaoJdbc implements ArticleDao {
         return Optional.of(article);
     }
 
+    @Override
+    public List<Article> findByOwner(long ownerId) {
+        return jdbcTemplate.query("SELECT * FROM article WHERE owner_id = ?", new Object[]{ownerId}, ROW_MAPPER);
+    }
+
 
     @Override
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
@@ -132,5 +134,10 @@ public class ArticleDaoJdbc implements ArticleDao {
         long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
+    }
+
+    @Override
+    public int editArticle(long id, String title, String description, Float pricePerDay) {
+        return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
     }
 }

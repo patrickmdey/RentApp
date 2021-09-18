@@ -3,7 +3,6 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sping" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:url value="/" var="marketplaceUrl"/>
 <c:url value="/" var="currentUrl">
@@ -16,7 +15,7 @@
 <html>
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
-<h:navbar/>
+<h:navbar loggedUserId="${user.id}"/>
 <div class="container container-height">
     <div class="row">
         <div class="col-md-3 col-lg-3">
@@ -152,38 +151,6 @@
                             <spring:message code="pagination.next"/>
                         </button>
                     </li>
-
-                    <%--                    <c:if test="${param.page} > 1">--%>
-                    <%--                        <li class="page-item">--%>
-                    <%--                            <c:url value="${marketplaceUrl}" var="paginationUrlMinus1">--%>
-                    <%--                                <c:param name="page" value="${param.page - 1}"/>--%>
-                    <%--                            </c:url>--%>
-                    <%--                            <a class="page-link" href="${paginationUrlMinus1}" aria-label="Previous">--%>
-                    <%--                                <span class="color-rentapp-black" aria-hidden="true"><spring:message--%>
-                    <%--                                        code="pagination.previous"/></span>--%>
-                    <%--                            </a>--%>
-                    <%--                        </li>--%>
-                    <%--                    </c:if>--%>
-                    <%--                    <c:url value="${marketplaceUrl}" var="paginationUrlPlus1">--%>
-                    <%--                        <c:param name="page" value="${param.page + 1}"/>--%>
-                    <%--                    </c:url>--%>
-                    <%--                    <li class="page-item"><a href="#"></a></li>--%>
-                    <%--                    <c:url value="${marketplaceUrl}" var="paginationUrlPlus2">--%>
-                    <%--                        <c:param name="page" value="${param.page + 2}"/>--%>
-                    <%--                    </c:url>--%>
-                    <%--                    <li class="page-item"><a class="page-link" href="${paginationUrlPlus2}"></a>${param.page + 2}</li>--%>
-                    <%--                    <li><p class="lead">...</p></li>--%>
-                    <%--                    <c:url value="${marketplaceUrl}" var="paginationUrlLast">--%>
-                    <%--                        <c:param name="page" value="${maxPage}"/>--%>
-                    <%--                    </c:url>--%>
-                    <%--                    <li class="page-item"><a class="page-link" href="${paginationUrlLast}"></a>${maxPage}</li>--%>
-                    <%--                    <c:if test="${param.page} < ${maxPage}">--%>
-                    <%--                        <li class="page-item">--%>
-                    <%--                            <a class="page-link color-rentapp-black" href="${paginationUrlPlus1}" aria-label="Next">--%>
-                    <%--                                <span aria-hidden="true"><spring:message code="pagination.next"/></span>--%>
-                    <%--                            </a>--%>
-                    <%--                        </li>--%>
-                    <%--                    </c:if>--%>
                 </ul>
             </nav>
 

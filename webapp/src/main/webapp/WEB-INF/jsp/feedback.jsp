@@ -5,7 +5,7 @@
 <html>
 <h:head title="Feedback"/>
 <body>
-<h:navbar/>
+<h:navbar loggedUserId="${user.id}"/>
 <h1 class="h1 justify">
     <spring:message code="feedback.message"/>
 </h1>
