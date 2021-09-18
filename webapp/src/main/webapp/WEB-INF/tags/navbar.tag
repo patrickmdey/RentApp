@@ -9,13 +9,6 @@
 
 <c:url value="/user/${loggedUserId}/my-account" var="myAccount"/>
 
-<nav class="navbar shadow-sm navbar-expand-lg bg-color-primary navbar-dark py-3 nav-bar-style mb-3">
-    <div class="container-fluid nav-bar">
-        <a class="navbar-brand mb-1" href="${marketplace}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="${marketplace}">
