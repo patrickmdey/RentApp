@@ -44,10 +44,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     }
 
-    @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
-        StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
-        ArrayList<Object> params = new ArrayList<>();
+    private StringBuilder queryBuilder(List<Object> params, String fields, String name, Long category, Long user, Long location){
+        StringBuilder query = new StringBuilder("SELECT "+ fields + " FROM article WHERE true ");
 
         if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE ? ");
@@ -71,6 +69,15 @@ public class ArticleDaoJdbc implements ArticleDao {
             params.add(location);
         }
 
+        return query;
+    }
+
+    @Override
+    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
+        ArrayList<Object> params = new ArrayList<>();
+
+        StringBuilder query = queryBuilder(params, "*", name, category, user, location);
+
         if (orderBy != null) {
             query.append(" ORDER BY ");
             query.append(orderBy);
@@ -84,6 +91,18 @@ public class ArticleDaoJdbc implements ArticleDao {
 
 
         return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
+    }
+
+    @Override
+    public Long getMaxPage(String name, Long category, Long user, Long location) {
+        ArrayList<Object> params = new ArrayList<>();
+        StringBuilder query = queryBuilder(params, "COUNT(*)", name, category, user, location);
+
+        Long size = jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+
+        return (size / OFFSET) + toSum;
     }
 
     @Override
@@ -118,13 +137,5 @@ public class ArticleDaoJdbc implements ArticleDao {
         long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
-    }
-
-    @Override
-    public Long getMaxPage() {
-        Integer size = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article", Integer.class);
-
-        int toSum = (size % OFFSET == 0) ? 0 : 1;
-        return (size / OFFSET) + toSum;
     }
 }

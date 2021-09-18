@@ -1,11 +1,9 @@
 package ar.edu.itba.paw.webapp.config;
 
-import ar.edu.itba.paw.webapp.auth.PawUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -39,23 +37,26 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-//                .sessionManagement()
-//                .invalidSessionUrl("/user/login")
-//                .
-//                .and()
+                .sessionManagement()
+                .invalidSessionUrl("/user/login")
+                .and()
                 .authorizeRequests()
+                .antMatchers("/user/login", "/user/register").anonymous()
+                .antMatchers("/user/view", "/user/edit").authenticated()
+                .antMatchers("/user/delete").fullyAuthenticated()
+                .antMatchers("/create-article").hasAuthority("OWNER")
                 .anyRequest().permitAll()
-//                    .antMatchers("**").permitAll()
-//                    .antMatchers("/marketplace/create-article").hasRole("OWNER")
-//                .antMatchers("/user/view","/user/edit").hasAnyRole("OWNER","RENTER")
+
                 .and().formLogin()
-                    .defaultSuccessUrl("/marketplace",false)
-                    .loginPage("/user/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
+                .defaultSuccessUrl("/", false)
+                .loginPage("/user/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .and().rememberMe()
-                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
+                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .userDetailsService(pawUserDetailService)
+                .key("Super clave re copada que nadie nunca va a adivinar por que somoes el mejor grupo de todo el mundo")
+                .rememberMeParameter("rememberMe")
                 .and().logout()
                     .logoutUrl("/user/logout")
                     .logoutSuccessUrl("/user/login")

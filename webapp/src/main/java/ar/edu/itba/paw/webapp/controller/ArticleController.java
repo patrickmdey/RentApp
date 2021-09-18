@@ -50,10 +50,10 @@ public class ArticleController extends BaseController {
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
-        mav.addObject("maxPage", articleService.getMaxPage());
+        mav.addObject("maxPage", articleService.getMaxPage(searchForm.getQuery(),
+                searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation()));
 
-        mav.addObject("locations",
-                Arrays.stream(Locations.values())
+        mav.addObject("locations", Arrays.stream(Locations.values())
                         .sorted(Comparator.comparing(Locations::getName))
                         .collect(Collectors.toList()));
         return mav;
