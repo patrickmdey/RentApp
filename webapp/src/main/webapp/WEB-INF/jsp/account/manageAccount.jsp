@@ -7,7 +7,7 @@
 <html>
 <h:head title="Manage Account"/>
 <body class="bg-color-grey">
-<h:navbar/>
+<h:navbar loggedUserId="${user.id}"/>
 <div class="row">
     <div class="col-3">
         <button class="btn btn-lg bg-color-primary color-grey"><spring:message
@@ -21,7 +21,8 @@
             <h:requestCard articleName="${request.article.title}" renterFirstName="${request.renter.firstName}"
                            renteLastName="${request.renter.lastName}"
                            startDate="${request.startDate}" endDate="${request.endDate}"
-                           message="${request.message}" id="${request.id}" state="${request.approved}"/>
+                           message="${request.message}" id="${request.id}" state="${request.approved}"
+                           userId="${user.id}"/>
         </c:forEach>
     </div>
 </div>

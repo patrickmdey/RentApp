@@ -10,9 +10,11 @@
 <%@ attribute name="message" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="state" required="true" %>
+<%@ attribute name="userId" required="true" %>
 
-<c:url value="/user/{userId}/my-account/accept" var="acceptRequest"/>
-<c:url value="/user/{userId}/my-account/delete" var="deleteRequest"/>
+
+<c:url value="/user/${userId}/my-account/accept" var="acceptRequest"/>
+<c:url value="/user/${userId}/my-account/delete" var="deleteRequest"/>
 
 
 <div class="card card-style">

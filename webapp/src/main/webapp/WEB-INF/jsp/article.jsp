@@ -9,7 +9,7 @@
 <html>
 <h:head title="${article.title}"/>
 <body class="bg-color-grey">
-<h:navbar/>
+<h:navbar loggedUserId="${user.id}"/>
 <div class="main-container">
     <div class="card card-style">
         <div class="row g-0">
