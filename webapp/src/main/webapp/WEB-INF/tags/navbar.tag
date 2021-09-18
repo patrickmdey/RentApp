@@ -11,9 +11,6 @@
 
 <html>
 <body>
-
-<p>${loggedUserId}</p>
-
 <nav class="navbar shadow-sm navbar-expand-lg bg-color-primary navbar-dark py-3 nav-bar-style mb-3">
     <div class="container-fluid nav-bar">
         <a class="navbar-brand mb-1" href="${marketplace}">
