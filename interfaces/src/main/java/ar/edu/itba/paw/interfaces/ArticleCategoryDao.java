@@ -9,4 +9,6 @@ public interface ArticleCategoryDao {
     public List<Category> findFromArticle(long articleId);
 
     public Long addToArticle(long articleId, Long category);
+
+    public void removeFromArticle(long id, Long c);
 }

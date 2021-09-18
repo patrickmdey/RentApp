@@ -41,10 +41,17 @@
                     <p class="card-text lead fw-bold article-price color-rentapp-red"><spring:message
                             code="article.price"
                             arguments="${article.pricePerDay}"/></p>
-                    <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
-                            data-bs-target="#rentFormModal">
-                        <spring:message code="article.rent"/>
-                    </button>
+                    <c:choose>
+                        <c:when test="${user.id == article.idOwner}">
+                            <a class="btn color-grey bg-color-primary color-grey mt-2" href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
+                        </c:when>
+                        <c:otherwise>
+                            <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#rentFormModal">
+                                <spring:message code="article.rent"/>
+                            </button>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
