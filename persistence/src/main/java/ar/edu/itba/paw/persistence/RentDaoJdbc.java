@@ -16,7 +16,8 @@ public class RentDaoJdbc implements RentDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<RentProposal> ROW_MAPPER = (resultSet, rowNum) ->
-            new RentProposal(resultSet.getString("message"),
+            new RentProposal(resultSet.getLong("id"),
+                    resultSet.getString("message"),
                     resultSet.getBoolean("approved"),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("end_date"),
@@ -59,11 +60,11 @@ public class RentDaoJdbc implements RentDao {
 
     @Override
     public void acceptRequest(long requestId) {
-        jdbcTemplate.update("UPDATE rent_proposal SET approved = true WHERE id = ?", new Object[]{requestId}, ROW_MAPPER);
+        jdbcTemplate.update("UPDATE rent_proposal SET approved = true WHERE id = ?", requestId);
     }
 
     @Override
     public void deleteRequest(long requestId) {
-        jdbcTemplate.update("DELETE FROM rent_proposal WHERE id = ?", new Object[]{requestId}, ROW_MAPPER);
+        jdbcTemplate.update("DELETE FROM rent_proposal WHERE id = ?", requestId);
     }
 }

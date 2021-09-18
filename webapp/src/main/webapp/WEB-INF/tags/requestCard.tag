@@ -31,22 +31,25 @@
     <p>${message}</p>
     <c:if test="${!state}">
         <div class="d-flex justify-content-end">
-            <form:form method="post" action="${acceptRequest}">
+            <form method="post" action="${acceptRequest}">
+                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-success me-1"><spring:message
                         code="myAccount.ownerRequests.acceptButton"/></button>
-            </form:form>
+            </form>
 
-            <form:form method="post" action="${deleteRequest}">
+            <form method="post" action="${deleteRequest}">
+                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-danger"><spring:message
                         code="myAccount.ownerRequests.denyButton"/></button>
-            </form:form>
+            </form>
         </div>
     </c:if>
     <c:if test="${state}">
         <div class="d-flex justify-content-end">
-            <form:form method="post" action="${deleteRequest}">
+            <form method="post" action="${deleteRequest}">
+                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-success me-1">YA TA</button>
-            </form:form>
+            </form>
         </div>
     </c:if>
 </div>

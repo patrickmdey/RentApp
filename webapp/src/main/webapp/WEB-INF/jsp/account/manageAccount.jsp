@@ -9,12 +9,16 @@
 <body class="bg-color-grey">
 <h:navbar loggedUserId="${user.id}"/>
 <div class="row">
-    <div class="col-3">
-        <button class="btn btn-lg bg-color-primary color-grey"><spring:message
-                code="myAccount.ownerRequests.title"/></button>
+    <div class="card card-style col-3">
+        <button class="btn btn-link w-100"><spring:message
+                code="myAccount.ownerRequests.myRequests"/></button>
+        <button class="btn btn-link w-100"><spring:message
+                code="myAccount.ownerRequests.activeRequests"/></button>
+        <button class="btn btn-link w-100"><spring:message
+                code="myAccount.ownerRequests.endedRequests"/></button>
     </div>
     <div class="col-8">
-        <h1 class="h1"><spring:message code="myAccount.ownerRequests.title"/></h1>
+        <h1 class="h1"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h1>
         <hr/>
         <c:forEach var="request" items="${requests}">
 

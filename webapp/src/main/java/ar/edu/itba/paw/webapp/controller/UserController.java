@@ -11,9 +11,7 @@ import ar.edu.itba.paw.webapp.forms.AccountForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -162,14 +160,12 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/{userId}/my-account/accept", method = RequestMethod.POST)
     public ModelAndView acceptRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
-        System.out.println("USER ID -----> " + userId);
         rentService.acceptRequest(requestId);
         return myAccount(userId);
     }
 
     @RequestMapping(value = "/{userId}/my-account/delete", method = RequestMethod.POST)
     public ModelAndView deleteRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
-        System.out.println("USER ID -----> " + userId);
         rentService.deleteRequest(requestId);
         return myAccount(userId);
     }
