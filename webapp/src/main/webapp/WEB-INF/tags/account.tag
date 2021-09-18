@@ -35,14 +35,9 @@
                 <controls:TextBox path="email" type="text" labelCode="account.form.email"/>
             </div>
             <div class="col">
-                <form:select path="location" class="form-control form-control-custom">
-                    <c:forEach var="loc" items="${locations}">
-                        <form:option value="${loc.ordinal()}" label="${loc.name}">
-                            <c:out value="${loc.name}"/>
-                        </form:option>
-                    </c:forEach>
-                </form:select>
-<%--                <controls:TextBox path="location" type="text" labelCode="account.form.location"/> --%>
+
+                <controls:LocationSelect items="${locations}" path="location"
+                                         labelCode="account.form.location"/>
             </div>
 
         </div>
@@ -56,7 +51,7 @@
                 </div>
             </div>
         </c:if>
-        <div class="row">
+        <div class="row" style=" margin-block: 10px;">
             <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
         </div>
         <c:if test="${!isView}">
@@ -78,9 +73,6 @@
         justify-content: space-around;
     }
 
-    .row {
-        margin-block: 15px;
-    }
 
     .justify-content-center {
         justify-content: center;
