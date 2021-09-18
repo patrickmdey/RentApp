@@ -66,7 +66,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<Article> findById(Integer articleId) {
+    public Optional<Article> findById(long articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
         if (toReturn.isPresent()) {
             appendCategories(toReturn.get());
