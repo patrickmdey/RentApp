@@ -31,10 +31,7 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    @Override
-    public void sendMessage(List<String> recipients, String title, String body) {
-
-    }
+    private static final String resourceName = "logo";
 
     private void sendHtmlMessage(String to, String subject, String htmlBody) {
         sendHtmlMessage(to, subject, htmlBody, null, null);
@@ -58,18 +55,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMailRequestToOwner(String to, Map<String, String> values) {
-        String resourceName = "logo";
+    public void sendMailRequestToOwner(String to, Map<String, String> values, long ownerId) {
 
-        Context thymeleafContext = new Context();
-        thymeleafContext.setVariable("ownerName", values.get("ownerName"));
-        thymeleafContext.setVariable("renterName", values.get("renterName"));
-        thymeleafContext.setVariable("startDate", values.get("startDate"));
-        thymeleafContext.setVariable("endDate", values.get("endDate"));
-        thymeleafContext.setVariable("articleName", values.get("articleName"));
-        thymeleafContext.setVariable("requestMessage", values.get("requestMessage"));
-        thymeleafContext.setVariable("imgSrc", "cid:"+resourceName);
-        thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
+        Context thymeleafContext = getThymeleafContext(values, "http://localhost:8080/user/" + ownerId + "/my-account");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", thymeleafContext);
 
         sendHtmlMessage(to, "New Rent Request: " + values.get("articleName"), htmlBody, resourceName, LOGO);
@@ -77,16 +65,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendMailRequestToRenter(String to, Map<String, String> values) {
-        String resourceName = "logo";
 
-        Context thymeleafContext = new Context();
-        thymeleafContext.setVariable("renterName", values.get("renterName"));
-        thymeleafContext.setVariable("ownerName", values.get("ownerName"));
-        thymeleafContext.setVariable("startDate", values.get("startDate"));
-        thymeleafContext.setVariable("endDate", values.get("endDate"));
-        thymeleafContext.setVariable("articleName", values.get("articleName"));
-        thymeleafContext.setVariable("imgSrc", "cid:"+resourceName);
-        thymeleafContext.setVariable("callbackUrl", values.get("callbackUrl"));
+        Context thymeleafContext = getThymeleafContext(values, "/");
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
 
         sendHtmlMessage(to, "Request Sent: " + values.get("articleName"), htmlBody, resourceName, LOGO);
@@ -103,11 +83,38 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMessage(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@rentapp.paw.com");
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
+    public void sendMailRequestConfirmationToOwner(String to, Map<String, String> values, long ownerId) {
+        Context thymeleafContext = getThymeleafContext(values, "http://localhost:8080/user/" + ownerId + "/my-account");
+        String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", thymeleafContext);
+
+        sendHtmlMessage(to, "Alquiler confirmado: " + values.get("articleName"), htmlBody, resourceName, LOGO);
+    }
+
+    @Override
+    public void sendMailRequestConfirmationToRenter(String to, Map<String, String> values) {
+        Context thymeleafContext = getThymeleafContext(values, "/");    //TODO: ver a donde mandar
+        String htmlBody = thymeleafTemplateEngine.process("renter-request-accepted.html", thymeleafContext);
+        sendHtmlMessage(to, "Alquiler confirmado: " + values.get("articleName"), htmlBody, resourceName, LOGO);
+    }
+
+    @Override
+    public void sendMailRequestDenied(String to, Map<String, String> values) {
+        Context thymeleafContext = getThymeleafContext(values, "/"); //me lleva al marketplace
+        String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);
+        sendHtmlMessage(to, "Solicitud rechazada: " + values.get("articleName"), htmlBody, resourceName, LOGO);
+    }
+
+    private Context getThymeleafContext(Map<String, String> values, String callbackUrl) {
+        Context thymeleafContext = new Context();
+        thymeleafContext.setVariable("renterName", values.get("renterName"));
+        thymeleafContext.setVariable("ownerName", values.get("ownerName"));
+        thymeleafContext.setVariable("startDate", values.get("startDate"));
+        thymeleafContext.setVariable("endDate", values.get("endDate"));
+        thymeleafContext.setVariable("articleName", values.get("articleName"));
+        thymeleafContext.setVariable("renterEmail", values.get("renterEmail"));
+        thymeleafContext.setVariable("ownerEmail", values.get("ownerEmail"));
+        thymeleafContext.setVariable("imgSrc", "cid:" + resourceName);
+        thymeleafContext.setVariable("callbackUrl", callbackUrl); // deberia ir a /user/{userId}/my-account
+        return thymeleafContext;
     }
 }
