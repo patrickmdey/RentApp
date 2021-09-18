@@ -114,12 +114,26 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/{userId}/my-account")
-    public ModelAndView view(@PathVariable("userId") Long userId) {
+    public ModelAndView myAccount(@PathVariable("userId") Long userId) {
         final ModelAndView mav = new ModelAndView("account/manageAccount");
 
         List<RentProposal> rentProposals = rentService.ownerRequests(userId);
 
         mav.addObject("requests", rentProposals);
         return mav;
+    }
+
+    @RequestMapping(value = "/{userId}/my-account/accept", method = RequestMethod.POST)
+    public ModelAndView acceptRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
+        System.out.println("USER ID -----> " + userId);
+        rentService.acceptRequest(requestId);
+        return myAccount(userId);
+    }
+
+    @RequestMapping(value = "/{userId}/my-account/delete", method = RequestMethod.POST)
+    public ModelAndView deleteRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
+        System.out.println("USER ID -----> " + userId);
+        rentService.deleteRequest(requestId);
+        return myAccount(userId);
     }
 }

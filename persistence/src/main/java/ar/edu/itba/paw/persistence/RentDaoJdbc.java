@@ -56,4 +56,14 @@ public class RentDaoJdbc implements RentDao {
 
         return Optional.of(new RentProposal(rentProposalId, comment, approved, startDate, endDate, articleId, renterId));
     }
+
+    @Override
+    public void acceptRequest(long requestId) {
+        jdbcTemplate.update("UPDATE rent_proposal SET approved = true WHERE id = ?", new Object[]{requestId}, ROW_MAPPER);
+    }
+
+    @Override
+    public void deleteRequest(long requestId) {
+        jdbcTemplate.update("DELETE FROM rent_proposal WHERE id = ?", new Object[]{requestId}, ROW_MAPPER);
+    }
 }

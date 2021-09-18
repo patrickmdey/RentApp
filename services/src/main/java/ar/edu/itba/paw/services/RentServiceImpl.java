@@ -87,4 +87,14 @@ public class RentServiceImpl implements RentService {
 
         return Optional.empty();
     }
+
+    @Override
+    public void acceptRequest(long requestId) {
+        rentDao.acceptRequest(requestId);
+    }
+
+    @Override
+    public void deleteRequest(long requestId) {
+        rentDao.deleteRequest(requestId);
+    }
 }

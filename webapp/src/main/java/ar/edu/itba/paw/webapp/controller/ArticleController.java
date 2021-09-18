@@ -83,7 +83,7 @@ public class ArticleController extends BaseController {
             return viewArticle(rentForm, articleId, true);
         }
 
-        RentProposal proposal = rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
+        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
                 articleId, rentForm.getName(), rentForm.getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 

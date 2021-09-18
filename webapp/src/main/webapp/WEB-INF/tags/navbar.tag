@@ -6,6 +6,7 @@
 <c:url value="/user/edit" var="editUser"/>
 <c:url value="/user/login" var="login"/>
 <c:url value="/user/register" var="register"/>
+<c:url value="/user/${loggedUser}/my-account" var="myAccount"/>
 
 
 <html>
@@ -30,6 +31,8 @@
                 <a class="nav-link active mx-1" aria-current="page" href="${login}">LogIn</a>
                 <a class="nav-link active mx-1" aria-current="page" href="${register}">SignUp</a>
             </div>
+
+            <a href="${myAccount}">My account</a>
         </div>
     </div>
 </nav>
