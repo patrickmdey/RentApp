@@ -33,6 +33,12 @@
                         <input name="password" type="password" class="form-control form-control-custom"/>
                     </div>
                 </div>
+                <div class="row">
+                    <label>
+                        <input type="checkbox" name="rememberMe"/>
+                        <spring:message code="login.form.rememberMe"/>
+                    </label>
+                </div>
                 <div class="row" style="justify-content: space-around">
                     <control:Button col="col-4" labelCode="login.form.loginButton"></control:Button>
 
