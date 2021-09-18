@@ -48,4 +48,9 @@ public class ArticleCategoryDaoJdbc implements ArticleCategoryDao {
         jdbcInsert.execute(categoryData);
         return category;
     }
+
+    @Override
+    public void removeFromArticle(long id, Long c) {
+        jdbcTemplate.update("DELETE FROM article_category WHERE article_id = ? AND category_id = ?", id, c);
+    }
 }

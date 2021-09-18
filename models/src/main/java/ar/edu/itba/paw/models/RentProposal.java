@@ -5,37 +5,39 @@ import java.util.Date;
 public class RentProposal {
 
     private long id;
-    private String comment;
+    private String message;
     private Boolean approved;
     private Date startDate;
     private Date endDate;
-    private Integer idArticle;
-    private Integer idRenter;
+    private long articleId;
+    private long renterId;
+    private User renter;
+    private Article article;
 
-    public RentProposal(long id, String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
-        this(comment, approved, startDate, endDate, idArticle, idRenter);
+    public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
+        this(message, approved, startDate, endDate, articleId, renterId);
         this.id = id;
     }
 
-    public RentProposal(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
-        this.comment = comment;
+    public RentProposal(String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
+        this.message = message;
         this.approved = approved;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.idArticle = idArticle;
-        this.idRenter = idRenter;
+        this.articleId = articleId;
+        this.renterId = renterId;
     }
 
     public long getId() {
         return id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMessage() {
+        return message;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Boolean getApproved() {
@@ -62,19 +64,41 @@ public class RentProposal {
         this.endDate = endDate;
     }
 
-    public Integer getIdArticle() {
-        return idArticle;
+    public long getArticleId() {
+        return articleId;
     }
 
-    public void setIdArticle(Integer idArticle) {
-        this.idArticle = idArticle;
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
     }
 
-    public Integer getIdRenter() {
-        return idRenter;
+    public long getRenterId() {
+        return renterId;
     }
 
-    public void setIdRenter(Integer idRenter) {
-        this.idRenter = idRenter;
+    public void setRenterId(long renterId) {
+        this.renterId = renterId;
+    }
+
+    public User getRenter() {
+        return renter;
+    }
+
+    public void setRenter(User renter) {
+        this.renter = renter;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    @Override
+    public String toString() {
+        return '\n' + "startDate: " + startDate + " | endDate: " +
+                endDate + " | Message: " + message + " | Article id: " + articleId + '\n';
     }
 }

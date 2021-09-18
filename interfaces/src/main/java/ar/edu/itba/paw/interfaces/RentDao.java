@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.interfaces;
 
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 
 import java.util.Date;
@@ -9,9 +8,13 @@ import java.util.Optional;
 
 public interface RentDao {
 
-    List<RentProposal> list();
+    List<RentProposal> list(long ownerId);
 
     Optional<RentProposal> findById(long id);
 
-    Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter);
+    void acceptRequest(long requestId);
+
+    void deleteRequest(long requestId);
+
+    Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer articleId, long renterId);
 }

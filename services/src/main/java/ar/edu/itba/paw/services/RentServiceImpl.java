@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RentServiceImpl implements RentService {
@@ -25,10 +26,30 @@ public class RentServiceImpl implements RentService {
     @Autowired
     private UserService userService;
 
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
+    private final static int OWNER = 1;
+    private final static int RENTER = 2;
+
     @Override
-    public List<RentProposal> list() {
-        return rentDao.list();
+    public List<RentProposal> ownerRequests(long ownerId) {
+
+        List<RentProposal> proposals = rentDao.list(ownerId);
+        proposals.forEach(proposal -> {
+            appendArticle(proposal);
+            appendRenter(proposal);
+        });
+        return proposals;
     }
+
+    private void appendRenter(RentProposal proposal) {
+        proposal.setRenter(userService.findById(proposal.getRenterId()).orElseThrow(RuntimeException::new));
+    }
+
+    private void appendArticle(RentProposal proposal) {
+        proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(RuntimeException::new));
+    }
+
 
     @Override
     public Optional<RentProposal> findById(long id) {
@@ -37,20 +58,18 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public Optional<RentProposal> create(String message, Boolean approved, Date startDate,
-                                         Date endDate, Integer idArticle, String renterName,
-                                         String renterEmail, Integer idRenter) {
-        Optional<Article> article = articleService.findById(idArticle);
+                                         Date endDate, Integer articleId, String renterName,
+                                         String renterEmail, long renterId) {
+        Optional<Article> article = articleService.findById(articleId);
         if (article.isPresent()) {
             Optional<User> owner = userService.findById(article.get().getIdOwner());
 
-            Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, idArticle, idRenter);
+            Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
             if (proposal.isPresent()) {
 
                 Map<String, String> values = new HashMap<>();
 
                 if (owner.isPresent()) {
-
-                    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
                     values.put("ownerName", owner.get().getFirstName());
                     values.put("renterName", renterName);
@@ -60,13 +79,60 @@ public class RentServiceImpl implements RentService {
                     values.put("requestMessage", message);
                     values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //HARCODEADO
 
-                    emailService.sendMailRequestToOwner(owner.get().getEmail(), values);
+                    emailService.sendMailRequestToOwner(owner.get().getEmail(), values, owner.get().getId());
 
                     emailService.sendMailRequestToRenter(renterEmail, values);
+
+                    return proposal;
                 }
             }
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public void acceptRequest(long requestId) {
+
+        rentDao.acceptRequest(requestId);
+
+        Map<String, String> values = getValuesMap(requestId);
+
+        emailService.sendMailRequestConfirmationToRenter(values.get("ownerEmail"), values);
+        emailService.sendMailRequestConfirmationToOwner(values.get("renterEmail"), values, Long.parseLong(values.get("ownerId")));
+    }
+
+    @Override
+    public void deleteRequest(long requestId) {
+        rentDao.deleteRequest(requestId);
+
+        Map<String, String> values = getValuesMap(requestId);
+
+        emailService.sendMailRequestDenied(values.get("renterEmail"), values);
+    }
+
+    private Map<String, String> getValuesMap(long requestId) {
+        RentProposal request = rentDao.findById(requestId).orElseThrow(RuntimeException::new);
+
+        User renter = userService.findById(request.getRenterId()).orElseThrow(RuntimeException::new);
+        Article article = articleService.findById(request.getArticleId()).orElseThrow(RuntimeException::new);
+        User owner = userService.findById(article.getIdOwner()).orElseThrow(RuntimeException::new);
+
+        rentDao.acceptRequest(requestId);
+
+        Map<String, String> values = new HashMap<>();
+
+        values.put("renterName", renter.getFirstName());
+        values.put("ownerName", owner.getFirstName());
+        values.put("ownerId", String.valueOf(owner.getId()));
+        values.put("startDate", dateFormatter.format(request.getStartDate()));
+        values.put("endDate", dateFormatter.format(request.getEndDate()));
+        values.put("articleName", article.getTitle());
+        values.put("renterEmail", renter.getEmail());
+        values.put("ownerEmail", owner.getEmail());
+        values.put("callbackUrlOwner", "http://localhost:8080/user/" +
+                values.get("ownerId") + "/my-account"); // deberia ir a /user/{userId}/my-account
+        values.put("callbackUrlRenter", "/");
+        return values;
     }
 }

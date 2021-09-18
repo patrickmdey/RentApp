@@ -30,10 +30,10 @@ public class PawUserDetailService implements UserDetailsService {
 
 
         if (user.getType() == UserType.Owner)
-            authorities.add(new SimpleGrantedAuthority("ROLE_OWNER"));
+            authorities.add(new SimpleGrantedAuthority("OWNER"));
 
         if (user.getType() == UserType.Renter)
-            authorities.add(new SimpleGrantedAuthority("ROLE_RENTER"));
+            authorities.add(new SimpleGrantedAuthority("RENTER"));
 
         return new User(email,user.getPassword(),authorities);
     }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
         owner.ifPresent(user -> article.setLocation
-                        (Locations.values()[Math.toIntExact(user.getLocation())].getName()));
+                (Locations.values()[Math.toIntExact(user.getLocation())].getName()));
     }
 
     private void appendImages(Article article) {
@@ -66,7 +67,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<Article> findById(Integer articleId) {
+    public Optional<Article> findById(long articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
         if (toReturn.isPresent()) {
             appendCategories(toReturn.get());
@@ -77,8 +78,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long getMaxPage() {
-        return articleDao.getMaxPage();
+    public Long getMaxPage(String name, Long category, Long user, Long location) {
+        return articleDao.getMaxPage(name, category, user, location);
     }
 
 
@@ -103,6 +104,25 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return optArticle;
+    }
+
+    @Override
+    public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
+        articleDao.editArticle(id, title, description, pricePerDay);
+
+        List<Long> old = articleCategoryDao.findFromArticle(id).stream().map(Category::getId).collect(Collectors.toList());
+        List<Long> toRemove = new ArrayList<>(old);
+        categories.forEach(c -> {
+            if (!old.contains(c)) {
+                articleCategoryDao.addToArticle(id, c);
+            } else {
+                toRemove.remove(c);
+            }
+        });
+
+        toRemove.forEach(c -> articleCategoryDao.removeFromArticle(id, c));
+
+        return articleDao.findById(id);
     }
 
 

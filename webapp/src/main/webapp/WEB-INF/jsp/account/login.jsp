@@ -13,26 +13,31 @@
 <html>
 <h:head title="LogIn"/>
 <body class="bg-color-grey">
-<h:navbar/>
+<h:navbar loggedUserId="${user.id}"/>
 <div class="main-container">
     <div class="card shadow card-style create-card mx-3">
         <form:form method="post" action="${loginUrl}">
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="login.form.title"/></h3>
                 <hr/>
-                <div class="form-group">
-                    <label><spring:message code="login.form.email"/></label>
-                    <input name="email" type="text" class="form-control form-control-custom"/>
+                <div class="row">
+                    <div class="form-group">
+                        <label><spring:message code="login.form.email"/></label>
+                        <input name="email" type="text" class="form-control form-control-custom"/>
+                    </div>
                 </div>
-
-                    <%--            <h:TextBox path="email" type="text" labelCode="login.form.email"/>--%>
 
                 <div class="row">
                     <div class="form-group">
                         <label><spring:message code="login.form.password"/></label>
                         <input name="password" type="password" class="form-control form-control-custom"/>
                     </div>
-                        <%--            <h:TextBox path="password" type="password" labelCode="login.form.password"/>--%>
+                </div>
+                <div class="row">
+                    <label>
+                        <input type="checkbox" name="rememberMe"/>
+                        <spring:message code="login.form.rememberMe"/>
+                    </label>
                 </div>
                 <div class="row" style="justify-content: space-around">
                     <control:Button col="col-4" labelCode="login.form.loginButton"></control:Button>

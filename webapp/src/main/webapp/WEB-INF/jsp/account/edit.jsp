@@ -5,16 +5,20 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
+<c:set value="${[\"account.edit.form.message\"]}" var="successMsg"/>
+
 <html>
 <h:head title="Edit profile"/>
 
-<body>
-<h:navbar/>
+<body class="bg-color-grey ">
+<h:navbar loggedUserId="${user.id}"/>
+
+<h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
 
 <div class="card container">
     <div class="card-body">
         <div class="row">
-                <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
+            <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
 
         </div>
         <h:account mode="edit"/>
@@ -26,5 +30,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<script src="<c:url value="/js/main.js" />" defer></script>
+<script src="<c:url value="/resources/js/main.js" />" defer></script>
 </html>

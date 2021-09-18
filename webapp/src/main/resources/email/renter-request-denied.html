@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<img th:src="${imgSrc}">
 <table>
     <tbody>
     <tr>
@@ -11,7 +12,7 @@
         <td>
             <h4 th:text="#{email.renter.details}"></h4>
             <p th:text="#{email.deniedRequest.header}"></p>
-            <p><a th:href="${callbackUrl}" th:text="#{email.deniedRequest.callBack}"></a></p>
+            <p><a th:href="${callbackUrl}" th:text="#{email.renter.deniedRequest.callBack}"></a></p>
         </td>
         <td></td>
     </tr>

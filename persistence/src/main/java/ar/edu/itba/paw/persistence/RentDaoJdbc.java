@@ -16,7 +16,8 @@ public class RentDaoJdbc implements RentDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<RentProposal> ROW_MAPPER = (resultSet, rowNum) ->
-            new RentProposal(resultSet.getString("comment"),
+            new RentProposal(resultSet.getLong("id"),
+                    resultSet.getString("message"),
                     resultSet.getBoolean("approved"),
                     resultSet.getDate("start_date"),
                     resultSet.getDate("end_date"),
@@ -32,8 +33,9 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public List<RentProposal> list() {
-        return jdbcTemplate.query("SELECT * FROM rent_proposal", ROW_MAPPER);
+    public List<RentProposal> list(long ownerId) {
+        return jdbcTemplate.query("SELECT * FROM rent_proposal WHERE article_id IN (" +
+                "SELECT article.id FROM article WHERE article.owner_id = ?)", new Object[]{ownerId}, ROW_MAPPER);
     }
 
     @Override
@@ -42,17 +44,27 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer idArticle, Integer idRenter) {
+    public Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer articleId, long renterId) {
         Map<String, Object> data = new HashMap<>();
         data.put("message", comment);
         data.put("approved", approved);
         data.put("start_date", startDate);
         data.put("end_date", endDate);
-        data.put("article_id", idArticle);
-        data.put("renter_id", idRenter);
+        data.put("article_id", articleId);
+        data.put("renter_id", renterId);
 
         long rentProposalId = jdbcInsert.executeAndReturnKey(data).longValue();
 
-        return Optional.of(new RentProposal(rentProposalId, comment, approved, startDate, endDate, idArticle, idRenter));
+        return Optional.of(new RentProposal(rentProposalId, comment, approved, startDate, endDate, articleId, renterId));
+    }
+
+    @Override
+    public void acceptRequest(long requestId) {
+        jdbcTemplate.update("UPDATE rent_proposal SET approved = true WHERE id = ?", requestId);
+    }
+
+    @Override
+    public void deleteRequest(long requestId) {
+        jdbcTemplate.update("DELETE FROM rent_proposal WHERE id = ?", requestId);
     }
 }

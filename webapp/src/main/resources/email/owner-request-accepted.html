@@ -12,15 +12,16 @@
         <td></td>
         <td></td>
         <td>
-            <p><strong th:text="#{email.greetings(${renterName})}" style="font-size: large;"></strong></p>
-            <p><strong th:text="#{email.renter.header(${ownerName})}" style="font-size: large"></strong></p>
-            <p th:text="#{email.renter.subtitle(${ownerName})}" style="font-size: large"></p>
+            <p><strong th:text="#{email.greetings(${ownerName})}" style="font-size: large;"></strong></p>
+            <p><strong th:text="#{email.accepted.owner.header(${articleName})}" style="font-size: large"></strong></p>
+            <p th:text="#{email.accepted.owner.subtitle(${renterName})}" style="font-size: large"></p>
+            <p th:text="#{email.accepted.contact(${renterEmail})}" style="font-size: large"></p>
             <hr/>
             <h4 th:text="#{email.renter.details}"></h4>
             <p th:text="#{email.renter.article(${articleName})}"></p>
             <p th:text="#{email.renter.startDate(${startDate})}"></p>
             <p th:text="#{email.renter.endDate(${endDate})}"></p>
-            <p style="font-size: large"><a th:href="${callbackUrl}" th:text="#{email.renter.request.callBack}"></a></p>
+            <p style="font-size: large"><a th:href="${callbackUrl}" th:text="#{email.owner.request.callBack}"></a></p>
         </td>
         <td></td>
         <td></td>

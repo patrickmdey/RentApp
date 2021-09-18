@@ -9,8 +9,8 @@
 <body class="bg-color-grey">
 <h:navbar/>
 <div class="error-container container-height">
-    <h1 class="display-3 fw-bold">Error 404</h1>
-    <p class="lead"><spring:message code="error.404"/></p>
+    <h1 class="display-3 fw-bold">Error 403</h1>
+    <p class="lead"><spring:message code="error.403"/></p>
     <a href="${marketplace}"><spring:message code="error.return"/></a>
 
 </div>

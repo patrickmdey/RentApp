@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CategoryDaoJdbc implements CategoryDao {
@@ -36,5 +37,11 @@ public class CategoryDaoJdbc implements CategoryDao {
     @Override
     public List<Category> listAll() {
         return jdbcTemplate.query("SELECT * FROM category", ROW_MAPPER);
+    }
+
+    @Override
+    public Optional<Category> findById(Long category) {
+        return jdbcTemplate.query("SELECT * FROM category WHERE id = ?", new Object[] {category},
+                ROW_MAPPER).stream().findFirst();
     }
 }

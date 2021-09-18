@@ -1,14 +1,13 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,10 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public Optional<User> findById(long id) {
-        return this.userDao.findById(id);
+    public Optional<User> findById(Long id) {
+        if(id != null)
+            return this.userDao.findById(id);
+        return Optional.empty();
     }
 
     @Override
@@ -39,5 +40,15 @@ public class UserServiceImpl implements UserService {
     public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
         return this.userDao.register(email, passwordHash, firstName, lastName, location, type.ordinal());
+    }
+
+    @Override
+    public void update(long id, String firstName, String lastName, String email, Long location, Boolean isOwner) {
+        this.userDao.update(id, firstName, lastName, email, location, (isOwner ? UserType.Owner : UserType.Renter).ordinal());
+    }
+
+    @Override
+    public void delete(long id) {
+        this.userDao.delete(id);
     }
 }

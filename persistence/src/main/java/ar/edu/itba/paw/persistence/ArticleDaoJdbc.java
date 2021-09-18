@@ -2,10 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.CategoryDao;
 import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.OrderOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -44,10 +41,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     }
 
-    @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
-        StringBuilder query = new StringBuilder("SELECT * FROM article WHERE true ");
-        ArrayList<Object> params = new ArrayList<>();
+    private StringBuilder queryBuilder(List<Object> params, String fields, String name, Long category, Long user, Long location){
+        StringBuilder query = new StringBuilder("SELECT "+ fields + " FROM article WHERE true ");
 
         if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE ? ");
@@ -65,11 +60,20 @@ public class ArticleDaoJdbc implements ArticleDao {
             params.add(category);
         }
 
-        if(location != null){
+        if (location != null) {
             query.append(" AND owner_id IN (SELECT account.id FROM account " +
                     "WHERE account.location = ?) ");
             params.add(location);
         }
+
+        return query;
+    }
+
+    @Override
+    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
+        ArrayList<Object> params = new ArrayList<>();
+
+        StringBuilder query = queryBuilder(params, "*", name, category, user, location);
 
         if (orderBy != null) {
             query.append(" ORDER BY ");
@@ -87,6 +91,18 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
+    public Long getMaxPage(String name, Long category, Long user, Long location) {
+        ArrayList<Object> params = new ArrayList<>();
+        StringBuilder query = queryBuilder(params, "COUNT(*)", name, category, user, location);
+
+        Long size = jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+
+        return (size / OFFSET) + toSum;
+    }
+
+    @Override
     public Optional<Article> findById(long id) {
         Optional<Article> optArticle = jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
                         new Object[]{id}, ROW_MAPPER)
@@ -99,6 +115,11 @@ public class ArticleDaoJdbc implements ArticleDao {
         Article article = optArticle.get();
 
         return Optional.of(article);
+    }
+
+    @Override
+    public List<Article> findByOwner(long ownerId) {
+        return jdbcTemplate.query("SELECT * FROM article WHERE owner_id = ?", new Object[]{ownerId}, ROW_MAPPER);
     }
 
 
@@ -116,10 +137,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Long getMaxPage() {
-        Integer size = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article", Integer.class);
-
-        int toSum = (size % OFFSET == 0) ? 0 : 1;
-        return (size / OFFSET) + toSum;
+    public int editArticle(long id, String title, String description, Float pricePerDay) {
+        return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
     }
 }

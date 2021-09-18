@@ -18,4 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> listCategories() {
         return categoryDao.listAll();
     }
+
+    @Override
+    public Category findById(Long id) {
+        return categoryDao.findById(id).orElse(null);
+    }
 }
