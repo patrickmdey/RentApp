@@ -38,26 +38,26 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-//                .sessionManagement()
-//                .invalidSessionUrl("/")
-//                .
-////                .
-//                .and()
+                .sessionManagement()
+                .invalidSessionUrl("/user/login")
+                .and()
                 .authorizeRequests()
+                .antMatchers("/user/login", "/user/register").anonymous()
                 .antMatchers("/user/view", "/user/edit").authenticated()
                 .antMatchers("/user/delete").fullyAuthenticated()
-                .antMatchers("/create-article").hasRole("OWNER")
-
+                .antMatchers("/create-article").hasAuthority("OWNER")
                 .anyRequest().permitAll()
 
                 .and().formLogin()
                 .defaultSuccessUrl("/", false)
-                    .loginPage("/user/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
+                .loginPage("/user/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .and().rememberMe()
-                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
+                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .userDetailsService(pawUserDetailService)
+                .key("Super clave re copada que nadie nunca va a adivinar por que somoes el mejor grupo de todo el mundo")
+                .rememberMeParameter("rememberMe")
                 .and().logout()
                     .logoutUrl("/user/logout")
                     .logoutSuccessUrl("/user/login")

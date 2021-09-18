@@ -77,8 +77,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long getMaxPage() {
-        return articleDao.getMaxPage();
+    public Long getMaxPage(String name, Long category, Long user, Long location) {
+        return articleDao.getMaxPage(name, category, user, location);
     }
 
 

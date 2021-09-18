@@ -64,7 +64,7 @@
     </form:form>
 </fieldset>
 <div class="row justify-content-space-around">
-    <controls:LinkButton href="/marketplace" col="col-10" color="btn-secondary" labelCode="account.form.cancelButton"/>
+    <controls:LinkButton href="/" col="col-10" color="btn-secondary" labelCode="account.form.cancelButton"/>
 </div>
 </body>
 
