@@ -5,15 +5,16 @@
 <%@ attribute name="labelCode" required="true" %>
 
 <html>
-    <body>
-    <div class="form-group ">
-        <div class="form-check">
+<body>
+<div class="form-group ">
+    <div class="form-check">
+        <label>
             <form:checkbox path="${path}" cssClass="form-check-input"/>
-            <form:label path="${path}" class="form-check-label"><spring:message code="${labelCode}"/></form:label>
-            <form:errors path="${path}" element="p" cssClass="text-danger"/>
-
-        </div>
+            <spring:message code="${labelCode}"/>
+        </label>
+        <form:errors path="${path}" element="p" cssClass="text-danger"/>
     </div>
+</div>
 
-    </body>
+</body>
 </html>
