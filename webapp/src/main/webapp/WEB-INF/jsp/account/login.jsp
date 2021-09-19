@@ -13,7 +13,7 @@
 <html>
 <h:head title="LogIn"/>
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 <div class="main-container">
     <div class="card shadow card-style create-card mx-3">
         <form:form method="post" action="${loginUrl}">

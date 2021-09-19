@@ -15,7 +15,7 @@
 <html>
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 <div class="container container-height">
     <div class="row filter-container">
         <div class="col-md-3 col-lg-3 col-12"></div>

@@ -13,8 +13,8 @@
 <%@ attribute name="userId" required="true" %>
 
 
-<c:url value="/user/my-account/${id}/accept" var="acceptRequest"/>
-<c:url value="/user/my-account/${id}/delete" var="deleteRequest"/>
+<c:url value="/user/my-requests/${id}/accept" var="acceptRequest"/>
+<c:url value="/user/my-requests/${id}/delete" var="deleteRequest"/>
 
 
 <div class="card card-style">

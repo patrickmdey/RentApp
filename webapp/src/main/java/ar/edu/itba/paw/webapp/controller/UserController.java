@@ -76,8 +76,12 @@ public class UserController extends BaseController {
 
     @RequestMapping("/login")
     public ModelAndView login() {
-        final ModelAndView mav = new ModelAndView("account/login");
-        return mav;
+        return new ModelAndView("account/login");
+    }
+
+    @RequestMapping("/logout")
+    public ModelAndView logout() {
+        return new ModelAndView("marketplace");
     }
 
 
@@ -149,23 +153,23 @@ public class UserController extends BaseController {
         return accountForm;
     }
 
-    @RequestMapping("/my-account")
+    @RequestMapping("/my-requests")
     public ModelAndView myAccount() {
-        final ModelAndView mav = new ModelAndView("account/manageAccount");
+        final ModelAndView mav = new ModelAndView("account/myRequests");
         List<RentProposal> rentProposals = rentService.ownerRequests(loggedUser().getId());
 
         mav.addObject("requests", rentProposals);
         return mav;
     }
 
-    @RequestMapping(value = "/my-account/{requestId}/accept", method = RequestMethod.POST)
+    @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
         return myAccount();
     }
 
-    @RequestMapping(value = "/my-account/{requestId}/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView deleteRequest(@PathVariable("requestId") Long requestId) {
         rentService.deleteRequest(requestId);

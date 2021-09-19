@@ -56,9 +56,9 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/login", "/user/register").anonymous()
                 .antMatchers("/user/view", "/user/edit").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
-                .antMatchers("/create-article", "user/my-account").hasAuthority("OWNER")
+                .antMatchers("/create-article", "user/my-requests").hasAuthority("OWNER")
                 .antMatchers(HttpMethod.POST,
-                      "/my-account/accept/{requestId}", "/my-account/{requestId}/delete/").hasAuthority("OWNER")
+                      "/my-requests/accept/{requestId}", "/my-requests/{requestId}/delete/").hasAuthority("OWNER")
                 .anyRequest().permitAll()
 
                 .and().formLogin()

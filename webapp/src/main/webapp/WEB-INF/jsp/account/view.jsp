@@ -11,7 +11,7 @@
 <h:head title="Mi perfil"/>
 
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -65,8 +65,8 @@
         </div>
         <h:account mode="view" locations="${locations}"/>
     </div>
-    <h:footer/>
 </div>
+<h:footer/>
 </body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>

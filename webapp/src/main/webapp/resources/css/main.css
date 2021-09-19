@@ -3,6 +3,10 @@ h1, h2, h3, h4, h5, h6, p {
     color: #06121A;
 }
 
+a.nav-link:hover {
+    color: #93C4E6 !important;
+}
+
 .color-primary {
     color: #1A394E !important;
 }

@@ -11,7 +11,7 @@
 <h:head title="Edit profile"/>
 
 <body class="bg-color-grey ">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 
 <h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
 
