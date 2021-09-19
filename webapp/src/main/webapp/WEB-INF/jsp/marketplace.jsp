@@ -153,10 +153,10 @@
                     <div class="row row-cols-3 justify-content-center">
                         <c:forEach var="article" items="${articles}">
                             <div class="col d-flex justify-content-center">
-                                <h:articleCard title="${article.title}" price="${article.pricePerDay}"
-                                               id="${article.id}"
-                                               location="${article.location}"
-                                               image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                                <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                                   id="${article.id}"
+                                                   location="${article.location}"
+                                                   image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
                             </div>
                         </c:forEach>
                     </div>
