@@ -6,8 +6,14 @@
 <h:head title="Feedback"/>
 <body>
 <h:navbar loggedUserId="${user.id}"/>
-<h1 class="h1 justify">
-    <spring:message code="feedback.message"/>
-</h1>
+<div class="main-container">
+    <div class="card shadow card-style justify-content-center">
+        <h1 class="h1 justify">
+            <spring:message code="feedback.message"/>
+        </h1>
+        <a class="lead" href="/">Ver más artículos</a>
+    </div>
+</div>
+<h:footer/>
 </body>
 </html>
