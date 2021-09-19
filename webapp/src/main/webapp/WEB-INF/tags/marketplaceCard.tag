@@ -24,14 +24,13 @@
             </p>
         </div>
         <div class="card-content">
-
+            <div class="card-location-container">
+                <p class="color-secondary"><i class="bi-geo-alt-fill"></i><c:out value="${location}"/></p>
+            </div>
             <div class="card-price-container">
                 <p class="card-text lead article-price mt-2 fw-bold color-rentapp-red"><spring:message
                         code="article.price"
                         arguments="${price}"/></p>
-            </div>
-            <div class="card-location-container">
-                <p class="my-2 color-secondary"><i class="bi-geo-alt-fill"></i><c:out value="${location}"/></p>
             </div>
         </div>
     </div>
