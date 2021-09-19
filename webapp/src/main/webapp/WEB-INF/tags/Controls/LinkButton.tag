@@ -18,7 +18,7 @@
 
 <html>
 <body>
-<a href="${url}" class="rounded ${col} btn btn-block  ${color}">
+<a href="${url}" class="rounded ${col} btn btn-block ${color}">
     <spring:message  code="${labelCode}"/>
 </a>
 </body>
