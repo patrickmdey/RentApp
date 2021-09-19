@@ -74,7 +74,7 @@
 
                     <div class="modal-body bg-color-grey">
                         <div class="row">
-                            <div class="col-12 form-input">
+                            <div class="col-12 my-2">
                                 <form:label path="name"><spring:message
                                         code="article.rentRequestForm.name"/></form:label>
                                 <spring:message code="article.rentRequestForm.name.input" var="enterName"/>
@@ -84,7 +84,7 @@
                                     <spring:message code="article.rentRequestForm.name.input.error"/>
                                 </form:errors>
                             </div>
-                            <div class="col-12 form-input">
+                            <div class="col-12 my-2">
                                 <form:label path="email"><spring:message
                                         code="article.rentRequestForm.email"/></form:label>
                                 <spring:message code="article.rentRequestForm.email.input" var="enterEmail"/>
@@ -94,7 +94,7 @@
                                     <spring:message code="article.rentRequestForm.email.input.error"/>
                                 </form:errors>
                             </div>
-                            <div class="col-6 form-input">
+                            <div class="col-6 my-2">
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
@@ -102,7 +102,7 @@
                                     <spring:message code="article.rentRequestForm.startDate.input.error"/>
                                 </form:errors>
                             </div>
-                            <div class="col-6 form-input">
+                            <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
@@ -110,7 +110,7 @@
                                     <spring:message code="article.rentRequestForm.endDate.input.error"/>
                                 </form:errors>
                             </div>
-                            <div class="col-12 form-input">
+                            <div class="col-12 my-2">
                                 <form:label path="message"><spring:message
                                         code="article.rentRequestForm.message"/></form:label>
                                 <spring:message code="article.rentRequestForm.message.input" var="enterMessage"/>

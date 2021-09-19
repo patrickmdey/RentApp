@@ -24,7 +24,7 @@
             <div class="form-container">
                 <h3 class="h3 fw-bold my-2"><spring:message code="article.createArticleForm.title"/></h3>
                 <hr/>
-                <div class="form-input">
+                <div class="my-2">
                     <form:label path="name"><spring:message code="article.createArticleForm.name"/></form:label>
                     <spring:message code="article.createArticleForm.name.input" var="articleName"/>
                     <form:input type="text" path="name" class="form-control form-control-custom"
@@ -33,7 +33,7 @@
                         <spring:message code="article.createArticleForm.name.error"/>
                     </form:errors>
                 </div>
-                <div class="col-12 form-input">
+                <div class="col-12 my-2">
                     <form:label path="description"><spring:message
                             code="article.createArticleForm.description"/></form:label>
                     <spring:message code="article.createArticleForm.description.input" var="articleDescription"/>
@@ -43,7 +43,7 @@
                         <spring:message code="article.createArticleForm.description.error"/>
                     </form:errors>
                 </div>
-                <div class="col-12 form-input">
+                <div class="col-12 my-2">
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
                     <form:errors path="pricePerDay" element="p" cssClass="error"/>
