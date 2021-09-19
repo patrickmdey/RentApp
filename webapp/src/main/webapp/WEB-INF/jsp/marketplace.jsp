@@ -74,9 +74,8 @@
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
                 <h4 class="h4 color-rentapp-black"><spring:message code="filter.title"/></h4>
-                <hr class="color-rentapp-black"/>
+                <hr/>
                 <div class="d-flex justify-content-start">
-                    <p class="lead"><spring:message code="filters.marketplace.query"/></p>
                     <div>
                         <form:label path="query"/>
                         <spring:message code="filterForm.search" var="searchPlaceholder"/>
@@ -154,10 +153,10 @@
                     <div class="row row-cols-3 justify-content-center">
                         <c:forEach var="article" items="${articles}">
                             <div class="col d-flex justify-content-center">
-                                <h:articleCard title="${article.title}" price="${article.pricePerDay}"
-                                               id="${article.id}"
-                                               location="${article.location}"
-                                               image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                                <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                                   id="${article.id}"
+                                                   location="${article.location}"
+                                                   image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
                             </div>
                         </c:forEach>
                     </div>

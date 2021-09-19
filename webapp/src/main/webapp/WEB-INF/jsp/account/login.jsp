@@ -18,19 +18,23 @@
     <div class="card shadow card-style create-card mx-3">
         <form:form method="post" action="${loginUrl}">
             <div class="form-container">
-                <h3 class="h3 fw-bold my-2"><spring:message code="login.form.title"/></h3>
+                <h3 class="h3 fw-bold my-1"><spring:message code="login.form.title"/></h3>
                 <hr/>
                 <div class="row">
                     <div class="form-group">
                         <label><spring:message code="login.form.email"/></label>
-                        <input name="email" type="text" class="form-control form-control-custom"/>
+                        <spring:message code="placeholder.email" var="emailPlaceholder"/>
+                        <input name="email" type="text" placeholder="${emailPlaceholder}"
+                               class="form-control form-control-custom"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
                         <label><spring:message code="login.form.password"/></label>
-                        <input name="password" type="password" class="form-control form-control-custom"/>
+                        <spring:message code="placeholder.password" var="passwordPlaceholder"/>
+                        <input name="password" type="password" placeholder="${passwordPlaceholder}"
+                               class="form-control form-control-custom"/>
                     </div>
                 </div>
                 <div class="row">
@@ -39,26 +43,19 @@
                         <spring:message code="login.form.rememberMe"/>
                     </label>
                 </div>
-                <div class="row" style="justify-content: space-around">
-                    <control:Button col="col-4" labelCode="login.form.loginButton"></control:Button>
+                <div class="row justify-content-center">
+                    <control:Button col="col-4" color="bg-color-action btn-dark" labelCode="login.form.loginButton"/>
 
-                    <a href="${registerUrl}" class="rounded col-4 btn btn-block  btn-secondary">
-                        <spring:message code="login.form.registerButton"/>
-                    </a>
+                    <control:LinkButton href="${registerUrl}" labelCode="login.form.registerButton" col="col-4"
+                                        color="color-rentapp-black bg-color-secondary"/>
+
                 </div>
             </div>
         </form:form>
     </div>
 </div>
-
-
+<h:footer/>
 </body>
-
-<style type="text/css">
-    .row {
-        margin-block: 15px;
-    }
-</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

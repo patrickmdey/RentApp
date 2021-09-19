@@ -30,6 +30,6 @@
         </c:forEach>
     </div>
 </div>
-
+<h:footer/>
 </body>
 </html>

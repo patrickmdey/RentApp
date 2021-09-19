@@ -77,21 +77,21 @@
                             <div class="col-12 my-2">
                                 <form:label path="name"><spring:message
                                         code="article.rentRequestForm.name"/></form:label>
-                                <spring:message code="article.rentRequestForm.name.input" var="enterName"/>
+                                <spring:message code="placeholder.name" var="enterName"/>
                                 <form:input type="text" path="name" class="form-control form-control-custom"
                                             placeholder="${enterName}"/>
                                 <form:errors path="name" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="article.rentRequestForm.name.input.error"/>
+                                    <spring:message code="errors.requiredName"/>
                                 </form:errors>
                             </div>
                             <div class="col-12 my-2">
                                 <form:label path="email"><spring:message
                                         code="article.rentRequestForm.email"/></form:label>
-                                <spring:message code="article.rentRequestForm.email.input" var="enterEmail"/>
+                                <spring:message code="placeholder.email" var="enterEmail"/>
                                 <form:input type="email" path="email" class="form-control form-control-custom"
                                             placeholder="${enterEmail}"/>
                                 <form:errors path="email" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="article.rentRequestForm.email.input.error"/>
+                                    <spring:message code="errors.requiredEmail"/>
                                 </form:errors>
                             </div>
                             <div class="col-6 my-2">
@@ -99,7 +99,7 @@
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
                                 <form:errors path="startDate" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="article.rentRequestForm.startDate.input.error"/>
+                                    <spring:message code="errors.requiredStartDate"/>
                                 </form:errors>
                             </div>
                             <div class="col-6 my-2">
@@ -107,17 +107,17 @@
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
                                 <form:errors path="endDate" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="article.rentRequestForm.endDate.input.error"/>
+                                    <spring:message code="errors.requiredEndDate"/>
                                 </form:errors>
                             </div>
                             <div class="col-12 my-2">
                                 <form:label path="message"><spring:message
                                         code="article.rentRequestForm.message"/></form:label>
-                                <spring:message code="article.rentRequestForm.message.input" var="enterMessage"/>
+                                <spring:message code="placeholder.message" var="enterMessage"/>
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
                                 <form:errors path="message" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="article.rentRequestForm.message.input.error"/>
+                                    <spring:message code="errors.requiredMessage"/>
                                 </form:errors>
                             </div>
                         </div>
@@ -162,6 +162,7 @@
         </div>
     </div>
 </div>
+<h:footer/>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

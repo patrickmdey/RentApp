@@ -11,15 +11,17 @@
 <h:navbar loggedUserId="${user.id}"/>
 
 
-<div class="card container shadow card-style">
-    <div class="card-body">
-        <div class="row">
-            <h3 class="card-title"><spring:message code="account.create.form.title"/></h3>
-
+<div class="main-container">
+    <div class="card shadow card-style create-card mx-3">
+        <div class="form-container">
+            <h3 class="h3 fw-bold my-1"><spring:message code="account.create.form.title"/></h3>
+            <hr/>
+            <h:account mode="create" locations="${locations}"/>
         </div>
-        <h:account mode="create"/>
     </div>
 </div>
+
+<h:footer/>
 
 </body>
 

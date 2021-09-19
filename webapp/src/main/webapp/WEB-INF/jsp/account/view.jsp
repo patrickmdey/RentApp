@@ -63,8 +63,9 @@
 
             </div>
         </div>
-        <h:account mode="view"/>
+        <h:account mode="view" locations="${locations}"/>
     </div>
+    <h:footer/>
 </div>
 </body>
 
