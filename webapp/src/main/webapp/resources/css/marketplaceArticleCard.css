@@ -19,6 +19,8 @@
 
 
 .marketplace-card-info-container {
+    margin-top: 3px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     height: 40%;
 }
 
