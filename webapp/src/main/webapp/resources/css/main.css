@@ -72,8 +72,9 @@ h1, h2, h3, h4, h5, h6, p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 15%;
+    margin-right: 15%;
+    min-height: 100vh;
 }
 
 .card-style {
