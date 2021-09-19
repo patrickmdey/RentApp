@@ -43,7 +43,8 @@
                             arguments="${article.pricePerDay}"/></p>
                     <c:choose>
                         <c:when test="${user.id == article.idOwner}">
-                            <a class="btn color-grey bg-color-primary color-grey mt-2" href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
+                            <a class="btn color-grey bg-color-primary color-grey mt-2"
+                               href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
                         </c:when>
                         <c:otherwise>
                             <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
@@ -161,6 +162,21 @@
             </div>
         </div>
     </div>
+
+    <!-- RECOMMENDED ARTICLES-->
+    <c:if test="${recommended.size() > 0}">
+        <div class="row row-cols-3 justify-content-center">
+            <c:forEach var="article" items="${recommended}">
+                <div class="col d-flex justify-content-center">
+                    <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                       id="${article.id}"
+                                       location="${article.location}"
+                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                </div>
+            </c:forEach>
+        </div>
+    </c:if>
+
 </div>
 <h:footer/>
 </body>

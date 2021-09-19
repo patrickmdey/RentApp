@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,4 +16,6 @@ public interface ArticleService {
     Optional<Article> findById(long articleId);
 
     Long getMaxPage(String name, Long category, Long user, Long location);
+
+    List<Article> recommendedArticles(Integer articleId);
 }
