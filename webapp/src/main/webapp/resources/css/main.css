@@ -3,10 +3,18 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .color-primary {
-    color: #22577A !important;
+    color: #1A394E !important;
 }
 
 .bg-color-primary {
+    background-color: #1A394E !important;
+}
+
+.color-action {
+    color: #22577A !important;
+}
+
+.bg-color-action {
     background-color: #22577A !important;
 }
 
@@ -67,6 +75,20 @@ h1, h2, h3, h4, h5, h6, p {
     margin-right: 15%;
 }
 
+.card-style {
+    background-color: #fff;
+    padding: 25px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin: 8px 0;
+    max-height: 50vh;
+    width: 100%;
+}
+
+.card-style.filters-card {
+    max-height: 80vh;
+}
+
 .form-container {
     margin: 0 5%;
 }
@@ -95,5 +117,9 @@ h1, h2, h3, h4, h5, h6, p {
     flex-direction: column;
     justify-content: start;
     align-items: center;
+}
+
+.form-input {
+    margin: 3px 0;
 }
 

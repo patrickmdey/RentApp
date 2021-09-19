@@ -1,13 +1,3 @@
-.card-style {
-    background-color: #fff;
-    padding: 25px;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    margin: 8px 0;
-    max-height: 50vh;
-    width: 100%;
-}
-
 .article-img {
     min-width: 30vh;
     max-height: 37vh;
@@ -20,10 +10,6 @@
 
 .article-price {
     margin: 10px 0;
-}
-
-.form-input {
-    margin: 6px 0;
 }
 
 label {

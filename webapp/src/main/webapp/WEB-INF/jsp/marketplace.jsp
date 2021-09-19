@@ -18,18 +18,23 @@
 <h:navbar loggedUserId="${user.id}"/>
 <div class="container container-height">
     <div class="row">
-        <div class="col-md-3 col-lg-3">
+        <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
-                <div class="form-input">
-                    <form:label path="query"/>
-                    <spring:message code="filterForm.search" var="searchPlaceholder"/>
-                    <form:input type="text" path="query" placeholder="${searchPlaceholder}"/>
+                <h3 class="h3"><spring:message code="filter.title"/></h3>
+                <div class="d-flex justify-content-center">
+                    <p class="lead"><spring:message code="filters.marketplace.query"/></p>
+                    <div class="form-input">
+                        <form:label path="query"/>
+                        <spring:message code="filterForm.search" var="searchPlaceholder"/>
+                        <form:input type="text" path="query" placeholder="${searchPlaceholder}"/>
+                    </div>
                 </div>
 
                 <form:input type="number" path="user" cssClass="d-none"/>
 
-                <div class="form-check card bg-light">
-                    <form:label path="category"><spring:message code="search.rentRequestForm.category"/></form:label>
+                <div class="form-check d-flex flex-column align-items-start">
+                    <form:label path="category"><spring:message
+                            code="search.rentRequestForm.category"/></form:label>
                     <form:radiobuttons path="category" items="${categories}"
                                        itemValue="id" itemLabel="description"/>
                 </div>
@@ -44,18 +49,21 @@
                     </form:select>
                 </div>
 
-                <div class="form-input">
-                    <form:label path="location">
-                        <spring:message code="filterForm.location"/>
-                    </form:label>
-                    <form:select path="location" class="form-control form-control-custom">
-                        <form:option value="" label="Todas las ubicaciones">Todas las ubicaciones</form:option>
-                        <c:forEach var="loc" items="${locations}">
-                            <form:option value="${loc.ordinal()}" label="${loc.name}">
-                                <c:out value="${loc.name}"/>
-                            </form:option>
-                        </c:forEach>
-                    </form:select>
+                <form:label path="location">
+                    <spring:message code="filterForm.location"/>
+                </form:label>
+                <div class="my-1 row align-items-center">
+                    <i class="col-1 bi bi-pin-map"></i>
+                    <div class="col-11">
+                        <form:select path="location" class="form-control form-control-custom">
+                            <form:option value="" label="Todas las ubicaciones">Todas las ubicaciones</form:option>
+                            <c:forEach var="loc" items="${locations}">
+                                <form:option value="${loc.ordinal()}" label="${loc.name}">
+                                    <c:out value="${loc.name}"/>
+                                </form:option>
+                            </c:forEach>
+                        </form:select>
+                    </div>
                 </div>
 
 
@@ -64,48 +72,52 @@
         </div>
 
         <div class="col-md-8 col-lg-8 col-12 ms-md-5 ms-lg-5">
-
             <!-- ACA SE MUESTRAN LOS PARAMETROS DE LA URL -->
             <c:if test="${ query != null && query.length() > 0 }">
                 Showing results for <c:out value="${query}"/>
             </c:if>
 
-
-            <c:if test="${ param.category != null }">
-                Searching category
-                <c:url value="/" var="removeCategoryUrl">
-                    <c:forEach var="p" items="${param}">
-                        <c:if test="${p.key != 'category'}">
-                            <c:param name="${p.key}" value="${p.value}"/>
-                        </c:if>
-                    </c:forEach>
-                </c:url>
-                <div class="badge bg-primary">
-                    <c:out value="${category}"/>
-                    <a href="${removeCategoryUrl}" class="text-light">X</a>
-                </div>
-            </c:if>
-
             <c:if test="${ param.location != null && param.location.length() > 0 }">
-                Searching location
+                <i class="bi bi-pin-map"></i>
+                <spring:message code="filters.marketplace.location"/>
                 <c:out value="${locationsEnum[searchForm.location].name}"/>
             </c:if>
 
-            <c:if test="${ param.user != null && param.user.length() > 0}">
-                Searching user
-                <c:url value="/" var="removeUserUrl">
-                    <c:forEach var="p" items="${param}">
-                        <c:if test="${p.key != 'user'}">
-                            <c:param name="${p.key}" value="${p.value}"/>
-                        </c:if>
-                    </c:forEach>
-                </c:url>
-                <div class="badge bg-primary">
-                    <c:out value="${userFilter.firstName}"/>
-                    <a href="${removeUserUrl}" class="text-light">X</a>
+
+            <c:if test="${ (param.category != null && param.category.length() > 0)
+            || (param.user != null && param.user.length() > 0) }">
+                <div class="d-flex justify-content-start">
+                    <spring:message code="filters.marketplace.filtering"/>
+                    <c:if test="${ param.category != null && param.category.length() > 0}">
+                        <c:url value="/" var="removeCategoryUrl">
+                            <c:forEach var="p" items="${param}">
+                                <c:if test="${p.key != 'category'}">
+                                    <c:param name="${p.key}" value="${p.value}"/>
+                                </c:if>
+                            </c:forEach>
+                        </c:url>
+                        <div class="badge bg-primary mx-2 p-2">
+                            <i class="bi bi-tag"></i>
+                            <c:out value="${category}"/>
+                            <a href="${removeCategoryUrl}" class="text-light">X</a>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${ param.user != null && param.user.length() > 0}">
+                        <c:url value="/" var="removeUserUrl">
+                            <c:forEach var="p" items="${param}">
+                                <c:if test="${p.key != 'user'}">
+                                    <c:param name="${p.key}" value="${p.value}"/>
+                                </c:if>
+                            </c:forEach>
+                        </c:url>
+                        <div class="badge bg-primary"><i class="fa fa-user"></i>
+                            <c:out value="${userFilter.firstName}"/>
+                            <a href="${removeUserUrl}" class="text-light">X</a>
+                        </div>
+                    </c:if>
                 </div>
             </c:if>
-
 
             <c:if test="${articles.size() == 0}">
                 No results found
