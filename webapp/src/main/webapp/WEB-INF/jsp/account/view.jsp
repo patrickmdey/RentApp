@@ -65,8 +65,8 @@
         </div>
         <h:account mode="view" locations="${locations}"/>
     </div>
-    <h:footer/>
 </div>
+<h:footer/>
 </body>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
