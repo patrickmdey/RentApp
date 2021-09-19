@@ -8,7 +8,7 @@
 <c:url value="/user/logout" var="logout"/>
 <c:url value="/user/register" var="register"/>
 
-<c:url value="/user/my-account" var="myAccount"/>
+<c:url value="/user/my-requests" var="myAccount"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
     <div class="container-fluid">
