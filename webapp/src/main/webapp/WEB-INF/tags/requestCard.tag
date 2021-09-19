@@ -13,8 +13,8 @@
 <%@ attribute name="userId" required="true" %>
 
 
-<c:url value="/user/${userId}/my-account/accept" var="acceptRequest"/>
-<c:url value="/user/${userId}/my-account/delete" var="deleteRequest"/>
+<c:url value="/user/my-account/${id}/accept" var="acceptRequest"/>
+<c:url value="/user/my-account/${id}/delete" var="deleteRequest"/>
 
 
 <div class="card card-style">
@@ -32,13 +32,11 @@
     <c:if test="${!state}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${acceptRequest}">
-                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-success me-1"><spring:message
                         code="myAccount.ownerRequests.acceptButton"/></button>
             </form>
 
             <form method="post" action="${deleteRequest}">
-                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-danger"><spring:message
                         code="myAccount.ownerRequests.denyButton"/></button>
             </form>
@@ -47,7 +45,6 @@
     <c:if test="${state}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${deleteRequest}">
-                <input value="${id}" name="requestId" type="hidden"/>
                 <button type="submit" class="btn btn-success me-1">YA TA</button>
             </form>
         </div>

@@ -148,25 +148,24 @@ public class UserController extends BaseController {
         return accountForm;
     }
 
-    @RequestMapping("/{userId}/my-account")
-    public ModelAndView myAccount(@PathVariable("userId") Long userId) {
+    @RequestMapping("/my-account")
+    public ModelAndView myAccount() {
         final ModelAndView mav = new ModelAndView("account/manageAccount");
-
-        List<RentProposal> rentProposals = rentService.ownerRequests(userId);
+        List<RentProposal> rentProposals = rentService.ownerRequests(loggedUser().getId());
 
         mav.addObject("requests", rentProposals);
         return mav;
     }
 
-    @RequestMapping(value = "/{userId}/my-account/accept", method = RequestMethod.POST)
-    public ModelAndView acceptRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
+    @RequestMapping(value = "/my-account/{requestId}/accept", method = RequestMethod.POST)
+    public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
-        return myAccount(userId);
+        return myAccount();
     }
 
-    @RequestMapping(value = "/{userId}/my-account/delete", method = RequestMethod.POST)
-    public ModelAndView deleteRequest(@RequestParam("requestId") Long requestId, @PathVariable("userId") Long userId) {
+    @RequestMapping(value = "/my-account/{requestId}/delete", method = RequestMethod.POST)
+    public ModelAndView deleteRequest(@PathVariable("requestId") Long requestId) {
         rentService.deleteRequest(requestId);
-        return myAccount(userId);
+        return myAccount();
     }
 }

@@ -7,7 +7,7 @@
 <c:url value="/user/login" var="login"/>
 <c:url value="/user/register" var="register"/>
 
-<c:url value="/user/${loggedUserId}/my-account" var="myAccount"/>
+<c:url value="/user/my-account" var="myAccount"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
     <div class="container-fluid">
