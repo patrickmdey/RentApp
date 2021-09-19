@@ -104,9 +104,9 @@ public class RentServiceImpl implements RentService {
 
     @Override
     public void deleteRequest(long requestId) {
-        rentDao.deleteRequest(requestId);
-
         Map<String, String> values = getValuesMap(requestId);
+
+        rentDao.deleteRequest(requestId);
 
         emailService.sendMailRequestDenied(values.get("renterEmail"), values);
     }
@@ -117,8 +117,6 @@ public class RentServiceImpl implements RentService {
         User renter = userService.findById(request.getRenterId()).orElseThrow(RuntimeException::new);
         Article article = articleService.findById(request.getArticleId()).orElseThrow(RuntimeException::new);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(RuntimeException::new);
-
-        rentDao.acceptRequest(requestId);
 
         Map<String, String> values = new HashMap<>();
 
