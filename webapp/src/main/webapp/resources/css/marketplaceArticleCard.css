@@ -12,7 +12,9 @@
 }
 
 .card-image {
-    width: 27vh;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 
