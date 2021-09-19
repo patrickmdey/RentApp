@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/" var="marketplace"/>
 <c:url value="/create-article" var="createArticle"/>
-<%@ attribute name="loggedUserId" required="false" %>
+<%@ attribute type="ar.edu.itba.paw.models.User" name="loggedUser" required="false" %>
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>
 <c:url value="/user/login" var="login"/>
+<c:url value="/user/logout" var="logout"/>
 <c:url value="/user/register" var="register"/>
 
 <c:url value="/user/my-account" var="myAccount"/>
@@ -22,11 +23,28 @@
             <div class="navbar-nav">
                 <a class="nav-link active" href="${createArticle}">Publish Article</a>
                 <a class="nav-link active" aria-current="page" href="${marketplace}">Marketplace</a>
-                <a class="nav-link active" aria-current="page" href="${login}">LogIn</a>
-                <a class="nav-link active" aria-current="page" href="${register}">SignUp</a>
-            </div>
 
-            <a href="${myAccount}">My account</a>
+                <c:choose>
+                    <c:when test="${loggedUser != null}">
+                        <div class="dropdown">
+                            <a class="nav-link active color-grey dropdown-toggle" id="accountMenu"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>${loggedUser.firstName}</span>
+                                <img src="${loggedUser.photo}" width="60px" height="60px">
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="accountMenu">
+                                <li><a class="dropdown-item" href="${myAccount}">Mis solicitudes</a></li>
+                                <li><a class="dropdown-item" href="${viewUser}">Mi perfil</a></li>
+                                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                            </ul>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="nav-link active" aria-current="page" href="${login}">LogIn</a>
+                        <a class="nav-link active" aria-current="page" href="${register}">SignUp</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
     </div>
 </nav>

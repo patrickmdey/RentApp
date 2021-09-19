@@ -5,7 +5,7 @@
 <html>
 <h:head title="Feedback"/>
 <body>
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 <div class="main-container">
     <div class="card shadow card-style justify-content-center">
         <h1 class="h1 justify">

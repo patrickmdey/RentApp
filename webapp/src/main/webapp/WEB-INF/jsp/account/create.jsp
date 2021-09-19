@@ -8,7 +8,7 @@
 <h:head title="create"/>
 
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 
 
 <div class="main-container">

@@ -7,7 +7,7 @@
 <html>
 <h:head title="Manage Account"/>
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 <div class="row">
     <div class="card card-style col-3">
         <button class="btn btn-link w-100"><spring:message

@@ -11,7 +11,7 @@
 <h:head title="Mi perfil"/>
 
 <body class="bg-color-grey">
-<h:navbar loggedUserId="${user.id}"/>
+<h:navbar loggedUser="${user}"/>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
