@@ -9,6 +9,7 @@ import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -133,6 +134,7 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
+    @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView viewEditArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm editArticleForm, BindingResult errors, @PathVariable("articleId") Long articleId) {
         final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
@@ -153,6 +155,7 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
+    @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
 

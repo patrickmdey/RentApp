@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/" var="marketplace"/>
 <c:url value="/create-article" var="createArticle"/>
-<%@ attribute name="loggedUserId" required="true" %>
+<%@ attribute name="loggedUserId" required="false" %>
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>
 <c:url value="/user/login" var="login"/>

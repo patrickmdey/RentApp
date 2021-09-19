@@ -1,18 +1,15 @@
 package ar.edu.itba.paw.webapp.config;
 
-import ar.edu.itba.paw.webapp.auth.ArticleAccessDecisionVoter;
-import ar.edu.itba.paw.webapp.auth.RentAccessDecisionVoter;
+import ar.edu.itba.paw.interfaces.ArticleService;
+import ar.edu.itba.paw.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDecisionManager;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.RoleVoter;
-import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,45 +17,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.expression.WebExpressionVoter;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@ComponentScan({ "ar.edu.itba.paw.webapp.auth"})
+@ComponentScan({"ar.edu.itba.paw.webapp.auth"})
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsService pawUserDetailService;
 
     @Autowired
-    ArticleAccessDecisionVoter articleAccessDecisionVoter;
+    UserService userService;
 
     @Autowired
-    RentAccessDecisionVoter rentAccessDecisionVoter;
+    ArticleService articleService;
 
     @Override
-    protected void configure (AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(pawUserDetailService)
                 .passwordEncoder(passwordEncoder());
     }
-
-    /*
-    @Bean
-    public AccessDecisionManager accessDecisionManager() {
-        List<AccessDecisionVoter <?>> decisionVoters = Arrays.asList(
-//                new AuthenticatedVoter(),
-//                new RoleVoter(),
-//                new WebExpressionVoter(),
-                articleAccessDecisionVoter,
-                rentAccessDecisionVoter
-        );
-        return new UnanimousBased(decisionVoters);
-    }
-     */
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,11 +55,10 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/login", "/user/register").anonymous()
                 .antMatchers("/user/view", "/user/edit").authenticated()
-                .antMatchers(HttpMethod.POST,"/user/delete").fullyAuthenticated()
-                .antMatchers("/create-article","user/my-account").hasAuthority("OWNER")
-                //.antMatchers(HttpMethod.POST,
-                  //      "/my-account/accept/{requestId}", "/my-account/{requestId}/delete/").hasAuthority("OWNER")
-                //.accessDecisionManager(accessDecisionManager())
+                .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
+                .antMatchers("/create-article", "user/my-account").hasAuthority("OWNER")
+                .antMatchers(HttpMethod.POST,
+                      "/my-account/accept/{requestId}", "/my-account/{requestId}/delete/").hasAuthority("OWNER")
                 .anyRequest().permitAll()
 
                 .and().formLogin()
@@ -92,21 +72,27 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .key("Super clave re copada que nadie nunca va a adivinar por que somoes el mejor grupo de todo el mundo")
                 .rememberMeParameter("rememberMe")
                 .and().logout()
-                    .logoutUrl("/user/logout")
-                    .logoutSuccessUrl("/user/login")
+                .logoutUrl("/user/logout")
+                .logoutSuccessUrl("/user/login")
 
                 .and().exceptionHandling()
-                    .accessDeniedPage("/403")
+                .accessDeniedPage("/403")
                 .and().csrf()
-                    .disable();
+                .disable();
 
 
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-       web.ignoring()
-               .antMatchers("/css/**","/js/**","/img/**","/favicon.ico","/403");
+        web.ignoring()
+                .antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403");
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
 

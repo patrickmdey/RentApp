@@ -9,6 +9,7 @@ import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -158,12 +159,14 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/my-account/{requestId}/accept", method = RequestMethod.POST)
+    @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
         return myAccount();
     }
 
     @RequestMapping(value = "/my-account/{requestId}/delete", method = RequestMethod.POST)
+    @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView deleteRequest(@PathVariable("requestId") Long requestId) {
         rentService.deleteRequest(requestId);
         return myAccount();
