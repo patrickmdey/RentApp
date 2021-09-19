@@ -12,16 +12,18 @@
 
 <body class="bg-color-grey ">
 <h:navbar loggedUser="${user}"/>
+<div class="main-container">
 
-<h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
+    <h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
 
-<div class="card container">
-    <div class="card-body">
-        <div class="row">
-            <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
+    <div class="card shadow card-style">
+        <div class="card-body">
+            <div class="row">
+                <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
 
+            </div>
+            <h:account mode="edit" locations="${locations}"/>
         </div>
-        <h:account mode="edit" locations="${locations}"/>
     </div>
 </div>
 

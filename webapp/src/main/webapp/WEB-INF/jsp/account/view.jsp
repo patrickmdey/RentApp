@@ -12,39 +12,36 @@
 
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
+<div class="main-container">
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    <spring:message code="account.view.form.titleDelete"/>
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <spring:message code="account.view.form.warningDelete"/>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <spring:message code="account.view.form.buttonCancel"/>
-                </button>
-                <form:form action="${deleteUrl}" method="post">
-                    <button type="submit" class="btn btn-danger">
-                        <spring:message code="account.view.form.buttonDelete"/>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <spring:message code="account.view.form.titleDelete"/>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <spring:message code="account.view.form.warningDelete"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <spring:message code="account.view.form.buttonCancel"/>
                     </button>
-                </form:form>
-
-
+                    <form:form action="${deleteUrl}" method="post">
+                        <button type="submit" class="btn btn-danger">
+                            <spring:message code="account.view.form.buttonDelete"/>
+                        </button>
+                    </form:form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="card container shadow card-style">
-
-    <div class="card-body">
+    <div class="card shadow card-style">
         <div class="row">
 
             <div class="col-8">
@@ -63,7 +60,22 @@
 
             </div>
         </div>
+        <hr/>
         <h:account mode="view" locations="${locations}"/>
+    </div>
+
+    <div>
+        <h3 class="h3 my-2">Mis publicaciones</h3>
+        <div class="row row-cols-3 justify-content-center">
+            <c:forEach var="article" items="${articles}">
+                <div class="col d-flex justify-content-center">
+                    <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                       id="${article.id}"
+                                       location="${article.location}"
+                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </div>
 <h:footer/>
