@@ -45,5 +45,6 @@
 </div>
 </div>
 <h:footer/>
+<h:mainScript/>
 </body>
 </html>
