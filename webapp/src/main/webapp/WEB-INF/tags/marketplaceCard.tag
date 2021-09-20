@@ -9,7 +9,7 @@
 
 <html>
 <body>
-<div class="card marketplace-card-style shadow-sm text-dark bg-light">
+<div class="card marketplace-card-style shadow-sm text-dark bg-light mb-4">
 
     <div class="marketplace-card-img-container">
         <img src="<c:url value="/image/${image_id}"/>" class="card-image"
@@ -34,7 +34,7 @@
             </div>
         </div>
     </div>
-    <a href="article/${id}" class="stretched-link"></a>
+    <a href="<c:url value="/article/${id}"/>" class="stretched-link"></a>
 </div>
 </body>
 </html>

@@ -135,15 +135,16 @@
     </div>
 
 
-    <div class="row w-100">
-        <div class="col-lg-8 col-md-7 col-12">
+    <div class="row w-100 g-0 justify-content-between">
+        <div class="col-md-8 col-12 pe-md-3 pe-0">
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <p class="lead">${article.description}</p>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-5 col-12">
+
+        <div class="col-md-4 col-12">
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
@@ -165,9 +166,10 @@
 
     <!-- RECOMMENDED ARTICLES-->
     <c:if test="${recommended.size() > 0}">
-        <div class="row row-cols-3 justify-content-center">
+        <h1 class="d-block w-100"><spring:message code="article.relatedTitle"/></h1>
+        <div class="row row-cols-4 justify-content-start w-100">
             <c:forEach var="article" items="${recommended}">
-                <div class="col d-flex justify-content-center">
+                <div class="col">
                     <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                        id="${article.id}"
                                        location="${article.location}"

@@ -86,8 +86,11 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> recommendedArticles(Integer articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
 
-        Optional<Article> toDelete = articleDao.findById(articleId);
-        toDelete.ifPresent(toReturn::remove);
+        toReturn.forEach(article -> {
+            appendImages(article);
+            appendLocation(article);
+        });
+
         return toReturn;
     }
 

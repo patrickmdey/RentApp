@@ -70,30 +70,30 @@
             </c:if>
         </div>
     </div>
-    <div class="row">
+    <div class="row align-items-start">
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
-                <h4 class="h4 color-rentapp-black"><spring:message code="filter.title"/></h4>
-                <hr/>
-                <div class="d-flex justify-content-start">
-                    <div>
-                        <form:label path="query"/>
-                        <spring:message code="filterForm.search" var="searchPlaceholder"/>
-                        <form:input type="text" path="query" placeholder="${searchPlaceholder}"/>
-                    </div>
-                </div>
-
                 <form:input type="number" path="user" cssClass="d-none"/>
 
+                <h4 class="h4 color-rentapp-black"><spring:message code="filter.title"/></h4>
+                <hr/>
+                <div>
+                    <form:label path="query" cssClass="font-weight-bold">
+                        <spring:message code="filters.marketplace.query"/>
+                    </form:label>
+                    <spring:message code="filterForm.search" var="searchPlaceholder"/>
+                    <form:input type="text" path="query" cssClass="form-control w-100" placeholder="${searchPlaceholder}"/>
+                </div>
+
+                <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
+                        code="search.rentRequestForm.category"/></form:label>
                 <div class="form-check d-flex flex-column align-items-start">
-                    <form:label path="category"><spring:message
-                            code="search.rentRequestForm.category"/></form:label>
                     <form:radiobuttons path="category" items="${categories}"
                                        itemValue="id" itemLabel="description"/>
                 </div>
 
-                <div>
-                    <form:label path="orderBy">
+                <div class="mt-3">
+                    <form:label path="orderBy" cssClass="font-weight-bold">
                         <spring:message code="filterForm.orderBy"/>
                     </form:label>
                     <div class="my-2 row align-items-center">
@@ -110,8 +110,8 @@
                     </div>
                 </div>
 
-                <div>
-                    <form:label path="location">
+                <div class="mt-3">
+                    <form:label path="location" cssClass="font-weight-bold">
                         <spring:message code="filterForm.location"/>
                     </form:label>
                     <div class="my-1 row align-items-center">
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn bg-color-action btn-dark my-auto">
+                <button type="submit" class="btn bg-color-action btn-dark mt-4 w-100">
                     <spring:message code="filterForm.search"/>
                 </button>
             </form:form>
@@ -150,9 +150,9 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row row-cols-3 justify-content-center">
+                    <div class="row row-cols-3 justify-content-start w-100">
                         <c:forEach var="article" items="${articles}">
-                            <div class="col d-flex justify-content-center">
+                            <div class="col">
                                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                                    id="${article.id}"
                                                    location="${article.location}"
