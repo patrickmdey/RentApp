@@ -24,40 +24,39 @@
                     </c:forEach>
                 </div>
             </div>
+            <div class="col-md-1"></div>
             <div class="col-md-7">
-                <div class="card-body">
-                    <h2 class="card-title display-6">${article.title}</h2>
-                    <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i>${article.location}
-                    </p>
-                    <div class="d-flex">
-                        <c:forEach var="category" items="${article.categories}">
-                            <c:url var="marketplaceUrl" value="/"><c:param name="category"
-                                                                           value="${category.id}"/></c:url>
-                            <h5><a href="${marketplaceUrl}"> <span
-                                    class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
-                            </h5>
-                        </c:forEach>
-                    </div>
-                    <p class="card-text lead fw-bold article-price color-rentapp-red"><spring:message
-                            code="article.price"
-                            arguments="${article.pricePerDay}"/></p>
-                    <c:choose>
-                        <c:when test="${user == null}">
-                            <a class="btn color-grey bg-color-primary color-grey mt-2"
-                               href="<c:url value="/user/login"/>">Alquilar</a>
-                        </c:when>
-                        <c:when test="${user.id == article.idOwner}">
-                            <a class="btn color-grey bg-color-primary color-grey mt-2"
-                               href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
-                        </c:when>
-                        <c:otherwise>
-                            <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#rentFormModal">
-                                <spring:message code="article.rent"/>
-                            </button>
-                        </c:otherwise>
-                    </c:choose>
+                <h2 class="card-title display-6">${article.title}</h2>
+                <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i>${article.location}
+                </p>
+                <div class="d-flex">
+                    <c:forEach var="category" items="${article.categories}">
+                        <c:url var="marketplaceUrl" value="/"><c:param name="category"
+                                                                       value="${category.id}"/></c:url>
+                        <h5><a href="${marketplaceUrl}"> <span
+                                class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
+                        </h5>
+                    </c:forEach>
                 </div>
+                <h4 class="card-text h4 color-rentapp-red"><spring:message
+                        code="article.price"
+                        arguments="${article.pricePerDay}"/></h4>
+                <c:choose>
+                    <c:when test="${user == null}">
+                        <a class="btn color-grey bg-color-primary color-grey mt-2"
+                           href="<c:url value="/user/login"/>">Alquilar</a>
+                    </c:when>
+                    <c:when test="${user.id == article.idOwner}">
+                        <a class="btn color-grey bg-color-primary color-grey mt-2"
+                           href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
+                                data-bs-target="#rentFormModal">
+                            <spring:message code="article.rent"/>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

@@ -9,18 +9,18 @@
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container">
-    <div class="row">
-        <div class="card card-style col-3">
-            <button class="btn btn-link w-100"><spring:message
-                    code="myAccount.ownerRequests.myRequests"/></button>
-            <button class="btn btn-link w-100"><spring:message
-                    code="myAccount.ownerRequests.activeRequests"/></button>
-            <button class="btn btn-link w-100"><spring:message
-                    code="myAccount.ownerRequests.endedRequests"/></button>
-        </div>
-        <div class="col-8">
-            <h1 class="h1"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h1>
-            <hr/>
+    <%--        <div class="card card-style col-3">--%>
+    <%--            <button class="btn btn-link w-100"><spring:message--%>
+    <%--                    code="myAccount.ownerRequests.myRequests"/></button>--%>
+    <%--            <button class="btn btn-link w-100"><spring:message--%>
+    <%--                    code="myAccount.ownerRequests.activeRequests"/></button>--%>
+    <%--            <button class="btn btn-link w-100"><spring:message--%>
+    <%--                    code="myAccount.ownerRequests.endedRequests"/></button>--%>
+    <%--        </div>--%>
+    <h1 class="h1"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h1>
+    <hr/>
+    <c:choose>
+        <c:when test="${requests.size() != 0}">
             <c:forEach var="request" items="${requests}">
 
                 <h:requestCard articleName="${request.article.title}" renterFirstName="${request.renter.firstName}"
@@ -29,8 +29,20 @@
                                message="${request.message}" id="${request.id}" state="${request.approved}"
                                userId="${user.id}"/>
             </c:forEach>
-        </div>
-    </div>
+        </c:when>
+        <c:otherwise>
+            <div class="card card-style align-items-center justify-content-center">
+                <h2 class="h2">
+                    <spring:message code="myAccount.ownerRequest.noRequestsFound"/>
+                </h2>
+                <p class="lead">
+                    <spring:message code="myAccount.ownerRequest.noRequestsFound.subtitle"/>
+                </p>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>
+</div>
 </div>
 <h:footer/>
 </body>
