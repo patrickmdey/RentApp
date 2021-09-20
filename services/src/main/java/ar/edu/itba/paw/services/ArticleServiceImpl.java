@@ -82,6 +82,15 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.getMaxPage(name, category, user, location);
     }
 
+    @Override
+    public List<Article> recommendedArticles(Integer articleId) {
+        List<Article> toReturn = articleDao.recommendedArticles(articleId);
+
+        Optional<Article> toDelete = articleDao.findById(articleId);
+        toDelete.ifPresent(toReturn::remove);
+        return toReturn;
+    }
+
 
     @Override
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {

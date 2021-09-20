@@ -83,11 +83,6 @@ public class UserController extends BaseController {
         return new ModelAndView("account/login");
     }
 
-    @RequestMapping("/logout")
-    public ModelAndView logout() {
-        return new ModelAndView("marketplace");
-    }
-
 
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") AccountForm accountForm) {

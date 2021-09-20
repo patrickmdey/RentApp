@@ -35,7 +35,7 @@
                             <ul class="dropdown-menu" aria-labelledby="accountMenu">
                                 <li><a class="dropdown-item" href="${myAccount}">Mis solicitudes</a></li>
                                 <li><a class="dropdown-item" href="${viewUser}">Mi perfil</a></li>
-                                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                                <li><a class="dropdown-item" href="${logout}">Cerrar sesión</a></li>
                             </ul>
                         </div>
                     </c:when>

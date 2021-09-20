@@ -41,8 +41,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     }
 
-    private StringBuilder queryBuilder(List<Object> params, String fields, String name, Long category, Long user, Long location){
-        StringBuilder query = new StringBuilder("SELECT "+ fields + " FROM article WHERE true ");
+    private StringBuilder queryBuilder(List<Object> params, String fields, String name, Long category, Long user, Long location) {
+        StringBuilder query = new StringBuilder("SELECT " + fields + " FROM article WHERE true ");
 
         if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE ? ");
@@ -100,6 +100,18 @@ public class ArticleDaoJdbc implements ArticleDao {
         int toSum = (size % OFFSET == 0) ? 0 : 1;
 
         return (size / OFFSET) + toSum;
+    }
+
+    @Override
+    public List<Article> recommendedArticles(Integer articleId) {
+        return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id IN (SELECT a2.id " +
+                "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
+                "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +
+                "(SELECT acc2.id FROM account AS acc2 JOIN rent_proposal rp ON acc2.id = rp.renter_id" +
+                " WHERE rp.article_id = ?)" +
+                " GROUP BY a2.id " +
+                " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
+                ")", new Object[] {articleId}, ROW_MAPPER);
     }
 
     @Override

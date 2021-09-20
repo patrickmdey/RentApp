@@ -164,7 +164,6 @@
                     </div>
 
                     <div class="d-flex justify-content-center my-2">
-
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item">
