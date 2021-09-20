@@ -78,7 +78,6 @@ a.nav-link:hover {
     align-items: center;
     margin-left: 15%;
     margin-right: 15%;
-    margin-top: 3vh;
     min-height: 100vh;
 }
 
@@ -88,12 +87,13 @@ a.nav-link:hover {
     border: 1px solid #eee;
     border-radius: 6px;
     margin: 0 0 8px;
-    max-height: 50vh;
+    /*max-height: 50vh;*/
     width: 100%;
 }
 
 .card-style.filters-card {
-    max-height: 75vh;
+    /*max-height: 100%;*/
+    height: auto;
 }
 
 .filter-container {

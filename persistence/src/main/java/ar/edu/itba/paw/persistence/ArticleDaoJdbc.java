@@ -46,7 +46,7 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE ? ");
-            params.add("%" + name.toLowerCase() + "%");
+            params.add("%" + parseNameQuery(name.toLowerCase()) + "%");
         }
 
         if (user != null) {
@@ -104,14 +104,14 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public List<Article> recommendedArticles(Integer articleId) {
-        return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id IN (SELECT a2.id " +
+        return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id != ? AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
                 "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +
                 "(SELECT acc2.id FROM account AS acc2 JOIN rent_proposal rp ON acc2.id = rp.renter_id" +
                 " WHERE rp.article_id = ?)" +
                 " GROUP BY a2.id " +
                 " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
-                ")", new Object[] {articleId}, ROW_MAPPER);
+                ")", new Object[] {articleId, articleId}, ROW_MAPPER);
     }
 
     @Override
@@ -151,5 +151,16 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public int editArticle(long id, String title, String description, Float pricePerDay) {
         return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
+    }
+
+    private String parseNameQuery(String query){
+        StringBuilder toReturn = new StringBuilder();
+        for (int i = 0; i < query.length(); i++) {
+            char curr = query.charAt(i);
+            if(curr == '%' || curr == '_')
+                toReturn.append('\\');
+            toReturn.append(curr);
+        }
+        return toReturn.toString();
     }
 }
