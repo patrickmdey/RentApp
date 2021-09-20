@@ -96,7 +96,10 @@ public class ArticleController extends BaseController {
 
         if (errors.hasErrors()) {
             System.out.println("err");
-            errors.getAllErrors().forEach(System.out::println);
+
+            errors.getAllErrors().forEach(err -> {
+                System.out.println(err);
+            });
             return viewArticle(rentForm, articleId, true);
         }
 

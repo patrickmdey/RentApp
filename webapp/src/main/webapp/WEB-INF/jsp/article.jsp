@@ -99,9 +99,9 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="errors.requiredStartDate"/>
-                                </form:errors>
+<%--                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">--%>
+<%--                                    <spring:message code=""/>--%>
+<%--                                </form:errors>--%>
                             </div>
                             <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
@@ -109,6 +109,10 @@
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
                                 <form:errors path="endDate" element="p" cssStyle="color: #EF6461">
                                     <spring:message code="errors.requiredEndDate"/>
+                                </form:errors>
+                            </div>
+                            <div class="col-12">
+                                <form:errors element="p" cssClass="color: #EF6461" path="startDate">
                                 </form:errors>
                             </div>
                             <div class="col-12 my-2">
