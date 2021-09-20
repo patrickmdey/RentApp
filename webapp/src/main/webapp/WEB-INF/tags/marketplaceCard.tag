@@ -33,7 +33,7 @@
             </h4>
         </div>
     </div>
+    <a href="article/${id}" class="stretched-link"></a>
 </div>
-<a href="article/${id}" class="stretched-link"></a>
 </body>
 </html>
