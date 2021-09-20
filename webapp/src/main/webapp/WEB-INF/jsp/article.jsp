@@ -27,7 +27,7 @@
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title display-6">${article.title}</h2>
-                    <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${article.location}
+                    <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i>${article.location}
                     </p>
                     <div class="d-flex">
                         <c:forEach var="category" items="${article.categories}">
@@ -42,6 +42,10 @@
                             code="article.price"
                             arguments="${article.pricePerDay}"/></p>
                     <c:choose>
+                        <c:when test="${user == null}">
+                            <a class="btn color-grey bg-color-primary color-grey mt-2"
+                               href="<c:url value="/user/login"/>">Alquilar</a>
+                        </c:when>
                         <c:when test="${user.id == article.idOwner}">
                             <a class="btn color-grey bg-color-primary color-grey mt-2"
                                href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
@@ -75,31 +79,11 @@
 
                     <div class="modal-body bg-color-grey">
                         <div class="row">
-                            <div class="col-12 my-2">
-                                <form:label path="name"><spring:message
-                                        code="article.rentRequestForm.name"/></form:label>
-                                <spring:message code="placeholder.name" var="enterName"/>
-                                <form:input type="text" path="name" class="form-control form-control-custom"
-                                            placeholder="${enterName}"/>
-                                <form:errors path="name" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="errors.requiredName"/>
-                                </form:errors>
-                            </div>
-                            <div class="col-12 my-2">
-                                <form:label path="email"><spring:message
-                                        code="article.rentRequestForm.email"/></form:label>
-                                <spring:message code="placeholder.email" var="enterEmail"/>
-                                <form:input type="email" path="email" class="form-control form-control-custom"
-                                            placeholder="${enterEmail}"/>
-                                <form:errors path="email" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="errors.requiredEmail"/>
-                                </form:errors>
-                            </div>
                             <div class="col-6 my-2">
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">
+                                <form:errors path="startDate" element="p" cssClass="error">
                                     <spring:message code="errors.requiredStartDate"/>
                                 </form:errors>
                             </div>
@@ -107,7 +91,7 @@
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
-                                <form:errors path="endDate" element="p" cssStyle="color: #EF6461">
+                                <form:errors path="endDate" element="p" cssClass="error">
                                     <spring:message code="errors.requiredEndDate"/>
                                 </form:errors>
                             </div>
@@ -117,7 +101,7 @@
                                 <spring:message code="placeholder.message" var="enterMessage"/>
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
-                                <form:errors path="message" element="p" cssStyle="color: #EF6461">
+                                <form:errors path="message" element="p" cssClass="error">
                                     <spring:message code="errors.requiredMessage"/>
                                 </form:errors>
                             </div>
@@ -139,6 +123,7 @@
         <div class="col-lg-8 col-md-7 col-12">
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
+                <hr/>
                 <p class="lead">${article.description}</p>
             </div>
         </div>
