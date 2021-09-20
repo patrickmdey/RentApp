@@ -69,8 +69,10 @@
                     <h:imageInput multiple="multiple"/>
                 </c:if>
 
-                <button type="submit" class="rounded btn btn-primary"><spring:message
-                        code="article.createArticleForm.publish"/></button>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="rounded btn btn-dark bg-color-action"><spring:message
+                            code="article.createArticleForm.publish"/></button>
+                </div>
             </div>
         </form:form>
     </div>

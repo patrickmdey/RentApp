@@ -16,7 +16,7 @@
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="container container-height">
+<div class="container">
     <div class="row filter-container">
         <div class="col-md-3 col-lg-3 col-12"></div>
         <div class="col-md-8 col-lg-8 d-flex justify-content-start">
@@ -131,9 +131,11 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn bg-color-action btn-dark my-auto">
-                    <spring:message code="filterForm.search"/>
-                </button>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn w-100 bg-color-action btn-dark mt-3">
+                        <spring:message code="filterForm.search"/>
+                    </button>
+                </div>
             </form:form>
         </div>
 
@@ -150,7 +152,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row row-cols-3 justify-content-center">
+                    <div class="row row-cols-3 justify-content-center container-height">
                         <c:forEach var="article" items="${articles}">
                             <div class="col d-flex justify-content-center">
                                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"

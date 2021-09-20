@@ -40,11 +40,11 @@ a.nav-link:hover {
 }
 
 .color-rentapp-red {
-    color: #EF6461 !important;
+    color: #ff6b4d !important;
 }
 
 .bg-color-rentapp-red {
-    background-color: #EF6461 !important;
+    background-color: #ff6b4d !important;
 }
 
 .color-grey {
@@ -78,6 +78,7 @@ a.nav-link:hover {
     align-items: center;
     margin-left: 15%;
     margin-right: 15%;
+    margin-top: 3vh;
     min-height: 100vh;
 }
 
@@ -92,7 +93,7 @@ a.nav-link:hover {
 }
 
 .card-style.filters-card {
-    max-height: 100%;
+    max-height: 75vh;
 }
 
 .filter-container {

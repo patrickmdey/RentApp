@@ -16,25 +16,24 @@
              alt="${title} image}">
     </div>
 
-
     <div class="marketplace-card-info-container">
         <div class="card-title-container">
-            <p class="p lead font-weight-bold fw-normal text-truncate">
+            <h3 class="h3 text-truncate">
                 <c:out value="${title}"/>
-            </p>
+            </h3>
         </div>
         <div class="card-content">
-            <div class="card-location-container">
-                <p class="color-secondary"><i class="bi-geo-alt-fill"></i><c:out value="${location}"/></p>
-            </div>
-            <div class="card-price-container">
-                <p class="card-text lead article-price mt-2 fw-bold color-rentapp-red"><spring:message
+            <h5 class="h5 color-action my-1"><i class="bi-geo-alt-fill"></i>
+                <c:out value="${location}"/>
+            </h5>
+            <h4 class="h4 my-2 color-rentapp-red">
+                <spring:message
                         code="article.price"
-                        arguments="${price}"/></p>
-            </div>
+                        arguments="${price}"/>
+            </h4>
         </div>
     </div>
-    <a href="article/${id}" class="stretched-link"></a>
 </div>
+<a href="article/${id}" class="stretched-link"></a>
 </body>
 </html>
