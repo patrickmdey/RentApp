@@ -29,7 +29,7 @@
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">
                             <a class="nav-link active color-grey dropdown-toggle" id="accountMenu"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                               data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <span>${loggedUser.firstName}</span>
                                     <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>
