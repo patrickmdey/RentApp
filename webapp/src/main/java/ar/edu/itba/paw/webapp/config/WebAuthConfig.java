@@ -58,7 +58,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
                 .antMatchers("/create-article", "user/my-requests").hasAuthority("OWNER")
                 .antMatchers(HttpMethod.POST,
-                      "/my-requests/accept/{requestId}", "/my-requests/{requestId}/delete/").hasAuthority("OWNER")
+                        "/my-requests/accept/{requestId}", "/my-requests/{requestId}/delete/").hasAuthority("OWNER")
                 .anyRequest().permitAll()
 
                 .and().formLogin()
@@ -66,14 +66,15 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/user/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
+
                 .and().rememberMe()
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .userDetailsService(pawUserDetailService)
                 .key("Super clave re copada que nadie nunca va a adivinar por que somoes el mejor grupo de todo el mundo")
                 .rememberMeParameter("rememberMe")
+
                 .and().logout()
-                .logoutUrl("/user/logout")
-                .logoutSuccessUrl("/user/login")
+                .logoutUrl("/user/logout").logoutSuccessUrl("/user/login")
 
                 .and().exceptionHandling()
                 .accessDeniedPage("/403")
