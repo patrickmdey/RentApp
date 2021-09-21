@@ -140,7 +140,7 @@
         <div class="col-md-9 col-lg-9 col-12">
             <c:choose>
                 <c:when test="${articles.size() == 0}">
-                    <div class="card card-style align-items-center justify-content-center">
+                    <div class="card card-style align-items-center justify-content-start">
                         <h2 class="h2">
                             <spring:message code="marketplace.articleNotFound.title"/>
                         </h2>

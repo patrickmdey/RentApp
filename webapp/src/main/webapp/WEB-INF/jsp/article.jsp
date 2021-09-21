@@ -146,7 +146,7 @@
                         <c:param name="user" value="${owner.id}"/>
                     </c:url>
 
-                    <a class="navbar-brand" href="${userFilterUrl}">See more</a>
+                    <a class="navbar-brand" href="${userFilterUrl}"><spring:message code="article.view.viewMore"/></a>
                 </div>
             </div>
         </div>
