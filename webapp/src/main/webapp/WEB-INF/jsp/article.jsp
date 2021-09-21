@@ -82,9 +82,9 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-<%--                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">--%>
-<%--                                    <spring:message code=""/>--%>
-<%--                                </form:errors>--%>
+                                    <%--                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">--%>
+                                    <%--                                    <spring:message code=""/>--%>
+                                    <%--                                </form:errors>--%>
                             </div>
                             <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
@@ -128,6 +128,25 @@
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <hr/>
                 <p class="lead">${article.description}</p>
+            </div>
+            <div class="card card-style">
+                <h3 class="h3"><spring:message code="account.reviews.title"/></h3>
+                <hr/>
+                <c:forEach items="${reviews}" var="review">
+                    <h5 class="h5">${review.renter.firstName} ${review.renter.lastName}</h5>
+                    <div class="d-flex align-items-start mt-2 mb-3">
+                        <c:forEach begin="1" end="${review.rating}">
+                            <i class="bi bi-star-fill color-rentapp-red"></i>
+                        </c:forEach>
+                        <c:if test="${review.rating <5}">
+                            <c:forEach begin="1" end="${5-review.rating}">
+                                <i class="bi bi-star color-rentapp-black"></i>
+                            </c:forEach>
+                        </c:if>
+                    </div>
+                    <p>${review.message}</p>
+                    <hr/>
+                </c:forEach>
             </div>
         </div>
 
@@ -182,7 +201,7 @@
         htmlImg.setAttribute("src", src);
     }
 </script>
-<script src="<c:url value="/resources/js/main.js" />" defer></script>
+<script src="<c:url value="/resources/js/main.js"/>" defer></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>

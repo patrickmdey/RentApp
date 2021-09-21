@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS picture
 (
     id   SERIAL NOT NULL,
@@ -18,28 +17,28 @@ CREATE TABLE IF NOT EXISTS account
     id         SERIAL  NOT NULL,
     first_name VARCHAR NOT NULL,
     last_name
-    VARCHAR
-    NOT
-    NULL,
+               VARCHAR
+                       NOT
+                           NULL,
     email
-    VARCHAR
-    NOT
-    NULL
-    UNIQUE,
+               VARCHAR
+                       NOT
+                           NULL
+        UNIQUE,
     location
-    INTEGER
-    NOT
-    NULL,
+               INTEGER
+                       NOT
+                           NULL,
     password
-    VARCHAR
-    NOT
-    NULL,
+               VARCHAR
+                       NOT
+                           NULL,
     picture
-    INT,
+               INT,
     type
-    INT
-    NOT
-    NULL,
+               INT
+                       NOT
+                           NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -88,5 +87,17 @@ CREATE TABLE IF NOT EXISTS rent_proposal
     FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (renter_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE (start_date, end_date, article_id, renter_id)
+);
+
+CREATE TABLE IF NOT EXISTS review
+(
+    id         SERIAL  NOT NULL,
+    rating     INT     NOT NULL,
+    message    VARCHAR NOT NULL,
+    article_id INT     NOT NULL,
+    renter_id  INT     NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (renter_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

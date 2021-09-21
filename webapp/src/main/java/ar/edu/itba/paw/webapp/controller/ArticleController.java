@@ -7,6 +7,7 @@ import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
+import ar.edu.itba.paw.webapp.forms.ReviewForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,6 +44,9 @@ public class ArticleController extends BaseController {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @ModelAttribute(value = "locationsEnum")
     public Locations[] locationsEnum() {
@@ -85,6 +89,7 @@ public class ArticleController extends BaseController {
 
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
+        mav.addObject("reviews", reviewService.getAllArticleReviews(articleId));
 
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
         return mav;
@@ -152,6 +157,24 @@ public class ArticleController extends BaseController {
         mav.addObject("articleId", articleId);
         return mav;
     }
+
+//    @RequestMapping(value = "/article/{articleId}/review")
+//    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, BindingResult errors, @PathVariable("articleId") Long articleId) {
+//        if (errors.hasErrors()) {
+//            return viewArticle()
+//        }
+//    }
+
+//    @RequestMapping(value = "/article/{articleId}/review", method = RequestMethod.POST)
+//    public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
+//                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
+//        if (errors.hasErrors()) {
+//            return publishReview(reviewForm, errors, articleId);
+//        }
+//
+//        createReview(reviewForm.getRating(), reviewForm.getMessage(), );
+//    }
+
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
