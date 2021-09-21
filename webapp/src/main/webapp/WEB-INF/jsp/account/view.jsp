@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url value="/user/delete" var="deleteUrl"/>
+<c:url value="/user/edit" var="editUrl"/>
 
 <html>
 <h:head title="Mi perfil"/>
@@ -54,13 +55,13 @@
                 </i>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="/user/edit">
+                        <a class="dropdown-item" href="${editUrl}">
                             <spring:message code="account.view.form.editButton"/>
 
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" data-bs-toggle="modal"
+                        <a class="dropdown-item" style="background-color: rgb(249, 103, 103);" data-bs-toggle="modal"
                            data-bs-target="#exampleModal">
                             <spring:message code="account.view.form.buttonDelete"/>
                         </a>
@@ -88,6 +89,7 @@
 </div>
 <h:footer/>
 </body>
+
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 

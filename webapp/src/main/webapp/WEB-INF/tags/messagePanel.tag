@@ -29,8 +29,8 @@
     <div class="card text-white container ${color}">
         <div class="card-body">
 
-        <h5 class="card-title">
-            <c:if test="${isSuccess}">
+            <h5 class="card-title" style="color: white;">
+                <c:if test="${isSuccess}">
                 <spring:message code="messagePanel.title.success"/>
             </c:if>
             <c:if test="${isError}">
