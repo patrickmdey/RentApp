@@ -8,57 +8,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class CreateArticleForm {
 
-    @NotNull
-    @NotEmpty
-    private String name;
+public class CreateArticleForm extends EditArticleForm {
 
-    @NotNull
-    @NotEmpty
-    private String description;
-
-    @NotNull
-    @Min(1)
-    private float pricePerDay;
-
-    // TODO: check each file.isEmpty
     @ValidFile
     private List<MultipartFile> files;
-
-    private List<Long> categories;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getPricePerDay() {
-        return pricePerDay;
-    }
-
-    public void setPricePerDay(float pricePerDay) {
-        this.pricePerDay = pricePerDay;
-    }
-
-    public List<Long> getCategories(){
-        return categories;
-    }
-
-    public void setCategories(List<Long> categories) {
-        this.categories = categories;
-    }
 
     public List<MultipartFile> getFiles() {
         return files;
@@ -67,4 +21,5 @@ public class CreateArticleForm {
     public void setFiles(List<MultipartFile> files) {
         this.files = files;
     }
+
 }

@@ -6,6 +6,7 @@ import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
+import ar.edu.itba.paw.webapp.forms.EditArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,8 +135,9 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
-    public ModelAndView viewEditArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm editArticleForm, BindingResult errors, @PathVariable("articleId") Long articleId) {
+    public ModelAndView viewEditArticleForm(@ModelAttribute("createArticleForm") EditArticleForm editArticleForm, @PathVariable("articleId") Long articleId) {
         final ModelAndView mav = new ModelAndView("createArticle");
+
         List<Category> categories = categoryService.listCategories();
 
         Optional<Article> articleOpt = articleService.findById(articleId.intValue());
@@ -155,12 +157,12 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
-    public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
+    public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") EditArticleForm createArticleForm,
                                     BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
 
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
-            return viewCreateArticleForm(createArticleForm);
+            return viewEditArticleForm(createArticleForm, articleId);
         }
 
         Article article = articleService.editArticle(

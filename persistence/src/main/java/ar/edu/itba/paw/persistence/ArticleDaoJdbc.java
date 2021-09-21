@@ -15,7 +15,7 @@ import java.util.*;
 @Repository
 public class ArticleDaoJdbc implements ArticleDao {
 
-    private static final Long OFFSET = 4L;
+    private static final Long OFFSET = 9L;
 
     @Autowired
     ArticleCategoryDao articleCategoryDao;

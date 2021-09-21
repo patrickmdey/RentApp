@@ -17,26 +17,32 @@
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="container">
-    <div class="row filter-container">
+    <div class="row filter-container mb-3">
         <div class="col-md-3 col-lg-3 col-12"></div>
         <div class="col-md-8 col-lg-8 d-flex justify-content-start">
             <!-- ACA SE MUESTRAN LOS PARAMETROS DE LA URL -->
             <c:if test="${ query != null && query.length() > 0 }">
-                Showing results for <c:out value="${query}"/>
+                <div class="d-flex align-items-center">
+                    <span class="me-2 align-middle">
+                        <spring:message code="filters.marketplace.search"/><c:out value="${query}"/>
+                    </span>
+                </div>
             </c:if>
 
             <c:if test="${ param.location != null && param.location.length() > 0 }">
-                <div class="me-2">
-                    <i class="bi bi-pin-map"></i>
-                    <spring:message code="filters.marketplace.location"/>
-                    <c:out value="${locationsEnum[searchForm.location].name}"/>
+                <div class="d-flex align-items-center">
+                    <span class="me-2 align-middle">
+                        <i class="bi bi-pin-map"></i>
+                        <spring:message code="filters.marketplace.location"/>
+                        <c:out value="${locationsEnum[searchForm.location].name}"/>
+                    </span>
                 </div>
             </c:if>
 
 
             <c:if test="${ (param.category != null && param.category.length() > 0)
             || (param.user != null && param.user.length() > 0) }">
-                <div class="md-2">
+                <div class="d-flex align-items-center">
                     <spring:message code="filters.marketplace.filtering"/>
                     <c:if test="${ param.category != null && param.category.length() > 0}">
                         <c:url value="/" var="removeCategoryUrl">
@@ -61,7 +67,7 @@
                                 </c:if>
                             </c:forEach>
                         </c:url>
-                        <div class="badge bg-primary"><i class="fa fa-user"></i>
+                        <div class="badge bg-primary mx-2 p-2"><i class="fa fa-user"></i>
                             <c:out value="${userFilter.firstName}"/>
                             <a href="${removeUserUrl}" class="text-light">X</a>
                         </div>
@@ -82,7 +88,8 @@
                         <spring:message code="filters.marketplace.query"/>
                     </form:label>
                     <spring:message code="filterForm.search" var="searchPlaceholder"/>
-                    <form:input type="text" path="query" cssClass="form-control w-100" placeholder="${searchPlaceholder}"/>
+                    <form:input type="text" path="query" cssClass="form-control w-100"
+                                placeholder="${searchPlaceholder}"/>
                 </div>
 
                 <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
@@ -150,7 +157,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row row-cols-3 justify-content-center w-100 container-height">
+                    <div class="row row-cols-3 justify-content-start w-100 container-height">
                         <c:forEach var="article" items="${articles}">
                             <div class="col">
                                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
