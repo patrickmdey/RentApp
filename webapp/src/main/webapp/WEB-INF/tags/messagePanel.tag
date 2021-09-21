@@ -3,8 +3,8 @@
 
 <%@ attribute name="mode" required="true" type="java.lang.String" %>
 <%@ attribute name="visible" required="true" type="java.lang.Boolean" %>
-<%@ attribute name="messages" required="true" type="java.util.List<java.lang.String>"
-        description="It contains the code of the resources that contain the message"
+<%@ attribute name="messages" required="true"
+              description="It contains the code of the resources that contain the message"
 %>
 
 

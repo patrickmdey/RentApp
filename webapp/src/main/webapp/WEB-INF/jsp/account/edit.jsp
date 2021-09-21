@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
-<c:set value="${[\"account.edit.form.message\"]}" var="successMsg"/>
+<c:set value="account.edit.form.message" var="successMsg"/>
 
 <html>
 <h:head title="Edit profile"/>

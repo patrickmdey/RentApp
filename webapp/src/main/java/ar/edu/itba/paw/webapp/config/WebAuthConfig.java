@@ -18,9 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -53,11 +52,15 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
 
-        String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource("secret")).getPath();
-
-        String secret = Files.lines(Paths.get(filePath))
-                .reduce((t, r) -> t += r)
-                .orElseThrow(() -> new IOException("You must create the secret file"));
+        StringBuilder resultStringBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().
+                getResourceAsStream("secret"))))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                resultStringBuilder.append(line).append("\n");
+            }
+        }
+        String secret = resultStringBuilder.toString();
         http
                 .sessionManagement()
                 .invalidSessionUrl("/")
