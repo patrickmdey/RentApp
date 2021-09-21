@@ -8,9 +8,15 @@
 <c:choose>
     <c:when test="${articleId == null}">
         <c:url value="/create-article" var="articleUrl"/>
+        <c:url value="/" var="goBack"/>
+        <c:set var="titleCode" value="article.createArticleForm.title"/>
+        <c:set var="confirmButton" value="article.createArticleForm.publish"/>
     </c:when>
     <c:otherwise>
         <c:url value="/article/${articleId}/edit" var="articleUrl"/>
+        <c:url value="/article/${articleId}" var="goBack"/>
+        <c:set var="titleCode" value="article.editArticleForm.title"/>
+        <c:set var="confirmButton" value="article.editArticleForm.confirm"/>
     </c:otherwise>
 </c:choose>
 <html>
@@ -22,7 +28,8 @@
         <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post"
                    enctype="multipart/form-data">
             <div class="form-container">
-                <h3 class="h3 fw-bold my-1"><spring:message code="article.createArticleForm.title"/></h3>
+                <h3 class="h3 fw-bold my-1"><spring:message code="${titleCode}"/></h3>
+
                 <hr/>
                 <div class="my-2">
                     <form:label path="name"><spring:message code="article.createArticleForm.name"/></form:label>
@@ -70,8 +77,11 @@
                 </c:if>
 
                 <div class="d-flex justify-content-end">
+                    <button type="button" class="rounded btn btn-danger mx-1"><a class="color-grey"
+                                                                                 href="${goBack}"><spring:message
+                            code="account.form.cancelButton"/></a></button>
                     <button type="submit" class="rounded btn btn-dark bg-color-action"><spring:message
-                            code="article.createArticleForm.publish"/></button>
+                            code="${confirmButton}"/></button>
                 </div>
             </div>
         </form:form>

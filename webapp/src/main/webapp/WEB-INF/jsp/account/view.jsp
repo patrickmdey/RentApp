@@ -73,7 +73,7 @@
     </div>
 
     <div>
-        <h3 class="h3 my-2">Mis publicaciones</h3>
+        <h3 class="h3 my-2"><spring:message code="account.view.myArticles"/></h3>
         <div class="row row-cols-3 justify-content-center">
             <c:forEach var="article" items="${articles}">
                 <div class="col d-flex justify-content-center">
