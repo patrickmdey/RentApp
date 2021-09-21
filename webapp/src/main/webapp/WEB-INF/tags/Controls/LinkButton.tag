@@ -14,11 +14,9 @@
     <c:set var="color" value="btn-primary" />
 </c:if>
 
-<c:url value="${href}" var="url"/>
-
 <html>
 <body>
-<a href="${url}" class="rounded ${col} btn btn-block ${color}">
+<a href="${href}" class="rounded ${col} btn btn-block ${color}">
     <spring:message  code="${labelCode}"/>
 </a>
 </body>
