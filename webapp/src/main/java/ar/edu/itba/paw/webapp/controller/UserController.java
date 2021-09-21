@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
@@ -32,6 +33,9 @@ public class UserController extends BaseController {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ArticleService articleService;
 
     @Autowired
     RentService rentService;
@@ -122,7 +126,7 @@ public class UserController extends BaseController {
     @RequestMapping("/view")
     public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/view");
-
+        mav.addObject("articles", articleService.findByOwner(loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;

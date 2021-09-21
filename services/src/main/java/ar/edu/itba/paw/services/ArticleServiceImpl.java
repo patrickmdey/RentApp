@@ -137,5 +137,14 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.findById(id);
     }
 
-
+    @Override
+    public List<Article> findByOwner(long ownerId) {
+        List<Article> articles = articleDao.findByOwner(ownerId);
+        articles.forEach(article -> {
+            appendCategories(article);
+            appendImages(article);
+            appendLocation(article);
+        });
+        return articles;
+    }
 }

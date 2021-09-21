@@ -18,6 +18,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @ComponentScan({"ar.edu.itba.paw.webapp.auth"})
@@ -48,6 +51,16 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+
+        StringBuilder resultStringBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().
+                getResourceAsStream("secret"))))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                resultStringBuilder.append(line).append("\n");
+            }
+        }
+        String secret = resultStringBuilder.toString();
         http
                 .sessionManagement()
                 .invalidSessionUrl("/")
@@ -70,7 +83,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .userDetailsService(pawUserDetailService)
-                .key("Super clave re copada que nadie nunca va a adivinar por que somoes el mejor grupo de todo el mundo")
+                .key(secret)
                 .rememberMeParameter("rememberMe")
 
                 .and().logout()

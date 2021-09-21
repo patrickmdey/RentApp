@@ -3,8 +3,8 @@
 
 <%@ attribute name="mode" required="true" type="java.lang.String" %>
 <%@ attribute name="visible" required="true" type="java.lang.Boolean" %>
-<%@ attribute name="messages" required="true" type="java.util.List<java.lang.String>"
-        description="It contains the code of the resources that contain the message"
+<%@ attribute name="messages" required="true"
+              description="It contains the code of the resources that contain the message"
 %>
 
 
@@ -29,8 +29,8 @@
     <div class="card text-white container ${color}">
         <div class="card-body">
 
-        <h5 class="card-title">
-            <c:if test="${isSuccess}">
+            <h5 class="card-title" style="color: white;">
+                <c:if test="${isSuccess}">
                 <spring:message code="messagePanel.title.success"/>
             </c:if>
             <c:if test="${isError}">

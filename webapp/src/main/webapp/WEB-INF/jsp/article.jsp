@@ -24,36 +24,39 @@
                     </c:forEach>
                 </div>
             </div>
+            <div class="col-md-1"></div>
             <div class="col-md-7">
-                <div class="card-body">
-                    <h2 class="card-title display-6">${article.title}</h2>
-                    <p class="lead article-location color-secondary"><i class="bi-geo-alt-fill"></i>${article.location}
-                    </p>
-                    <div class="d-flex">
-                        <c:forEach var="category" items="${article.categories}">
-                            <c:url var="marketplaceUrl" value="/"><c:param name="category"
-                                                                           value="${category.id}"/></c:url>
-                            <h5><a href="${marketplaceUrl}"> <span
-                                    class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
-                            </h5>
-                        </c:forEach>
-                    </div>
-                    <p class="card-text lead fw-bold article-price color-rentapp-red"><spring:message
-                            code="article.price"
-                            arguments="${article.pricePerDay}"/></p>
-                    <c:choose>
-                        <c:when test="${user.id == article.idOwner}">
-                            <a class="btn color-grey bg-color-primary color-grey mt-2"
-                               href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
-                        </c:when>
-                        <c:otherwise>
-                            <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#rentFormModal">
-                                <spring:message code="article.rent"/>
-                            </button>
-                        </c:otherwise>
-                    </c:choose>
+                <h2 class="card-title display-6">${article.title}</h2>
+                <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i>${article.location}
+                </p>
+                <div class="d-flex">
+                    <c:forEach var="category" items="${article.categories}">
+                        <c:url var="marketplaceUrl" value="/"><c:param name="category"
+                                                                       value="${category.id}"/></c:url>
+                        <h5><a href="${marketplaceUrl}"> <span
+                                class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
+                        </h5>
+                    </c:forEach>
                 </div>
+                <h4 class="card-text h4 color-rentapp-red"><spring:message
+                        code="article.price"
+                        arguments="${article.pricePerDay}"/></h4>
+                <c:choose>
+                    <c:when test="${user == null}">
+                        <a class="btn color-grey bg-color-primary color-grey mt-2"
+                           href="<c:url value="/user/login"/>">Alquilar</a>
+                    </c:when>
+                    <c:when test="${user.id == article.idOwner}">
+                        <a class="btn color-grey bg-color-primary color-grey mt-2"
+                           href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
+                                data-bs-target="#rentFormModal">
+                            <spring:message code="article.rent"/>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>
@@ -63,7 +66,7 @@
          aria-labelledby="rentFormModal"
          aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content bg-color-grey">
                 <form:form modelAttribute="rentForm" action="${articleUrl}" method="POST">
 
                     <div class="modal-header bg-color-grey">
@@ -75,26 +78,6 @@
 
                     <div class="modal-body bg-color-grey">
                         <div class="row">
-                            <div class="col-12 my-2">
-                                <form:label path="name"><spring:message
-                                        code="article.rentRequestForm.name"/></form:label>
-                                <spring:message code="placeholder.name" var="enterName"/>
-                                <form:input type="text" path="name" class="form-control form-control-custom"
-                                            placeholder="${enterName}"/>
-                                <form:errors path="name" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="errors.requiredName"/>
-                                </form:errors>
-                            </div>
-                            <div class="col-12 my-2">
-                                <form:label path="email"><spring:message
-                                        code="article.rentRequestForm.email"/></form:label>
-                                <spring:message code="placeholder.email" var="enterEmail"/>
-                                <form:input type="email" path="email" class="form-control form-control-custom"
-                                            placeholder="${enterEmail}"/>
-                                <form:errors path="email" element="p" cssStyle="color: #EF6461">
-                                    <spring:message code="errors.requiredEmail"/>
-                                </form:errors>
-                            </div>
                             <div class="col-6 my-2">
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
@@ -107,7 +90,7 @@
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
-                                <form:errors path="endDate" element="p" cssStyle="color: #EF6461">
+                                <form:errors path="endDate" element="p" cssClass="error">
                                     <spring:message code="errors.requiredEndDate"/>
                                 </form:errors>
                             </div>
@@ -121,7 +104,7 @@
                                 <spring:message code="placeholder.message" var="enterMessage"/>
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
-                                <form:errors path="message" element="p" cssStyle="color: #EF6461">
+                                <form:errors path="message" element="p" cssClass="error">
                                     <spring:message code="errors.requiredMessage"/>
                                 </form:errors>
                             </div>
@@ -143,6 +126,7 @@
         <div class="col-md-8 col-12 pe-md-3 pe-0">
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
+                <hr/>
                 <p class="lead">${article.description}</p>
             </div>
         </div>

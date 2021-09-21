@@ -45,8 +45,7 @@ public class ArticleController extends BaseController {
     EmailService emailService;
 
     @ModelAttribute(value = "locationsEnum")
-    public Locations[] locationsEnum()
-    {
+    public Locations[] locationsEnum() {
         return Locations.values();
     }
 
@@ -65,8 +64,8 @@ public class ArticleController extends BaseController {
                 searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation()));
 
         mav.addObject("locations", Arrays.stream(Locations.values())
-                        .sorted(Comparator.comparing(Locations::getName))
-                        .collect(Collectors.toList()));
+                .sorted(Comparator.comparing(Locations::getName))
+                .collect(Collectors.toList()));
 
         mav.addObject("category", categoryService.findById(searchForm.getCategory()));
 
@@ -95,17 +94,12 @@ public class ArticleController extends BaseController {
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
 
         if (errors.hasErrors()) {
-            System.out.println("err");
-
-            errors.getAllErrors().forEach(err -> {
-                System.out.println(err);
-            });
             return viewArticle(rentForm, articleId, true);
         }
 
         rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, rentForm.getName(), rentForm.getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+                articleId, loggedUser().getFirstName(), loggedUser().getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("feedback");
     }
@@ -162,7 +156,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
-                                      BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+                                    BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
 
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));

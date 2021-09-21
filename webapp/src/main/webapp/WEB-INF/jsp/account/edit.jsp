@@ -5,23 +5,25 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
-<c:set value="${[\"account.edit.form.message\"]}" var="successMsg"/>
+<c:set value="account.edit.form.message" var="successMsg"/>
 
 <html>
 <h:head title="Edit profile"/>
 
 <body class="bg-color-grey ">
 <h:navbar loggedUser="${user}"/>
+<div class="main-container">
 
-<h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
+    <h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
 
-<div class="card container">
-    <div class="card-body">
-        <div class="row">
-            <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
+    <div class="card shadow card-style">
+        <div class="card-body">
+            <div class="row">
+                <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
 
+            </div>
+            <h:account mode="edit" locations="${locations}"/>
         </div>
-        <h:account mode="edit" locations="${locations}"/>
     </div>
 </div>
 

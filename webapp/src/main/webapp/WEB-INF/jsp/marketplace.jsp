@@ -16,7 +16,7 @@
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="container container-height">
+<div class="container">
     <div class="row filter-container">
         <div class="col-md-3 col-lg-3 col-12"></div>
         <div class="col-md-8 col-lg-8 d-flex justify-content-start">
@@ -150,7 +150,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row row-cols-3 justify-content-start w-100">
+                    <div class="row row-cols-3 justify-content-center w-100 container-height">
                         <c:forEach var="article" items="${articles}">
                             <div class="col">
                                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
