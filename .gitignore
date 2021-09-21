@@ -53,3 +53,5 @@ Thumbs.db
 jdbc:hsqldb:mem/
 
 persistence/mem/
+
+webapp/src/main/resources/secret
