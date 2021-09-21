@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.forms;
 
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.webapp.forms.Annotations.ValidFiles;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,7 @@ public class CreateArticleForm {
     private float pricePerDay;
 
     // TODO: check each file.isEmpty
+    @ValidFiles
     private List<MultipartFile> files;
 
     private List<Long> categories;
