@@ -28,7 +28,7 @@
                     <spring:message code="account.view.form.warningDelete"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn bg-color-secondary" data-bs-dismiss="modal">
                         <spring:message code="account.view.form.buttonCancel"/>
                     </button>
                     <form:form action="${deleteUrl}" method="post">
@@ -42,22 +42,30 @@
     </div>
 
     <div class="card shadow card-style">
-        <div class="row">
-
-            <div class="col-8">
+        <div class="row align-items-center">
+            <div class="col-11">
                 <h3 class="card-title"><spring:message code="account.view.form.title"/></h3>
             </div>
-            <div class="col">
-                <control:LinkButton href="/user/edit" col="col-12" color="btn-primary"
-                                    labelCode="account.view.form.editButton"/>
-            </div>
-            <div class="col">
-                <!-- Button trigger modal -->
-                <button type="button" class="col-12 btn btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                    <spring:message code="account.view.form.buttonDelete"/>
-                </button>
 
+            <div class="col-1">
+                <i class="fa-lg bi bi-three-dots-vertical overflow-icon"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+
+                </i>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="/user/edit">
+                            <spring:message code="account.view.form.editButton"/>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" data-bs-toggle="modal"
+                           data-bs-target="#exampleModal">
+                            <spring:message code="account.view.form.buttonDelete"/>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <hr/>
