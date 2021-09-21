@@ -66,7 +66,7 @@
          aria-labelledby="rentFormModal"
          aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content bg-color-grey">
                 <form:form modelAttribute="rentForm" action="${articleUrl}" method="POST">
 
                     <div class="modal-header bg-color-grey">
