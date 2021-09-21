@@ -137,8 +137,8 @@
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
                 <div class="row">
                     <div class="avatar-container col-5">
-                        <img src="https://www.sinrumbofijo.com/wp-content/uploads/2016/05/default-placeholder.png"
-                             alt="#">
+                        <img src="<c:url value="/image/${owner.picture}"/>"
+                             alt="${owner.firstName} picture">
                     </div>
                     <span class="lead col-5">${owner.firstName} ${owner.lastName}</span>
 

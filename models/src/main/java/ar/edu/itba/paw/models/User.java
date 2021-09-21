@@ -8,32 +8,25 @@ public class User {
     private String email;
     private String password;
     private Long location;
-    private String photo;
+    private Long picture;
     private UserType type;
 
-    public User(String email, String password, String firstName, String lastName, Long location, int type) {
+    public User(String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
+        this.picture = picture;
         if (type == 0 || type == 1)
             this.type = UserType.values()[type];
         else
             ;//Throw exception
     }
 
-    public User(long id, String email, String password, String firstName, String lastName, Long location, int type) {
+    public User(long id, String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
+        this(email, password, firstName, lastName, location, picture, type);
         this.id = id;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.location = location;
-        if (type == 0 || type == 1)
-            this.type = UserType.values()[type];
-        else
-            ;//Throw exception
     }
 
     public long getId() {
@@ -80,12 +73,12 @@ public class User {
         this.location = location;
     }
 
-    public String getPhoto() {
-        return photo;
+    public Long getPicture() {
+        return picture;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPicture(Long picture) {
+        this.picture = picture;
     }
 
     public UserType getType() {

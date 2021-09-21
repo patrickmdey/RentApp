@@ -1,12 +1,15 @@
 package ar.edu.itba.paw.services;
 
+import ar.edu.itba.paw.interfaces.ImageService;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -37,9 +43,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, UserType type) {
+    public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
-        return this.userDao.register(email, passwordHash, firstName, lastName, location, type.ordinal());
+        Optional<DBImage> dbImg = imageService.create(img);
+        if (!dbImg.isPresent())
+            return Optional.empty();
+
+        return this.userDao.register(email, passwordHash, firstName, lastName, location, dbImg.get().getId(), type.ordinal());
     }
 
     @Override

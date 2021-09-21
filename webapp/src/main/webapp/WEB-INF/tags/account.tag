@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="controls" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 
 <%@ attribute name="mode" required="true" %>
 <%@ attribute name="locations" type="java.util.List" required="true" %>
@@ -21,7 +22,7 @@
 <div>
     <fieldset ${isView ? "disabled" : ""}>
         <%--@elvariable id="accountForm" type="ar.edu.itba.paw.webapp.forms.AccountForm"--%>
-        <form:form modelAttribute="accountForm" action="${actionUrl}" method="post">
+        <form:form modelAttribute="accountForm" action="${actionUrl}" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-6">
                     <controls:TextBox path="firstName" type="text"
@@ -70,6 +71,7 @@
                                           errorCode="errors.requiredSecondPassword"/>
                     </div>
                 </div>
+                <h:imageInput path="img" />
             </c:if>
             <div class="my-2">
                 <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>

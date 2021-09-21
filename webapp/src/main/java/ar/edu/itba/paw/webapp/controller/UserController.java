@@ -71,6 +71,7 @@ public class UserController extends BaseController {
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
                 accountForm.getLocation(),
+                accountForm.getImg(),
                 accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
 

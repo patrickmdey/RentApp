@@ -73,7 +73,7 @@
                 </div>
 
                 <c:if test="${articleId == null}">
-                    <h:imageInput multiple="multiple"/>
+                    <h:imageInput multiple="multiple" path="files"/>
                 </c:if>
 
                 <div class="d-flex justify-content-end">

@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.webapp.forms;
 
 import ar.edu.itba.paw.webapp.forms.Annotations.FieldsEquality;
+import ar.edu.itba.paw.webapp.forms.Annotations.ValidFile;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -36,6 +38,9 @@ public class AccountForm {
 
     @NotNull
     private Boolean isOwner;
+
+    @ValidFile
+    private MultipartFile img;
 
     public String getFirstName() {
         return firstName;
@@ -91,5 +96,13 @@ public class AccountForm {
 
     public void setIsOwner(Boolean owner) {
         isOwner = owner;
+    }
+
+    public MultipartFile getImg() {
+        return img;
+    }
+
+    public void setImg(MultipartFile img) {
+        this.img = img;
     }
 }

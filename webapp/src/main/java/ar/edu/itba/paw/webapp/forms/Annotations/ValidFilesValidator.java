@@ -7,9 +7,9 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class ValidFilesValidator implements ConstraintValidator<ValidFiles, List<MultipartFile>> {
+public class ValidFilesValidator implements ConstraintValidator<ValidFile, List<MultipartFile>> {
     @Override
-    public void initialize(ValidFiles validFiles) {}
+    public void initialize(ValidFile validFile) {}
 
     @Override
     public boolean isValid(List<MultipartFile> files, ConstraintValidatorContext constraintValidatorContext) {
