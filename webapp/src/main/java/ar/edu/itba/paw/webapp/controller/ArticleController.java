@@ -8,6 +8,7 @@ import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.EditArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
+import ar.edu.itba.paw.webapp.forms.ReviewForm;
 import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,9 @@ public class ArticleController extends BaseController {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @ModelAttribute(value = "locationsEnum")
     public Locations[] locationsEnum() {
@@ -86,6 +90,7 @@ public class ArticleController extends BaseController {
 
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
+        mav.addObject("reviews", reviewService.getAllArticleReviews(articleId));
 
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
         return mav;
@@ -154,6 +159,27 @@ public class ArticleController extends BaseController {
         mav.addObject("articleId", articleId);
         return mav;
     }
+
+    @RequestMapping(value = "/article/{articleId}/review")
+    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
+                                      BindingResult errors, @PathVariable("articleId") Long articleId,
+                                      @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+        ModelAndView mav = new ModelAndView("createReview");
+        mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
+        return mav;
+    }
+
+    @RequestMapping(value = "/article/{articleId}/review", method = RequestMethod.POST)
+    public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
+                                     BindingResult errors, @PathVariable("articleId") Long articleId,
+                                     @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+        if (errors.hasErrors()) {
+            return publishReview(reviewForm, errors, articleId, rentProposalForm);
+        }
+        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
+        return viewArticle(rentProposalForm, articleId.intValue(), false);
+    }
+
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
