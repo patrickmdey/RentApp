@@ -1,58 +1,72 @@
+:root {
+    --color-primary: #1A394E;
+    --color-action: #22577A;
+    --color-secondary: #93C4E6;
+    --color-rentapp-black: #06121A;
+    --color-rentapp-red: #FF6B4D;
+    --color-grey: #EAEDEA
+}
+
+
 h1, h2, h3, h4, h5, h6, p {
     font-family: 'Noto Sans', sans-serif;
-    color: #06121A;
+    color: var(--color-rentapp-black);
 }
 
 a.nav-link:hover {
-    color: #93C4E6 !important;
+    color: var(--color-secondary) !important;
+}
+
+i.overflow-icon:hover {
+    color: var(--color-secondary) !important;
 }
 
 .color-primary {
-    color: #1A394E !important;
+    color: var(--color-primary) !important;
 }
 
 .bg-color-primary {
-    background-color: #1A394E !important;
+    background-color: var(--color-primary) !important;
 }
 
 .color-action {
-    color: #22577A !important;
+    color: var(--color-action) !important;
 }
 
 .bg-color-action {
-    background-color: #22577A !important;
+    background-color: var(--color-action) !important;
 }
 
 .color-secondary {
-    color: #93C4E6 !important;
+    color: var(--color-secondary) !important;
 }
 
 .bg-color-secondary {
-    background-color: #93C4E6 !important;
+    background-color: var(--color-secondary) !important;
 }
 
 .color-rentapp-black {
-    color: #06121A !important;
+    color: var(--color-rentapp-black) !important;
 }
 
 .bg-color-rentapp-black {
-    background-color: #06121A !important;
+    background-color: var(--color-rentapp-black) !important;
 }
 
 .color-rentapp-red {
-    color: #ff6b4d !important;
+    color: var(--color-rentapp-red) !important;
 }
 
 .bg-color-rentapp-red {
-    background-color: #ff6b4d !important;
+    background-color: var(--color-rentapp-red) !important;
 }
 
 .color-grey {
-    color: #EAEDEA !important;
+    color: var(--color-grey) !important;
 }
 
 .bg-color-grey {
-    background-color: #EAEDEA !important;
+    background-color: var(--color-grey) !important;
 }
 
 .nav-bar-style {
