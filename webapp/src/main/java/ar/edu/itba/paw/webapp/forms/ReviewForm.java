@@ -6,16 +6,16 @@ import javax.validation.constraints.NotNull;
 
 public class ReviewForm {
     @NotNull
-    private int rating;
+    private Integer rating;
 
     @NotEmpty
     private String message;
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

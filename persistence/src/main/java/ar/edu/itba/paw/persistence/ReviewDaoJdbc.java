@@ -11,10 +11,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class ReviewDaoJdbc implements ReviewDao {
@@ -26,7 +23,8 @@ public class ReviewDaoJdbc implements ReviewDao {
                     resultSet.getInt("rating"),
                     resultSet.getString("message"),
                     resultSet.getInt("article_id"),
-                    resultSet.getInt("renter_id"));
+                    resultSet.getInt("renter_id"),
+                    resultSet.getTimestamp("created_at"));
 
     @Autowired
     public ReviewDaoJdbc(DataSource dataSource) {
@@ -38,7 +36,7 @@ public class ReviewDaoJdbc implements ReviewDao {
 
     @Override
     public List<Review> list(long articleId) {
-        return jdbcTemplate.query("SELECT * FROM review WHERE article_id = ?",
+        return jdbcTemplate.query("SELECT * FROM review WHERE article_id = ? ORDER BY created_at DESC",
                 new Object[]{articleId},
                 ROW_MAPPER);
     }
@@ -48,10 +46,12 @@ public class ReviewDaoJdbc implements ReviewDao {
         Map<String, Object> data = new HashMap<>();
         data.put("rating", rating);
         data.put("message", message);
-        data.put("articleId", articleId);
-        data.put("renterId", renterId);
+        data.put("article_id", articleId);
+        data.put("renter_id", renterId);
+        Date createdAt = new Date(System.currentTimeMillis());
+        data.put("created_at", createdAt);
 
         long reviewId = jdbcInsert.executeAndReturnKey(data).longValue();
-        return Optional.of(new Review(reviewId, rating, message, articleId, renterId));
+        return Optional.of(new Review(reviewId, rating, message, articleId, renterId, createdAt));
     }
 }

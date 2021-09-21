@@ -91,11 +91,12 @@ CREATE TABLE IF NOT EXISTS rent_proposal
 
 CREATE TABLE IF NOT EXISTS review
 (
-    id         SERIAL  NOT NULL,
-    rating     INT     NOT NULL,
-    message    VARCHAR NOT NULL,
-    article_id INT     NOT NULL,
-    renter_id  INT     NOT NULL,
+    id         SERIAL    NOT NULL,
+    rating     INT       NOT NULL,
+    message    VARCHAR   NOT NULL,
+    article_id INT       NOT NULL,
+    renter_id  INT       NOT NULL,
+    created_at TIMESTAMP NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (renter_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE

@@ -3,9 +3,17 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <c:url value="/article/${articleId}" var="articleUrl"/>
+<c:choose>
+    <c:when test="${user != null}">
+        <c:url value="/article/${articleId}/review" var="writeReview"/>
+    </c:when>
+    <c:otherwise>
+        <c:url value="/user/login" var="writeReview"/>
+    </c:otherwise>
+</c:choose>
 <html>
 <h:head title="${article.title}"/>
 <body class="bg-color-grey">
@@ -43,12 +51,12 @@
                         arguments="${article.pricePerDay}"/></h4>
                 <c:choose>
                     <c:when test="${user == null}">
-                        <a class="btn color-grey bg-color-primary color-grey mt-2"
-                           href="<c:url value="/user/login"/>">Alquilar</a>
+                        <a class="btn color-grey bg-color-action color-grey mt-2"
+                           href="<c:url value="/user/login"/>"><spring:message code="article.rent"/></a>
                     </c:when>
                     <c:when test="${user.id == article.idOwner}">
                         <a class="btn color-grey bg-color-primary color-grey mt-2"
-                           href="<c:url value="/article/${articleId}/edit"/>">Editar</a>
+                           href="<c:url value="/article/${articleId}/edit"/>"><spring:message code="article.edit"/></a>
                     </c:when>
                     <c:otherwise>
                         <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
@@ -129,12 +137,24 @@
                 <hr/>
                 <p class="lead">${article.description}</p>
             </div>
+
             <div class="card card-style">
-                <h3 class="h3"><spring:message code="account.reviews.title"/></h3>
+                <div class="row">
+                    <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
+                    <c:if test="${article.idOwner != user.id}">
+                        <div class="col-4">
+                            <control:LinkButton href="${writeReview}" labelCode="article.writeReview"
+                                                color="bg-color-action color-grey"/>
+                        </div>
+                    </c:if>
+                </div>
                 <hr/>
                 <c:forEach items="${reviews}" var="review">
-                    <h5 class="h5">${review.renter.firstName} ${review.renter.lastName}</h5>
-                    <div class="d-flex align-items-start mt-2 mb-3">
+                    <div class="row">
+                        <h5 class="col-7 h5">${review.renter.firstName} ${review.renter.lastName}</h5>
+                        <p class="lead col-5">${review.createdAt.toLocaleString()}</p>
+                    </div>
+                    <div class="d-flex align-items-start mt-1 mb-2">
                         <c:forEach begin="1" end="${review.rating}">
                             <i class="bi bi-star-fill color-rentapp-red"></i>
                         </c:forEach>

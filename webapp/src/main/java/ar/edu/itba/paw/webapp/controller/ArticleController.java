@@ -158,22 +158,25 @@ public class ArticleController extends BaseController {
         return mav;
     }
 
-//    @RequestMapping(value = "/article/{articleId}/review")
-//    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, BindingResult errors, @PathVariable("articleId") Long articleId) {
-//        if (errors.hasErrors()) {
-//            return viewArticle()
-//        }
-//    }
+    @RequestMapping(value = "/article/{articleId}/review")
+    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
+                                      BindingResult errors, @PathVariable("articleId") Long articleId,
+                                      @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+        ModelAndView mav = new ModelAndView("createReview");
+        mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
+        return mav;
+    }
 
-//    @RequestMapping(value = "/article/{articleId}/review", method = RequestMethod.POST)
-//    public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
-//                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
-//        if (errors.hasErrors()) {
-//            return publishReview(reviewForm, errors, articleId);
-//        }
-//
-//        createReview(reviewForm.getRating(), reviewForm.getMessage(), );
-//    }
+    @RequestMapping(value = "/article/{articleId}/review", method = RequestMethod.POST)
+    public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
+                                     BindingResult errors, @PathVariable("articleId") Long articleId,
+                                     @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+        if (errors.hasErrors()) {
+            return publishReview(reviewForm, errors, articleId, rentProposalForm);
+        }
+        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
+        return viewArticle(rentProposalForm, articleId.intValue(), false);
+    }
 
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
