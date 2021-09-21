@@ -1,5 +1,6 @@
 <%@ tag pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:url value="/" var="marketplace"/>
 <c:url value="/create-article" var="createArticle"/>
 <%@ attribute type="ar.edu.itba.paw.models.User" name="loggedUser" required="false" %>
@@ -12,7 +13,7 @@
 <c:url value="/user/my-requests" var="myAccount"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
-    <div class="container-fluid">
+    <div class="container">
         <a class="navbar-brand" href="${marketplace}">
             <img src="<c:url value="/resources/image/rentapp-logo.png"/>" height="50px" alt="RentApp">
         </a>
@@ -22,9 +23,10 @@
         </button>
         <div class="collapse navbar-collapse mt-2" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" href="${createArticle}">Publish Article</a>
-                <a class="nav-link active" aria-current="page" href="${marketplace}">Marketplace</a>
-
+                <a class="nav-link active" href="${createArticle}"><spring:message code="navbar.publishArticle"/></a>
+                <a class="nav-link active" aria-current="page" href="${marketplace}"><spring:message code="navbar.marketplace"/></a>
+            </div>
+            <div class="navbar-nav ms-auto">
                 <c:choose>
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">
@@ -33,16 +35,16 @@
                                 <span>${loggedUser.firstName}</span>
                                     <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="accountMenu">
-                                <li><a class="dropdown-item" href="${myAccount}">Mis solicitudes</a></li>
-                                <li><a class="dropdown-item" href="${viewUser}">Mi perfil</a></li>
-                                <li><a class="dropdown-item" href="${logout}">Cerrar sesión</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
+                                <li><a class="dropdown-item" href="${myAccount}"><spring:message code="dropdown.requests"/></a></li>
+                                <li><a class="dropdown-item" href="${viewUser}"><spring:message code="dropdown.profile"/></a></li>
+                                <li><a class="dropdown-item" href="${logout}"><spring:message code="dropdown.logout"/></a></li>
                             </ul>
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-link active" aria-current="page" href="${login}">LogIn</a>
-                        <a class="nav-link active" aria-current="page" href="${register}">SignUp</a>
+                        <a class="nav-link active" aria-current="page" href="${login}"><spring:message code="navbar.login"/></a>
+                        <a class="nav-link active" aria-current="page" href="${register}"><spring:message code="navbar.signup"/></a>
                     </c:otherwise>
                 </c:choose>
             </div>

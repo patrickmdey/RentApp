@@ -9,6 +9,7 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
+import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -86,7 +87,7 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("/edit")
-    public ModelAndView edit(@ModelAttribute("accountForm") AccountForm accountForm) {
+    public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/edit");
 
         populateForm(accountForm);
@@ -98,10 +99,9 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView edit(@Valid @ModelAttribute("accountForm") AccountForm accountForm, BindingResult errors) {
+    public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
 
         final ModelAndView mav = new ModelAndView("account/edit");
-
 
         if (errors.hasErrors() && errors.getFieldErrors().stream()
                 .filter(t -> t.getField().compareToIgnoreCase("confirmPassword") != 0 && t.getField().compareToIgnoreCase("password") != 0)
@@ -125,7 +125,7 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("/view")
-    public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm) {
+    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/view");
         mav.addObject("articles", articleService.findByOwner(loggedUser().getId()));
         populateForm(accountForm);
@@ -138,11 +138,9 @@ public class UserController extends BaseController {
         userService.delete(loggedUser().getId());
 
         response.sendRedirect("logout");
-
-        return;
     }
 
-    private AccountForm populateForm(AccountForm accountForm) {
+    private EditAccountForm populateForm(EditAccountForm accountForm) {
         User user = loggedUser();
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());

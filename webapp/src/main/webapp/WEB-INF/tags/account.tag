@@ -86,7 +86,8 @@
     </fieldset>
     <c:if test="${!isView}">
         <div class="d-flex justify-content-center">
-            <controls:LinkButton col="col-4" href="/" color="bg-color-secondary color-rentapp-black"
+            <c:url value="/user/view" var="cancelUrl"/>
+            <controls:LinkButton col="col-4" href="${cancelUrl}" color="bg-color-secondary color-rentapp-black"
                                  labelCode="account.form.cancelButton"/>
         </div>
     </c:if>
