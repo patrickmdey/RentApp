@@ -32,13 +32,18 @@
                         <div class="dropdown">
                             <a class="nav-link active color-grey dropdown-toggle" id="accountMenu"
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                                <span>${loggedUser.firstName}</span>
+                                <span>
+                                    <c:out value=" ${loggedUser.firstName}"/>
+                                </span>
                                     <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
-                                <li><a class="dropdown-item" href="${myAccount}"><spring:message code="dropdown.requests"/></a></li>
-                                <li><a class="dropdown-item" href="${viewUser}"><spring:message code="dropdown.profile"/></a></li>
-                                <li><a class="dropdown-item" href="${logout}"><spring:message code="dropdown.logout"/></a></li>
+                                <li><a class="dropdown-item" href="${myAccount}"><spring:message
+                                        code="dropdown.requests"/></a></li>
+                                <li><a class="dropdown-item" href="${viewUser}"><spring:message
+                                        code="dropdown.profile"/></a></li>
+                                <li><a class="dropdown-item" href="${logout}"><spring:message
+                                        code="dropdown.logout"/></a></li>
                             </ul>
                         </div>
                     </c:when>
