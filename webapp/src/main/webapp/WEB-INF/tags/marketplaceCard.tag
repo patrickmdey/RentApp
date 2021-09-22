@@ -13,7 +13,7 @@
 
     <div class="marketplace-card-img-container">
         <img src="<c:url value="/image/${image_id}"/>" class="card-image"
-             alt="${title} image}">
+             alt="<c:out value="${title}"/> image}">
     </div>
 
     <div class="marketplace-card-info-container">
