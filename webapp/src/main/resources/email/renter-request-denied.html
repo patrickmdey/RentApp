@@ -3,6 +3,34 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
+<body style="border: 12px solid #22577A; background-color: #EAEDEA">
+<div style="display: flex; justify-content: center">
+    <img th:src="${imgSrc}">
+</div>
+<table>
+    <tbody>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <p><strong th:text="#{email.greetings(${ownerName})}" style="font-size: large"></strong></p>
+            <p th:text="#{email.deniedRequest.header}"></p>
+            <hr/>
+            <h4 th:text="#{email.renter.details}"></h4>
+            <p th:text="#{email.owner.startDate(${startDate})}"></p>
+            <p th:text="#{email.owner.endDate(${endDate})}"></p>
+            <p th:text="#{email.owner.message}" style="font-weight: bold"></p>
+            <p th:text="${requestMessage}" style="background-color: #ffffff; color: #06121A"></p>
+            <p><a th:href="${callbackUrl}" th:text="#{email.renter.deniedRequest.callBack}"></a></p>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+</body>
 <body>
 <img th:src="${imgSrc}">
 <table>

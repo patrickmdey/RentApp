@@ -28,9 +28,6 @@ public class RentServiceImpl implements RentService {
 
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
-    private final static int OWNER = 1;
-    private final static int RENTER = 2;
-
     @Override
     public List<RentProposal> ownerRequests(long ownerId) {
 

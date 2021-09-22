@@ -149,24 +149,31 @@
                     </c:if>
                 </div>
                 <hr/>
-                <c:forEach items="${reviews}" var="review">
-                    <div class="row">
-                        <h5 class="col-7 h5">${review.renter.firstName} ${review.renter.lastName}</h5>
-                        <p class="lead col-5">${review.createdAt.toLocaleString()}</p>
-                    </div>
-                    <div class="d-flex align-items-start mt-1 mb-2">
-                        <c:forEach begin="1" end="${review.rating}">
-                            <i class="bi bi-star-fill color-rentapp-red"></i>
+                <c:choose>
+                    <c:when test="${reviews.size() == 0}">
+                        <p class="lead"><spring:message code="article.noReviews"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${reviews}" var="review">
+                            <div class="row">
+                                <h5 class="col-7 h5">${review.renter.firstName} ${review.renter.lastName}</h5>
+                                <p class="lead col-5">${review.createdAt.toLocaleString()}</p>
+                            </div>
+                            <div class="d-flex align-items-start mt-1 mb-2">
+                                <c:forEach begin="1" end="${review.rating}">
+                                    <i class="bi bi-star-fill color-rentapp-red"></i>
+                                </c:forEach>
+                                <c:if test="${review.rating <5}">
+                                    <c:forEach begin="1" end="${5-review.rating}">
+                                        <i class="bi bi-star color-rentapp-black"></i>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
+                            <p>${review.message}</p>
+                            <hr/>
                         </c:forEach>
-                        <c:if test="${review.rating <5}">
-                            <c:forEach begin="1" end="${5-review.rating}">
-                                <i class="bi bi-star color-rentapp-black"></i>
-                            </c:forEach>
-                        </c:if>
-                    </div>
-                    <p>${review.message}</p>
-                    <hr/>
-                </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
