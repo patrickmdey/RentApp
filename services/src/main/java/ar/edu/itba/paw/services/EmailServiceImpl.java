@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     private static final String resourceName = "logo";
 
     private static final String baseUrl = "http://localhost:8080";
-//    private static final String baseUrl = "http://http://pawserver.it.itba.edu.ar/paw-2021b-3";
+//    private static final String baseUrl = "http://pawserver.it.itba.edu.ar/paw-2021b-3";
 
     private void sendHtmlMessage(String to, String subject, String htmlBody) {
         sendHtmlMessage(to, subject, htmlBody, null, null);
