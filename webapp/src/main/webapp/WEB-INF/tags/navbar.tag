@@ -33,7 +33,7 @@
                             <a class="nav-link active color-grey dropdown-toggle" id="accountMenu"
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <span>
-                                    <c:out value=" ${loggedUser.firstName}"/>
+                                    <c:out value="${loggedUser.firstName}"/>
                                 </span>
                                     <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>

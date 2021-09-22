@@ -24,7 +24,7 @@
             <div class="col-md-4 justify-content-ceter align-items-center">
                 <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
                      class="img-thumbnail rounded-start article-img" sizes="" alt="main image">
-                <div class="d-flex">
+                <div class="d-flex flex-weap">
                     <c:forEach var="image" items="${article.images}">
                         <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image}"/>')">
                             <img src="<c:url value="/image/${image}"/>" width="30px" height="30px" alt="image">
@@ -134,7 +134,7 @@
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <hr/>
-                <p class="lead"><c:out value="${article.description}"</c:out></p>
+                <p class="lead"><c:out value="${article.description}"/></p>
             </div>
 
             <div class="card card-style">
@@ -183,7 +183,7 @@
                 <div class="row">
                     <div class="avatar-container col-5">
                         <img src="<c:url value="/image/${owner.picture}"/>"
-                             alt="${owner.firstName} picture">
+                             alt="<c:out value="${owner.firstName}"/> picture"/>
                     </div>
                     <span class="lead col-5"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
 
