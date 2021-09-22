@@ -95,8 +95,8 @@ public class RentServiceImpl implements RentService {
 
         Map<String, String> values = getValuesMap(requestId);
 
-        emailService.sendMailRequestConfirmationToRenter(values.get("ownerEmail"), values);
-        emailService.sendMailRequestConfirmationToOwner(values.get("renterEmail"), values, Long.parseLong(values.get("ownerId")));
+        emailService.sendMailRequestConfirmationToRenter(values.get("renterEmail"), values);
+        emailService.sendMailRequestConfirmationToOwner(values.get("ownerEmail"), values, Long.parseLong(values.get("ownerId")));
     }
 
     @Override
