@@ -18,7 +18,7 @@
 
 
 <div class="card card-style">
-    <h4 class="h4 mb-2">${articleName}</h4>
+    <h4 class="h4 mb-2"><c:out value="${articleName}"/></h4>
     <p class="lead fw-bold mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
                                                  arguments="${renterFirstName}, ${renteLastName}"/></p>
     <div class="row">
@@ -28,7 +28,7 @@
                                                     arguments="${endDate}"/></p>
     </div>
     <p class="lead fw-bold"><spring:message code="myAccount.ownerRequests.message"/></p>
-    <p>${message}</p>
+    <p><c:out value="${message}"/></p>
     <c:if test="${!state}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${acceptRequest}">

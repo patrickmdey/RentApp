@@ -34,15 +34,14 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <h2 class="card-title display-6">${article.title}</h2>
-                <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i>${article.location}
-                </p>
+                <h2 class="card-title display-6"><c:out value="${article.title}"/></h2>
+                <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i><c:out value="${article.location}"/></p>
                 <div class="d-flex">
                     <c:forEach var="category" items="${article.categories}">
                         <c:url var="marketplaceUrl" value="/"><c:param name="category"
                                                                        value="${category.id}"/></c:url>
                         <h5><a href="${marketplaceUrl}"> <span
-                                class="badge bg-background-grey text-dark m-1">${category.description}</span></a>
+                                class="badge bg-background-grey text-dark m-1"><c:out value="${category.description}"/></span></a>
                         </h5>
                     </c:forEach>
                 </div>
@@ -135,7 +134,7 @@
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <hr/>
-                <p class="lead">${article.description}</p>
+                <p class="lead"><c:out value="${article.description}"</c:out></p>
             </div>
 
             <div class="card card-style">
@@ -156,8 +155,8 @@
                     <c:otherwise>
                         <c:forEach items="${reviews}" var="review">
                             <div class="row">
-                                <h5 class="col-7 h5">${review.renter.firstName} ${review.renter.lastName}</h5>
-                                <p class="lead col-5">${review.createdAt.toLocaleString()}</p>
+                                <h5 class="col-7 h5"><c:out value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
+                                <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
                             </div>
                             <div class="d-flex align-items-start mt-1 mb-2">
                                 <c:forEach begin="1" end="${review.rating}">
@@ -169,7 +168,7 @@
                                     </c:forEach>
                                 </c:if>
                             </div>
-                            <p>${review.message}</p>
+                            <p><c:out value="${review.message}"/></p>
                             <hr/>
                         </c:forEach>
                     </c:otherwise>
@@ -186,7 +185,7 @@
                         <img src="<c:url value="/image/${owner.picture}"/>"
                              alt="${owner.firstName} picture">
                     </div>
-                    <span class="lead col-5">${owner.firstName} ${owner.lastName}</span>
+                    <span class="lead col-5"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
 
                     <c:url var="userFilterUrl" value="/">
                         <c:param name="user" value="${owner.id}"/>

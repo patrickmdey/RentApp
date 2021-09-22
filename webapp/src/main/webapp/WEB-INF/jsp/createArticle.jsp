@@ -64,8 +64,10 @@
                         code="article.createArticleForm.category"/></form:label>
                 <div class="category-list-container my-2 mx-1">
                     <c:forEach items="${categories}" var="category">
-                        <form:checkbox cssClass="list-element" path="categories" value="${category.id}"/>
-                        <c:out value="${category.description}"/>
+                        <div>
+                            <form:checkbox cssClass="list-element" path="categories" value="${category.id}"/>
+                            <c:out value="${category.description}"/>
+                        </div>
                     </c:forEach>
                     <form:errors path="categories" element="p" cssClass="error">
                         <spring:message code="errors.requiredSelectCategory"/>
