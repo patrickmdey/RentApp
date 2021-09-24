@@ -77,7 +77,8 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
                                     @PathVariable("articleId") Integer articleId,
-                                    @RequestParam(value = "requestFormHasErrors", required = false) Boolean requestFormHasErrors) {
+                                    @RequestParam(value = "requestFormHasErrors", required = false) Boolean requestFormHasErrors,
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
@@ -86,8 +87,10 @@ public class ArticleController extends BaseController {
 
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
-        mav.addObject("reviews", reviewService.getAllArticleReviews(articleId));
+        mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
+
+        mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
         return mav;
@@ -97,7 +100,7 @@ public class ArticleController extends BaseController {
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
 
         if (errors.hasErrors()) {
-            return viewArticle(rentForm, articleId, true);
+            return viewArticle(rentForm, articleId, true, 1L);
         }
 
         rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
@@ -132,7 +135,7 @@ public class ArticleController extends BaseController {
                 createArticleForm.getFiles(),
                 loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
+        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false, 1L);
     }
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
@@ -175,7 +178,7 @@ public class ArticleController extends BaseController {
             return publishReview(reviewForm, errors, articleId, rentProposalForm);
         }
         reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
-        return viewArticle(rentProposalForm, articleId.intValue(), false);
+        return viewArticle(rentProposalForm, articleId.intValue(), false, 1L);
     }
 
     @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.GET)
@@ -226,6 +229,6 @@ public class ArticleController extends BaseController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories()).orElseThrow(CannotCreateArticleException::new);
 
-        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false);
+        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false, 1L);
     }
 }
