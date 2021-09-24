@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.RentDao;
 import ar.edu.itba.paw.interfaces.ReviewDao;
-import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +13,9 @@ import java.util.*;
 
 @Repository
 public class ReviewDaoJdbc implements ReviewDao {
+
+    private static final Long OFFSET = 3L;
+
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<Review> ROW_MAPPER = (resultSet, rowNum) ->
@@ -34,12 +35,36 @@ public class ReviewDaoJdbc implements ReviewDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+    private StringBuilder queryBuilder(String fields){
+        return new StringBuilder("SELECT " + fields + "FROM review WHERE article_id = ? ");
+    }
+
     @Override
-    public List<Review> list(long articleId) {
-        return jdbcTemplate.query("SELECT * FROM review WHERE article_id = ? ORDER BY created_at DESC",
+    public List<Review> getAll(long articleId) {
+        return jdbcTemplate.query(queryBuilder("*").toString(),
                 new Object[]{articleId},
                 ROW_MAPPER);
     }
+
+    @Override
+    public List<Review> getPaged(long articleId, long page) {
+        StringBuilder query = queryBuilder("*");
+        query.append("ORDER BY created_at DESC LIMIT ? OFFSET ?");
+        return jdbcTemplate.query(query.toString(),
+                new Object[]{articleId, OFFSET, (page - 1) * OFFSET},
+                ROW_MAPPER);
+    }
+
+    @Override
+    public Long getMaxPage(long articleId) {
+        Long size = jdbcTemplate.queryForObject(queryBuilder("COUNT(*)").toString()
+                , Long.class, articleId);
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+
+        return (size / OFFSET) + toSum;
+    }
+
 
     @Override
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {

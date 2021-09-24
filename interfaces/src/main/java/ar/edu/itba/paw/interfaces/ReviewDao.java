@@ -6,7 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewDao {
-    List<Review> list(long articleId);
+    List<Review> getPaged(long articleId, long page);
+
+    List<Review> getAll(long articleId);
 
     Optional<Review> create(int rating, String message, long articleId, long renterId);
+
+    Long getMaxPage(long articleId);
+
 }

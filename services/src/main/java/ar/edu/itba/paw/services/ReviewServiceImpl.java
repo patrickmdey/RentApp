@@ -23,8 +23,8 @@ public class ReviewServiceImpl implements ReviewService {
     private ArticleService articleService;
 
     @Override
-    public List<Review> getAllArticleReviews(long articleId) {
-        List<Review> reviews = reviewDao.list(articleId);
+    public List<Review> getPaged(long articleId, long page) {
+        List<Review> reviews = reviewDao.getPaged(articleId, page);
         reviews.forEach(review -> {
             review.setRenter(userService.
                     findById(review.getRenterId()).
@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public int articleRating(long articleId) {
-        List<Review> allReviews = getAllArticleReviews(articleId);
+        List<Review> allReviews = reviewDao.getAll(articleId);
         if (allReviews.size() == 0)
             return 0;
         return allReviews.stream().mapToInt(Review::getRating).sum() / allReviews.size();
@@ -49,5 +49,10 @@ public class ReviewServiceImpl implements ReviewService {
             review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(RuntimeException::new)));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Long getMaxPage(long articleId) {
+        return reviewDao.getMaxPage(articleId);
     }
 }
