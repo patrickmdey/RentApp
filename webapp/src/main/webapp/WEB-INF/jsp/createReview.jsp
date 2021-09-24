@@ -17,9 +17,11 @@
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="reviewForm" method="post" action="${publishReview}">
         <div class="form-container">
-            <h3 class="h3 fw-bold my-1"><spring:message code="login.form.title"/></h3>
+            <h3 class="h3 fw-bold my-1"><spring:message code="article.writeReview.title"/></h3>
             <hr/>
-            <p class="lead">Puntaje:</p>
+            <p class="lead fw-bold"><spring:message code="article.writeReview.articleName"
+                                                    arguments="${article.title}"/></p>
+            <p class="lead"><spring:message code="article.writeReview.rating"/></p>
             <div class="d-flex justify-content-center align-items-center">
                 <c:forEach var="rate" items="${rating}">
                     <div class="mx-2">
@@ -29,9 +31,16 @@
                 </c:forEach>
                 <form:errors path="rating"/>
             </div>
-            <control:TextBox path="message" type="text" labelCode="placeholder.review.message"
-                             placeholderCode="article.review.review"
-                             errorCode="errors.requiredReviewMessage"/>
+
+            <div class="form-group">
+                <form:label path="message"><spring:message code="placeholder.review.message"/></form:label>
+                <spring:message code="article.review.review" var="placeholder"/>
+                <form:textarea path="message" type="text" placeholder="${placeholder}"
+                               class="form-control form-control-custom"/>
+                <form:errors path="message" element="p" cssClass="error">
+                    <spring:message code="errors.requiredReviewMessage"/>
+                </form:errors>
+            </div>
             <div class="d-flex justify-content-end">
                 <a href="$${goBack}" class="me-1 rounded btn btn-danger">
                     <spring:message code="account.form.cancelButton"/>
