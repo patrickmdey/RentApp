@@ -12,7 +12,7 @@ public class Article {
     private Float pricePerDay;
     private List<Category> categories = new ArrayList<>();
     private long idOwner;
-    private String location;
+    private Locations location;
     private List<Long> images;
 
     public Article(long id, String title, String description, Float pricePerDay,
@@ -77,11 +77,11 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public String getLocation() {
+    public Locations getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Locations location) {
         this.location = location;
     }
 

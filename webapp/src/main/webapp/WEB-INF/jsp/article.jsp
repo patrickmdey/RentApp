@@ -35,13 +35,25 @@
             <div class="col-md-1"></div>
             <div class="col-md-7">
                 <h2 class="card-title display-6"><c:out value="${article.title}"/></h2>
-                <p class="lead article-location color-action"><i class="bi-geo-alt-fill"></i><c:out value="${article.location}"/></p>
+                <c:url var="locationFilterUrl" value="/">
+                    <c:param name="location" value="${article.location.ordinal()}"/>
+                </c:url>
+                <p class="lead article-location color-action">
+                    <a href="${locationFilterUrl}">
+                        <i class="bi-geo-alt-fill"></i><c:out value="${article.location.name}"/>
+                    </a>
+                </p>
                 <div class="d-flex">
                     <c:forEach var="category" items="${article.categories}">
-                        <c:url var="marketplaceUrl" value="/"><c:param name="category"
-                                                                       value="${category.id}"/></c:url>
-                        <h5><a href="${marketplaceUrl}"> <span
-                                class="badge bg-background-grey text-dark m-1"><c:out value="${category.description}"/></span></a>
+                        <c:url var="marketplaceUrl" value="/">
+                            <c:param name="category" value="${category.id}"/>
+                        </c:url>
+                        <h5>
+                            <a href="${marketplaceUrl}">
+                                <span class="badge bg-background-grey text-dark m-1">
+                                    <c:out value="${category.description}"/>
+                                </span>
+                            </a>
                         </h5>
                     </c:forEach>
                 </div>
@@ -155,7 +167,8 @@
                     <c:otherwise>
                         <c:forEach items="${reviews}" var="review">
                             <div class="row">
-                                <h5 class="col-7 h5"><c:out value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
+                                <h5 class="col-7 h5"><c:out
+                                        value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
                                 <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
                             </div>
                             <div class="d-flex align-items-start mt-1 mb-2">

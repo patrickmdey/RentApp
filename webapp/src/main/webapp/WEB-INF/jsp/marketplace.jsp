@@ -162,7 +162,7 @@
                             <div class="col">
                                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                                    id="${article.id}"
-                                                   location="${article.location}"
+                                                   location="${article.location.name}"
                                                    image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
                             </div>
                         </c:forEach>

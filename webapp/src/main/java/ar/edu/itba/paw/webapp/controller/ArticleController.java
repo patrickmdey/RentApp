@@ -86,7 +86,7 @@ public class ArticleController extends BaseController {
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
-        article.setLocation(Locations.values()[Math.toIntExact(owner.getLocation())].getName());
+        article.setLocation(Locations.values()[Math.toIntExact(owner.getLocation())]);
 
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);

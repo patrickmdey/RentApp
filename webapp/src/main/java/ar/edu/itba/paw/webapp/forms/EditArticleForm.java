@@ -23,6 +23,7 @@ public class EditArticleForm {
     @Min(1)
     private float pricePerDay;
 
+    @NotEmpty
     private List<Long> categories;
 
     public String getName() {
