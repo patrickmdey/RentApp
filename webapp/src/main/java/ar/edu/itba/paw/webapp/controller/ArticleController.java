@@ -91,6 +91,7 @@ public class ArticleController extends BaseController {
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
         mav.addObject("reviews", reviewService.getAllArticleReviews(articleId));
+        mav.addObject("articleRating", reviewService.articleRating(articleId));
 
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
         return mav;

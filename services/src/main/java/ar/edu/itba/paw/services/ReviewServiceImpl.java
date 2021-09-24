@@ -34,6 +34,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public int articleRating(long articleId) {
+        List<Review> allReviews = getAllArticleReviews(articleId);
+        if (allReviews.size() == 0)
+            return 0;
+        return allReviews.stream().mapToInt(Review::getRating).sum() / allReviews.size();
+    }
+
+    @Override
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
         if (article.isPresent()) {

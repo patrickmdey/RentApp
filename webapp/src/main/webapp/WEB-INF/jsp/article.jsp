@@ -57,6 +57,14 @@
                         </h5>
                     </c:forEach>
                 </div>
+                <c:choose>
+                    <c:when test="${reviews.size() == 0}">
+                        <p class="lead"><spring:message code="article.noRating"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <h:rating rating="${articleRating}"/>
+                    </c:otherwise>
+                </c:choose>
                 <h4 class="card-text h4 color-rentapp-red"><spring:message
                         code="article.price"
                         arguments="${article.pricePerDay}"/></h4>
@@ -154,7 +162,7 @@
                     <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
                     <c:if test="${article.idOwner != user.id}">
                         <div class="col-4">
-                            <control:LinkButton href="${writeReview}" labelCode="article.writeReview"
+                            <control:LinkButton href="${writeReview}" labelCode="article.writeReview.title"
                                                 color="bg-color-action color-grey"/>
                         </div>
                     </c:if>
@@ -171,16 +179,7 @@
                                         value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
                                 <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
                             </div>
-                            <div class="d-flex align-items-start mt-1 mb-2">
-                                <c:forEach begin="1" end="${review.rating}">
-                                    <i class="bi bi-star-fill color-rentapp-red"></i>
-                                </c:forEach>
-                                <c:if test="${review.rating <5}">
-                                    <c:forEach begin="1" end="${5-review.rating}">
-                                        <i class="bi bi-star color-rentapp-black"></i>
-                                    </c:forEach>
-                                </c:if>
-                            </div>
+                            <h:rating rating="${review.rating}"/>
                             <p><c:out value="${review.message}"/></p>
                             <hr/>
                         </c:forEach>

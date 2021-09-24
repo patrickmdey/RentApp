@@ -9,5 +9,7 @@ public interface ReviewService {
 
     List<Review> getAllArticleReviews(long articleId);
 
+    int articleRating(long articleId);
+
     Optional<Review> create(int rating, String message, long articleId, long renterId);
 }
