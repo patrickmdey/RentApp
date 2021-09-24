@@ -166,6 +166,7 @@ public class ArticleController extends BaseController {
                                       @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
         ModelAndView mav = new ModelAndView("createReview");
         mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
+        mav.addObject("article", articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new));
         return mav;
     }
 
