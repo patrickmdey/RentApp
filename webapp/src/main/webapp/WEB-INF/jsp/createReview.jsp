@@ -19,8 +19,10 @@
         <div class="form-container">
             <h3 class="h3 fw-bold my-1"><spring:message code="article.writeReview.title"/></h3>
             <hr/>
-            <p class="lead fw-bold"><spring:message code="article.writeReview.articleName"
-                                                    arguments="${article.title}"/></p>
+            <div class="d-flex">
+                <p class="lead fw-bold me-1"><spring:message code="article.writeReview.articleName"/></p>
+                <p class="lead"><c:out value="${article.title}"/></p>
+            </div>
             <p class="lead"><spring:message code="article.writeReview.rating"/></p>
             <div class="d-flex justify-content-center align-items-center">
                 <c:forEach var="rate" items="${rating}">
@@ -42,7 +44,7 @@
                 </form:errors>
             </div>
             <div class="d-flex justify-content-end">
-                <a href="$${goBack}" class="me-1 rounded btn btn-danger">
+                <a href="${goBack}" class="me-1 rounded btn btn-danger">
                     <spring:message code="account.form.cancelButton"/>
                 </a>
                 <button type="submit" class="rounded btn bg-color-action color-grey">
