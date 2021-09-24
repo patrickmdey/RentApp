@@ -50,4 +50,14 @@ public class ReviewServiceImpl implements ReviewService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Review> findById(long reviewId) {
+        return reviewDao.findById(reviewId);
+    }
+
+    @Override
+    public int update(int rating, String message, long reviewId) {
+        return reviewDao.update(rating, message, reviewId);
+    }
 }

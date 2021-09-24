@@ -8,7 +8,7 @@
 <c:url value="/article/${articleId}" var="articleUrl"/>
 <c:choose>
     <c:when test="${user != null}">
-        <c:url value="/article/${articleId}/review" var="writeReview"/>
+        <c:url value="/article/${articleId}/review/create" var="writeReview"/>
     </c:when>
     <c:otherwise>
         <c:url value="/user/login" var="writeReview"/>
@@ -174,10 +174,14 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${reviews}" var="review">
-                            <div class="row">
-                                <h5 class="col-7 h5"><c:out
+                            <c:url value="/article/${articleId}/review/${review.id}/edit" var="editReview"></c:url>
+                            <div class="row align-items-center">
+                                <h5 class="col-6 h5"><c:out
                                         value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
                                 <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
+                                <c:if test="${user.id == review.renterId}">
+                                    <a class="col-1 fa-lg" href="${editReview}"><i class="bi bi-pencil-fill"></i></a>
+                                </c:if>
                             </div>
                             <h:rating rating="${review.rating}"/>
                             <p><c:out value="${review.message}"/></p>

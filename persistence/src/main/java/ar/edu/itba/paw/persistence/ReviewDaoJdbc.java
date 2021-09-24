@@ -54,4 +54,17 @@ public class ReviewDaoJdbc implements ReviewDao {
         long reviewId = jdbcInsert.executeAndReturnKey(data).longValue();
         return Optional.of(new Review(reviewId, rating, message, articleId, renterId, createdAt));
     }
+
+    @Override
+    public Optional<Review> findById(long reviewId) {
+        return jdbcTemplate.query("SELECT * FROM review WHERE id = ?", new Object[]{reviewId}, ROW_MAPPER)
+                .stream().findFirst();
+    }
+
+    @Override
+    public int update(int rating, String message, long reviewId) {
+        jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
+        jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
+        return 1;
+    }
 }

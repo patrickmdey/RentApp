@@ -6,11 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/article/${articleId}/review" var="publishReview"/>
+<c:url value="/article/${articleId}/review/create" var="publishReview"/>
 <c:url value="/article/${articleId}" var="goBack"/>
 
 <html>
-<h:head title=""/>
+<h:head title="Escribir Reseña"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container">

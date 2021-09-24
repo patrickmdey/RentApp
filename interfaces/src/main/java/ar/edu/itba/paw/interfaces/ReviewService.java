@@ -11,5 +11,9 @@ public interface ReviewService {
 
     int articleRating(long articleId);
 
+    int update(int rating, String message, long reviewId);
+
+    Optional<Review> findById(long reviewId);
+
     Optional<Review> create(int rating, String message, long articleId, long renterId);
 }
