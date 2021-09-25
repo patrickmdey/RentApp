@@ -45,11 +45,6 @@ public class ArticleController extends BaseController {
     @Autowired
     ReviewService reviewService;
 
-    @ModelAttribute(value = "locationsEnum")
-    public Locations[] locationsEnum() {
-        return Locations.values();
-    }
-
     @RequestMapping("/")
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
@@ -120,7 +115,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/create-article", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
-                                      BindingResult errors, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+                                      BindingResult errors) {
 
 
         if (errors.hasErrors()) {
@@ -135,7 +130,7 @@ public class ArticleController extends BaseController {
                 createArticleForm.getFiles(),
                 loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
 
-        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false, 1L);
+        return new ModelAndView("redirect:/article/" + Math.toIntExact(article.getId()));
     }
 
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
@@ -162,8 +157,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/article/{articleId}/review/create")
     public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                      BindingResult errors, @PathVariable("articleId") Long articleId,
-                                      @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+                                      BindingResult errors, @PathVariable("articleId") Long articleId) {
         ModelAndView mav = new ModelAndView("review/create");
         mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
         mav.addObject("article", articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new));
@@ -172,13 +166,12 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/article/{articleId}/review/create", method = RequestMethod.POST)
     public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                     BindingResult errors, @PathVariable("articleId") Long articleId,
-                                     @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
         if (errors.hasErrors()) {
-            return publishReview(reviewForm, errors, articleId, rentProposalForm);
+            return publishReview(reviewForm, errors, articleId);
         }
         reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
-        return viewArticle(rentProposalForm, articleId.intValue(), false, 1L);
+        return new ModelAndView("redirect:/article/" + articleId);
     }
 
     @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.GET)
@@ -215,7 +208,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") EditArticleForm createArticleForm,
-                                    BindingResult errors, @PathVariable("articleId") Long articleId, @ModelAttribute("rentForm") RentProposalForm rentProposalForm) {
+                                    BindingResult errors, @PathVariable("articleId") Long articleId) {
 
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
@@ -229,6 +222,6 @@ public class ArticleController extends BaseController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories()).orElseThrow(CannotCreateArticleException::new);
 
-        return viewArticle(rentProposalForm, Math.toIntExact(article.getId()), false, 1L);
+        return new ModelAndView("redirect:/article/" + article.getId());
     }
 }
