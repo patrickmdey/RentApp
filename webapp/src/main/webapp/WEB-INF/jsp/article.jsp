@@ -6,14 +6,7 @@
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <c:url value="/article/${articleId}" var="articleUrl"/>
-<c:choose>
-    <c:when test="${user != null}">
-        <c:url value="/article/${articleId}/review/create" var="writeReview"/>
-    </c:when>
-    <c:otherwise>
-        <c:url value="/user/login" var="writeReview"/>
-    </c:otherwise>
-</c:choose>
+<c:url value="/article/${articleId}/review/create" var="writeReview"/>
 
 <html>
 <h:head title="${article.title}"/>
@@ -79,7 +72,7 @@
                            href="<c:url value="/article/${articleId}/edit"/>"><spring:message code="article.edit"/></a>
                     </c:when>
                     <c:otherwise>
-                        <button type="button" class="btn color-grey bg-color-primary mt-2" data-bs-toggle="modal"
+                        <button type="button" class="btn color-grey bg-color-action mt-2" data-bs-toggle="modal"
                                 data-bs-target="#rentFormModal">
                             <spring:message code="article.rent"/>
                         </button>
@@ -175,7 +168,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${reviews}" var="review">
-                            <c:url value="/article/${articleId}/review/${review.id}/edit" var="editReview"></c:url>
+                            <c:url value="/article/${articleId}/review/${review.id}/edit" var="editReview"/>
                             <div class="row align-items-center">
                                 <h5 class="col-6 h5"><c:out
                                         value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
@@ -215,7 +208,8 @@
                                     </c:forEach>
                                     <li class="page-item">
                                         <c:url value="${articleUrl}" var="next" context="/">
-                                            <c:param name="page" value="${(param.page == null) ? 2 : (param.page + 1)}"/>
+                                            <c:param name="page"
+                                                     value="${(param.page == null) ? 2 : (param.page + 1)}"/>
                                         </c:url>
                                         <button class="btn btn-link"
                                                 onclick="location.href = '${next}'" ${(param.page >= maxPage || (param.page == null && maxPage == 1))?'disabled':''}>
