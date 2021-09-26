@@ -103,7 +103,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> recommendedArticles(Integer articleId) {
+    public List<Article> recommendedArticles(Long articleId) {
         return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id != ? AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
                 "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +

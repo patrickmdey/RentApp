@@ -29,7 +29,7 @@
     </div>
     <p class="lead fw-bold"><spring:message code="myAccount.ownerRequests.message"/></p>
     <p><c:out value="${message}"/></p>
-    <c:if test="${!state}">
+    <c:if test="${state == 0}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${acceptRequest}">
                 <button type="submit" class="btn btn-success me-1"><spring:message
@@ -39,13 +39,6 @@
             <form method="post" action="${deleteRequest}">
                 <button type="submit" class="btn btn-danger"><spring:message
                         code="myAccount.ownerRequests.denyButton"/></button>
-            </form>
-        </div>
-    </c:if>
-    <c:if test="${state}">
-        <div class="d-flex justify-content-end">
-            <form method="post" action="${deleteRequest}">
-                <button type="submit" class="btn btn-success me-1">YA TA</button>
             </form>
         </div>
     </c:if>

@@ -13,9 +13,11 @@ public interface RentService {
 
     void acceptRequest(long requestId);
 
-    void deleteRequest(long requestId);
+    void rejectRequest(long requestId);
 
-    Optional<RentProposal> create(String comment, Boolean approved, Date startDate,
-                                  Date endDate, Integer articleId,
+    Optional<RentProposal> create(String comment, Integer approved, Date startDate,
+                                  Date endDate, Long articleId,
                                   String renterName, String renterEmail, long renterId);
+
+    boolean hasRented(Long renterId, Long articleId);
 }

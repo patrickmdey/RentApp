@@ -3,9 +3,11 @@ package ar.edu.itba.paw.webapp.auth;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.ReviewService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,9 @@ public class WebSecurity {
     @Autowired
     RentService rentService;
 
+    @Autowired
+    ReviewService reviewService;
+
     public boolean checkIsArticleOwner(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
 
@@ -42,6 +47,22 @@ public class WebSecurity {
 
         return proposal.filter(rentProposal -> isArticleOwner(loggedUser.get(), rentProposal.getArticleId())).isPresent();
 
+    }
+
+    public boolean checkCanReview(Authentication authentication, long articleId) {
+        Optional<User> loggedUser = getUser(authentication);
+
+        return loggedUser.filter(user -> rentService.hasRented(user.getId(), articleId)).isPresent();
+    }
+
+    public boolean checkIsReviewOwner(Authentication authentication, long reviewId) {
+        Optional<User> loggedUser = getUser(authentication);
+
+        if (!loggedUser.isPresent())
+            return false;
+
+        Optional<Review> reviewOpt = reviewService.findById(reviewId);
+        return reviewOpt.filter(review -> review.getRenterId() == reviewId).isPresent();
     }
 
     private Optional<User> getUser(Authentication authentication) {

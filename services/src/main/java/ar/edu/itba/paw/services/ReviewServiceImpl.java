@@ -65,4 +65,5 @@ public class ReviewServiceImpl implements ReviewService {
     public int update(int rating, String message, long reviewId) {
         return reviewDao.update(rating, message, reviewId);
     }
+
 }

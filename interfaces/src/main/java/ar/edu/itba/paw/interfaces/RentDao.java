@@ -14,7 +14,10 @@ public interface RentDao {
 
     void acceptRequest(long requestId);
 
-    void deleteRequest(long requestId);
+    void rejectRequest(long requestId);
 
-    Optional<RentProposal> create(String comment, Boolean approved, Date startDate, Date endDate, Integer articleId, long renterId);
+    boolean hasRented(long renterId, long articleId);
+
+    Optional<RentProposal> create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);
+
 }

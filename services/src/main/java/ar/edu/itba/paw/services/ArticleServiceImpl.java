@@ -83,7 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> recommendedArticles(Integer articleId) {
+    public List<Article> recommendedArticles(Long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
 
         toReturn.forEach(article -> {

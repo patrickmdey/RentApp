@@ -164,13 +164,15 @@ public class UserController extends BaseController {
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
-        return myAccount();
+        return new ModelAndView("redirect:/user/my-requests");
     }
+
+    // state_backup <- boolean
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
-    public ModelAndView deleteRequest(@PathVariable("requestId") Long requestId) {
-        rentService.deleteRequest(requestId);
-        return myAccount();
+    public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
+        rentService.rejectRequest(requestId);
+        return new ModelAndView("redirect:/user/my-requests");
     }
 }

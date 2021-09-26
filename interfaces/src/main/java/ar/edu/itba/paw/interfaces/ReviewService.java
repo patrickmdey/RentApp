@@ -17,4 +17,5 @@ public interface ReviewService {
     Optional<Review> create(int rating, String message, long articleId, long renterId);
 
     Long getMaxPage(long articleId);
+
 }

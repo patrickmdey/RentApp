@@ -15,25 +15,23 @@ public class BaseController {
     UserService userService;
 
     @ModelAttribute(value = "user")
-    public User loggedUser()
-    {
+    public User loggedUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         Object principal = auth.getPrincipal();
-        if (auth.isAuthenticated()){
+        if (auth.isAuthenticated()) {
             String email;
 
             if (principal instanceof UserDetails) {
-                email = ((UserDetails)principal).getUsername();
+                email = ((UserDetails) principal).getUsername();
                 return userService.findByEmail(email).orElse(null);
 
             } else {
-                 email = principal.toString();
-                 return null;
+                email = principal.toString();
+                return null;
             }
 
-        }
-        else{
+        } else {
             return null;
         }
     }

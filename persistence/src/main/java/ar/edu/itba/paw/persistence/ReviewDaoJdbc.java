@@ -65,7 +65,6 @@ public class ReviewDaoJdbc implements ReviewDao {
         return (size / OFFSET) + toSum;
     }
 
-
     @Override
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Map<String, Object> data = new HashMap<>();

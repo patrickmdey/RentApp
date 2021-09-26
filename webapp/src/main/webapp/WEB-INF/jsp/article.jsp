@@ -154,7 +154,7 @@
             <div class="card card-style">
                 <div class="row">
                     <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
-                    <c:if test="${article.idOwner != user.id}">
+                    <c:if test="${article.idOwner != user.id && hasRented}">
                         <div class="col-4">
                             <control:LinkButton href="${writeReview}" labelCode="article.writeReview.title"
                                                 color="bg-color-action color-grey"/>

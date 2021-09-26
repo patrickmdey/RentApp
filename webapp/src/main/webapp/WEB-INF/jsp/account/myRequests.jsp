@@ -26,7 +26,7 @@
                 <h:requestCard articleName="${request.article.title}" renterFirstName="${request.renter.firstName}"
                                renteLastName="${request.renter.lastName}"
                                startDate="${request.startDate}" endDate="${request.endDate}"
-                               message="${request.message}" id="${request.id}" state="${request.approved}"
+                               message="${request.message}" id="${request.id}" state="${request.state}"
                                userId="${user.id}"/>
             </c:forEach>
         </c:when>

@@ -6,7 +6,7 @@ public class RentProposal {
 
     private long id;
     private String message;
-    private Boolean approved;
+    private Integer state;
     private Date startDate;
     private Date endDate;
     private long articleId;
@@ -14,14 +14,14 @@ public class RentProposal {
     private User renter;
     private Article article;
 
-    public RentProposal(long id, String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
-        this(message, approved, startDate, endDate, articleId, renterId);
+    public RentProposal(long id, String message, Integer state, Date startDate, Date endDate, long articleId, long renterId) {
+        this(message, state, startDate, endDate, articleId, renterId);
         this.id = id;
     }
 
-    public RentProposal(String message, Boolean approved, Date startDate, Date endDate, long articleId, long renterId) {
+    public RentProposal(String message, Integer state, Date startDate, Date endDate, long articleId, long renterId) {
         this.message = message;
-        this.approved = approved;
+        this.state = state;
         this.startDate = startDate;
         this.endDate = endDate;
         this.articleId = articleId;
@@ -40,12 +40,12 @@ public class RentProposal {
         this.message = message;
     }
 
-    public Boolean getApproved() {
-        return approved;
+    public Integer getState() {
+        return state;
     }
 
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public Date getStartDate() {

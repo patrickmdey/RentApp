@@ -71,7 +71,7 @@ public class ArticleController extends BaseController {
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
-                                    @PathVariable("articleId") Integer articleId,
+                                    @PathVariable("articleId") Long articleId,
                                     @RequestParam(value = "requestFormHasErrors", required = false) Boolean requestFormHasErrors,
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("article");
@@ -85,6 +85,8 @@ public class ArticleController extends BaseController {
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
+        mav.addObject("hasRented", rentService.hasRented(loggedUser().getId(), articleId));
+
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
@@ -92,17 +94,17 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
-    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Integer articleId) throws ParseException {
+    public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Long articleId) throws ParseException {
 
         if (errors.hasErrors()) {
             return viewArticle(rentForm, articleId, true, 1L);
         }
 
-        rentService.create(rentForm.getMessage(), false, new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
+        rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
                 articleId, loggedUser().getFirstName(), loggedUser().getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
-        return new ModelAndView("feedback");
+        return new ModelAndView("feedback"); //TODO: redirect aca
     }
 
     @RequestMapping("/create-article")
@@ -165,6 +167,7 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}/review/create", method = RequestMethod.POST)
+    @PreAuthorize("@webSecurity.checkCanReview(authentication,#articleId)")
     public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
                                      BindingResult errors, @PathVariable("articleId") Long articleId) {
         if (errors.hasErrors()) {
@@ -175,6 +178,7 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.GET)
+    @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
     public ModelAndView editReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
                                    @PathVariable("articleId") Long articleId,
                                    @PathVariable("reviewId") Long reviewId) {
@@ -186,6 +190,7 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.POST)
+    @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
     public ModelAndView updateReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
                                      BindingResult errors, @PathVariable("articleId") Long articleId,
                                      @PathVariable("reviewId") Long reviewId) {

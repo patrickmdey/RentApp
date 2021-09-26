@@ -19,5 +19,5 @@ public interface ArticleService {
 
     Long getMaxPage(String name, Long category, Long user, Long location);
 
-    List<Article> recommendedArticles(Integer articleId);
+    List<Article> recommendedArticles(Long articleId);
 }

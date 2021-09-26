@@ -54,8 +54,8 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Optional<RentProposal> create(String message, Boolean approved, Date startDate,
-                                         Date endDate, Integer articleId, String renterName,
+    public Optional<RentProposal> create(String message, Integer approved, Date startDate,
+                                         Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
         if (article.isPresent()) {
@@ -100,10 +100,10 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public void deleteRequest(long requestId) {
+    public void rejectRequest(long requestId) {
         Map<String, String> values = getValuesMap(requestId);
 
-        rentDao.deleteRequest(requestId);
+        rentDao.rejectRequest(requestId);
 
         emailService.sendMailRequestDenied(values.get("renterEmail"), values);
     }
@@ -129,5 +129,13 @@ public class RentServiceImpl implements RentService {
                 values.get("ownerId") + "/my-account"); // deberia ir a /user/{userId}/my-account
         values.put("callbackUrlRenter", "/");
         return values;
+    }
+
+    @Override
+    public boolean hasRented(Long renterId, Long articleId) {
+        if (articleId == null || renterId == null)
+            return false;
+
+        return rentDao.hasRented(renterId, articleId);
     }
 }
