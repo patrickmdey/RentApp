@@ -121,10 +121,14 @@ public class UserController extends BaseController {
     public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-        mav.addObject("articles", articleService.get(null, null,
+
+        mav.addObject("ownedArticles", articleService.get(null, null,
                 null, loggedUser().getId(), null, page));
-        mav.addObject("maxPage", articleService.getMaxPage(null,
+
+        mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, loggedUser().getId(), null));
+
+        mav.addObject("rentedArticles", articleService.rentedArticles(loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;
@@ -162,7 +166,6 @@ public class UserController extends BaseController {
     }
 
 
-
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
@@ -177,7 +180,7 @@ public class UserController extends BaseController {
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state){
+    private ModelAndView getRentRequests(User user, RentState state) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
         List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal());
 
