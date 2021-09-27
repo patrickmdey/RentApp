@@ -14,6 +14,8 @@ import java.util.*;
 
 @Repository
 public class RentDaoJdbc implements RentDao {
+    private static final Long OFFSET = 4L;
+
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<RentProposal> ROW_MAPPER = (resultSet, rowNum) ->
@@ -33,11 +35,29 @@ public class RentDaoJdbc implements RentDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+
+    private StringBuilder queryBuilder(String fields){
+        return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE article_id IN (" +
+                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ?");
+    }
+
     @Override
-    public List<RentProposal> list(long ownerId, int state) {
-        return jdbcTemplate.query("SELECT * FROM rent_proposal WHERE article_id IN (" +
-                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ?",
-                new Object[]{ownerId, state}, ROW_MAPPER);
+    public Long getMaxPage(long ownerId, int state) {
+        Long size = jdbcTemplate.queryForObject(queryBuilder("COUNT(*)").toString()
+                , Long.class, ownerId, state);
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+
+        return (size / OFFSET) + toSum;
+    }
+
+    @Override
+    public List<RentProposal> list(long ownerId, int state, long page) {
+        StringBuilder query = queryBuilder("*");
+        query.append("ORDER BY start_date DESC, end_date DESC LIMIT ? OFFSET ?");
+        return jdbcTemplate.query(query.toString(),
+                new Object[]{ownerId, state, OFFSET, (page - 1) * OFFSET},
+                ROW_MAPPER);
     }
 
     @Override

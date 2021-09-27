@@ -14,7 +14,6 @@ import java.util.*;
 
 @Repository
 public class ReviewDaoJdbc implements ReviewDao {
-
     private static final Long OFFSET = 3L;
 
     private final JdbcTemplate jdbcTemplate;

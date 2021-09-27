@@ -36,7 +36,7 @@ public class UserController extends BaseController {
     @Autowired
     RentService rentService;
 
-    @ModelAttribute(value = "locations")
+    @ModelAttribute(value = "locations") //TODO: sacar esto
     public List<Locations> LoadLocations() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
@@ -147,20 +147,19 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/my-requests/accepted")
-    public ModelAndView acceptedRequests() {
-        return getRentRequests(loggedUser(), RentState.ACCEPTED);
+    public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(loggedUser(), RentState.ACCEPTED, page);
     }
 
     @RequestMapping("/my-requests/pending")
-    public ModelAndView pendingRequests() {
-        return getRentRequests(loggedUser(), RentState.PENDING);
+    public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(loggedUser(), RentState.PENDING, page);
     }
 
     @RequestMapping("/my-requests/declined")
-    public ModelAndView declinedRequests() {
-        return getRentRequests(loggedUser(), RentState.DECLINED);
+    public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(loggedUser(), RentState.DECLINED, page);
     }
-
 
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
@@ -177,12 +176,13 @@ public class UserController extends BaseController {
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state){
+    private ModelAndView getRentRequests(User user, RentState state, Long page){
         final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal());
+        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
 
         mav.addObject("requests", rentProposals);
         mav.addObject("state", state.name());
+        mav.addObject("maxPage", rentService.getMaxPage(user.getId(), state.ordinal()));
 
         return mav;
     }

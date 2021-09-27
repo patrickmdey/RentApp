@@ -8,7 +8,8 @@
 <c:url value="/user/delete" var="deleteUrl"/>
 <c:url var="updatePasswordUrl" value="/user/updatePassword"/>
 <c:url value="/user/edit" var="editUrl"/>
-<c:url value="/create-article" var="createArticle"/>
+<c:url value="article/create" var="createArticle"/>
+<c:url value="/user/view" var="currentUrl" />
 
 <html>
 <h:head title="Mi perfil"/>
@@ -93,7 +94,7 @@
                 </a>
             </c:when>
             <c:otherwise>
-                <h:allArticles articles="${articles}" maxPage="${maxPage}"/>
+                <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"/>
                 <%--                <div class="row row-cols-4 justify-content-start mt-2">--%>
                 <%--                    <c:forEach var="article" items="${articles}">--%>
                 <%--                        <div class="col d-flex justify-content-center">--%>

@@ -8,6 +8,19 @@
 <h:head title="Manage Account"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
+
+<c:choose>
+    <c:when test="${state == 'ACCEPTED'}">
+        <c:url value="/user/my-requests/accepted" var="currentUrl" />
+    </c:when>
+    <c:when test="${state == 'REJECTED'}">
+        <c:url value="/user/my-requests/declined" var="currentUrl" />
+    </c:when>
+    <c:otherwise>
+        <c:url value="/user/my-requests/pending" var="currentUrl" />
+    </c:otherwise>
+</c:choose>
+
 <div class="main-container">
     <h1 class="h1"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h1>
     <hr/>
@@ -47,6 +60,7 @@
                     </div>
                 </c:otherwise>
             </c:choose>
+            <h:pagination currentUrl="${currentUrl}" maxPage="${maxPage}"/>
         </div>
     </div>
 </div>
