@@ -30,14 +30,19 @@ public class RentServiceImpl implements RentService {
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
-    public List<RentProposal> ownerRequests(long ownerId, int state) {
+    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
 
-        List<RentProposal> proposals = rentDao.list(ownerId, state);
+        List<RentProposal> proposals = rentDao.list(ownerId, state, page);
         proposals.forEach(proposal -> {
             appendArticle(proposal);
             appendRenter(proposal);
         });
         return proposals;
+    }
+
+    @Override
+    public Long getMaxPage(long ownerId, int state) {
+        return rentDao.getMaxPage(ownerId, state);
     }
 
     private void appendRenter(RentProposal proposal) {

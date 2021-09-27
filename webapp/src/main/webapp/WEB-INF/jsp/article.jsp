@@ -45,7 +45,7 @@
                         <h5>
                             <a href="${marketplaceUrl}">
                                 <span class="badge bg-background-grey text-dark m-1">
-                                    <c:out value="${category.description}"/>
+                                    <spring:message code="${category.description}"/>
                                 </span>
                             </a>
                         </h5>

@@ -54,7 +54,7 @@
                         </c:url>
                         <div class="badge bg-primary mx-2 p-2">
                             <i class="bi bi-tag"></i>
-                            <c:out value="${category}"/>
+                            <spring:message code="${category}"/>
                             <a href="${removeCategoryUrl}" class="text-light">X</a>
                         </div>
                     </c:if>
@@ -94,9 +94,16 @@
 
                 <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
                         code="search.rentRequestForm.category"/></form:label>
-                <div class="form-check d-flex flex-column align-items-start">
-                    <form:radiobuttons path="category" items="${categories}"
-                                       itemValue="id" itemLabel="description"/>
+                <div class="w-100">
+<%--                    <form:radiobuttons path="category" items="${categories}"--%>
+<%--                                       itemValue="id" itemLabel="description"/>--%>
+
+                    <c:forEach items="${categories}" var="category" >
+                        <div class="w-100">
+                            <spring:message code="${category.description}" var="label" />
+                            <form:radiobutton path="category" value="${category.id}" label="${label}" />
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <div class="mt-3">
@@ -157,7 +164,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <h:allArticles articles="${articles}" maxPage="${maxPage}"/>
+                    <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"/>
                 </c:otherwise>
             </c:choose>
         </div>

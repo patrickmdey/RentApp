@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface RentService {
     Optional<RentProposal> findById(long id);
 
-    List<RentProposal> ownerRequests(long ownerId, int state);
+    List<RentProposal> ownerRequests(long ownerId, int state, long page);
 
     void acceptRequest(long requestId);
 
@@ -21,4 +21,7 @@ public interface RentService {
                                   String renterName, String renterEmail, long renterId);
 
     boolean hasRented(User renter, Long articleId);
+
+    Long getMaxPage(long ownerId, int state);
+
 }
