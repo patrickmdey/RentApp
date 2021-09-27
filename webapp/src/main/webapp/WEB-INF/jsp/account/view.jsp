@@ -86,16 +86,17 @@
                 </a>
             </c:when>
             <c:otherwise>
-                <div class="row row-cols-4 justify-content-start mt-2">
-                    <c:forEach var="article" items="${articles}">
-                        <div class="col d-flex justify-content-center">
-                            <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
-                                               id="${article.id}"
-                                               location="${article.location}"
-                                               image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
-                        </div>
-                    </c:forEach>
-                </div>
+                <h:allArticles articles="${articles}" maxPage="${maxPage}"/>
+                <%--                <div class="row row-cols-4 justify-content-start mt-2">--%>
+                <%--                    <c:forEach var="article" items="${articles}">--%>
+                <%--                        <div class="col d-flex justify-content-center">--%>
+                <%--                            <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"--%>
+                <%--                                               id="${article.id}"--%>
+                <%--                                               location="${article.location}"--%>
+                <%--                                               image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>--%>
+                <%--                        </div>--%>
+                <%--                    </c:forEach>--%>
+                <%--                </div>--%>
             </c:otherwise>
         </c:choose>
     </div>

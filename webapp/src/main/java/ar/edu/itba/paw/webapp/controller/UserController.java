@@ -125,9 +125,13 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("/view")
-    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm) {
+    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-        mav.addObject("articles", articleService.findByOwner(loggedUser().getId()));
+        mav.addObject("articles", articleService.get(null, null,
+                null, loggedUser().getId(), null, page));
+        mav.addObject("maxPage", articleService.getMaxPage(null,
+                null, loggedUser().getId(), null));
         populateForm(accountForm);
 
         return mav;
