@@ -137,15 +137,13 @@ public class UserController extends BaseController {
         response.sendRedirect("logout");
     }
 
-    private EditAccountForm populateForm(EditAccountForm accountForm) {
+    private void populateForm(EditAccountForm accountForm) {
         User user = loggedUser();
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
         accountForm.setIsOwner(user.getType() == UserType.Owner);
         accountForm.setLocation(user.getLocation());
-
-        return accountForm;
     }
 
     @RequestMapping("/my-requests/accepted")

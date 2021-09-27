@@ -6,7 +6,7 @@
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <c:url value="/article/${articleId}" var="articleUrl"/>
-<c:url value="/article/${articleId}/review/create" var="writeReview"/>
+<c:url value="/review/${articleId}/create" var="createReview"/>
 
 <html>
 <h:head title="${article.title}"/>
@@ -151,12 +151,13 @@
                 <p class="lead"><c:out value="${article.description}"/></p>
             </div>
 
+            <%--            Reviews--%>
             <div class="card card-style">
                 <div class="row">
                     <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
-                    <c:if test="${article.idOwner != user.id && hasRented}">
+                    <c:if test="${article.idOwner != user.id && canReview}">
                         <div class="col-4">
-                            <control:LinkButton href="${writeReview}" labelCode="article.writeReview.title"
+                            <control:LinkButton href="${createReview}" labelCode="article.createReview.title"
                                                 color="bg-color-action color-grey"/>
                         </div>
                     </c:if>
@@ -168,13 +169,14 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${reviews}" var="review">
-                            <c:url value="/article/${articleId}/review/${review.id}/edit" var="editReview"/>
+                            <c:url value="/review/${review.id}/edit" var="editReview"/>
                             <div class="row align-items-center">
                                 <h5 class="col-6 h5"><c:out
                                         value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
                                 <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
                                 <c:if test="${user.id == review.renterId}">
-                                    <a class="col-1 fa-lg" href="${editReview}"><i class="bi bi-pencil-fill"></i></a>
+                                    <a class="col-1 color-action" href="${editReview}">
+                                        <i class="bi bi-pencil-fill"></i></a>
                                 </c:if>
                             </div>
                             <h:rating rating="${review.rating}"/>

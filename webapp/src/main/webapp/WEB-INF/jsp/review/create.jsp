@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/article/${articleId}/review/create" var="publishReview"/>
+<c:url value="/review/${articleId}/create" var="publishReview"/>
 <c:url value="/article/${articleId}" var="goBack"/>
 
 <html>
@@ -17,7 +17,7 @@
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="reviewForm" method="post" action="${publishReview}">
         <div class="form-container">
-            <h3 class="h3 fw-bold my-1"><spring:message code="article.writeReview.title"/></h3>
+            <h3 class="h3 fw-bold my-1"><spring:message code="article.createReview.title"/></h3>
             <hr/>
             <div class="d-flex">
                 <p class="lead fw-bold me-1"><spring:message code="article.writeReview.articleName"/></p>
