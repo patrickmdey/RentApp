@@ -6,8 +6,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/article/${articleId}/review/${reviewId}/edit" var="updateReview"/>
-<c:url value="/article/${articleId}" var="goBack"/>
+<c:url value="/review/${reviewId}/edit" var="updateReview"/>
+<c:url value="/article/${article.id}" var="goBack"/>
 
 <html>
 <h:head title="Editar Reseña"/>

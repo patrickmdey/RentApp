@@ -3,6 +3,7 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,7 +92,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public void acceptRequest(long requestId) {
 
-        rentDao.acceptRequest(requestId);
+        rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
 
         Map<String, String> values = getValuesMap(requestId);
 
@@ -103,7 +104,7 @@ public class RentServiceImpl implements RentService {
     public void rejectRequest(long requestId) {
         Map<String, String> values = getValuesMap(requestId);
 
-        rentDao.rejectRequest(requestId);
+        rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
 
         emailService.sendMailRequestDenied(values.get("renterEmail"), values);
     }

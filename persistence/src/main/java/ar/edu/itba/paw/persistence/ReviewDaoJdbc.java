@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.ReviewDao;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -66,6 +67,13 @@ public class ReviewDaoJdbc implements ReviewDao {
     }
 
     @Override
+    public boolean hasReviewed(long userId, long articleId) {
+        return !jdbcTemplate.query(
+                "SELECT * FROM review WHERE article_id = ? AND renter_id = ?",
+                new Object[]{articleId, userId}, ROW_MAPPER).isEmpty();
+    }
+
+    @Override
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Map<String, Object> data = new HashMap<>();
         data.put("rating", rating);
@@ -86,9 +94,8 @@ public class ReviewDaoJdbc implements ReviewDao {
     }
 
     @Override
-    public int update(int rating, String message, long reviewId) {
+    public void update(int rating, String message, long reviewId) {
         jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
         jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
-        return 1;
     }
 }

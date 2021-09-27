@@ -6,7 +6,7 @@
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <c:url value="/article/${articleId}" var="articleUrl"/>
-<c:url value="/article/${articleId}/review/create" var="writeReview"/>
+<c:url value="/review/${articleId}/create" var="createReview"/>
 
 <html>
 <h:head title="${article.title}"/>
@@ -148,6 +148,7 @@
                 <p class="lead"><c:out value="${article.description}"/></p>
             </div>
 
+            <%--            Reviews--%>
             <div class="card card-style">
                 <h:allReviews article="${article}" user="${user}"
                               hasRented="${hasRented}"
