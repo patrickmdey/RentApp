@@ -15,6 +15,12 @@
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container">
+
+    <c:if test="${loginError}">
+        <h:messagePanel mode="error" cssClass="create-card card-style " visible="true" messages="login.form.error"/>
+    </c:if>
+
+
     <div class="card shadow card-style create-card mx-3">
         <form:form method="post" action="${loginUrl}">
             <div class="form-container">

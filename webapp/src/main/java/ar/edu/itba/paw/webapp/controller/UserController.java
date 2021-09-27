@@ -76,13 +76,21 @@ public class UserController extends BaseController {
                 accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
 
-        return login();
+        return login(false);
     }
 
 
     @RequestMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("account/login");
+    public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
+
+        ModelAndView mv = new ModelAndView("account/login");
+
+        if (loginError) {
+
+            mv.addObject("loginError", true);
+
+        }
+        return mv;
     }
 
 

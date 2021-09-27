@@ -3,6 +3,7 @@
 
 <%@ attribute name="mode" required="true" type="java.lang.String" %>
 <%@ attribute name="visible" required="true" type="java.lang.Boolean" %>
+<%@ attribute name="cssClass" required="false" type="java.lang.String" %>
 <%@ attribute name="messages" required="true"
               description="It contains the code of the resources that contain the message"
 %>
@@ -23,20 +24,25 @@
     <c:set var="color" value="bg-warning"/>
 </c:if>
 
+<c:if test="${empty cssClass}">
+    <c:set value="${\"\"}" var="cssClass"/>
+
+</c:if>
+
 <html>
 <body>
 <c:if test="${visible}">
-    <div class="card text-white container ${color}">
+    <div class="card text-white container ${cssClass} ${color}">
         <div class="card-body">
 
             <h5 class="card-title" style="color: white;">
                 <c:if test="${isSuccess}">
-                <spring:message code="messagePanel.title.success"/>
-            </c:if>
-            <c:if test="${isError}">
-                <spring:message code="messagePanel.title.error"/>
-            </c:if>
-            <c:if test="${isWarning}">
+                    <spring:message code="messagePanel.title.success"/>
+                </c:if>
+                <c:if test="${isError}">
+                    <spring:message code="messagePanel.title.error"/>
+                </c:if>
+                <c:if test="${isWarning}">
                 <spring:message code="messagePanel.title.warning"/>
             </c:if>
         </h5>
