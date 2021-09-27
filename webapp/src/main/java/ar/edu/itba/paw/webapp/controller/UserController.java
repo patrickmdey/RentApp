@@ -10,6 +10,7 @@ import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
+import ar.edu.itba.paw.webapp.forms.PasswordForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -103,9 +104,7 @@ public class UserController extends BaseController {
 
         final ModelAndView mav = new ModelAndView("account/edit");
 
-        if (errors.hasErrors() && errors.getFieldErrors().stream()
-                .filter(t -> t.getField().compareToIgnoreCase("confirmPassword") != 0 && t.getField().compareToIgnoreCase("password") != 0)
-                .count() != 0) {
+        if (errors.hasErrors()) {
             mav.addObject("showPanel", false);
             return mav;
         }
@@ -179,4 +178,30 @@ public class UserController extends BaseController {
         rentService.rejectRequest(requestId);
         return new ModelAndView("redirect:/user/my-requests");
     }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
+    public ModelAndView updatePassword(@ModelAttribute(value = "passwordForm") PasswordForm passwordForm) {
+        return new ModelAndView("account/updatePassword");
+    }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ModelAndView updatePassword(@Valid @ModelAttribute(value = "passwordForm") PasswordForm passwordForm, BindingResult errors) {
+        ModelAndView mv = new ModelAndView("account/updatePassword");
+
+        if (errors.hasErrors()) {
+            mv.addObject("showPanel", false);
+
+
+            return mv;
+        }
+
+        mv.addObject("showPanel", true);
+
+        userService.updatePassword(loggedUser().getId(), passwordForm.getPassword());
+
+
+        return mv;
+    }
+
+
 }

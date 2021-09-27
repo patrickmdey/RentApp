@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url value="/user/delete" var="deleteUrl"/>
+<c:url var="updatePasswordUrl" value="/user/updatePassword"/>
 <c:url value="/user/edit" var="editUrl"/>
 <c:url value="/create-article" var="createArticle"/>
 
@@ -58,6 +59,12 @@
                     <li>
                         <a class="dropdown-item" href="${editUrl}">
                             <spring:message code="account.view.form.editButton"/>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="${updatePasswordUrl}">
+                            <spring:message code="account.view.form.updatePasswordButton"/>
 
                         </a>
                     </li>

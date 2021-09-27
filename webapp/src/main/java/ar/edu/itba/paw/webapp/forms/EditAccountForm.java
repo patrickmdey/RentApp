@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.webapp.forms;
 
-import ar.edu.itba.paw.webapp.forms.Annotations.ValidFile;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class EditAccountForm {
 
@@ -27,6 +26,7 @@ public class EditAccountForm {
 
     @NotNull
     @NotEmpty
+    @Size(min = 8, max = 100)
     private String password;
 
     @NotNull

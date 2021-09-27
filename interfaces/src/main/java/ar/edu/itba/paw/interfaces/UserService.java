@@ -19,4 +19,6 @@ public interface UserService {
     void update(long id, String firstName, String lastName, String email, Long location, Boolean isOwner);
 
     void delete(long id);
+
+    void updatePassword(long id, String password);
 }
