@@ -7,7 +7,7 @@
 <html>
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
-<h:navbar/>
+<h:navbar loggedUser="${user}"/>
 <div class="error-container container-height">
     <h1 class="display-3 fw-bold">Error 403</h1>
     <p class="lead"><spring:message code="error.403"/></p>

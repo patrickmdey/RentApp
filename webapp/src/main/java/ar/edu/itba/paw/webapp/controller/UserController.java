@@ -23,18 +23,18 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    EmailService emailService;
+    private ArticleService articleService;
 
     @Autowired
-    ArticleService articleService;
+    private RentService rentService;
 
     @Autowired
-    RentService rentService;
+    private LoggedUserAdvice userAdvice;
 
     @ModelAttribute(value = "locations") //TODO: sacar esto
     public List<Locations> LoadLocations() {
@@ -103,7 +103,7 @@ public class UserController extends BaseController {
             return mav;
         }
 
-        userService.update(loggedUser().getId(),
+        userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
                 accountForm.getEmail(),
@@ -122,9 +122,9 @@ public class UserController extends BaseController {
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
         mav.addObject("articles", articleService.get(null, null,
-                null, loggedUser().getId(), null, page));
+                null, userAdvice.loggedUser().getId(), null, page));
         mav.addObject("maxPage", articleService.getMaxPage(null,
-                null, loggedUser().getId(), null));
+                null, userAdvice.loggedUser().getId(), null));
         populateForm(accountForm);
 
         return mav;
@@ -132,13 +132,13 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public void delete(HttpServletResponse response) throws IOException {
-        userService.delete(loggedUser().getId());
+        userService.delete(userAdvice.loggedUser().getId());
 
         response.sendRedirect("logout");
     }
 
     private void populateForm(EditAccountForm accountForm) {
-        User user = loggedUser();
+        User user = userAdvice.loggedUser();
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
@@ -148,17 +148,17 @@ public class UserController extends BaseController {
 
     @RequestMapping("/my-requests/accepted")
     public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.ACCEPTED, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page);
     }
 
     @RequestMapping("/my-requests/pending")
     public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.PENDING, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page);
     }
 
     @RequestMapping("/my-requests/declined")
     public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.DECLINED, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page);
     }
 
 
@@ -198,15 +198,12 @@ public class UserController extends BaseController {
 
         if (errors.hasErrors()) {
             mv.addObject("showPanel", false);
-
-
             return mv;
         }
 
         mv.addObject("showPanel", true);
 
-        userService.updatePassword(loggedUser().getId(), passwordForm.getPassword());
-
+        userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
 
         return mv;
     }

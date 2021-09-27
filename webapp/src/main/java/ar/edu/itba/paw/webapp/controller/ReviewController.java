@@ -20,13 +20,16 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/review")
-public class ReviewController extends BaseController {
+public class ReviewController {
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
+
+    @Autowired
+    private LoggedUserAdvice userAdvice;
 
     @RequestMapping(value = "/{articleId}/create")
     public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, @PathVariable("articleId") Long articleId) {
@@ -43,7 +46,7 @@ public class ReviewController extends BaseController {
         if (errors.hasErrors()) {
             return publishReview(reviewForm, articleId);
         }
-        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
+        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/article/" + articleId);
     }
 
