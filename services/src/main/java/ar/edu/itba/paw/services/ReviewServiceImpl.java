@@ -57,13 +57,21 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public boolean hasReviewed(User user, Long articleId) {
+        if (user == null || articleId == null)
+            return false;
+
+        return reviewDao.hasReviewed(user.getId(), articleId);
+    }
+
+    @Override
     public Optional<Review> findById(long reviewId) {
         return reviewDao.findById(reviewId);
     }
 
     @Override
-    public int update(int rating, String message, long reviewId) {
-        return reviewDao.update(rating, message, reviewId);
+    public void update(int rating, String message, long reviewId) {
+        reviewDao.update(rating, message, reviewId);
     }
 
 }

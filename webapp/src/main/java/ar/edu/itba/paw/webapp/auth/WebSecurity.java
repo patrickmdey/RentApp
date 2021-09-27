@@ -51,8 +51,11 @@ public class WebSecurity {
 
     public boolean checkCanReview(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
+        if (!loggedUser.isPresent())
+            return false;
 
-        return loggedUser.filter(user -> rentService.hasRented(user, articleId)).isPresent();
+        return rentService.hasRented(loggedUser.get(), articleId) && !reviewService.hasReviewed(loggedUser.get(), articleId);
+
     }
 
     public boolean checkIsReviewOwner(Authentication authentication, long reviewId) {
@@ -62,7 +65,7 @@ public class WebSecurity {
             return false;
 
         Optional<Review> reviewOpt = reviewService.findById(reviewId);
-        return reviewOpt.filter(review -> review.getRenterId() == reviewId).isPresent();
+        return reviewOpt.filter(review -> review.getRenterId() == loggedUser.get().getId()).isPresent();
     }
 
     private Optional<User> getUser(Authentication authentication) {

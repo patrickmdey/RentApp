@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ public interface ReviewService {
 
     int articleRating(long articleId);
 
-    int update(int rating, String message, long reviewId);
+    void update(int rating, String message, long reviewId);
 
     Optional<Review> findById(long reviewId);
 
@@ -18,4 +19,5 @@ public interface ReviewService {
 
     Long getMaxPage(long articleId);
 
+    boolean hasReviewed(User user, Long articleId);
 }

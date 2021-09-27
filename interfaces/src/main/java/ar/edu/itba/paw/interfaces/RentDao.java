@@ -12,9 +12,7 @@ public interface RentDao {
 
     Optional<RentProposal> findById(long id);
 
-    void acceptRequest(long requestId);
-
-    void rejectRequest(long requestId);
+    void updateRequest(long requestId, int state);
 
     boolean hasRented(long renterId, long articleId);
 

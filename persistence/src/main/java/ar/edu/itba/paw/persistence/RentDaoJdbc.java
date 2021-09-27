@@ -61,22 +61,15 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public void acceptRequest(long requestId) {
-        int state = RentState.ACCEPTED.ordinal();
-        jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
-    }
-
-    @Override
-    public void rejectRequest(long requestId) {
-        int state = RentState.DECLINED.ordinal();
-        jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
+    public void updateRequest(long requestId, int state) {
+        jdbcTemplate.update(
+                "UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
     }
 
     @Override
     public boolean hasRented(long renterId, long articleId) {
-        int state = RentState.ACCEPTED.ordinal();
         return !jdbcTemplate.query(
                 "SELECT * FROM rent_proposal WHERE article_id = ? AND renter_id = ? AND state = ?",
-                        new Object[]{articleId, renterId, state}, ROW_MAPPER).isEmpty();
+                        new Object[]{articleId, renterId, RentState.ACCEPTED.ordinal()}, ROW_MAPPER).isEmpty();
     }
 }

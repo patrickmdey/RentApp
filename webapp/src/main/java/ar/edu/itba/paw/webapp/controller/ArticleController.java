@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.List;
 
 @Controller
+@RequestMapping("/article")
 public class ArticleController extends BaseController {
     @Autowired
     ArticleService articleService;
@@ -45,33 +46,7 @@ public class ArticleController extends BaseController {
     @Autowired
     ReviewService reviewService;
 
-    @RequestMapping("/")
-    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
-                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        final ModelAndView mav = new ModelAndView("marketplace");
-        List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
-        mav.addObject("articles", articles);
-        mav.addObject("query", searchForm.getQuery());
-        List<Category> categories = categoryService.listCategories();
-        mav.addObject("categories", categories);
-        mav.addObject("orderOptions", OrderOptions.values());
-        mav.addObject("maxPage", articleService.getMaxPage(searchForm.getQuery(),
-                searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation()));
-
-        mav.addObject("locations", Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList()));
-
-        mav.addObject("locationsEnum", Locations.values());
-
-        mav.addObject("category", categoryService.findById(searchForm.getCategory()));
-
-        mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));
-        return mav;
-    }
-
-    @RequestMapping(value = "/article/{articleId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
                                     @PathVariable("articleId") Long articleId,
                                     @RequestParam(value = "requestFormHasErrors", required = false) Boolean requestFormHasErrors,
@@ -87,7 +62,7 @@ public class ArticleController extends BaseController {
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
-        mav.addObject("hasRented", rentService.hasRented(loggedUser(), articleId));
+        mav.addObject("canReview", rentService.hasRented(loggedUser(), articleId) && !reviewService.hasReviewed(loggedUser(), articleId));
 
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
@@ -95,9 +70,8 @@ public class ArticleController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/article/{articleId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{articleId}", method = RequestMethod.POST)
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm, BindingResult errors, @PathVariable("articleId") Long articleId) throws ParseException {
-
         if (errors.hasErrors()) {
             return viewArticle(rentForm, articleId, true, 1L);
         }
@@ -106,10 +80,10 @@ public class ArticleController extends BaseController {
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
                 articleId, loggedUser().getFirstName(), loggedUser().getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
-        return new ModelAndView("feedback"); //TODO: redirect aca
+        return new ModelAndView("redirect:/feedback");
     }
 
-    @RequestMapping("/create-article")
+    @RequestMapping("/create")
     public ModelAndView viewCreateArticleForm(@ModelAttribute("createArticleForm") CreateArticleForm createArticleForm) {
         final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
@@ -117,10 +91,9 @@ public class ArticleController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/create-article", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors) {
-
 
         if (errors.hasErrors()) {
             return viewCreateArticleForm(createArticleForm);
@@ -137,7 +110,7 @@ public class ArticleController extends BaseController {
         return new ModelAndView("redirect:/article/" + Math.toIntExact(article.getId()));
     }
 
-    @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/{articleId}/edit", method = RequestMethod.GET)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView viewEditArticleForm(@ModelAttribute("createArticleForm") EditArticleForm editArticleForm, @PathVariable("articleId") Long articleId) {
         final ModelAndView mav = new ModelAndView("createArticle");
@@ -159,60 +132,7 @@ public class ArticleController extends BaseController {
         return mav;
     }
 
-    @RequestMapping(value = "/article/{articleId}/review/create")
-    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                      BindingResult errors, @PathVariable("articleId") Long articleId) {
-        ModelAndView mav = new ModelAndView("review/create");
-        mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
-        mav.addObject("article", articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new));
-        return mav;
-    }
-
-    @RequestMapping(value = "/article/{articleId}/review/create", method = RequestMethod.POST)
-    @PreAuthorize("@webSecurity.checkCanReview(authentication,#articleId)")
-    public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
-        if (errors.hasErrors()) {
-            return publishReview(reviewForm, errors, articleId);
-        }
-        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, loggedUser().getId());
-        return new ModelAndView("redirect:/article/" + articleId);
-    }
-
-    @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.GET)
-    @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
-    public ModelAndView editReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                   @PathVariable("articleId") Long articleId,
-                                   @PathVariable("reviewId") Long reviewId) {
-        final ModelAndView mav = new ModelAndView("review/edit");
-        mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
-        mav.addObject("article", articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new));
-        populateReviewForm(reviewId, reviewForm);
-        return mav;
-    }
-
-    @RequestMapping(value = "/article/{articleId}/review/{reviewId}/edit", method = RequestMethod.POST)
-    @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
-    public ModelAndView updateReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                     BindingResult errors, @PathVariable("articleId") Long articleId,
-                                     @PathVariable("reviewId") Long reviewId) {
-
-        if (errors.hasErrors())
-            return editReview(reviewForm, articleId, reviewId);
-
-        reviewService.update(reviewForm.getRating(), reviewForm.getMessage(), reviewId);
-
-        return new ModelAndView("redirect:/article/" + articleId);
-    }
-
-    private void populateReviewForm(long reviewId, ReviewForm reviewForm) {
-        Review review = reviewService.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
-
-        reviewForm.setRating(review.getRating());
-        reviewForm.setMessage(review.getMessage());
-    }
-
-    @RequestMapping(value = "/article/{articleId}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/{articleId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") EditArticleForm createArticleForm,
                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
