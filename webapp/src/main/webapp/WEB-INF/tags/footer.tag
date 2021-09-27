@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="footer-style bg-color-primary">
     <div class="card-body row my-n4">
         <div class="col-4 footer-image-col">
@@ -24,6 +25,6 @@
         </div>
     </div>
     <div class="card-footer bg-color-secondary d-flex justify-content-center align-content-center my-n2">
-        <p class="fw-light my-n2">PAW 2020b - Grupo 3</p>
+        <p class="fw-light my-n2"><spring:message code="footer.subtitle"/></p>
     </div>
 </div>

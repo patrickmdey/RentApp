@@ -34,9 +34,10 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public List<RentProposal> list(long ownerId) {
+    public List<RentProposal> list(long ownerId, int state) {
         return jdbcTemplate.query("SELECT * FROM rent_proposal WHERE article_id IN (" +
-                "SELECT article.id FROM article WHERE article.owner_id = ?)", new Object[]{ownerId}, ROW_MAPPER);
+                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ?",
+                new Object[]{ownerId, state}, ROW_MAPPER);
     }
 
     @Override

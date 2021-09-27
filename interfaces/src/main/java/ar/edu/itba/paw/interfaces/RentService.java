@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface RentService {
     Optional<RentProposal> findById(long id);
 
-    List<RentProposal> ownerRequests(long ownerId);
+    List<RentProposal> ownerRequests(long ownerId, int state);
 
     void acceptRequest(long requestId);
 

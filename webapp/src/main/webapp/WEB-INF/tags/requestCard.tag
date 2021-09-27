@@ -11,6 +11,7 @@
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="state" required="true" %>
 <%@ attribute name="userId" required="true" %>
+<%@ attribute name="renterEmail" required="true" %>
 
 
 <c:url value="/user/my-requests/${id}/accept" var="acceptRequest"/>
@@ -27,18 +28,27 @@
         <p class="lead col-5 ms-n3"><spring:message code="myAccount.ownerRequests.endDate"
                                                     arguments="${endDate}"/></p>
     </div>
-    <p class="lead fw-bold"><spring:message code="myAccount.ownerRequests.message"/></p>
+    <c:if test="${state == 1}">
+        <a href="mailto:${renterEmail}" class="lead">
+            <c:out value="${renterEmail}"/>
+        </a>
+    </c:if>
+    <p class="lead fw-bold">
+        <spring:message code="myAccount.ownerRequests.message"/>
+    </p>
     <p><c:out value="${message}"/></p>
     <c:if test="${state == 0}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${acceptRequest}">
-                <button type="submit" class="btn btn-success me-1"><spring:message
-                        code="myAccount.ownerRequests.acceptButton"/></button>
+                <button type="submit" class="btn btn-success me-1">
+                    <spring:message code="myAccount.ownerRequests.acceptButton"/>
+                </button>
             </form>
 
             <form method="post" action="${deleteRequest}">
-                <button type="submit" class="btn btn-danger"><spring:message
-                        code="myAccount.ownerRequests.denyButton"/></button>
+                <button type="submit" class="btn btn-danger">
+                    <spring:message code="myAccount.ownerRequests.denyButton"/>
+                </button>
             </form>
         </div>
     </c:if>

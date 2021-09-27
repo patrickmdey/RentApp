@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface RentDao {
 
-    List<RentProposal> list(long ownerId);
+    List<RentProposal> list(long ownerId, int state);
 
     Optional<RentProposal> findById(long id);
 
