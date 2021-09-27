@@ -5,8 +5,8 @@
 <%@attribute name="articles" type="java.util.List" required="true" %>
 <%@attribute name="maxPage" required="true" %>
 <c:url value="/" var="currentUrl"/>
-<div>
-    <div class="row row-cols-3 justify-content-start w-100 container-height">
+<div class="justify-content-center">
+    <div class="row row-cols-3 justify-content-start container-height">
         <c:forEach var="article" items="${articles}">
             <div class="col">
                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
