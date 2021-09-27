@@ -52,7 +52,7 @@ public class WebSecurity {
     public boolean checkCanReview(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
 
-        return loggedUser.filter(user -> rentService.hasRented(user.getId(), articleId)).isPresent();
+        return loggedUser.filter(user -> rentService.hasRented(user, articleId)).isPresent();
     }
 
     public boolean checkIsReviewOwner(Authentication authentication, long reviewId) {

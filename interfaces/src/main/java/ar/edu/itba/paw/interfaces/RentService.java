@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.User;
 
 import java.util.Date;
 import java.util.List;
@@ -19,5 +20,5 @@ public interface RentService {
                                   Date endDate, Long articleId,
                                   String renterName, String renterEmail, long renterId);
 
-    boolean hasRented(Long renterId, Long articleId);
+    boolean hasRented(User renter, Long articleId);
 }

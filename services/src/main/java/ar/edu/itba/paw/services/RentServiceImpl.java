@@ -132,10 +132,10 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public boolean hasRented(Long renterId, Long articleId) {
-        if (articleId == null || renterId == null)
+    public boolean hasRented(User renter, Long articleId) {
+        if (articleId == null || renter == null)
             return false;
 
-        return rentDao.hasRented(renterId, articleId);
+        return rentDao.hasRented(renter.getId(), articleId);
     }
 }

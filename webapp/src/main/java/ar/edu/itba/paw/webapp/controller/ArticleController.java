@@ -87,7 +87,7 @@ public class ArticleController extends BaseController {
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
-        mav.addObject("hasRented", rentService.hasRented(loggedUser().getId(), articleId));//TODO: cambiar a recibir user
+        mav.addObject("hasRented", rentService.hasRented(loggedUser(), articleId));
 
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
