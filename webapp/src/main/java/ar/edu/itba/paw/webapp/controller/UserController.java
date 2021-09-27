@@ -4,10 +4,7 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
-import ar.edu.itba.paw.models.Locations;
-import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import ar.edu.itba.paw.webapp.forms.PasswordForm;
@@ -21,10 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -154,29 +148,45 @@ public class UserController extends BaseController {
         return accountForm;
     }
 
-    @RequestMapping("/my-requests")
-    public ModelAndView myAccount() {
-        final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> rentProposals = rentService.ownerRequests(loggedUser().getId());
-
-        mav.addObject("requests", rentProposals);
-        return mav;
+    @RequestMapping("/my-requests/accepted")
+    public ModelAndView acceptedRequests() {
+        return getRentRequests(loggedUser(), RentState.ACCEPTED);
     }
+
+    @RequestMapping("/my-requests/pending")
+    public ModelAndView pendingRequests() {
+        return getRentRequests(loggedUser(), RentState.PENDING);
+    }
+
+    @RequestMapping("/my-requests/declined")
+    public ModelAndView declinedRequests() {
+        return getRentRequests(loggedUser(), RentState.DECLINED);
+    }
+
+
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
-        return new ModelAndView("redirect:/user/my-requests");
+        return new ModelAndView("redirect:/user/my-requests/accepted");
     }
-
-    // state_backup <- boolean
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
         rentService.rejectRequest(requestId);
-        return new ModelAndView("redirect:/user/my-requests");
+        return new ModelAndView("redirect:/user/my-requests/declined");
+    }
+
+    private ModelAndView getRentRequests(User user, RentState state){
+        final ModelAndView mav = new ModelAndView("account/myRequests");
+        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal());
+
+        mav.addObject("requests", rentProposals);
+        mav.addObject("state", state.name());
+
+        return mav;
     }
 
     @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)

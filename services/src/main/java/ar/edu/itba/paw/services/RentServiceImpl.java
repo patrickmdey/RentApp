@@ -29,9 +29,9 @@ public class RentServiceImpl implements RentService {
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
-    public List<RentProposal> ownerRequests(long ownerId) {
+    public List<RentProposal> ownerRequests(long ownerId, int state) {
 
-        List<RentProposal> proposals = rentDao.list(ownerId);
+        List<RentProposal> proposals = rentDao.list(ownerId, state);
         proposals.forEach(proposal -> {
             appendArticle(proposal);
             appendRenter(proposal);
@@ -132,10 +132,10 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public boolean hasRented(Long renterId, Long articleId) {
-        if (articleId == null || renterId == null)
+    public boolean hasRented(User renter, Long articleId) {
+        if (articleId == null || renter == null)
             return false;
 
-        return rentDao.hasRented(renterId, articleId);
+        return rentDao.hasRented(renter.getId(), articleId);
     }
 }

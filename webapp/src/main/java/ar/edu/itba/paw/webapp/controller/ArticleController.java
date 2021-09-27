@@ -63,6 +63,8 @@ public class ArticleController extends BaseController {
                 .sorted(Comparator.comparing(Locations::getName))
                 .collect(Collectors.toList()));
 
+        mav.addObject("locationsEnum", Locations.values());
+
         mav.addObject("category", categoryService.findById(searchForm.getCategory()));
 
         mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));
@@ -85,7 +87,7 @@ public class ArticleController extends BaseController {
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
-        mav.addObject("hasRented", rentService.hasRented(loggedUser().getId(), articleId));
+        mav.addObject("hasRented", rentService.hasRented(loggedUser(), articleId));
 
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
