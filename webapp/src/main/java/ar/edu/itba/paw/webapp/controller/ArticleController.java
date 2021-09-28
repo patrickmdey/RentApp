@@ -27,24 +27,24 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/article")
-public class ArticleController extends BaseController {
+public class ArticleController {
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    RentService rentService;
+    private RentService rentService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    EmailService emailService;
+    private ReviewService reviewService;
 
     @Autowired
-    ReviewService reviewService;
+    private LoggedUserAdvice userAdvice;
 
     @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
@@ -62,7 +62,7 @@ public class ArticleController extends BaseController {
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
-        mav.addObject("canReview", rentService.hasRented(loggedUser(), articleId) && !reviewService.hasReviewed(loggedUser(), articleId));
+        mav.addObject("canReview", rentService.hasRented(userAdvice.loggedUser(), articleId) && !reviewService.hasReviewed(userAdvice.loggedUser(), articleId));
 
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
 
@@ -78,7 +78,7 @@ public class ArticleController extends BaseController {
 
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, loggedUser().getFirstName(), loggedUser().getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("redirect:/feedback");
     }
@@ -105,7 +105,7 @@ public class ArticleController extends BaseController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
-                loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+                userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("redirect:/article/" + Math.toIntExact(article.getId()));
     }

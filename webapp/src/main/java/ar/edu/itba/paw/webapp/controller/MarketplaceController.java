@@ -21,16 +21,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class MarketplaceController extends BaseController {
+public class MarketplaceController {
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping("/")
     public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,

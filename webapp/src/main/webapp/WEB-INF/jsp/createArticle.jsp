@@ -66,7 +66,7 @@
                     <c:forEach items="${categories}" var="category">
                         <div>
                             <form:checkbox cssClass="list-element" path="categories" value="${category.id}"/>
-                            <c:out value="${category.description}"/>
+                            <spring:message code="${category.description}"/>
                         </div>
                     </c:forEach>
                     <form:errors path="categories" element="p" cssClass="error">

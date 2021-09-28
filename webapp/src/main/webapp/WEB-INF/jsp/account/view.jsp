@@ -8,7 +8,8 @@
 <c:url value="/user/delete" var="deleteUrl"/>
 <c:url var="updatePasswordUrl" value="/user/updatePassword"/>
 <c:url value="/user/edit" var="editUrl"/>
-<c:url value="/article/create" var="createArticle"/>
+<c:url value="article/create" var="createArticle"/>
+<c:url value="/user/view" var="currentUrl" />
 <c:url value="/" var="marketplace"/>
 
 <html>
@@ -82,39 +83,6 @@
         <h:account mode="view" locations="${locations}"/>
     </div>
 
-    <%--    <div class="card shadow-sm card-style">--%>
-    <%--        <h2 class="h2 my-2"><spring:message code="account.view.myArticles"/></h2>--%>
-    <%--        <hr>--%>
-    <%--        <c:choose>--%>
-    <%--            <c:when test="${ownedArticles.size() == 0}">--%>
-    <%--                <h3 class="h3 text-center"><spring:message--%>
-    <%--                        code="account.view.noPublishedArticles"/></h3>--%>
-    <%--                <a class="lead text-center" href="${createArticle}"><spring:message--%>
-    <%--                        code="account.view.createArticle"/>--%>
-    <%--                </a>--%>
-    <%--            </c:when>--%>
-    <%--            <c:otherwise>--%>
-    <%--                <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"/>--%>
-    <%--            </c:otherwise>--%>
-    <%--        </c:choose>--%>
-    <%--    </div>--%>
-
-    <%--    <div class="card shadow-sm card-style">--%>
-    <%--        <h2 class="h2 my-2"><spring:message code="account.view.myRentedArticles"/></h2>--%>
-    <%--        <hr>--%>
-    <%--        <c:choose>--%>
-    <%--            <c:when test="${rentedArticles.size() == 0}">--%>
-    <%--                <h3 class="h3 text-center"><spring:message--%>
-    <%--                        code="account.view.noRentedArticles"/></h3>--%>
-    <%--                <a class="lead text-center" href="${marketplace}"><spring:message--%>
-    <%--                        code="account.view.createArticle"/>--%>
-    <%--                </a>--%>
-    <%--            </c:when>--%>
-    <%--            <c:otherwise>--%>
-    <%--                <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}"/>--%>
-    <%--            </c:otherwise>--%>
-    <%--        </c:choose>--%>
-    <%--    </div>--%>
     <div class="card shadow-sm card-style">
 
         <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
@@ -145,7 +113,7 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"/>
+                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -160,7 +128,7 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}"/>
+                        <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
