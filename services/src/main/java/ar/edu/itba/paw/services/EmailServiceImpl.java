@@ -78,12 +78,10 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendNewUserMail(String to, Map<String, String> values) {
-        Context thymeleafContext = new Context();
+        Context thymeleafContext = getThymeleafContext(values, baseUrl + "/user/login");
+        String htmlBody = thymeleafTemplateEngine.process("new-user.html", thymeleafContext);
 
-
-        String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", thymeleafContext);
-
-        sendHtmlMessage(to, "Solicitud enviada: " + values.get("articleName"), htmlBody);
+        sendHtmlMessage(to, "Bienvenido a Rentapp", htmlBody);
     }
 
     @Override

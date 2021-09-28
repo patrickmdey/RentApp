@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.exceptions.EmailAlreadyInUseException;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
@@ -32,6 +33,9 @@ public class UserController {
 
     @Autowired
     private RentService rentService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private LoggedUserAdvice userAdvice;
@@ -71,9 +75,14 @@ public class UserController {
                 accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
 
+        if (!user.isPresent())
+            throw new EmailAlreadyInUseException();
+        Map<String, String> values = new HashMap<>();
+        values.put("ownerName", user.get().getFirstName());
+        values.put("ownerEmail", user.get().getEmail());
+        emailService.sendNewUserMail(user.get().getEmail(), values);
         return login(false);
     }
-
 
     @RequestMapping("/login")
     public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
@@ -81,13 +90,15 @@ public class UserController {
         ModelAndView mv = new ModelAndView("account/login");
 
         if (loginError) {
-
             mv.addObject("loginError", true);
-
         }
         return mv;
     }
 
+    @RequestMapping("logout")
+    public ModelAndView logout() {
+        return new ModelAndView();
+    }
 
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
@@ -99,7 +110,6 @@ public class UserController {
         return mav;
 
     }
-
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
@@ -143,10 +153,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public void delete(HttpServletResponse response) throws IOException {
+    public ModelAndView delete(HttpServletResponse response) throws IOException {
         userService.delete(userAdvice.loggedUser().getId());
-
-        response.sendRedirect("logout");
+        return new ModelAndView("redirect:/user/logout");
     }
 
     private void populateForm(EditAccountForm accountForm) {
