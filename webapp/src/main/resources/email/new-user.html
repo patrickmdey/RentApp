@@ -15,16 +15,18 @@
         <td></td>
         <td>
             <p><strong th:text="#{email.newUser.title(${ownerName})}" style="font-size: large"></strong></p>
-            <p th:text="#{email.newUser.saveLoginURL}">
-                style="font-size: large">
-            </p>
-            <a th:href="${callbackUrl}">
-                style="font-size: large">
-            </a>
+            <p th:text="#{email.newUser.saveLoginURL}" style="font-size: large">
 
+            </p>
+
+            <p style="font-size: large">
+                <a th:text="#{email.newUser.loginUrl}" th:href="${callbackUrl}"
+                   style="font-size: large">
+                </a>
+            </p>
             <hr/>
-            <p th:text="#{email.newUser.user(${ownerEmail})}">
-                style="font-size: large">
+            <p th:text="#{email.newUser.user(${ownerEmail})}"
+               style="font-size: large">
             </p>
         </td>
         <td></td>
