@@ -179,7 +179,7 @@ public class UserController {
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state) {
+    private ModelAndView getRentRequests(User user, RentState state, Long page) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
         List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
 
