@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.*;
@@ -10,6 +9,11 @@ import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import ar.edu.itba.paw.webapp.forms.PasswordForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -119,11 +123,25 @@ public class UserController {
                 accountForm.getIsOwner()
         );
 
+
+        reloadGrantedAuthorities(accountForm);
         mav.addObject("showPanel", true);
 
         return mav;
     }
 
+    private void reloadGrantedAuthorities(EditAccountForm accountForm) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<GrantedAuthority> updatedAuthorities = new ArrayList<>();
+        updatedAuthorities.add(new SimpleGrantedAuthority(accountForm.getIsOwner() ? "OWNER" : "RENTER"));
+
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), updatedAuthorities);
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
 
     @RequestMapping("/view")
     public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
@@ -211,6 +229,7 @@ public class UserController {
             mv.addObject("showPanel", false);
             return mv;
         }
+
 
         mv.addObject("showPanel", true);
 
