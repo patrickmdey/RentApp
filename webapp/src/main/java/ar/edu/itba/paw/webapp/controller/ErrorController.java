@@ -6,7 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ErrorController {
-
     @RequestMapping("/403")
     public ModelAndView forbidden(){
         return new ModelAndView("error/403");

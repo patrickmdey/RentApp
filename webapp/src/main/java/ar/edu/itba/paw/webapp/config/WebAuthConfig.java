@@ -70,13 +70,14 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/view", "/user/edit").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
                 .antMatchers("/user/my-requests").hasAuthority("OWNER")
-                .antMatchers("/create-article").hasAuthority("OWNER")
+                .antMatchers("/article/create").hasAuthority("OWNER")
                 .antMatchers("/article/{articleId}/review/create").authenticated()
                 .anyRequest().permitAll()
 
                 .and().formLogin()
                 .defaultSuccessUrl("/", false)
                 .loginPage("/user/login")
+                .failureUrl("/user/login?error=true")
                 .usernameParameter("email")
                 .passwordParameter("password")
 

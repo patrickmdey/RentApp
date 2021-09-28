@@ -41,7 +41,7 @@ public class ArticleImageDaoJdbc implements ArticleImageDao {
     public DBImage addToArticle(long articleId, DBImage image) {
         Map<String, Object> categoryData = new HashMap<>();
         categoryData.put("picture_id", image.getId());
-        categoryData.put("article_id",articleId);
+        categoryData.put("article_id", articleId);
         jdbcInsert.execute(categoryData);
         return image;
     }

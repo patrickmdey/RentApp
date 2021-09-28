@@ -7,30 +7,28 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-public class BaseController {
-
+@ControllerAdvice
+public class LoggedUserAdvice {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @ModelAttribute(value = "user")
+    @ModelAttribute("user")
     public User loggedUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         Object principal = auth.getPrincipal();
         if (auth.isAuthenticated()) {
             String email;
-
             if (principal instanceof UserDetails) {
                 email = ((UserDetails) principal).getUsername();
                 return userService.findByEmail(email).orElse(null);
-
             } else {
                 email = principal.toString();
                 return null;
             }
-
         } else {
             return null;
         }

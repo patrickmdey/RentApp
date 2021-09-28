@@ -10,6 +10,7 @@
 <c:url value="/user/edit" var="editUrl"/>
 <c:url value="article/create" var="createArticle"/>
 <c:url value="/user/view" var="currentUrl" />
+<c:url value="/" var="marketplace"/>
 
 <html>
 <h:head title="Mi perfil"/>
@@ -83,30 +84,55 @@
     </div>
 
     <div class="card shadow-sm card-style">
-        <h2 class="h2 my-2"><spring:message code="account.view.myArticles"/></h2>
-        <hr>
-        <c:choose>
-            <c:when test="${articles.size() == 0}">
-                <h3 class="h3 text-center"><spring:message
-                        code="account.view.noPublishedArticles"/></h3>
-                <a class="lead text-center" href="${createArticle}"><spring:message
-                        code="account.view.createArticle"/>
-                </a>
-            </c:when>
-            <c:otherwise>
-                <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"/>
-                <%--                <div class="row row-cols-4 justify-content-start mt-2">--%>
-                <%--                    <c:forEach var="article" items="${articles}">--%>
-                <%--                        <div class="col d-flex justify-content-center">--%>
-                <%--                            <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"--%>
-                <%--                                               id="${article.id}"--%>
-                <%--                                               location="${article.location}"--%>
-                <%--                                               image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>--%>
-                <%--                        </div>--%>
-                <%--                    </c:forEach>--%>
-                <%--                </div>--%>
-            </c:otherwise>
-        </c:choose>
+
+        <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-owned-tab" data-bs-toggle="tab" href="#nav-owned" role="tab"
+               aria-controls="nav-owned" aria-selected="true">
+                <p class="lead my-1">
+                    <spring:message code="account.view.myArticles"/>
+                </p>
+            </a>
+
+            <a class="nav-link" id="nav-rented-tab" data-bs-toggle="tab" href="#nav-rented" role="tab"
+               aria-controls="nav-rented" aria-selected="false">
+                <p class="lead my-1">
+                    <spring:message code="account.view.myRentedArticles"/>
+                </p>
+            </a>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active p-3" id="nav-owned" role="tabpanel" aria-labelledby="nav-owned-tab">
+                <c:choose>
+                    <c:when test="${ownedArticles.size() == 0}">
+                        <h3 class="h3 text-center">
+                            <spring:message code="account.view.noPublishedArticles"/>
+                        </h3>
+                        <a class="lead text-center" href="${createArticle}">
+                            <spring:message code="account.view.createArticle"/>
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+            <div class="tab-pane fade" id="nav-rented" role="tabpanel" aria-labelledby="nav-rented-tab">
+                <c:choose>
+                    <c:when test="${rentedArticles.size() == 0}">
+                        <h3 class="h3 text-center">
+                            <spring:message code="account.view.noRentedArticles"/>
+                        </h3>
+                        <a class="lead text-center" href="${marketplace}">
+                            <spring:message code="account.view.createArticle"/>
+                        </a>
+                    </c:when>
+                    <c:otherwise>
+                        <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </div>
     </div>
 </div>
 <h:footer/>

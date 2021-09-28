@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.*;
@@ -23,25 +22,18 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    EmailService emailService;
+    private ArticleService articleService;
 
     @Autowired
-    ArticleService articleService;
+    private RentService rentService;
 
     @Autowired
-    RentService rentService;
-
-    @ModelAttribute(value = "locations") //TODO: sacar esto
-    public List<Locations> LoadLocations() {
-        return Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList());
-    }
+    private LoggedUserAdvice userAdvice;
 
     @RequestMapping("/register")
     public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
@@ -56,54 +48,49 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView register(@Valid @ModelAttribute("accountForm") AccountForm accountForm,
                                  BindingResult errors) {
-
         if (errors.hasErrors())
             return register(accountForm);
 
-        Optional<User> user = userService.register(
-                accountForm.getEmail(),
-                accountForm.getPassword(),
-                accountForm.getConfirmPassword(),
-                accountForm.getFirstName(),
-                accountForm.getLastName(),
-                accountForm.getLocation(),
-                accountForm.getImg(),
-                accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
+        userService.register(accountForm.getEmail(), accountForm.getPassword(),
+                accountForm.getConfirmPassword(), accountForm.getFirstName(),
+                accountForm.getLastName(), accountForm.getLocation(),
+                accountForm.getImg(), accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
 
-        return login();
+        return new ModelAndView("redirect:/user/login");
     }
 
 
     @RequestMapping("/login")
-    public ModelAndView login() {
-        return new ModelAndView("account/login");
+    public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
+        ModelAndView mv = new ModelAndView("account/login");
+
+        if (loginError) {
+            mv.addObject("loginError", true);
+        }
+        return mv;
     }
 
 
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/edit");
-
         populateForm(accountForm);
         mav.addObject("showPanel", false);
 
         return mav;
-
     }
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
-
         final ModelAndView mav = new ModelAndView("account/edit");
-
         if (errors.hasErrors()) {
             mav.addObject("showPanel", false);
             return mav;
         }
 
-        userService.update(loggedUser().getId(),
+        userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
                 accountForm.getEmail(),
@@ -112,7 +99,6 @@ public class UserController extends BaseController {
         );
 
         mav.addObject("showPanel", true);
-
         return mav;
     }
 
@@ -121,24 +107,27 @@ public class UserController extends BaseController {
     public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-        mav.addObject("articles", articleService.get(null, null,
-                null, loggedUser().getId(), null, page));
-        mav.addObject("maxPage", articleService.getMaxPage(null,
-                null, loggedUser().getId(), null));
+
+        mav.addObject("ownedArticles", articleService.get(null, null,
+                null, userAdvice.loggedUser().getId(), null, page));
+
+        mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
+                null, userAdvice.loggedUser().getId(), null));
+
+        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public void delete(HttpServletResponse response) throws IOException {
-        userService.delete(loggedUser().getId());
-
-        response.sendRedirect("logout");
+    public ModelAndView delete(HttpServletResponse response) throws IOException {
+        userService.delete(userAdvice.loggedUser().getId());
+        return new ModelAndView("redirect:/user/login");
     }
 
     private void populateForm(EditAccountForm accountForm) {
-        User user = loggedUser();
+        User user = userAdvice.loggedUser();
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
@@ -148,19 +137,18 @@ public class UserController extends BaseController {
 
     @RequestMapping("/my-requests/accepted")
     public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.ACCEPTED, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page);
     }
 
     @RequestMapping("/my-requests/pending")
     public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.PENDING, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page);
     }
 
     @RequestMapping("/my-requests/declined")
     public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        return getRentRequests(loggedUser(), RentState.DECLINED, page);
+        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page);
     }
-
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
@@ -176,7 +164,7 @@ public class UserController extends BaseController {
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state, Long page){
+    private ModelAndView getRentRequests(User user, RentState state, Long page) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
         List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
 
@@ -198,18 +186,11 @@ public class UserController extends BaseController {
 
         if (errors.hasErrors()) {
             mv.addObject("showPanel", false);
-
-
             return mv;
         }
-
         mv.addObject("showPanel", true);
 
-        userService.updatePassword(loggedUser().getId(), passwordForm.getPassword());
-
-
+        userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
         return mv;
     }
-
-
 }

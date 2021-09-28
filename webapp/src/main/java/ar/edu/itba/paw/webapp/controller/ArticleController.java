@@ -2,15 +2,12 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
-import ar.edu.itba.paw.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.EditArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
-import ar.edu.itba.paw.webapp.forms.ReviewForm;
-import ar.edu.itba.paw.webapp.forms.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,24 +24,24 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/article")
-public class ArticleController extends BaseController {
+public class ArticleController {
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    RentService rentService;
+    private RentService rentService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    EmailService emailService;
+    private ReviewService reviewService;
 
     @Autowired
-    ReviewService reviewService;
+    private LoggedUserAdvice userAdvice;
 
     @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
@@ -53,19 +50,17 @@ public class ArticleController extends BaseController {
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        mav.addObject("article", article);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         article.setLocation(Locations.values()[Math.toIntExact(owner.getLocation())]);
 
+        mav.addObject("article", article);
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
         mav.addObject("articleRating", reviewService.articleRating(articleId));
 
-        mav.addObject("canReview", rentService.hasRented(loggedUser(), articleId) && !reviewService.hasReviewed(loggedUser(), articleId));
-
+        mav.addObject("canReview", rentService.hasRented(userAdvice.loggedUser(), articleId) && !reviewService.hasReviewed(userAdvice.loggedUser(), articleId));
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));
-
         mav.addObject("recommended", articleService.recommendedArticles(articleId));
         return mav;
     }
@@ -78,7 +73,7 @@ public class ArticleController extends BaseController {
 
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, loggedUser().getFirstName(), loggedUser().getEmail(), loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("redirect:/feedback");
     }
@@ -94,18 +89,16 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView createArticle(@Valid @ModelAttribute("createArticleForm") CreateArticleForm createArticleForm,
                                       BindingResult errors) {
-
         if (errors.hasErrors()) {
             return viewCreateArticleForm(createArticleForm);
         }
-
         Article article = articleService.createArticle(
                 createArticleForm.getName(),
                 createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
-                loggedUser().getId()).orElseThrow(CannotCreateArticleException::new); //TODO: Harcodeado el OwnerId
+                userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
 
         return new ModelAndView("redirect:/article/" + Math.toIntExact(article.getId()));
     }
@@ -116,7 +109,6 @@ public class ArticleController extends BaseController {
         final ModelAndView mav = new ModelAndView("createArticle");
 
         List<Category> categories = categoryService.listCategories();
-
         Optional<Article> articleOpt = articleService.findById(articleId.intValue());
 
         if (articleOpt.isPresent()) {
@@ -136,7 +128,6 @@ public class ArticleController extends BaseController {
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication,#articleId)")
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") EditArticleForm createArticleForm,
                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
-
         if (errors.hasErrors()) {
             errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
             return viewEditArticleForm(createArticleForm, articleId);

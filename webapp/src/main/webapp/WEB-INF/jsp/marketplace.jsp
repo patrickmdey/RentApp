@@ -76,7 +76,7 @@
             </c:if>
         </div>
     </div>
-    <div class="row align-items-start">
+    <div class="row align-items-start justify-content-center">
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
                 <form:input type="number" path="user" cssClass="d-none"/>

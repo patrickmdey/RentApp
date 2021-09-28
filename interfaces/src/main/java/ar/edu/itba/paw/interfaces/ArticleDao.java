@@ -9,6 +9,8 @@ public interface ArticleDao {
 
     List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page);
 
+    List<Article> rentedArticles(long renterId);
+
     Optional<Article> findById(long id);
 
     List<Article> findByOwner(long ownerId);
