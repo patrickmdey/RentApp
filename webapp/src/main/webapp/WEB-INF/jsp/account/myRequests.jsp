@@ -39,26 +39,27 @@
         <div class="col-8">
             <div class="card w-100 p-5">
                 <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
-                    <a class="nav-link active" id="nav-received-tab" data-bs-toggle="tab" href="#nav-received" role="tab"
-                       aria-controls="nav-owned" aria-selected="true">
-                        <p class="lead my-1">
-                            <spring:message code="requests.received"/>
-                        </p>
-                    </a>
-
-                    <a class="nav-link" id="nav-sent-tab" data-bs-toggle="tab" href="#nav-sent" role="tab"
-                       aria-controls="nav-rented" aria-selected="false">
+                    <c:if test="${user.type.isOwner}">
+                        <a class="nav-link active" id="nav-received-tab" data-bs-toggle="tab" href="#nav-received" role="tab"
+                           aria-controls="nav-owned" aria-selected="true">
+                            <p class="lead my-1">
+                                <spring:message code="requests.received"/>
+                            </p>
+                        </a>
+                    </c:if>
+                    <a class="nav-link ${!user.type.isOwner?' active':''}" id="nav-sent-tab" data-bs-toggle="tab" href="#nav-sent" role="tab"
+                       aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
                         <p class="lead my-1">
                             <spring:message code="requests.sent"/>
                         </p>
                     </a>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active p-3" id="nav-received" role="tabpanel" aria-labelledby="nav-received-tab">
+                    <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received" role="tabpanel" aria-labelledby="nav-received-tab">
                         <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state}"/>
                         <h:pagination currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
                     </div>
-                    <div class="tab-pane fade" id="nav-sent" role="tabpanel" aria-labelledby="nav-sent-tab">
+                    <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel" aria-labelledby="nav-sent-tab">
                         <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state}"/>
                         <h:pagination currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
                     </div>

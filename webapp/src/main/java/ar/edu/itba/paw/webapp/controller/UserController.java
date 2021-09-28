@@ -58,8 +58,9 @@ public class UserController {
         userService.register(accountForm.getEmail(), accountForm.getPassword(),
                 accountForm.getConfirmPassword(), accountForm.getFirstName(),
                 accountForm.getLastName(), accountForm.getLocation(),
-                accountForm.getImg(), accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
+                accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
         );
+
 
         return new ModelAndView("redirect:/user/login");
     }
@@ -138,7 +139,7 @@ public class UserController {
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
-        accountForm.setIsOwner(user.getType() == UserType.Owner);
+        accountForm.setIsOwner(user.getType() == UserType.OWNER);
         accountForm.setLocation(user.getLocation());
     }
 
