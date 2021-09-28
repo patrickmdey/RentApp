@@ -6,7 +6,7 @@
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
 <c:url value="/article/${articleId}" var="articleUrl"/>
-<c:url value="/article/${articleId}/review/create" var="writeReview"/>
+<c:url value="/review/${articleId}/create" var="createReview"/>
 
 <html>
 <h:head title="${article.title}"/>
@@ -45,7 +45,7 @@
                         <h5>
                             <a href="${marketplaceUrl}">
                                 <span class="badge bg-background-grey text-dark m-1">
-                                    <c:out value="${category.description}"/>
+                                    <spring:message code="${category.description}"/>
                                 </span>
                             </a>
                         </h5>
@@ -103,9 +103,6 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
-                                    <%--                                <form:errors path="startDate" element="p" cssStyle="color: #EF6461">--%>
-                                    <%--                                    <spring:message code=""/>--%>
-                                    <%--                                </form:errors>--%>
                             </div>
                             <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
@@ -151,76 +148,11 @@
                 <p class="lead"><c:out value="${article.description}"/></p>
             </div>
 
+            <%--            Reviews--%>
             <div class="card card-style">
-                <div class="row">
-                    <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
-                    <c:if test="${article.idOwner != user.id && hasRented}">
-                        <div class="col-4">
-                            <control:LinkButton href="${writeReview}" labelCode="article.writeReview.title"
-                                                color="bg-color-action color-grey"/>
-                        </div>
-                    </c:if>
-                </div>
-                <hr/>
-                <c:choose>
-                    <c:when test="${reviews.size() == 0}">
-                        <p class="lead"><spring:message code="article.noReviews"/></p>
-                    </c:when>
-                    <c:otherwise>
-                        <c:forEach items="${reviews}" var="review">
-                            <c:url value="/article/${articleId}/review/${review.id}/edit" var="editReview"/>
-                            <div class="row align-items-center">
-                                <h5 class="col-6 h5"><c:out
-                                        value="${review.renter.firstName} ${review.renter.lastName}"/></h5>
-                                <p class="lead col-5"><c:out value="${review.createdAt.toLocaleString()}"/></p>
-                                <c:if test="${user.id == review.renterId}">
-                                    <a class="col-1 fa-lg" href="${editReview}"><i class="bi bi-pencil-fill"></i></a>
-                                </c:if>
-                            </div>
-                            <h:rating rating="${review.rating}"/>
-                            <p><c:out value="${review.message}"/></p>
-                            <hr/>
-                        </c:forEach>
-
-                        <!-- Pagination reviews -->
-                        <div class="d-flex justify-content-center my-2">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item">
-                                        <c:url value="${articleUrl}" var="prev" context="/">
-                                            <c:param name="page" value="${param.page - 1}"/>
-                                        </c:url>
-                                        <button class="btn btn-link"
-                                                onclick="location.href = '${prev}'" ${(param.page == null || param.page <= 1) ? 'disabled' : '' }>
-                                            <spring:message code="pagination.previous"/>
-                                        </button>
-                                    </li>
-                                    <c:forEach begin="1" end="${maxPage}" var="page">
-                                        <li class="page-item">
-                                            <c:url value="${articleUrl}" var="curr" context="/">
-                                                <c:param name="page" value="${page}"/>
-                                            </c:url>
-                                            <a class="page-link ${((param.page == null && page == 1) || param.page == page)?'font-weight-bold':''}"
-                                               href="${curr}">
-                                                <c:out value="${page}"/>
-                                            </a>
-                                        </li>
-                                    </c:forEach>
-                                    <li class="page-item">
-                                        <c:url value="${articleUrl}" var="next" context="/">
-                                            <c:param name="page"
-                                                     value="${(param.page == null) ? 2 : (param.page + 1)}"/>
-                                        </c:url>
-                                        <button class="btn btn-link"
-                                                onclick="location.href = '${next}'" ${(param.page >= maxPage || (param.page == null && maxPage == 1))?'disabled':''}>
-                                            <spring:message code="pagination.next"/>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                <h:allReviews article="${article}" user="${user}"
+                              hasRented="${hasRented}"
+                              maxPage="${maxPage}" reviews="${reviews}"/>
             </div>
         </div>
 

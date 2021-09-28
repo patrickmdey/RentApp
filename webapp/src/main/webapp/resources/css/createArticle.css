@@ -1,7 +1,7 @@
 .card-style.create-card {
     width: 70%;
     padding: 10px;
-    max-height: 80vh;
+    height: auto;
 }
 
 .category-list-container {
@@ -16,7 +16,7 @@
     border: 3px solid #22577A;
 }
 
-.form-image-input{
+.form-image-input {
     display: flex;
     flex-direction: column;
     margin: 5px 0;

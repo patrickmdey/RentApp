@@ -100,4 +100,11 @@ public class UserDaoJdbc implements UserDao {
                 "FROM account\n" +
                 "WHERE id = ?;", id);
     }
+
+    @Override
+    public void updatePassword(long id, String passwordHash) {
+        jdbcTemplate.update("UPDATE account\n" +
+                "SET password = ?\n" +
+                "where id = ?;", passwordHash, id);
+    }
 }

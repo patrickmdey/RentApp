@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 @Controller
 public class ErrorController extends BaseController {
+    @Autowired
+    LoggedUserAdvice loggedUserAdvice;
 
     @RequestMapping("/403")
     public ModelAndView forbidden() {
@@ -25,7 +28,8 @@ public class ErrorController extends BaseController {
     }
 
     @RequestMapping("/400")
-    @ExceptionHandler({TypeMismatchException.class, MissingServletRequestPartException.class, MissingServletRequestParameterException.class, BindException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({ TypeMismatchException.class, MissingServletRequestPartException.class, MissingServletRequestParameterException.class, 
+                        BindException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
     public ModelAndView badRequest() {
         ModelAndView mv = new ModelAndView("error/400");
         mv.addObject("user", loggedUser());

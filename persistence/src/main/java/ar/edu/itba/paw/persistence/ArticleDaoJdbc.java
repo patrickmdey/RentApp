@@ -111,7 +111,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                 " WHERE rp.article_id = ?)" +
                 " GROUP BY a2.id " +
                 " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
-                ")", new Object[] {articleId, articleId}, ROW_MAPPER);
+                ")", new Object[]{articleId, articleId}, ROW_MAPPER);
     }
 
     @Override
@@ -153,14 +153,20 @@ public class ArticleDaoJdbc implements ArticleDao {
         return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
     }
 
-    private String parseNameQuery(String query){
+    private String parseNameQuery(String query) {
         StringBuilder toReturn = new StringBuilder();
         for (int i = 0; i < query.length(); i++) {
             char curr = query.charAt(i);
-            if(curr == '%' || curr == '_')
+            if (curr == '%' || curr == '_')
                 toReturn.append('\\');
             toReturn.append(curr);
         }
         return toReturn.toString();
+    }
+
+    @Override
+    public List<Article> rentedArticles(long renterId) {
+        return jdbcTemplate.query("SELECT * FROM article WHERE id IN (" +
+                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1)", new Object[]{renterId}, ROW_MAPPER);
     }
 }

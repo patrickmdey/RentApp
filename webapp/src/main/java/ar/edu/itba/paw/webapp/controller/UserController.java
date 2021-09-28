@@ -4,12 +4,10 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
-import ar.edu.itba.paw.models.Locations;
-import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
+import ar.edu.itba.paw.webapp.forms.PasswordForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,28 +18,25 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    EmailService emailService;
+    private ArticleService articleService;
 
     @Autowired
-    ArticleService articleService;
+    private RentService rentService;
 
     @Autowired
-    RentService rentService;
+    private LoggedUserAdvice userAdvice;
 
-    @ModelAttribute(value = "locations")
+    @ModelAttribute(value = "locations") //TODO: sacar esto
     public List<Locations> LoadLocations() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
@@ -111,14 +106,12 @@ public class UserController extends BaseController {
 
         final ModelAndView mav = new ModelAndView("account/edit");
 
-        if (errors.hasErrors() && errors.getFieldErrors().stream()
-                .filter(t -> t.getField().compareToIgnoreCase("confirmPassword") != 0 && t.getField().compareToIgnoreCase("password") != 0)
-                .count() != 0) {
+        if (errors.hasErrors()) {
             mav.addObject("showPanel", false);
             return mav;
         }
 
-        userService.update(loggedUser().getId(),
+        userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
                 accountForm.getEmail(),
@@ -133,9 +126,17 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("/view")
-    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm) {
+    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-        mav.addObject("articles", articleService.findByOwner(loggedUser().getId()));
+
+        mav.addObject("ownedArticles", articleService.get(null, null,
+                null, userAdvice.loggedUser().getId(), null, page));
+
+        mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
+                null, userAdvice.loggedUser().getId(), null));
+
+        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;
@@ -143,44 +144,80 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public void delete(HttpServletResponse response) throws IOException {
-        userService.delete(loggedUser().getId());
+        userService.delete(userAdvice.loggedUser().getId());
 
         response.sendRedirect("logout");
     }
 
-    private EditAccountForm populateForm(EditAccountForm accountForm) {
-        User user = loggedUser();
+    private void populateForm(EditAccountForm accountForm) {
+        User user = userAdvice.loggedUser();
         accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
         accountForm.setIsOwner(user.getType() == UserType.Owner);
         accountForm.setLocation(user.getLocation());
-
-        return accountForm;
     }
 
-    @RequestMapping("/my-requests")
-    public ModelAndView myAccount() {
-        final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> rentProposals = rentService.ownerRequests(loggedUser().getId());
+    @RequestMapping("/my-requests/accepted")
+    public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page);
+    }
 
-        mav.addObject("requests", rentProposals);
-        return mav;
+    @RequestMapping("/my-requests/pending")
+    public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page);
+    }
+
+    @RequestMapping("/my-requests/declined")
+    public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page);
     }
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
         rentService.acceptRequest(requestId);
-        return new ModelAndView("redirect:/user/my-requests");
+        return new ModelAndView("redirect:/user/my-requests/accepted");
     }
-
-    // state_backup <- boolean
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
         rentService.rejectRequest(requestId);
-        return new ModelAndView("redirect:/user/my-requests");
+        return new ModelAndView("redirect:/user/my-requests/declined");
     }
+
+    private ModelAndView getRentRequests(User user, RentState state, Long page) {
+        final ModelAndView mav = new ModelAndView("account/myRequests");
+        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
+
+        mav.addObject("requests", rentProposals);
+        mav.addObject("state", state.name());
+        mav.addObject("maxPage", rentService.getMaxPage(user.getId(), state.ordinal()));
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.GET)
+    public ModelAndView updatePassword(@ModelAttribute(value = "passwordForm") PasswordForm passwordForm) {
+        return new ModelAndView("account/updatePassword");
+    }
+
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public ModelAndView updatePassword(@Valid @ModelAttribute(value = "passwordForm") PasswordForm passwordForm, BindingResult errors) {
+        ModelAndView mv = new ModelAndView("account/updatePassword");
+
+        if (errors.hasErrors()) {
+            mv.addObject("showPanel", false);
+            return mv;
+        }
+
+        mv.addObject("showPanel", true);
+
+        userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
+
+        return mv;
+    }
+
+
 }

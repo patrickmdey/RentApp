@@ -14,6 +14,8 @@ import java.util.*;
 
 @Repository
 public class RentDaoJdbc implements RentDao {
+    private static final Long OFFSET = 4L;
+
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<RentProposal> ROW_MAPPER = (resultSet, rowNum) ->
@@ -33,10 +35,29 @@ public class RentDaoJdbc implements RentDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+
+    private StringBuilder queryBuilder(String fields){
+        return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE article_id IN (" +
+                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ?");
+    }
+
     @Override
-    public List<RentProposal> list(long ownerId) {
-        return jdbcTemplate.query("SELECT * FROM rent_proposal WHERE article_id IN (" +
-                "SELECT article.id FROM article WHERE article.owner_id = ?)", new Object[]{ownerId}, ROW_MAPPER);
+    public Long getMaxPage(long ownerId, int state) {
+        Long size = jdbcTemplate.queryForObject(queryBuilder("COUNT(*)").toString()
+                , Long.class, ownerId, state);
+
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+
+        return (size / OFFSET) + toSum;
+    }
+
+    @Override
+    public List<RentProposal> list(long ownerId, int state, long page) {
+        StringBuilder query = queryBuilder("*");
+        query.append("ORDER BY start_date DESC, end_date DESC LIMIT ? OFFSET ?");
+        return jdbcTemplate.query(query.toString(),
+                new Object[]{ownerId, state, OFFSET, (page - 1) * OFFSET},
+                ROW_MAPPER);
     }
 
     @Override
@@ -60,22 +81,15 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public void acceptRequest(long requestId) {
-        int state = RentState.ACCEPTED.ordinal();
-        jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
-    }
-
-    @Override
-    public void rejectRequest(long requestId) {
-        int state = RentState.DECLINED.ordinal();
-        jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
+    public void updateRequest(long requestId, int state) {
+        jdbcTemplate.update(
+                "UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
     }
 
     @Override
     public boolean hasRented(long renterId, long articleId) {
-        int state = RentState.ACCEPTED.ordinal();
         return !jdbcTemplate.query(
                 "SELECT * FROM rent_proposal WHERE article_id = ? AND renter_id = ? AND state = ?",
-                        new Object[]{articleId, renterId, state}, ROW_MAPPER).isEmpty();
+                        new Object[]{articleId, renterId, RentState.ACCEPTED.ordinal()}, ROW_MAPPER).isEmpty();
     }
 }

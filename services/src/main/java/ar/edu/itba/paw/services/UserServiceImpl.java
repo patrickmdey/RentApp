@@ -61,4 +61,11 @@ public class UserServiceImpl implements UserService {
     public void delete(long id) {
         this.userDao.delete(id);
     }
+
+    @Override
+    public void updatePassword(long id, String password) {
+        String passwordHash = passwordEncoder.encode(password);
+        userDao.updatePassword(id, passwordHash);
+
+    }
 }

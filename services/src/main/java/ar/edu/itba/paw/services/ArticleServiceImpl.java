@@ -57,11 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
         articles = this.articleDao.filter(name, category, orderBy, user, location, page);
 
 
-        articles.forEach(article -> {
-            appendCategories(article);
-            appendImages(article);
-            appendLocation(article);
-        });
+        appendInfo(articles);
 
         return articles;
     }
@@ -140,11 +136,23 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> findByOwner(long ownerId) {
         List<Article> articles = articleDao.findByOwner(ownerId);
+        appendInfo(articles);
+        return articles;
+    }
+
+    @Override
+    public List<Article> rentedArticles(long renterId) {
+
+        List<Article> articles = articleDao.rentedArticles(renterId);
+        appendInfo(articles);
+        return articles;
+    }
+
+    private void appendInfo(List<Article> articles) {
         articles.forEach(article -> {
             appendCategories(article);
             appendImages(article);
             appendLocation(article);
         });
-        return articles;
     }
 }

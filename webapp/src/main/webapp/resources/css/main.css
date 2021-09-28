@@ -101,12 +101,10 @@ i.overflow-icon:hover {
     border: 1px solid #eee;
     border-radius: 6px;
     margin: 0 0 8px;
-    /*max-height: 50vh;*/
     width: 100%;
 }
 
 .card-style.filters-card {
-    /*max-height: 100%;*/
     height: auto;
 }
 
