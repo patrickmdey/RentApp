@@ -52,6 +52,10 @@
                 org.springframework.web.context.support.AnnotationConfigWebApplicationContext
             </param-value>
         </init-param>
+        <init-param>
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -78,9 +82,5 @@
         <location>/WEB-INF/jsp/error/400.jsp</location>
     </error-page>
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/jsp/error/404.jsp</location>
-    </error-page>
 
 </web-app>
