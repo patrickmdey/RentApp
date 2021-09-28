@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:url value="/" var="marketplace"/>
-<c:url value="/create-article" var="createArticle"/>
+<c:url value="/article/create" var="createArticle"/>
 <%@ attribute type="ar.edu.itba.paw.models.User" name="loggedUser" required="false" %>
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>
@@ -10,7 +10,7 @@
 <c:url value="/user/logout" var="logout"/>
 <c:url value="/user/register" var="register"/>
 
-<c:url value="/user/my-requests" var="myAccount"/>
+<c:url value="/user/my-requests/pending" var="myAccount"/>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
     <div class="container">

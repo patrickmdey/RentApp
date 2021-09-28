@@ -21,4 +21,6 @@ public interface UserDao {
     void update(long id, String firstName, String lastName, String email, Long location, int type);
 
     void delete(long id);
+
+    void updatePassword(long id, String passwordHash);
 }

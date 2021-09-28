@@ -1,8 +1,10 @@
 package ar.edu.itba.paw.webapp.forms;
 
+import ar.edu.itba.paw.webapp.forms.Annotations.FutureDate;
 import ar.edu.itba.paw.webapp.forms.Annotations.GreaterDate;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 
@@ -11,6 +13,7 @@ public class RentProposalForm {
 
     @NotNull
     @NotEmpty
+    @FutureDate
     private String startDate;
 
     @NotNull

@@ -12,12 +12,13 @@ import java.util.Optional;
 
 
 @Controller
+@RequestMapping("/image")
 public class ImageController {
 
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping("/image/{id}")
+    @RequestMapping("/{id}")
     public @ResponseBody byte[] getImage(@PathVariable Long id) {
         Optional<DBImage> img = imageService.findById(id);
         return img.map(DBImage::getImg).orElse(null);

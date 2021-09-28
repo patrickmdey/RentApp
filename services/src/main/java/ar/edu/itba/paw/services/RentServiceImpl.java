@@ -3,6 +3,7 @@ package ar.edu.itba.paw.services;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,19 @@ public class RentServiceImpl implements RentService {
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
-    public List<RentProposal> ownerRequests(long ownerId) {
+    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
 
-        List<RentProposal> proposals = rentDao.list(ownerId);
+        List<RentProposal> proposals = rentDao.list(ownerId, state, page);
         proposals.forEach(proposal -> {
             appendArticle(proposal);
             appendRenter(proposal);
         });
         return proposals;
+    }
+
+    @Override
+    public Long getMaxPage(long ownerId, int state) {
+        return rentDao.getMaxPage(ownerId, state);
     }
 
     private void appendRenter(RentProposal proposal) {
@@ -91,7 +97,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public void acceptRequest(long requestId) {
 
-        rentDao.acceptRequest(requestId);
+        rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
 
         Map<String, String> values = getValuesMap(requestId);
 
@@ -103,7 +109,7 @@ public class RentServiceImpl implements RentService {
     public void rejectRequest(long requestId) {
         Map<String, String> values = getValuesMap(requestId);
 
-        rentDao.rejectRequest(requestId);
+        rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
 
         emailService.sendMailRequestDenied(values.get("renterEmail"), values);
     }
@@ -132,10 +138,10 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public boolean hasRented(Long renterId, Long articleId) {
-        if (articleId == null || renterId == null)
+    public boolean hasRented(User renter, Long articleId) {
+        if (articleId == null || renter == null)
             return false;
 
-        return rentDao.hasRented(renterId, articleId);
+        return rentDao.hasRented(renter.getId(), articleId);
     }
 }

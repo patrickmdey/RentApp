@@ -54,7 +54,7 @@
                         </c:url>
                         <div class="badge bg-primary mx-2 p-2">
                             <i class="bi bi-tag"></i>
-                            <c:out value="${category}"/>
+                            <spring:message code="${category}"/>
                             <a href="${removeCategoryUrl}" class="text-light">X</a>
                         </div>
                     </c:if>
@@ -76,7 +76,7 @@
             </c:if>
         </div>
     </div>
-    <div class="row align-items-start">
+    <div class="row align-items-start justify-content-center">
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
                 <form:input type="number" path="user" cssClass="d-none"/>
@@ -94,9 +94,16 @@
 
                 <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
                         code="search.rentRequestForm.category"/></form:label>
-                <div class="form-check d-flex flex-column align-items-start">
-                    <form:radiobuttons path="category" items="${categories}"
-                                       itemValue="id" itemLabel="description"/>
+                <div class="w-100">
+<%--                    <form:radiobuttons path="category" items="${categories}"--%>
+<%--                                       itemValue="id" itemLabel="description"/>--%>
+
+                    <c:forEach items="${categories}" var="category" >
+                        <div class="w-100">
+                            <spring:message code="${category.description}" var="label" />
+                            <form:radiobutton path="category" value="${category.id}" label="${label}" />
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <div class="mt-3">
@@ -157,52 +164,7 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <div class="row row-cols-3 justify-content-start w-100 container-height">
-                        <c:forEach var="article" items="${articles}">
-                            <div class="col">
-                                <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
-                                                   id="${article.id}"
-                                                   location="${article.location.name}"
-                                                   image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
-                            </div>
-                        </c:forEach>
-                    </div>
-
-                    <div class="d-flex justify-content-center my-2">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <c:url value="${currentUrl}" var="prev" context="/">
-                                        <c:param name="page" value="${param.page - 1}"/>
-                                    </c:url>
-                                    <button class="btn btn-link"
-                                            onclick="location.href = '${prev}'" ${(param.page == null || param.page <= 1) ? 'disabled' : '' }>
-                                        <spring:message code="pagination.previous"/>
-                                    </button>
-                                </li>
-                                <c:forEach begin="1" end="${maxPage}" var="page">
-                                    <li class="page-item">
-                                        <c:url value="${currentUrl}" var="curr" context="/">
-                                            <c:param name="page" value="${page}"/>
-                                        </c:url>
-                                        <a class="page-link ${((param.page == null && page == 1) || param.page == page)?'font-weight-bold':''}"
-                                           href="${curr}">
-                                            <c:out value="${page}"/>
-                                        </a>
-                                    </li>
-                                </c:forEach>
-                                <li class="page-item">
-                                    <c:url value="${currentUrl}" var="next" context="/">
-                                        <c:param name="page" value="${(param.page == null) ? 2 : (param.page + 1)}"/>
-                                    </c:url>
-                                    <button class="btn btn-link"
-                                            onclick="location.href = '${next}'" ${(param.page >= maxPage || (param.page == null && maxPage == 1))?'disabled':''}>
-                                        <spring:message code="pagination.next"/>
-                                    </button>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"/>
                 </c:otherwise>
             </c:choose>
         </div>

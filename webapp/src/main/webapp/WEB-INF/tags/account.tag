@@ -41,11 +41,13 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <controls:TextBox path="email" type="text"
-                                      labelCode="account.form.email"
-                                      placeholderCode="placeholder.email"
-                                      errorCode="errors.requiredEmail"
-                    />
+                    <fieldset ${isEdit? "disabled":""}>
+                        <controls:TextBox path="email" type="text"
+                                          labelCode="account.form.email"
+                                          placeholderCode="placeholder.email"
+                                          errorCode="errors.requiredEmail"
+                        />
+                    </fieldset>
                 </div>
                 <div class="col-6">
 
@@ -71,7 +73,7 @@
                                           errorCode="errors.requiredSecondPassword"/>
                     </div>
                 </div>
-                <h:imageInput path="img" />
+                <h:imageInput path="img"/>
             </c:if>
             <div class="my-2">
                 <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>

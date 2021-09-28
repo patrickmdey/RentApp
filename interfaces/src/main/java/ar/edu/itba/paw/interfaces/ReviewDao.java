@@ -10,11 +10,13 @@ public interface ReviewDao {
 
     List<Review> getAll(long articleId);
 
-    int update(int rating, String message, long reviewId);
+    void update(int rating, String message, long reviewId);
 
     Optional<Review> findById(long reviewId);
 
     Optional<Review> create(int rating, String message, long articleId, long renterId);
 
     Long getMaxPage(long articleId);
+
+    boolean hasReviewed(long userId, long articleId);
 }
