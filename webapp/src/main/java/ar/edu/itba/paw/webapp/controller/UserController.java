@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.*;
@@ -36,13 +35,6 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
-    @ModelAttribute(value = "locations") //TODO: sacar esto
-    public List<Locations> LoadLocations() {
-        return Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList());
-    }
-
     @RequestMapping("/register")
     public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/create");
@@ -56,34 +48,25 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView register(@Valid @ModelAttribute("accountForm") AccountForm accountForm,
                                  BindingResult errors) {
-
         if (errors.hasErrors())
             return register(accountForm);
 
-        Optional<User> user = userService.register(
-                accountForm.getEmail(),
-                accountForm.getPassword(),
-                accountForm.getConfirmPassword(),
-                accountForm.getFirstName(),
-                accountForm.getLastName(),
-                accountForm.getLocation(),
-                accountForm.getImg(),
-                accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
+        userService.register(accountForm.getEmail(), accountForm.getPassword(),
+                accountForm.getConfirmPassword(), accountForm.getFirstName(),
+                accountForm.getLastName(), accountForm.getLocation(),
+                accountForm.getImg(), accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
 
-        return login(false);
+        return new ModelAndView("redirect:/user/login");
     }
 
 
     @RequestMapping("/login")
     public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
-
         ModelAndView mv = new ModelAndView("account/login");
 
         if (loginError) {
-
             mv.addObject("loginError", true);
-
         }
         return mv;
     }
@@ -92,20 +75,16 @@ public class UserController {
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/edit");
-
         populateForm(accountForm);
         mav.addObject("showPanel", false);
 
         return mav;
-
     }
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
-
         final ModelAndView mav = new ModelAndView("account/edit");
-
         if (errors.hasErrors()) {
             mav.addObject("showPanel", false);
             return mav;
@@ -120,7 +99,6 @@ public class UserController {
         );
 
         mav.addObject("showPanel", true);
-
         return mav;
     }
 
@@ -143,10 +121,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public void delete(HttpServletResponse response) throws IOException {
+    public ModelAndView delete(HttpServletResponse response) throws IOException {
         userService.delete(userAdvice.loggedUser().getId());
-
-        response.sendRedirect("logout");
+        return new ModelAndView("redirect:/user/login");
     }
 
     private void populateForm(EditAccountForm accountForm) {
@@ -211,13 +188,9 @@ public class UserController {
             mv.addObject("showPanel", false);
             return mv;
         }
-
         mv.addObject("showPanel", true);
 
         userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
-
         return mv;
     }
-
-
 }

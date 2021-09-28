@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ArticleCategoryDao {
 
-    public List<Category> findFromArticle(long articleId);
+    List<Category> findFromArticle(long articleId);
 
-    public Long addToArticle(long articleId, Long category);
+    Long addToArticle(long articleId, Long category);
 
-    public void removeFromArticle(long id, Long c);
+    void removeFromArticle(long id, Long c);
 }
