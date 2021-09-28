@@ -37,30 +37,33 @@
             </a>
         </div>
         <div class="col-8">
-            <c:choose>
-                <c:when test="${requests.size() != 0}">
-                    <c:forEach var="request" items="${requests}">
-
-                        <h:requestCard articleName="${request.article.title}"
-                                       renterFirstName="${request.renter.firstName}"
-                                       renteLastName="${request.renter.lastName}"
-                                       startDate="${request.startDate}" endDate="${request.endDate}"
-                                       message="${request.message}" id="${request.id}" state="${request.state}"
-                                       userId="${user.id}" renterEmail="${request.renter.email}"/>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <div class="card card-style align-items-center justify-content-center">
-                        <h2 class="h2">
-                            <spring:message code="myAccount.ownerRequest.noRequestsFound.${state}"/>
-                        </h2>
-                        <p class="lead">
-                            <spring:message code="myAccount.ownerRequest.noRequestsFound.${state}.subtitle"/>
+            <div class="card w-100 p-5">
+                <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
+                    <a class="nav-link active" id="nav-received-tab" data-bs-toggle="tab" href="#nav-received" role="tab"
+                       aria-controls="nav-owned" aria-selected="true">
+                        <p class="lead my-1">
+                            <spring:message code="requests.received"/>
                         </p>
+                    </a>
+
+                    <a class="nav-link" id="nav-sent-tab" data-bs-toggle="tab" href="#nav-sent" role="tab"
+                       aria-controls="nav-rented" aria-selected="false">
+                        <p class="lead my-1">
+                            <spring:message code="requests.sent"/>
+                        </p>
+                    </a>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active p-3" id="nav-received" role="tabpanel" aria-labelledby="nav-received-tab">
+                        <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state}"/>
+                        <h:pagination currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
                     </div>
-                </c:otherwise>
-            </c:choose>
-            <h:pagination currentUrl="${currentUrl}" maxPage="${maxPage}"/>
+                    <div class="tab-pane fade" id="nav-sent" role="tabpanel" aria-labelledby="nav-sent-tab">
+                        <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state}"/>
+                        <h:pagination currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

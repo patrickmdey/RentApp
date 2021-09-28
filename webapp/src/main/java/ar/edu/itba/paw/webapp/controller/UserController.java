@@ -35,12 +35,16 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
+    private List<Locations> getLocationsOrdered(){
+        return Arrays.stream(Locations.values())
+                .sorted(Comparator.comparing(Locations::getName))
+                .collect(Collectors.toList());
+    }
+
     @RequestMapping("/register")
     public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/create");
-        mav.addObject("locations", Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList()));
+        mav.addObject("locations", getLocationsOrdered());
 
         return mav;
     }
@@ -77,6 +81,7 @@ public class UserController {
         final ModelAndView mav = new ModelAndView("account/edit");
         populateForm(accountForm);
         mav.addObject("showPanel", false);
+        mav.addObject("locations", getLocationsOrdered());
 
         return mav;
     }
@@ -113,6 +118,8 @@ public class UserController {
 
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, userAdvice.loggedUser().getId(), null));
+
+        mav.addObject("locations", getLocationsOrdered());
 
         mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
@@ -166,12 +173,14 @@ public class UserController {
 
     private ModelAndView getRentRequests(User user, RentState state, Long page) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
+        List<RentProposal> receivedProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
+        List<RentProposal> sentProposals = rentService.sentRequests(user.getId(), state.ordinal(), page);
 
-        mav.addObject("requests", rentProposals);
         mav.addObject("state", state.name());
-        mav.addObject("maxPage", rentService.getMaxPage(user.getId(), state.ordinal()));
-
+        mav.addObject("receivedProposals", receivedProposals);
+        mav.addObject("sentProposals", sentProposals);
+        mav.addObject("receivedMaxPage", rentService.getReceivedMaxPage(user.getId(), state.ordinal()));
+        mav.addObject("sentMaxPage", rentService.getSentMaxPage(user.getId(), state.ordinal()));
         return mav;
     }
 

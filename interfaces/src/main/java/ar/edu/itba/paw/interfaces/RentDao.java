@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface RentDao {
 
-    List<RentProposal> list(long ownerId, int state, long page);
+    List<RentProposal> ownerRequests(long ownerId, int state, long page);
+
+    List<RentProposal> sentRequests(long renterId, int state, long page);
 
     Optional<RentProposal> findById(long id);
 
@@ -18,6 +20,7 @@ public interface RentDao {
 
     Optional<RentProposal> create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);
 
-    Long getMaxPage(long ownerId, int state);
+    Long getReceivedMaxPage(long ownerId, int state);
 
+    Long getSentMaxPage(long renterId, int state);
 }
