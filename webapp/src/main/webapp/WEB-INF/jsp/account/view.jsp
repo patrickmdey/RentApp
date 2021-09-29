@@ -9,7 +9,7 @@
 <c:url var="updatePasswordUrl" value="/user/updatePassword"/>
 <c:url value="/user/edit" var="editUrl"/>
 <c:url value="article/create" var="createArticle"/>
-<c:url value="/user/view" var="currentUrl" />
+<c:url value="/user/view" var="currentUrl"/>
 <c:url value="/" var="marketplace"/>
 
 <html>
@@ -113,7 +113,8 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -128,7 +129,8 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                        <h:allArticles articles="${rentedArticles}" maxPage="${rentedMaxPage}"
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>

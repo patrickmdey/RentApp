@@ -103,6 +103,14 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
+    public Long getRentedMaxPage(Long user) {
+        Long size = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article WHERE id IN (" +
+                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1)", new Object[]{user}, Long.class);
+        int toSum = (size % OFFSET == 0) ? 0 : 1;
+        return (size / OFFSET) + toSum;
+    }
+
+    @Override
     public List<Article> recommendedArticles(Long articleId) {
         return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id != ? AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
@@ -165,8 +173,9 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> rentedArticles(long renterId) {
+    public List<Article> rentedArticles(long renterId, long page) {
         return jdbcTemplate.query("SELECT * FROM article WHERE id IN (" +
-                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1)", new Object[]{renterId}, ROW_MAPPER);
+                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1 ORDER BY start_date)" +
+                "LIMIT ? OFFSET ?", new Object[]{renterId, page, OFFSET}, ROW_MAPPER);
     }
 }

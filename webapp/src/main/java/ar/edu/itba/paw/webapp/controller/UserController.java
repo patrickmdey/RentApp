@@ -139,14 +139,12 @@ public class UserController {
     public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-
         mav.addObject("ownedArticles", articleService.get(null, null,
                 null, userAdvice.loggedUser().getId(), null, page));
-
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, userAdvice.loggedUser().getId(), null));
-
-        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
+        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId(), page));
+        mav.addObject("rentedMaxPage", articleService.getRentedMaxPage(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;

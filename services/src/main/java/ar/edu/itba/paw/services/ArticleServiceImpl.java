@@ -79,6 +79,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Long getRentedMaxPage(Long user) {
+        return articleDao.getRentedMaxPage(user);
+    }
+
+    @Override
     public List<Article> recommendedArticles(Long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
 
@@ -141,9 +146,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> rentedArticles(long renterId) {
+    public List<Article> rentedArticles(long renterId, long page) {
 
-        List<Article> articles = articleDao.rentedArticles(renterId);
+        List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
         return articles;
     }
