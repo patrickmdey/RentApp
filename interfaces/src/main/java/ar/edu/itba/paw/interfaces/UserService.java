@@ -16,7 +16,7 @@ public interface UserService {
 
     Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, MultipartFile img, UserType type);
 
-    void update(long id, String firstName, String lastName, String email, Long location, Boolean isOwner);
+    void update(long id, String firstName, String lastName, Long location, Boolean isOwner);
 
     void delete(long id);
 

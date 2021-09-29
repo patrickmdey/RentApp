@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
-    private List<Locations> getLocationsOrdered(){
+    private List<Locations> getLocationsOrdered() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
                 .collect(Collectors.toList());
@@ -60,7 +60,6 @@ public class UserController {
                 accountForm.getLastName(), accountForm.getLocation(),
                 accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
         );
-
 
         return new ModelAndView("redirect:/user/login");
     }
@@ -87,30 +86,25 @@ public class UserController {
         return mav;
     }
 
-
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
-        final ModelAndView mav = new ModelAndView("account/edit");
         if (errors.hasErrors()) {
-            mav.addObject("showPanel", false);
-            return mav;
+            return edit(accountForm);
         }
 
         userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
-                accountForm.getEmail(),
                 accountForm.getLocation(),
                 accountForm.getIsOwner()
         );
 
-        mav.addObject("showPanel", true);
-        return mav;
+        return new ModelAndView("redirect:/user/view");
     }
 
 
     @RequestMapping("/view")
-    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
+    public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
 
@@ -136,9 +130,17 @@ public class UserController {
 
     private void populateForm(EditAccountForm accountForm) {
         User user = userAdvice.loggedUser();
-        accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
+        accountForm.setIsOwner(user.getType() == UserType.OWNER);
+        accountForm.setLocation(user.getLocation());
+    }
+
+    private void populateForm(AccountForm accountForm) {
+        User user = userAdvice.loggedUser();
+        accountForm.setFirstName(user.getFirstName());
+        accountForm.setLastName(user.getLastName());
+        accountForm.setEmail(user.getEmail());
         accountForm.setIsOwner(user.getType() == UserType.OWNER);
         accountForm.setLocation(user.getLocation());
     }
