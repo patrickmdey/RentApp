@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.*;
+import java.util.function.Function;
 
 @Repository
 public class RentDaoJdbc implements RentDao {
@@ -36,28 +37,50 @@ public class RentDaoJdbc implements RentDao {
     }
 
 
-    private StringBuilder queryBuilder(String fields){
+    private StringBuilder sentQueryBuilder(String fields){
+        return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE renter_id = ? " +
+                "AND state = ? ");
+    }
+
+    private StringBuilder receivedQueryBuilder(String fields){
         return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE article_id IN (" +
-                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ?");
+                "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ? ");
     }
 
     @Override
-    public Long getMaxPage(long ownerId, int state) {
-        Long size = jdbcTemplate.queryForObject(queryBuilder("COUNT(*)").toString()
-                , Long.class, ownerId, state);
+    public Long getReceivedMaxPage(long ownerId, int state) {
+        return getMaxPage(ownerId, state, this::receivedQueryBuilder);
+    }
+
+    @Override
+    public Long getSentMaxPage(long ownerId, int state) {
+        return getMaxPage(ownerId, state, this::sentQueryBuilder);
+    }
+
+    private Long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder) {
+        Long size = jdbcTemplate.queryForObject(queryBuilder.apply("COUNT(*)").toString(),
+                Long.class, ownerId, state);
 
         int toSum = (size % OFFSET == 0) ? 0 : 1;
-
         return (size / OFFSET) + toSum;
     }
 
-    @Override
-    public List<RentProposal> list(long ownerId, int state, long page) {
-        StringBuilder query = queryBuilder("*");
+    private List<RentProposal> getRequests(long accountId, int state, long page,
+                        Function<String, StringBuilder> queryBuilder){
+        StringBuilder query = queryBuilder.apply("*");
         query.append("ORDER BY start_date DESC, end_date DESC LIMIT ? OFFSET ?");
         return jdbcTemplate.query(query.toString(),
-                new Object[]{ownerId, state, OFFSET, (page - 1) * OFFSET},
-                ROW_MAPPER);
+                new Object[]{accountId, state, OFFSET, (page - 1) * OFFSET}, ROW_MAPPER);
+    }
+
+    @Override
+    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
+        return getRequests(ownerId, state, page, this::receivedQueryBuilder);
+    }
+
+    @Override
+    public List<RentProposal> sentRequests(long renterId, int state, long page) {
+       return getRequests(renterId, state, page, this::sentQueryBuilder);
     }
 
     @Override

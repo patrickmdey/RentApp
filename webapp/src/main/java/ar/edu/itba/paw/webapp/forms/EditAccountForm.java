@@ -17,21 +17,7 @@ public class EditAccountForm {
     private String lastName;
 
     @NotNull
-    @NotEmpty
-    @Email
-    private String email;
-
-    @NotNull
     private Long location;
-
-    @NotNull
-    @NotEmpty
-    @Size(min = 8, max = 100)
-    private String password;
-
-    @NotNull
-    @NotEmpty
-    private String confirmPassword;
 
     @NotNull
     private Boolean isOwner;
@@ -52,36 +38,12 @@ public class EditAccountForm {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Long getLocation() {
         return location;
     }
 
     public void setLocation(Long location) {
         this.location = location;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public Boolean getIsOwner() {

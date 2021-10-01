@@ -29,10 +29,9 @@ public class RentServiceImpl implements RentService {
 
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
-    @Override
-    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
 
-        List<RentProposal> proposals = rentDao.list(ownerId, state, page);
+    private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
+        List<RentProposal> proposals = getter.get(accountId, state, page);
         proposals.forEach(proposal -> {
             appendArticle(proposal);
             appendRenter(proposal);
@@ -41,8 +40,23 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public Long getMaxPage(long ownerId, int state) {
-        return rentDao.getMaxPage(ownerId, state);
+    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
+        return getRequests(rentDao::ownerRequests, ownerId, state, page);
+    }
+
+    @Override
+    public List<RentProposal> sentRequests(long ownerId, int state, long page) {
+        return getRequests(rentDao::sentRequests, ownerId, state, page);
+    }
+
+    @Override
+    public Long getReceivedMaxPage(long ownerId, int state) {
+        return rentDao.getReceivedMaxPage(ownerId, state);
+    }
+
+    @Override
+    public Long getSentMaxPage(long ownerId, int state) {
+        return rentDao.getSentMaxPage(ownerId, state);
     }
 
     private void appendRenter(RentProposal proposal) {

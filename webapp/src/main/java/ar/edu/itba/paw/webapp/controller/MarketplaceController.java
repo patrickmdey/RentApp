@@ -38,22 +38,20 @@ public class MarketplaceController {
         final ModelAndView mav = new ModelAndView("marketplace");
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
                 searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
-        mav.addObject("articles", articles);
-        mav.addObject("query", searchForm.getQuery());
         List<Category> categories = categoryService.listCategories();
+
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
         mav.addObject("maxPage", articleService.getMaxPage(searchForm.getQuery(),
                 searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation()));
+        mav.addObject("articles", articles);
+        mav.addObject("query", searchForm.getQuery());
 
         mav.addObject("locations", Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
                 .collect(Collectors.toList()));
-
         mav.addObject("locationsEnum", Locations.values());
-
         mav.addObject("category", categoryService.findById(searchForm.getCategory()));
-
         mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));
         return mav;
     }

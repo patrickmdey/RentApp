@@ -45,7 +45,7 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public List<User> list() {
-        return jdbcTemplate.query("SELECT * from account",ROW_MAPPER);
+        return jdbcTemplate.query("SELECT * from account", ROW_MAPPER);
     }
 
     @Override
@@ -83,15 +83,14 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void update(long id, String firstName, String lastName, String email, Long location, int type) {
+    public void update(long id, String firstName, String lastName, Long location, int type) {
 
         jdbcTemplate.update("UPDATE account\n" +
                 "SET first_name = ?,\n" +
                 "    last_name  = ?,\n" +
-                "    email      = ?,\n" +
                 "    location   = ?,\n" +
                 "    type       = ?\n" +
-                "WHERE id = ?;", firstName, lastName, email, location, type, id);
+                "WHERE id = ?;", firstName, lastName, location, type, id);
     }
 
     @Override

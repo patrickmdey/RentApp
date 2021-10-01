@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +22,13 @@ public class LoggedUserAdvice {
         Object principal = auth.getPrincipal();
         if (auth.isAuthenticated()) {
             String email;
-
             if (principal instanceof UserDetails) {
                 email = ((UserDetails) principal).getUsername();
                 return userService.findByEmail(email).orElse(null);
-
             } else {
                 email = principal.toString();
                 return null;
             }
-
         } else {
             return null;
         }

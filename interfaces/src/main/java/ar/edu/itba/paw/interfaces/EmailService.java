@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.interfaces;
 
 
-import java.util.List;
 import java.util.Map;
 
 public interface EmailService {

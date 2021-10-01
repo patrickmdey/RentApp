@@ -17,9 +17,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Controller
 @ControllerAdvice
 public class ErrorController {
-    @Autowired
-    LoggedUserAdvice loggedUserAdvice;
-
     @RequestMapping("/403")
     public ModelAndView forbidden() {
         ModelAndView mv = new ModelAndView("error/403");

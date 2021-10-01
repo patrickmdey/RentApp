@@ -40,8 +40,7 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
-    @ModelAttribute(value = "locations") //TODO: sacar esto
-    public List<Locations> LoadLocations() {
+    private List<Locations> getLocationsOrdered() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
                 .collect(Collectors.toList());
@@ -50,9 +49,7 @@ public class UserController {
     @RequestMapping("/register")
     public ModelAndView register(@ModelAttribute("accountForm") AccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/create");
-        mav.addObject("locations", Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList()));
+        mav.addObject("locations", getLocationsOrdered());
 
         return mav;
     }
@@ -60,34 +57,25 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView register(@Valid @ModelAttribute("accountForm") AccountForm accountForm,
                                  BindingResult errors) {
-
         if (errors.hasErrors())
             return register(accountForm);
 
-        Optional<User> user = userService.register(
-                accountForm.getEmail(),
-                accountForm.getPassword(),
-                accountForm.getConfirmPassword(),
-                accountForm.getFirstName(),
-                accountForm.getLastName(),
-                accountForm.getLocation(),
-                accountForm.getImg(),
-                accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
+        userService.register(accountForm.getEmail(), accountForm.getPassword(),
+                accountForm.getConfirmPassword(), accountForm.getFirstName(),
+                accountForm.getLastName(), accountForm.getLocation(),
+                accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
         );
 
-        return login(false);
+        return new ModelAndView("redirect:/user/login");
     }
 
 
     @RequestMapping("/login")
     public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
-
         ModelAndView mv = new ModelAndView("account/login");
 
         if (loginError) {
-
             mv.addObject("loginError", true);
-
         }
         return mv;
     }
@@ -96,38 +84,28 @@ public class UserController {
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
         final ModelAndView mav = new ModelAndView("account/edit");
-
         populateForm(accountForm);
         mav.addObject("showPanel", false);
+        mav.addObject("locations", getLocationsOrdered());
 
         return mav;
-
     }
-
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public ModelAndView edit(@Valid @ModelAttribute("accountForm") EditAccountForm accountForm, BindingResult errors) {
-
-        final ModelAndView mav = new ModelAndView("account/edit");
-
         if (errors.hasErrors()) {
-            mav.addObject("showPanel", false);
-            return mav;
+            return edit(accountForm);
         }
 
         userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
-                accountForm.getEmail(),
                 accountForm.getLocation(),
                 accountForm.getIsOwner()
         );
 
-
         reloadGrantedAuthorities(accountForm);
-        mav.addObject("showPanel", true);
-
-        return mav;
+        return new ModelAndView("redirect:/user/view");
     }
 
     private void reloadGrantedAuthorities(EditAccountForm accountForm) {
@@ -144,7 +122,7 @@ public class UserController {
     }
 
     @RequestMapping("/view")
-    public ModelAndView view(@ModelAttribute("accountForm") EditAccountForm accountForm,
+    public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
 
@@ -154,6 +132,8 @@ public class UserController {
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, userAdvice.loggedUser().getId(), null));
 
+        mav.addObject("locations", getLocationsOrdered());
+
         mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
 
@@ -161,18 +141,25 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public void delete(HttpServletResponse response) throws IOException {
+    public ModelAndView delete(HttpServletResponse response) throws IOException {
         userService.delete(userAdvice.loggedUser().getId());
-
-        response.sendRedirect("logout");
+        return new ModelAndView("redirect:/user/login");
     }
 
     private void populateForm(EditAccountForm accountForm) {
         User user = userAdvice.loggedUser();
-        accountForm.setEmail(user.getEmail());
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
-        accountForm.setIsOwner(user.getType() == UserType.Owner);
+        accountForm.setIsOwner(user.getType() == UserType.OWNER);
+        accountForm.setLocation(user.getLocation());
+    }
+
+    private void populateForm(AccountForm accountForm) {
+        User user = userAdvice.loggedUser();
+        accountForm.setFirstName(user.getFirstName());
+        accountForm.setLastName(user.getLastName());
+        accountForm.setEmail(user.getEmail());
+        accountForm.setIsOwner(user.getType() == UserType.OWNER);
         accountForm.setLocation(user.getLocation());
     }
 
@@ -207,12 +194,14 @@ public class UserController {
 
     private ModelAndView getRentRequests(User user, RentState state, Long page) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> rentProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
+        List<RentProposal> receivedProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
+        List<RentProposal> sentProposals = rentService.sentRequests(user.getId(), state.ordinal(), page);
 
-        mav.addObject("requests", rentProposals);
         mav.addObject("state", state.name());
-        mav.addObject("maxPage", rentService.getMaxPage(user.getId(), state.ordinal()));
-
+        mav.addObject("receivedProposals", receivedProposals);
+        mav.addObject("sentProposals", sentProposals);
+        mav.addObject("receivedMaxPage", rentService.getReceivedMaxPage(user.getId(), state.ordinal()));
+        mav.addObject("sentMaxPage", rentService.getSentMaxPage(user.getId(), state.ordinal()));
         return mav;
     }
 
@@ -229,14 +218,9 @@ public class UserController {
             mv.addObject("showPanel", false);
             return mv;
         }
-
-
         mv.addObject("showPanel", true);
 
         userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
-
         return mv;
     }
-
-
 }
