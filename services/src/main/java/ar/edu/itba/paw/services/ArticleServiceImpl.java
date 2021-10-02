@@ -34,6 +34,10 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
 
+    private void appendTimesRented(Article article) {
+        article.setTimesRented(this.articleDao.timesRented(article.getId()));
+    }
+
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
         owner.ifPresent(user -> article.setLocation
@@ -69,6 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendCategories(toReturn.get());
             appendLocation(toReturn.get());
             appendImages(toReturn.get());
+            appendTimesRented(toReturn.get());
         }
         return toReturn;
     }
@@ -158,6 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendCategories(article);
             appendImages(article);
             appendLocation(article);
+            appendTimesRented(article);
         });
     }
 }

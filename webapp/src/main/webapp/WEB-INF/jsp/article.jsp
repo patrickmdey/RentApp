@@ -15,7 +15,7 @@
 <div class="main-container">
     <div class="card card-style">
         <div class="row g-0">
-            <div class="col-md-4 justify-content-ceter align-items-center">
+            <div class="col-md-4 justify-content-center align-items-center">
                 <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
                      class="img-thumbnail rounded-start article-img" sizes="" alt="main image">
                 <div class="d-flex flex-wrap">
@@ -173,6 +173,10 @@
 
                     <a class="navbar-brand" href="${userFilterUrl}"><spring:message code="article.view.viewMore"/></a>
                 </div>
+            </div>
+            <div class="card card-style">
+                <h3><spring:message code="article.stats.title"/></h3>
+                <p class="lead"><spring:message code="article.stats.timesRented" arguments="${article.timesRented}"/></p>
             </div>
         </div>
     </div>

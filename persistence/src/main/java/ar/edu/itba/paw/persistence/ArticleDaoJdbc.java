@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.RentState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -175,7 +176,14 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public List<Article> rentedArticles(long renterId, long page) {
         return jdbcTemplate.query("SELECT * FROM article WHERE id IN (" +
-                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1 ORDER BY start_date)" +
-                "LIMIT ? OFFSET ?", new Object[]{renterId, OFFSET, ((page - 1) * OFFSET)}, ROW_MAPPER);
+                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = ? ORDER BY start_date)" +
+                "LIMIT ? OFFSET ?", new Object[]{renterId, RentState.ACCEPTED.ordinal(), OFFSET, ((page - 1) * OFFSET)}, ROW_MAPPER);
+    }
+
+    @Override
+    public Long timesRented(Long articleId) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article WHERE id IN (" +
+                        "SELECT article_id FROM rent_proposal WHERE article_id = ? AND state = ? )",
+                new Object[]{articleId, RentState.ACCEPTED.ordinal()}, Long.class);
     }
 }
