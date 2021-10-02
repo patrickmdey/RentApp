@@ -143,6 +143,7 @@ public class UserController {
                 null, userAdvice.loggedUser().getId(), null, page));
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, userAdvice.loggedUser().getId(), null));
+
         mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId(), page));
         mav.addObject("rentedMaxPage", articleService.getRentedMaxPage(userAdvice.loggedUser().getId()));
         populateForm(accountForm);

@@ -176,6 +176,6 @@ public class ArticleDaoJdbc implements ArticleDao {
     public List<Article> rentedArticles(long renterId, long page) {
         return jdbcTemplate.query("SELECT * FROM article WHERE id IN (" +
                 "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1 ORDER BY start_date)" +
-                "LIMIT ? OFFSET ?", new Object[]{renterId, page, OFFSET}, ROW_MAPPER);
+                "LIMIT ? OFFSET ?", new Object[]{renterId, OFFSET, ((page - 1) * OFFSET)}, ROW_MAPPER);
     }
 }
