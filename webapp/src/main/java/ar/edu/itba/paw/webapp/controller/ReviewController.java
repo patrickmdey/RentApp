@@ -63,7 +63,7 @@ public class ReviewController {
         return mav;
     }
 
-    @RequestMapping(value = "{reviewId}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/{reviewId}/edit", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
     public ModelAndView updateReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
                                      BindingResult errors,
