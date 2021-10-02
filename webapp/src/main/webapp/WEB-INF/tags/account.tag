@@ -40,15 +40,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
-                    <fieldset ${isEdit? "disabled":""}>
+                <c:if test="${!isEdit}">
+                    <div class="col-6">
                         <controls:TextBox path="email" type="text"
                                           labelCode="account.form.email"
                                           placeholderCode="placeholder.email"
                                           errorCode="errors.requiredEmail"
                         />
-                    </fieldset>
-                </div>
+                    </div>
+                </c:if>
                 <div class="col-6">
 
                     <controls:LocationSelect items="${locations}" path="location"

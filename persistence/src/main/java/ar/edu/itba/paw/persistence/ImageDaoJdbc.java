@@ -17,7 +17,6 @@ import java.util.Optional;
 @Repository
 public class ImageDaoJdbc implements ImageDao {
 
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
     private static final RowMapper<DBImage> ROW_MAPPER =

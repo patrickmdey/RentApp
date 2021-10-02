@@ -12,6 +12,8 @@ public interface RentService {
 
     List<RentProposal> ownerRequests(long ownerId, int state, long page);
 
+    List<RentProposal> sentRequests(long renterId, int state, long page);
+
     void acceptRequest(long requestId);
 
     void rejectRequest(long requestId);
@@ -22,6 +24,7 @@ public interface RentService {
 
     boolean hasRented(User renter, Long articleId);
 
-    Long getMaxPage(long ownerId, int state);
+    Long getReceivedMaxPage(long ownerId, int state);
 
+    Long getSentMaxPage(long renterId, int state);
 }

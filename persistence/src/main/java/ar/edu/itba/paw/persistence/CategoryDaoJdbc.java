@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CategoryDaoJdbc implements CategoryDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert jdbcInsert;
+
     private static final RowMapper<Category> ROW_MAPPER =
             (resultSet, rowNum) -> new Category(
                     resultSet.getInt("id"),
@@ -28,10 +28,6 @@ public class CategoryDaoJdbc implements CategoryDao {
     @Autowired
     public CategoryDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-
-        jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("category")
-                .usingGeneratedKeyColumns("id");
-
     }
 
     @Override

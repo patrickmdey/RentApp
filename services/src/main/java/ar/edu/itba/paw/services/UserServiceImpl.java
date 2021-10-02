@@ -68,8 +68,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(long id, String firstName, String lastName, String email, Long location, Boolean isOwner) {
-        this.userDao.update(id, firstName, lastName, email, location, (isOwner ? UserType.Owner : UserType.Renter).ordinal());
+    public void update(long id, String firstName, String lastName, Long location, Boolean isOwner) {
+        this.userDao.update(id, firstName, lastName, location, (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
     }
 
     @Override
