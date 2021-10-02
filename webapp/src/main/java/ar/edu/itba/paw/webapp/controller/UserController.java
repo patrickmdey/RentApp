@@ -35,9 +35,6 @@ public class UserController {
     private RentService rentService;
 
     @Autowired
-    private EmailService emailService;
-
-    @Autowired
     private LoggedUserAdvice userAdvice;
 
     @ModelAttribute(value = "locations") //TODO: sacar esto
@@ -64,7 +61,7 @@ public class UserController {
         if (errors.hasErrors())
             return register(accountForm);
 
-        Optional<User> user = userService.register(
+        userService.register(
                 accountForm.getEmail(),
                 accountForm.getPassword(),
                 accountForm.getConfirmPassword(),
@@ -74,13 +71,6 @@ public class UserController {
                 accountForm.getImg(),
                 accountForm.getIsOwner() ? UserType.Owner : UserType.Renter
         );
-
-        if (!user.isPresent())
-            throw new EmailAlreadyInUseException();
-        Map<String, String> values = new HashMap<>();
-        values.put("ownerName", user.get().getFirstName());
-        values.put("ownerEmail", user.get().getEmail());
-        emailService.sendNewUserMail(user.get().getEmail(), values);
         return login(false);
     }
 
