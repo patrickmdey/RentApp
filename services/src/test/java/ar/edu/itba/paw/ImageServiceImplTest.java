@@ -74,6 +74,7 @@ public class ImageServiceImplTest {
 
     }
 
+    // TODO: Move to another file?
     private class MockMultipartFile implements MultipartFile {
 
         private final ClassPathResource resource;
