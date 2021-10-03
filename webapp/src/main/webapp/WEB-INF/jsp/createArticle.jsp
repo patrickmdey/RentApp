@@ -37,7 +37,6 @@
                     <form:input type="text" path="name" class="form-control form-control-custom"
                                 placeholder="${articleName}"/>
                     <form:errors path="name" element="p" cssClass="error">
-                        <%--                        <spring:message code="article.createArticleForm.name.error"/>--%>
                     </form:errors>
                 </div>
                 <div class="col-12 my-2">
@@ -50,7 +49,11 @@
                 </div>
                 <div class="col-12 my-2">
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
-                    <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <form:input type="number" placeholder="0.0" path="pricePerDay"
+                                    class="form-control form-control-custom"/>
+                    </div>
                     <form:errors path="pricePerDay" element="p" cssClass="error"/>
                 </div>
 
