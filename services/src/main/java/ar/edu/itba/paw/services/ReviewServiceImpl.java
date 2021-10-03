@@ -34,10 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public int articleRating(long articleId) {
-        List<Review> allReviews = reviewDao.getAll(articleId);
-        if (allReviews.size() == 0)
-            return 0;
-        return allReviews.stream().mapToInt(Review::getRating).sum() / allReviews.size();
+        return Math.round(reviewDao.getAverage(articleId));
     }
 
     @Override

@@ -71,7 +71,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
                 .antMatchers("/user/my-requests").hasAuthority("OWNER")
                 .antMatchers("/article/create").hasAuthority("OWNER")
-                .antMatchers("/article/{articleId}/review/create").authenticated()
+                .antMatchers("/review/{articleId}/create").authenticated()
                 .anyRequest().permitAll()
 
                 .and().formLogin()
@@ -99,7 +99,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403");
     }

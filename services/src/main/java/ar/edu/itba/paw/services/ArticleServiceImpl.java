@@ -34,6 +34,10 @@ public class ArticleServiceImpl implements ArticleService {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
 
+    private void appendTimesRented(Article article) {
+        article.setTimesRented(this.articleDao.timesRented(article.getId()));
+    }
+
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
         owner.ifPresent(user -> article.setLocation
@@ -69,6 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendCategories(toReturn.get());
             appendLocation(toReturn.get());
             appendImages(toReturn.get());
+            appendTimesRented(toReturn.get());
         }
         return toReturn;
     }
@@ -76,6 +81,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Long getMaxPage(String name, Long category, Long user, Long location) {
         return articleDao.getMaxPage(name, category, user, location);
+    }
+
+    @Override
+    public Long getRentedMaxPage(Long user) {
+        return articleDao.getRentedMaxPage(user);
     }
 
     @Override
@@ -141,9 +151,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> rentedArticles(long renterId) {
+    public List<Article> rentedArticles(long renterId, long page) {
 
-        List<Article> articles = articleDao.rentedArticles(renterId);
+        List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
         return articles;
     }
@@ -153,6 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendCategories(article);
             appendImages(article);
             appendLocation(article);
+            appendTimesRented(article);
         });
     }
 }

@@ -16,6 +16,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Controller
 @ControllerAdvice
 public class ErrorController {
+
+    @Autowired
+    private LoggedUserAdvice loggedUserAdvice;
+
     @RequestMapping("/403")
     public ModelAndView forbidden() {
         ModelAndView mv = new ModelAndView("error/403");
@@ -24,8 +28,8 @@ public class ErrorController {
     }
 
     @RequestMapping("/400")
-    @ExceptionHandler({ TypeMismatchException.class, MissingServletRequestPartException.class, MissingServletRequestParameterException.class, 
-                        BindException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({TypeMismatchException.class, MissingServletRequestPartException.class, MissingServletRequestParameterException.class,
+            BindException.class, HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
     public ModelAndView badRequest() {
         ModelAndView mv = new ModelAndView("error/400");
 //        mv.addObject("user", loggedUserAdvice.loggedUser());

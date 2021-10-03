@@ -27,7 +27,12 @@ label {
 }
 
 .avatar-container img {
-    height: 100%;
+    max-height: 100%;
     max-width: 100%;
     border-radius: 50%;
+    object-fit: none;
+}
+
+.card-style.article-card {
+    min-height: 245px;
 }

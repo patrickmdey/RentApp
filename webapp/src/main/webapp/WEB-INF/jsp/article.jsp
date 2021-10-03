@@ -15,7 +15,7 @@
 <div class="main-container">
     <div class="card card-style">
         <div class="row g-0">
-            <div class="col-md-4 justify-content-ceter align-items-center">
+            <div class="col-md-4 justify-content-center align-items-center">
                 <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
                      class="img-thumbnail rounded-start article-img" sizes="" alt="main image">
                 <div class="d-flex flex-wrap">
@@ -59,6 +59,10 @@
                         <h:rating rating="${articleRating}"/>
                     </c:otherwise>
                 </c:choose>
+
+                <p class="lead"><spring:message code="article.stats.timesRented"
+                                                arguments="${article.timesRented}"/></p>
+
                 <h4 class="card-text h4 color-rentapp-red"><spring:message
                         code="article.price"
                         arguments="${article.pricePerDay}"/></h4>
@@ -142,39 +146,47 @@
 
     <div class="row w-100 g-0 justify-content-between">
         <div class="col-md-8 col-12 pe-md-3 pe-0">
-            <div class="card card-style">
+            <div class="card card-style article-card">
                 <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
                 <hr/>
                 <p class="lead"><c:out value="${article.description}"/></p>
             </div>
 
             <%--            Reviews--%>
-            <div class="card card-style">
-                <h:allReviews article="${article}" user="${user}"
-                              hasRented="${hasRented}"
-                              maxPage="${maxPage}" reviews="${reviews}"/>
-            </div>
+            <%--            <div class="card card-style">--%>
+            <%--                <h:allReviews article="${article}" user="${user}"--%>
+            <%--                              hasRented="${hasRented}"--%>
+            <%--                              maxPage="${maxPage}" reviews="${reviews}"/>--%>
+            <%--            </div>--%>
         </div>
 
 
         <div class="col-md-4 col-12">
             <div class="card card-style">
                 <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
-                <div class="row">
-                    <div class="avatar-container col-5">
+                <hr>
+                <div class="row align-items-center">
+                    <div class="avatar-container col-4">
                         <img src="<c:url value="/image/${owner.picture}"/>"
                              alt="<c:out value="${owner.firstName}"/> picture"/>
                     </div>
-                    <span class="lead col-5"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
+                    <span class="lead col-8"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
 
                     <c:url var="userFilterUrl" value="/">
                         <c:param name="user" value="${owner.id}"/>
                     </c:url>
 
-                    <a class="navbar-brand" href="${userFilterUrl}"><spring:message code="article.view.viewMore"/></a>
+                    <a class="navbar-brand" href="${userFilterUrl}"><spring:message
+                            code="article.view.viewMore"/></a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="card card-style">
+        <h:allReviews article="${article}" user="${user}"
+                      canReview="${canReview}"
+                      maxPage="${maxPage}" reviews="${reviews}"/>
     </div>
 
     <!-- RECOMMENDED ARTICLES-->

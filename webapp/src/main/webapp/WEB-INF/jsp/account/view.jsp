@@ -9,7 +9,7 @@
 <c:url var="updatePasswordUrl" value="/user/updatePassword"/>
 <c:url value="/user/edit" var="editUrl"/>
 <c:url value="article/create" var="createArticle"/>
-<c:url value="/user/view" var="currentUrl" />
+<c:url value="/user/view" var="currentUrl"/>
 <c:url value="/" var="marketplace"/>
 
 <html>
@@ -86,14 +86,17 @@
     <div class="card shadow-sm card-style">
 
         <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
-            <a class="nav-link active" id="nav-owned-tab" data-bs-toggle="tab" href="#nav-owned" role="tab"
-               aria-controls="nav-owned" aria-selected="true">
-                <p class="lead my-1">
-                    <spring:message code="account.view.myArticles"/>
-                </p>
-            </a>
+            <c:if test="${user.type.isOwner}">
+                <a class="nav-link active" id="nav-owned-tab" data-bs-toggle="tab" href="#nav-owned" role="tab"
+                   aria-controls="nav-owned" aria-selected="true">
+                    <p class="lead my-1">
+                        <spring:message code="account.view.myArticles"/>
+                    </p>
+                </a>
+            </c:if>
 
-            <a class="nav-link" id="nav-rented-tab" data-bs-toggle="tab" href="#nav-rented" role="tab"
+            <a class="nav-link ${!user.type.isOwner?' active':''}" id="nav-rented-tab" data-bs-toggle="tab"
+               href="#nav-rented" role="tab"
                aria-controls="nav-rented" aria-selected="false">
                 <p class="lead my-1">
                     <spring:message code="account.view.myRentedArticles"/>
@@ -102,7 +105,8 @@
         </nav>
 
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active p-3" id="nav-owned" role="tabpanel" aria-labelledby="nav-owned-tab">
+            <div class="tab-pane fade ${user.type.isOwner?' show active':''} p-3" id="nav-owned" role="tabpanel"
+                 aria-labelledby="nav-owned-tab">
                 <c:choose>
                     <c:when test="${ownedArticles.size() == 0}">
                         <h3 class="h3 text-center">
@@ -113,11 +117,13 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                        <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="tab-pane fade" id="nav-rented" role="tabpanel" aria-labelledby="nav-rented-tab">
+            <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-rented" role="tabpanel"
+                 aria-labelledby="nav-rented-tab">
                 <c:choose>
                     <c:when test="${rentedArticles.size() == 0}">
                         <h3 class="h3 text-center">
@@ -128,7 +134,8 @@
                         </a>
                     </c:when>
                     <c:otherwise>
-                        <h:allArticles articles="${rentedArticles}" maxPage="${ownedMaxPage}" currentUrl="${currentUrl}"/>
+                        <h:allArticles articles="${rentedArticles}" maxPage="${rentedMaxPage}"
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewDao {
+    float getAverage(long articleId);
+
     List<Review> getPaged(long articleId, long page);
 
     List<Review> getAll(long articleId);

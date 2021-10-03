@@ -78,10 +78,15 @@
     </div>
     <div class="row align-items-start justify-content-center">
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
-            <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get">
+            <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get" id="searchForm">
                 <form:input type="number" path="user" cssClass="d-none"/>
 
-                <h4 class="h4 color-rentapp-black"><spring:message code="filter.title"/></h4>
+                <div class="row">
+                    <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
+                    <button class="btn btn-link col-4" type="reset">
+                        <i class="h4 color-rentapp-black bi bi-x"></i>
+                    </button>
+                </div>
                 <hr/>
                 <div>
                     <form:label path="query" cssClass="font-weight-bold">
@@ -95,13 +100,10 @@
                 <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
                         code="search.rentRequestForm.category"/></form:label>
                 <div class="w-100">
-<%--                    <form:radiobuttons path="category" items="${categories}"--%>
-<%--                                       itemValue="id" itemLabel="description"/>--%>
-
-                    <c:forEach items="${categories}" var="category" >
+                    <c:forEach items="${categories}" var="category">
                         <div class="w-100">
-                            <spring:message code="${category.description}" var="label" />
-                            <form:radiobutton path="category" value="${category.id}" label="${label}" />
+                            <spring:message code="${category.description}" var="label"/>
+                            <form:radiobutton path="category" value="${category.id}" label="${label}"/>
                         </div>
                     </c:forEach>
                 </div>

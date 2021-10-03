@@ -27,16 +27,16 @@
                 <div class="col-6">
                     <controls:TextBox path="firstName" type="text"
                                       labelCode="account.form.firstName"
-                                      placeholderCode="placeholder.name"
-                                      errorCode="errors.requiredName"
-                    />
+                                      placeholderCode="placeholder.name"/>
+<%--                                      errorCode="errors.requiredName"--%>
+
                 </div>
                 <div class="col-6">
                     <controls:TextBox path="lastName" type="text"
                                       labelCode="account.form.lastName"
-                                      placeholderCode="placeholder.lastName"
-                                      errorCode="errors.requiredLastName"
-                    />
+                                      placeholderCode="placeholder.lastName"/>
+<%--                                      errorCode="errors.requiredLastName"--%>
+
                 </div>
             </div>
             <div class="row">
@@ -44,9 +44,9 @@
                     <div class="col-6">
                         <controls:TextBox path="email" type="text"
                                           labelCode="account.form.email"
-                                          placeholderCode="placeholder.email"
-                                          errorCode="errors.requiredEmail"
-                        />
+                                          placeholderCode="placeholder.email"/>
+<%--                                          errorCode="errors.requiredEmail"--%>
+
                     </div>
                 </c:if>
                 <div class="col-6">
@@ -63,14 +63,12 @@
                     <div class="col-6">
                         <controls:TextBox path="password" type="password"
                                           labelCode="account.form.password"
-                                          placeholderCode="placeholder.password"
-                                          errorCode="errors.requiredPassword"/>
+                                          placeholderCode="placeholder.password"/>
                     </div>
                     <div class="col-6">
                         <controls:TextBox path="confirmPassword" type="password"
                                           labelCode="account.form.confirmPassword"
-                                          placeholderCode="placeholder.secondPassword"
-                                          errorCode="errors.requiredSecondPassword"/>
+                                          placeholderCode="placeholder.secondPassword"/>
                     </div>
                 </div>
                 <h:imageInput path="img"/>

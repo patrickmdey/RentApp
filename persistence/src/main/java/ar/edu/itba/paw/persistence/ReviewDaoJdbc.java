@@ -46,6 +46,12 @@ public class ReviewDaoJdbc implements ReviewDao {
     }
 
     @Override
+    public float getAverage(long articleId) {
+        return jdbcTemplate.queryForObject(queryBuilder("COALESCE(AVG(rating), 0)").toString(),
+                Float.class, articleId);
+    }
+
+    @Override
     public List<Review> getPaged(long articleId, long page) {
         StringBuilder query = queryBuilder("*");
         query.append("ORDER BY created_at DESC LIMIT ? OFFSET ?");

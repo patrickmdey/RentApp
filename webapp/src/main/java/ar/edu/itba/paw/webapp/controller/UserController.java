@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.controller;
 
+import ar.edu.itba.paw.exceptions.EmailAlreadyInUseException;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.RentService;
 import ar.edu.itba.paw.interfaces.UserService;
@@ -69,7 +70,6 @@ public class UserController {
         return new ModelAndView("redirect:/user/login");
     }
 
-
     @RequestMapping("/login")
     public ModelAndView login(@RequestParam(value = "error", defaultValue = "false") boolean loginError) {
         ModelAndView mv = new ModelAndView("account/login");
@@ -80,6 +80,10 @@ public class UserController {
         return mv;
     }
 
+    @RequestMapping("logout")
+    public ModelAndView logout() {
+        return new ModelAndView();
+    }
 
     @RequestMapping("/edit")
     public ModelAndView edit(@ModelAttribute("accountForm") EditAccountForm accountForm) {
@@ -125,16 +129,15 @@ public class UserController {
     public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm,
                              @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("account/view");
-
         mav.addObject("ownedArticles", articleService.get(null, null,
                 null, userAdvice.loggedUser().getId(), null, page));
-
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
                 null, userAdvice.loggedUser().getId(), null));
 
+        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId(), page));
+        mav.addObject("rentedMaxPage", articleService.getRentedMaxPage(userAdvice.loggedUser().getId()));
         mav.addObject("locations", getLocationsOrdered());
 
-        mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId()));
         populateForm(accountForm);
 
         return mav;

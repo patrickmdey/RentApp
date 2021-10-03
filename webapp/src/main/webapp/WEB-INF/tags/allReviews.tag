@@ -4,21 +4,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
 
-<%@attribute name="article" type="ar.edu.itba.paw.models.Article" required="true"%>
+<%@attribute name="article" type="ar.edu.itba.paw.models.Article" required="true" %>
 <%@attribute name="user" type="ar.edu.itba.paw.models.User" required="true" %>
-<%@attribute name="hasRented" type="java.lang.Boolean" required="true" %>
+<%@attribute name="canReview" type="java.lang.Boolean" required="true" %>
 <%@attribute name="maxPage" required="true" %>
 <%@attribute name="reviews" type="java.util.List" required="true" %>
 
 <c:url value="/article/${article.id}" var="articleUrl"/>
-<c:url value="/article/${article.id}/review/create" var="writeReview"/>
+<c:url value="/review/${article.id}/create" var="writeReview"/>
 
 <div>
     <div class="row">
         <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
-        <c:if test="${article.idOwner != user.id && hasRented}">
+        <c:if test="${canReview}">
             <div class="col-4">
-                <control:LinkButton href="${writeReview}" labelCode="article.writeReview.title"
+                <control:LinkButton href="${writeReview}" labelCode="article.createReview.title"
                                     color="bg-color-action color-grey"/>
             </div>
         </c:if>

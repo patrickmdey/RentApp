@@ -17,13 +17,13 @@
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="reviewForm" method="post" action="${updateReview}">
         <div class="form-container">
-            <h3 class="h3 fw-bold my-1"><spring:message code="article.editReview.title"/></h3>
+            <h3 class="h3 fw-bold"><spring:message code="article.editReview.title"/></h3>
             <hr/>
             <div class="d-flex">
-                <p class="lead fw-bold me-1"><spring:message code="article.writeReview.articleName"/></p>
+                <h4 class="h4 me-1"><spring:message code="article.writeReview.articleName"/></h4>
                 <p class="lead"><c:out value="${article.title}"/></p>
             </div>
-            <p class="lead"><spring:message code="article.writeReview.rating"/></p>
+            <p class="lead mt-n3"><spring:message code="article.writeReview.rating"/></p>
             <div class="d-flex justify-content-center align-items-center">
                 <c:forEach var="rate" items="${rating}">
                     <div class="mx-2">
@@ -35,8 +35,8 @@
             </div>
 
             <div class="form-group">
-                <form:label path="message"><spring:message code="placeholder.review.message"/></form:label>
-                <spring:message code="article.review.review" var="placeholder"/>
+                <form:label path="message"><spring:message code="article.review.review"/></form:label>
+                <spring:message code="placeholder.review.message" var="placeholder"/>
                 <form:textarea path="message" type="text" placeholder="${placeholder}"
                                class="form-control form-control-custom"/>
                 <form:errors path="message" element="p" cssClass="error">

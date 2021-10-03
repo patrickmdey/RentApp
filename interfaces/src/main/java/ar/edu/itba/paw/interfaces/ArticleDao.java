@@ -9,7 +9,7 @@ public interface ArticleDao {
 
     List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page);
 
-    List<Article> rentedArticles(long renterId);
+    List<Article> rentedArticles(long renterId, long page);
 
     Optional<Article> findById(long id);
 
@@ -21,5 +21,9 @@ public interface ArticleDao {
 
     Long getMaxPage(String name, Long category, Long user, Long location);
 
+    Long getRentedMaxPage(Long user);
+
     List<Article> recommendedArticles(Long articleId);
+
+    Long timesRented(Long articleId);
 }

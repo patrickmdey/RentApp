@@ -17,9 +17,11 @@ public interface ArticleService {
 
     List<Article> findByOwner(long ownerId);
 
-    List<Article> rentedArticles(long renterId);
+    List<Article> rentedArticles(long renterId, long page);
 
     Long getMaxPage(String name, Long category, Long user, Long location);
+
+    Long getRentedMaxPage(Long user);
 
     List<Article> recommendedArticles(Long articleId);
 }

@@ -14,6 +14,7 @@ public class Article {
     private long idOwner;
     private Locations location;
     private List<Long> images;
+    private Long timesRented = 0L;
 
     public Article(long id, String title, String description, Float pricePerDay,
                    List<Category> categories, long idOwner) {
@@ -25,12 +26,20 @@ public class Article {
         this.idOwner = idOwner;
     }
 
-    public Article(long id,String title, String description, Float pricePerDay,long idOwner) {
+    public Article(long id, String title, String description, Float pricePerDay, long idOwner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
         this.id = id;
         this.idOwner = idOwner;
+    }
+
+    public Long getTimesRented() {
+        return timesRented;
+    }
+
+    public void setTimesRented(Long timesRented) {
+        this.timesRented = timesRented;
     }
 
     public long getId() {
@@ -86,7 +95,7 @@ public class Article {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Name: " + title + " | price: " + pricePerDay;
     }
 
