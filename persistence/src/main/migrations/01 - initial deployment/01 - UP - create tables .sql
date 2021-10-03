@@ -1,3 +1,5 @@
+-- TODO: Delete this file
+
 BEGIN;
 
 CREATE TABLE picture

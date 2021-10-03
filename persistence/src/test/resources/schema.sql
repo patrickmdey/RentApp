@@ -16,9 +16,7 @@ CREATE TABLE IF NOT EXISTS account
     id         IDENTITY  NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name  VARCHAR(100) NOT NULL,
-    email      VARCHAR (
-    100
-                       ) NOT NULL UNIQUE,
+    email      VARCHAR (100) NOT NULL UNIQUE,
     location INTEGER NOT NULL,
     password VARCHAR(500) NOT NULL,
     picture    INT,
@@ -58,11 +56,11 @@ CREATE TABLE IF NOT EXISTS article_category
 
 CREATE TABLE IF NOT EXISTS rent_proposal
 (
-    id         IDENTITY             NOT NULL,
+    id         IDENTITY           NOT NULL,
     start_date DATE               NOT NULL,
     end_date   DATE               NOT NULL,
-    message    VARCHAR(1000)            NOT NULL,
-    approved   BOOLEAN DEFAULT FALSE NOT NULL,
+    message    VARCHAR(1000)      NOT NULL,
+    state      INT                NOT NULL,
     article_id INT                NOT NULL,
     renter_id  INT                NOT NULL,
     FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -70,10 +68,19 @@ CREATE TABLE IF NOT EXISTS rent_proposal
     UNIQUE (start_date, end_date, article_id, renter_id)
     );
 
+CREATE TABLE IF NOT EXISTS review
+(
+    message     VARCHAR(1000) not null,
+    renter_id   INT NOT NULL,
+    article_id  INT NOT NULL,
+    rating      INT NOT NULL,
+    id          IDENTITY NOT NULL,
+    created_at  TIMESTAMP NOT NULL,
+    FOREIGN KEY (article_id) REFERENCES article (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (renter_id) REFERENCES account (id) ON UPDATE CASCADE ON DELETE CASCADE,
 
-INSERT INTO category (description)
-VALUES ('Technology'), ('Camping'), ('Cars'), ('Kitchen'), ('Tools'), ('Sailing'), ('Travel');
+);
 
-INSERT INTO account (first_name, last_name, email, location, password, picture, type)
-VALUES ('test_name', 'test_last_name','test@mail.com','test_location','test_password',NULL,1);
+
+
 
