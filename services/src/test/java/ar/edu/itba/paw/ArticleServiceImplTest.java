@@ -160,12 +160,12 @@ public class ArticleServiceImplTest {
         when(userDao.findById(userOwner.getId()))
                 .thenReturn(Optional.of(userOwner));
 
-        when(articleDao.rentedArticles(eq(userRenter.getId())))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
                 .thenReturn(articles);
 
 
         // Act
-        List<Article> results = articleService.rentedArticles(userRenter.getId());
+        List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
 
         // Assert
         Assert.assertEquals(articles.size(), results.size());
@@ -183,12 +183,12 @@ public class ArticleServiceImplTest {
     public void testRentedArticlesFails() {
 
         // Arrange
-        when(articleDao.rentedArticles(eq(userRenter.getId())))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
                 .thenThrow(RuntimeException.class);
 
 
         // Act
-        List<Article> results = articleService.rentedArticles(userRenter.getId());
+        List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
 
         // Assert
 

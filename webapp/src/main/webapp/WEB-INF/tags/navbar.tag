@@ -3,7 +3,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:url value="/" var="marketplace"/>
 <c:url value="/article/create" var="createArticle"/>
+
+<%--
+    TODO: Why is this an argument? we could just see if the "loggedUser" or "user" is added to the ModelAndView
+        If it is not added, we can just have it as a default value.
+--%>
 <%@ attribute type="ar.edu.itba.paw.models.User" name="loggedUser" required="false" %>
+
 <c:url value="/user/view" var="viewUser"/>
 <c:url value="/user/edit" var="editUser"/>
 <c:url value="/user/login" var="login"/>

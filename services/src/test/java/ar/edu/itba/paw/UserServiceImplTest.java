@@ -1,5 +1,6 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.EmailService;
 import ar.edu.itba.paw.interfaces.ImageService;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.DBImage;
@@ -20,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
@@ -35,6 +36,8 @@ public class UserServiceImplTest {
     private ImageService imageService;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private EmailService emailService;
 
     @Before
     public void setUp() {
@@ -75,6 +78,7 @@ public class UserServiceImplTest {
                 eq(uploadedImage.getId()),
                 eq(user.getType().ordinal())
         )).thenReturn(Optional.of(user));
+        doNothing().when(emailService).sendNewUserMail(eq(user.getEmail()), any());
 
         // Act
         Optional<User> optionalResult = userService.register(
