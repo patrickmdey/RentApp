@@ -39,7 +39,6 @@ public class RentProposalForm {
         this.endDate = endDate;
     }
 
-
     public String getStartDate() {
         return startDate;
     }

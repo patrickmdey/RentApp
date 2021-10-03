@@ -13,6 +13,11 @@ h1, h2, h3, h4, h5, h6, p {
     color: var(--color-rentapp-black);
 }
 
+.error {
+    color: red !important;
+    margin: 3px 0;
+}
+
 a.nav-link:hover {
     color: var(--color-secondary) !important;
 }

@@ -83,9 +83,9 @@
 
                 <div class="row">
                     <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
-                    <button class="btn btn-link col-4" type="reset">
-                        <i class="h4 color-rentapp-black bi bi-x"></i>
-                    </button>
+                        <%--                    <button class="btn btn-link col-4" type="reset">--%>
+                        <%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
+                        <%--                    </button>--%>
                 </div>
                 <hr/>
                 <div>

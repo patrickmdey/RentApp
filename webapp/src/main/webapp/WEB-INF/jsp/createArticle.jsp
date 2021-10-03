@@ -37,7 +37,7 @@
                     <form:input type="text" path="name" class="form-control form-control-custom"
                                 placeholder="${articleName}"/>
                     <form:errors path="name" element="p" cssClass="error">
-                        <spring:message code="article.createArticleForm.name.error"/>
+                        <%--                        <spring:message code="article.createArticleForm.name.error"/>--%>
                     </form:errors>
                 </div>
                 <div class="col-12 my-2">
@@ -46,19 +46,13 @@
                     <spring:message code="placeholder.articleDescription" var="articleDescription"/>
                     <form:textarea type="text" path="description" class="form-control form-control-custom"
                                    placeholder="${articleDescription}"/>
-                    <form:errors path="description" element="p" cssClass="error">
-                        <spring:message code="errors.requiredDescription"/>
-                    </form:errors>
+                    <form:errors path="description" element="p" cssClass="error"/>
                 </div>
                 <div class="col-12 my-2">
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <form:input type="number" path="pricePerDay" class="form-control form-control-custom"/>
                     <form:errors path="pricePerDay" element="p" cssClass="error"/>
                 </div>
-                <form:errors path="pricePerDay" element="p" cssClass="error">
-                    <spring:message code="errors.requiredPrice"/>
-                </form:errors>
-
 
                 <form:label path="categories"><spring:message
                         code="article.createArticleForm.category"/></form:label>
@@ -69,9 +63,7 @@
                             <spring:message code="${category.description}"/>
                         </div>
                     </c:forEach>
-                    <form:errors path="categories" element="p" cssClass="error">
-                        <spring:message code="errors.requiredSelectCategory"/>
-                    </form:errors>
+                    <form:errors path="categories" element="p" cssClass="error"/>
                 </div>
 
                 <c:if test="${articleId == null}">

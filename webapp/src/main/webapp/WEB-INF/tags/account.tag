@@ -28,14 +28,12 @@
                     <controls:TextBox path="firstName" type="text"
                                       labelCode="account.form.firstName"
                                       placeholderCode="placeholder.name"/>
-<%--                                      errorCode="errors.requiredName"--%>
 
                 </div>
                 <div class="col-6">
                     <controls:TextBox path="lastName" type="text"
                                       labelCode="account.form.lastName"
                                       placeholderCode="placeholder.lastName"/>
-<%--                                      errorCode="errors.requiredLastName"--%>
 
                 </div>
             </div>
@@ -45,7 +43,6 @@
                         <controls:TextBox path="email" type="text"
                                           labelCode="account.form.email"
                                           placeholderCode="placeholder.email"/>
-<%--                                          errorCode="errors.requiredEmail"--%>
 
                     </div>
                 </c:if>

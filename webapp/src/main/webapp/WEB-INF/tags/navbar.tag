@@ -23,14 +23,16 @@
         </button>
         <div class="collapse navbar-collapse mt-2" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active" href="${createArticle}"><spring:message code="navbar.publishArticle"/></a>
-                <a class="nav-link active" aria-current="page" href="${marketplace}"><spring:message code="navbar.marketplace"/></a>
+                <a class="nav-link active lead" href="${createArticle}"><spring:message
+                        code="navbar.publishArticle"/></a>
+                <a class="nav-link active lead" aria-current="page" href="${marketplace}"><spring:message
+                        code="navbar.marketplace"/></a>
             </div>
             <div class="navbar-nav ms-auto">
                 <c:choose>
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">
-                            <a class="nav-link active color-grey dropdown-toggle" id="accountMenu"
+                            <a class="nav-link active color-grey dropdown-toggle lead" id="accountMenu"
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <span>
                                     <c:out value="${loggedUser.firstName}"/>
@@ -48,8 +50,10 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-link active" aria-current="page" href="${login}"><spring:message code="navbar.login"/></a>
-                        <a class="nav-link active" aria-current="page" href="${register}"><spring:message code="navbar.signup"/></a>
+                        <a class="nav-link active lead" aria-current="page" href="${login}"><spring:message
+                                code="navbar.login"/></a>
+                        <a class="nav-link active lead" aria-current="page" href="${register}"><spring:message
+                                code="navbar.signup"/></a>
                     </c:otherwise>
                 </c:choose>
             </div>

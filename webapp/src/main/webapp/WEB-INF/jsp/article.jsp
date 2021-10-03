@@ -95,8 +95,9 @@
                 <form:form modelAttribute="rentForm" action="${articleUrl}" method="POST">
 
                     <div class="modal-header bg-color-grey">
-                        <p class="modal-title lead fw-bold"><spring:message
-                                code="article.rentRequestTitle"/></p>
+                        <p class="modal-title lead fw-bold">
+                            <spring:message code="article.rentRequestTitle"/>
+                        </p>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
@@ -107,18 +108,13 @@
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
                                 <form:input type="date" path="startDate" class="form-control form-control-custom"/>
+                                <form:errors path="startDate" element="p" cssClass="error"/>
                             </div>
                             <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
                                 <form:input type="date" path="endDate" class="form-control form-control-custom"/>
-                                <form:errors path="endDate" element="p" cssClass="error">
-                                    <spring:message code="errors.requiredEndDate"/>
-                                </form:errors>
-                            </div>
-                            <div class="col-12">
-                                <form:errors element="p" cssClass="color: #EF6461" path="startDate">
-                                </form:errors>
+                                <form:errors path="endDate" element="p" cssClass="error"/>
                             </div>
                             <div class="col-12 my-2">
                                 <form:label path="message"><spring:message
@@ -126,9 +122,7 @@
                                 <spring:message code="placeholder.message" var="enterMessage"/>
                                 <form:textarea name="message" path="message" class="form-control form-control-custom "
                                                placeholder="${enterMessage}"/>
-                                <form:errors path="message" element="p" cssClass="error">
-                                    <spring:message code="errors.requiredMessage"/>
-                                </form:errors>
+                                <form:errors path="message" element="p" cssClass="error"/>
                             </div>
                         </div>
 

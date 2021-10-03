@@ -8,5 +8,5 @@
         <spring:message code="image.input.label"/>
     </form:label>
     <form:input cssClass="mt-2" type="file" accept="image/*" path="${path}" multiple="${multiple}"/>
-    <form:errors path="${path}"/>
+    <form:errors path="${path}" element="p" cssClass="error"/>
 </div>
