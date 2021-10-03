@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class RentServiceImpl implements RentService {
@@ -78,6 +77,7 @@ public class RentServiceImpl implements RentService {
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
+        // TODO: Shouldn't we throw an exception here instead of isPresent() ?
         if (article.isPresent()) {
             Optional<User> owner = userService.findById(article.get().getIdOwner());
 
@@ -94,7 +94,7 @@ public class RentServiceImpl implements RentService {
                     values.put("endDate", dateFormatter.format(endDate));
                     values.put("articleName", article.get().getTitle());
                     values.put("requestMessage", message);
-                    values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //HARCODEADO
+                    values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //TODO: HARCODEADO
 
                     emailService.sendMailRequestToOwner(owner.get().getEmail(), values, owner.get().getId());
 
