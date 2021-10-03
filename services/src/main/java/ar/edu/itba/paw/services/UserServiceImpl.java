@@ -42,10 +42,12 @@ public class UserServiceImpl implements UserService {
         return this.userDao.list();
     }
 
+    // TODO: do we need to pass "confirmPassword"? if so, shouldn't we check that it is equal to "password"?
     @Override
     public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
         Optional<DBImage> dbImg = imageService.create(img);
+        // TODO: raise exception instead of this?
         if (!dbImg.isPresent())
             return Optional.empty();
 

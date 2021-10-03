@@ -11,6 +11,9 @@ public class User {
     private Long picture;
     private UserType type;
 
+    // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
+    // TODO: Location could also be a Locations enum instead of Long
+    // TODO: type could be UserType instead of int.
     public User(String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
         this.email = email;
         this.password = password;
@@ -24,6 +27,9 @@ public class User {
             ;//Throw exception
     }
 
+    // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
+    // TODO: Location could also be a Locations enum instead of Long
+    // TODO: type could be UserType instead of int.
     public User(long id, String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
         this(email, password, firstName, lastName, location, picture, type);
         this.id = id;
