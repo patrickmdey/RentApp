@@ -1,10 +1,6 @@
 package ar.edu.itba.paw.webapp.forms;
 
-
-import ar.edu.itba.paw.webapp.forms.Annotations.ValidFile;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -21,7 +17,7 @@ public class EditArticleForm {
 
     @NotNull
     @Min(1)
-    private float pricePerDay;
+    private Float pricePerDay;
 
     @NotEmpty
     private List<Long> categories;
@@ -42,11 +38,11 @@ public class EditArticleForm {
         this.description = description;
     }
 
-    public float getPricePerDay() {
+    public Float getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(float pricePerDay) {
+    public void setPricePerDay(Float pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 

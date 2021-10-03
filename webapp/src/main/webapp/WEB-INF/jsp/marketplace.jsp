@@ -83,9 +83,9 @@
 
                 <div class="row">
                     <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
-                        <%--                    <button class="btn btn-link col-4" type="reset">--%>
-                        <%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
-                        <%--                    </button>--%>
+<%--                    <button class="btn btn-link col-4" type="reset">--%>
+<%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
+<%--                    </button>--%>
                 </div>
                 <hr/>
                 <div>
@@ -133,8 +133,7 @@
                     <div class="my-1 row align-items-center">
                         <div class="col-10">
                             <form:select path="location" class="form-control form-control-custom">
-                                <form:option value=""
-                                             label="Todas las ubicaciones">Todas las ubicaciones</form:option>
+                                <form:option value=""><spring:message code="filterForm.everyLocation"/></form:option>
                                 <c:forEach var="loc" items="${locations}">
                                     <form:option value="${loc.ordinal()}" label="${loc.name}">
                                         <c:out value="${loc.name}"/>
