@@ -26,4 +26,5 @@ public interface ArticleDao {
     List<Article> recommendedArticles(Long articleId);
 
     Long timesRented(Long articleId);
+
 }

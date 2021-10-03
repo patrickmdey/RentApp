@@ -40,9 +40,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
+        // TODO: throw exception instead of returning empty??
         if (article.isPresent()) {
             Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
             review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(RuntimeException::new)));
+            return review;
         }
         return Optional.empty();
     }

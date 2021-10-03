@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+// TODO: why did we change to controller advice and injection?
+// Now the ModelAttribute does not work and we have to manually add it to all the models we want to have the current user?
 @ControllerAdvice
 public class LoggedUserAdvice {
     @Autowired
