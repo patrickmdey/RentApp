@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ArticleDao {
 
-    List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page);
+    List<Article> filter(String name, Long category, String orderBy, Long user, Long location, long page);
 
     List<Article> rentedArticles(long renterId, long page);
 
@@ -23,8 +23,8 @@ public interface ArticleDao {
 
     Long getRentedMaxPage(Long user);
 
-    List<Article> recommendedArticles(Long articleId);
+    List<Article> recommendedArticles(long articleId);
 
-    Long timesRented(Long articleId);
+    Long timesRented(long articleId);
 
 }
