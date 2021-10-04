@@ -23,4 +23,6 @@ public interface RentDao {
     Long getReceivedMaxPage(long ownerId, int state);
 
     Long getSentMaxPage(long renterId, int state);
+
+    Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate);
 }
