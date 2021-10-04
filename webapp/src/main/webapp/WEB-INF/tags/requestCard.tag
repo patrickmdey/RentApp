@@ -47,7 +47,7 @@
 
             <form method="post" action="${deleteRequest}">
                 <button type="submit" class="btn btn-danger">
-                    <spring:message code="myAccount.ownerRequests.denyButton"/>
+                    <spring:message code="myAccount.ownerRequests.rejectButton"/>
                 </button>
             </form>
         </div>

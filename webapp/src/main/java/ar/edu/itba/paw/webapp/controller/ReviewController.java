@@ -6,6 +6,8 @@ import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.ReviewService;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.webapp.forms.ReviewForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -31,6 +33,8 @@ public class ReviewController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
+    private final Logger reviewLogger = LoggerFactory.getLogger(ReviewController.class);
+
     @RequestMapping(value = "/{articleId}/create")
     public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, @PathVariable("articleId") Long articleId) {
         ModelAndView mav = new ModelAndView("review/create");
@@ -46,6 +50,8 @@ public class ReviewController {
         if (errors.hasErrors()) {
             return publishReview(reviewForm, articleId);
         }
+        reviewLogger.info("publishing review for article with id '{}' with params --> rating: {}, message: {}",
+                articleId, reviewForm.getRating(), reviewForm.getMessage());
         reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/article/" + articleId);
     }
@@ -71,6 +77,9 @@ public class ReviewController {
 
         if (errors.hasErrors())
             return editReview(reviewForm, reviewId);
+
+        reviewLogger.info("editing review with id '{}' with params --> rating: {}, message: {}",
+                reviewId, reviewForm.getRating(), reviewForm.getMessage());
 
         Review review = reviewService.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewService.update(reviewForm.getRating(), reviewForm.getMessage(), reviewId);

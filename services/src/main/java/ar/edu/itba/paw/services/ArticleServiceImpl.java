@@ -103,7 +103,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
-
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (optArticle.isPresent()) {
@@ -112,15 +111,12 @@ public class ArticleServiceImpl implements ArticleService {
                 categories.forEach(cat_id -> articleCategoryDao.addToArticle(article.getId(), cat_id));
                 this.appendCategories(article);
             }
-
             images.forEach(image -> {
                 Optional<DBImage> img = imageService.create(image);
                 img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
             });
-
             optArticle = Optional.of(article);
         }
-
         return optArticle;
     }
 
@@ -137,7 +133,6 @@ public class ArticleServiceImpl implements ArticleService {
                 toRemove.remove(c);
             }
         });
-
         toRemove.forEach(c -> articleCategoryDao.removeFromArticle(id, c));
 
         return articleDao.findById(id);
@@ -152,7 +147,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> rentedArticles(long renterId, long page) {
-
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
         return articles;

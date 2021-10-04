@@ -8,6 +8,8 @@ import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.EditArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,8 @@ public class ArticleController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
+    private final Logger articleLogger = LoggerFactory.getLogger(ArticleController.class);
+
     @RequestMapping(value = "/{articleId}", method = RequestMethod.GET)
     public ModelAndView viewArticle(@ModelAttribute("rentForm") RentProposalForm rentForm,
                                     @PathVariable("articleId") Long articleId,
@@ -71,9 +75,13 @@ public class ArticleController {
             return viewArticle(rentForm, articleId, true, 1L);
         }
 
+        articleLogger.info("creating new rent proposal with params --> message: {}, articleId: {}, renterEmail: {}",
+                rentForm.getMessage(), articleId, userAdvice.loggedUser().getEmail());
+
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
                 articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+
 
         return new ModelAndView("redirect:/feedback");
     }
@@ -99,6 +107,9 @@ public class ArticleController {
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
                 userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+
+        articleLogger.info("creating article with params --> name: {}, description: {}, price: {}, categories: {}",
+                article.getTitle(), article.getDescription(), article.getPricePerDay(), article.getCategories());
 
         return new ModelAndView("redirect:/article/" + Math.toIntExact(article.getId()));
     }
@@ -139,6 +150,9 @@ public class ArticleController {
                 createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories()).orElseThrow(CannotCreateArticleException::new);
+
+        articleLogger.info("Editing article post with params --> name: {}, description: {}, price: {}, categories: {}",
+                article.getTitle(), article.getDescription(), article.getPricePerDay(), article.getCategories());
 
         return new ModelAndView("redirect:/article/" + article.getId());
     }

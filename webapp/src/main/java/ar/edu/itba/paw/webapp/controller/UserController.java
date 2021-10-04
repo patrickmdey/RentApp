@@ -8,6 +8,8 @@ import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import ar.edu.itba.paw.webapp.forms.PasswordForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +43,8 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
+    private final Logger userLogger = LoggerFactory.getLogger(UserController.class);
+
     private List<Locations> getLocationsOrdered() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
@@ -61,6 +65,9 @@ public class UserController {
         if (errors.hasErrors())
             return register(accountForm);
 
+        userLogger.info("Registering new user --> email: {}, location: {}, type: {}",
+                accountForm.getEmail(), accountForm.getLocation(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER);
+
         userService.register(accountForm.getEmail(), accountForm.getPassword(),
                 accountForm.getConfirmPassword(), accountForm.getFirstName(),
                 accountForm.getLastName(), accountForm.getLocation(),
@@ -77,11 +84,13 @@ public class UserController {
         if (loginError) {
             mv.addObject("loginError", true);
         }
+        userLogger.info("User login");
         return mv;
     }
 
     @RequestMapping("logout")
     public ModelAndView logout() {
+        userLogger.info("User logout");
         return new ModelAndView();
     }
 
@@ -101,6 +110,9 @@ public class UserController {
             return edit(accountForm);
         }
 
+        userLogger.info("Registering new user --> name: {}, lastName: {}, location: {}, type: {}",
+                accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER);
+
         userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
@@ -109,6 +121,7 @@ public class UserController {
         );
 
         reloadGrantedAuthorities(accountForm);
+        userLogger.info("reloaded granted authorities");
         return new ModelAndView("redirect:/user/view");
     }
 
@@ -144,7 +157,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView delete(HttpServletResponse response) throws IOException {
+    public ModelAndView delete(HttpServletResponse response) {
+        userLogger.info("deleting account --> id: {}, email: {}", userAdvice.loggedUser().getId(), userAdvice.loggedUser().getEmail());
         userService.delete(userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/user/login");
     }
@@ -184,6 +198,7 @@ public class UserController {
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
+        userLogger.info("accepting request with id {}", requestId);
         rentService.acceptRequest(requestId);
         return new ModelAndView("redirect:/user/my-requests/accepted");
     }
@@ -191,6 +206,7 @@ public class UserController {
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
+        userLogger.info("rejecting request with id {}", requestId);
         rentService.rejectRequest(requestId);
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
@@ -217,6 +233,7 @@ public class UserController {
     public ModelAndView updatePassword(@Valid @ModelAttribute(value = "passwordForm") PasswordForm passwordForm, BindingResult errors) {
         ModelAndView mv = new ModelAndView("account/updatePassword");
 
+        userLogger.info("updating password");
         if (errors.hasErrors()) {
             mv.addObject("showPanel", false);
             return mv;
