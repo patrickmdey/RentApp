@@ -38,10 +38,12 @@ public class RentServiceImplTest {
 
     @Before
     public void setUp() throws ParseException {
-        this.userOwner = new User(1,"owner@mail.com","password","owner","owner",3L,null, UserType.OWNER);
-        this.userRenter = new User(2,"renter@mail.com","password","renter","renter",5L,null, UserType.RENTER);
+        this.userOwner = new User(1, "owner@mail.com", "password",
+                "owner", "owner", Locations.values()[3], null, UserType.OWNER);
+        this.userRenter = new User(2, "renter@mail.com", "password", "renter",
+                "renter", Locations.values()[5], null, UserType.RENTER);
 
-        this.article = new Article(123,"bike", "fast bike", 400F,userOwner.getId());
+        this.article = new Article(123, "bike", "fast bike", 400F, userOwner.getId());
 
         this.rentProposal = new RentProposal(
                 565,
@@ -51,7 +53,7 @@ public class RentServiceImplTest {
                 new SimpleDateFormat("yyyy-MM-dd").parse("2021-12-15"),
                 this.article.getId(),
                 this.userRenter.getId()
-                );
+        );
     }
 
     private User userOwner;
@@ -168,7 +170,7 @@ public class RentServiceImplTest {
         )).thenThrow(RuntimeException.class);
 
         // Act
-       rentService.create(
+        rentService.create(
                 rentProposal.getMessage(),
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
@@ -179,7 +181,7 @@ public class RentServiceImplTest {
                 rentProposal.getRenterId()
         );
 
-       // Assert
+        // Assert
         Assert.fail();
 
     }

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UserDaoJdbc implements UserDao {
                     resultSet.getString("password"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
-                    resultSet.getLong("location"),
+                    Locations.values()[resultSet.getInt("location")],
                     resultSet.getLong("picture"),
                     UserType.values()[resultSet.getInt("type")]);
 
@@ -53,13 +54,13 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, Long img, UserType type) {
+    public Optional<User> register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
         data.put("first_name", firstName);
         data.put("last_name", lastName);
-        data.put("location", location);
+        data.put("location", location.ordinal());
         data.put("picture", img);
         data.put("type", type.ordinal());
         int userId = jdbcInsert.execute(data);
@@ -74,13 +75,13 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void update(long id, String firstName, String lastName, Long location, int type) {
+    public void update(long id, String firstName, String lastName, Locations location, int type) {
         jdbcTemplate.update("UPDATE account\n" +
                 "SET first_name = ?,\n" +
                 "    last_name  = ?,\n" +
                 "    location   = ?,\n" +
                 "    type       = ?\n" +
-                "WHERE id = ?;", firstName, lastName, location, type, id);
+                "WHERE id = ?;", firstName, lastName, location.ordinal(), type, id);
     }
 
     @Override

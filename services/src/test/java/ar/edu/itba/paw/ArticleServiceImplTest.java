@@ -4,10 +4,7 @@ import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.interfaces.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.UserDao;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,8 +45,10 @@ public class ArticleServiceImplTest {
 
     @Before
     public void setUp() {
-        this.userOwner = new User(1, "owner@mail.com", "password", "owner", "owner", 3L, null, UserType.OWNER);
-        this.userRenter = new User(2, "renter@mail.com", "password", "renter", "renter", 5L, null, UserType.RENTER);
+        this.userOwner = new User(1, "owner@mail.com", "password",
+                "owner", "owner", Locations.values()[3], null, UserType.OWNER);
+        this.userRenter = new User(2, "renter@mail.com", "password",
+                "renter", "renter", Locations.values()[5], null, UserType.RENTER);
 
         this.articles = Arrays.asList(
                 new Article(1, "Bicicleta", "bmx de ciudad", 500F, 1),
@@ -174,7 +173,7 @@ public class ArticleServiceImplTest {
             Assert.assertTrue(optionalResult.isPresent());
             Article r = optionalResult.get();
 
-            Assert.assertEquals((long) userOwner.getLocation(), r.getLocation().ordinal());
+            Assert.assertEquals(userOwner.getLocation().ordinal(), r.getLocation().ordinal());
         });
     }
 

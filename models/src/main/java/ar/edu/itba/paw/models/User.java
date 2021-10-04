@@ -7,13 +7,11 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    private Long location;
+    private Locations location;
     private Long picture;
     private UserType type;
 
-    // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
-    // TODO: Location could also be a Locations enum instead of Long
-    public User(String email, String password, String firstName, String lastName, Long location, Long picture, UserType type) {
+    public User(String email, String password, String firstName, String lastName, Locations location, Long picture, UserType type) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -23,9 +21,7 @@ public class User {
         this.type = type;
     }
 
-    // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
-    // TODO: Location could also be a Locations enum instead of Long
-    public User(long id, String email, String password, String firstName, String lastName, Long location, Long picture, UserType type) {
+    public User(long id, String email, String password, String firstName, String lastName, Locations location, Long picture, UserType type) {
         this(email, password, firstName, lastName, location, picture, type);
         this.id = id;
     }
@@ -66,11 +62,11 @@ public class User {
         this.email = email;
     }
 
-    public Long getLocation() {
+    public Locations getLocation() {
         return location;
     }
 
-    public void setLocation(Long location) {
+    public void setLocation(Locations location) {
         this.location = location;
     }
 

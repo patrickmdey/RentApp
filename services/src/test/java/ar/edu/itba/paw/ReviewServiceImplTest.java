@@ -3,10 +3,7 @@ package ar.edu.itba.paw;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.ReviewDao;
 import ar.edu.itba.paw.interfaces.UserService;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Review;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.ReviewServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,8 +35,10 @@ public class ReviewServiceImplTest {
 
     @Before
     public void setUp() throws ParseException {
-        this.userOwner = new User(1,"owner@mail.com","password","owner","owner",3L,null, UserType.OWNER);
-        this.userRenter = new User(2,"renter@mail.com","password","renter","renter",5L,null,UserType.RENTER);
+        this.userOwner = new User(1,"owner@mail.com","password","owner",
+                "owner", Locations.values()[3],null, UserType.OWNER);
+        this.userRenter = new User(2,"renter@mail.com","password","renter",
+                "renter",Locations.values()[5],null,UserType.RENTER);
 
         this.article = new Article(123,"bike", "fast bike", 400F,userOwner.getId());
 

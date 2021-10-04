@@ -41,8 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
-        owner.ifPresent(user -> article.setLocation
-                (Locations.values()[Math.toIntExact(user.getLocation())]));
+        owner.ifPresent(user -> article.setLocation(user.getLocation()));
     }
 
     private void appendImages(Article article) {
