@@ -6,10 +6,11 @@
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="location" required="true" %>
 <%@attribute name="image_id" required="true" %>
+<%@attribute name="outlined" required="true" type="java.lang.Boolean" %>
 
 <html>
 <body>
-<div class="card marketplace-card-style shadow-sm text-dark bg-light mb-4">
+<div class="card marketplace-card-style shadow-sm text-dark bg-light mb-4 ${outlined? "border-dark":""}">
 
     <div class="marketplace-card-img-container">
         <img src="<c:url value="/image/${image_id}"/>" class="card-image"

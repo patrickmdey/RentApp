@@ -140,6 +140,15 @@ i.overflow-icon:hover {
     align-items: start;
 }
 
+.profile-articles {
+    min-height: 250px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .footer-col {
     display: flex;
     flex-direction: column;
