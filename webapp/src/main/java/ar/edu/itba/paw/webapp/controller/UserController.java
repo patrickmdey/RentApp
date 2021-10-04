@@ -68,9 +68,8 @@ public class UserController {
         userLogger.info("Registering new user --> email: {}, location: {}, type: {}",
                 accountForm.getEmail(), accountForm.getLocation(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER);
 
-        userService.register(accountForm.getEmail(), accountForm.getPassword(),
-                accountForm.getConfirmPassword(), accountForm.getFirstName(),
-                accountForm.getLastName(), accountForm.getLocation(),
+        userService.register(accountForm.getEmail(), accountForm.getPassword()
+                , accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(),
                 accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
         );
 

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -59,8 +60,6 @@ public class ArticleServiceImpl implements ArticleService {
             orderBy = null;
 
         articles = this.articleDao.filter(name, category, orderBy, user, location, page);
-
-
         appendInfo(articles);
 
         return articles;
@@ -91,7 +90,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> recommendedArticles(Long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
-
         toReturn.forEach(article -> {
             appendImages(article);
             appendLocation(article);
@@ -102,6 +100,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    @Transactional
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
@@ -121,6 +120,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
         articleDao.editArticle(id, title, description, pricePerDay);
 

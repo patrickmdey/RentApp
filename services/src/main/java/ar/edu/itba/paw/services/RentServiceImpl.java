@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,6 +74,7 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    @Transactional
     public Optional<RentProposal> create(String message, Integer approved, Date startDate,
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
@@ -87,7 +89,6 @@ public class RentServiceImpl implements RentService {
                 Map<String, String> values = new HashMap<>();
 
                 if (owner.isPresent()) {
-
                     values.put("ownerName", owner.get().getFirstName());
                     values.put("renterName", renterName);
                     values.put("startDate", dateFormatter.format(startDate));
@@ -97,18 +98,17 @@ public class RentServiceImpl implements RentService {
                     values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //TODO: HARCODEADO
 
                     emailService.sendMailRequestToOwner(owner.get().getEmail(), values, owner.get().getId());
-
                     emailService.sendMailRequestToRenter(renterEmail, values);
 
                     return proposal;
                 }
             }
         }
-
         return Optional.empty();
     }
 
     @Override
+    @Transactional
     public void acceptRequest(long requestId) {
 
         rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
@@ -120,6 +120,7 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    @Transactional
     public void rejectRequest(long requestId) {
         Map<String, String> values = getValuesMap(requestId);
 

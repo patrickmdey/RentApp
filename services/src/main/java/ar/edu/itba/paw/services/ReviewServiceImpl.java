@@ -6,6 +6,7 @@ import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
         // TODO: throw exception instead of returning empty??
@@ -58,7 +60,6 @@ public class ReviewServiceImpl implements ReviewService {
     public boolean hasReviewed(User user, Long articleId) {
         if (user == null || articleId == null)
             return false;
-
         return reviewDao.hasReviewed(user.getId(), articleId);
     }
 
