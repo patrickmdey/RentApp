@@ -139,13 +139,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> findByOwner(long ownerId) {
-        List<Article> articles = articleDao.findByOwner(ownerId);
-        appendInfo(articles);
-        return articles;
-    }
-
-    @Override
     public List<Article> rentedArticles(long renterId, long page) {
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);

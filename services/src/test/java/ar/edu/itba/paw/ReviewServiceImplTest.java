@@ -38,8 +38,8 @@ public class ReviewServiceImplTest {
 
     @Before
     public void setUp() throws ParseException {
-        this.userOwner = new User(1,"owner@mail.com","password","owner","owner",3L,null, UserType.OWNER.ordinal());
-        this.userRenter = new User(2,"renter@mail.com","password","renter","renter",5L,null,UserType.RENTER.ordinal());
+        this.userOwner = new User(1,"owner@mail.com","password","owner","owner",3L,null, UserType.OWNER);
+        this.userRenter = new User(2,"renter@mail.com","password","renter","renter",5L,null,UserType.RENTER);
 
         this.article = new Article(123,"bike", "fast bike", 400F,userOwner.getId());
 

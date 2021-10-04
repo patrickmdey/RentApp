@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         if (!dbImg.isPresent())
             return Optional.empty();
 
-        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, location, dbImg.get().getId(), type.ordinal());
+        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, location, dbImg.get().getId(), type);
         if (!user.isPresent())
             throw new RuntimeException(); //EmailAlreadyInUseException
 

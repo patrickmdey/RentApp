@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,7 +29,7 @@ public class UserDaoJdbc implements UserDao {
                     resultSet.getString("last_name"),
                     resultSet.getLong("location"),
                     resultSet.getLong("picture"),
-                    resultSet.getInt("type"));
+                    UserType.values()[resultSet.getInt("type")]);
 
     @Autowired
     public UserDaoJdbc(DataSource dataSource) {
@@ -36,11 +37,6 @@ public class UserDaoJdbc implements UserDao {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("account")
                 .usingGeneratedKeyColumns("id");
-    }
-
-    @Override
-    public Optional<User> get(long id) {
-        return null;
     }
 
     @Override
@@ -57,12 +53,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User save(User user) {
-        return null;
-    }
-
-    @Override
-    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, Long img, int type) {
+    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, Long img, UserType type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
@@ -70,7 +61,7 @@ public class UserDaoJdbc implements UserDao {
         data.put("last_name", lastName);
         data.put("location", location);
         data.put("picture", img);
-        data.put("type", type);
+        data.put("type", type.ordinal());
         int userId = jdbcInsert.execute(data);
 
         return Optional.of(new User(userId, email, password, firstName, lastName, location, img, type));
@@ -84,7 +75,6 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void update(long id, String firstName, String lastName, Long location, int type) {
-
         jdbcTemplate.update("UPDATE account\n" +
                 "SET first_name = ?,\n" +
                 "    last_name  = ?,\n" +

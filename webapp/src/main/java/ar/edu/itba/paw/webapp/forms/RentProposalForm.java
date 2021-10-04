@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @GreaterDate(baseField = "startDate", matchField = "endDate")
@@ -23,6 +24,7 @@ public class RentProposalForm {
     private String endDate;
 
     @NotEmpty
+    @Size(min=10, max=310)
     private String message;
 
     private String articleId;

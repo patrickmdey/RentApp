@@ -49,10 +49,10 @@ public class UserServiceImplTest {
                 "last name",
                 (long) Locations.CHACARITA.ordinal(),
                 null,
-                UserType.RENTER.ordinal()
+                UserType.RENTER
         );
-        image = new MockMultipartFile("/image/test.png","image/png");
-        emptyImage = new MockMultipartFile("/invalidFile.png","image/png");
+        image = new MockMultipartFile("/image/test.png", "image/png");
+        emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
 
     }
 
@@ -76,7 +76,7 @@ public class UserServiceImplTest {
                 eq(user.getLastName()),
                 eq(user.getLocation()),
                 eq(uploadedImage.getId()),
-                eq(user.getType().ordinal())
+                eq(user.getType())
         )).thenReturn(Optional.of(user));
         doNothing().when(emailService).sendNewUserMail(eq(user.getEmail()), any());
 
@@ -117,7 +117,7 @@ public class UserServiceImplTest {
                 eq(user.getLastName()),
                 eq(user.getLocation()),
                 eq(uploadedImage.getId()),
-                eq(user.getType().ordinal())
+                eq(user.getType())
         )).thenThrow(RuntimeException.class);
 
         // Act
@@ -158,5 +158,4 @@ public class UserServiceImplTest {
         Assert.assertFalse(optionalResult.isPresent());
 
     }
-
 }

@@ -19,16 +19,16 @@ import java.util.Optional;
 public class WebSecurity {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Autowired
-    RentService rentService;
+    private RentService rentService;
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     public boolean checkIsArticleOwner(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);

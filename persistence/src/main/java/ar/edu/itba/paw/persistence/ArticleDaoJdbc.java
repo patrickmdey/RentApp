@@ -19,7 +19,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     private static final Long OFFSET = 9L;
 
     @Autowired
-    ArticleCategoryDao articleCategoryDao;
+    private ArticleCategoryDao articleCategoryDao;
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;

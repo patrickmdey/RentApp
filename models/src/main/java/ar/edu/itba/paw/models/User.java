@@ -13,24 +13,19 @@ public class User {
 
     // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
     // TODO: Location could also be a Locations enum instead of Long
-    // TODO: type could be UserType instead of int.
-    public User(String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
+    public User(String email, String password, String firstName, String lastName, Long location, Long picture, UserType type) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
         this.picture = picture;
-        if (type == 0 || type == 1)
-            this.type = UserType.values()[type];
-        else
-            ;//Throw exception
+        this.type = type;
     }
 
     // TODO: Location could be changed to locationId and changed to long instead of Long to avoid more castings
     // TODO: Location could also be a Locations enum instead of Long
-    // TODO: type could be UserType instead of int.
-    public User(long id, String email, String password, String firstName, String lastName, Long location, Long picture, int type) {
+    public User(long id, String email, String password, String firstName, String lastName, Long location, Long picture, UserType type) {
         this(email, password, firstName, lastName, location, picture, type);
         this.id = id;
     }
