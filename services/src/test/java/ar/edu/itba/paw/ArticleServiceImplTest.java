@@ -40,7 +40,6 @@ public class ArticleServiceImplTest {
     @Mock
     private UserDao userDao;
 
-
     private User userOwner;
     private User userRenter;
     private List<Article> articles;

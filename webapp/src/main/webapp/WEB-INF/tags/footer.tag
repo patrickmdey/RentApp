@@ -8,7 +8,7 @@
         </div>
         <div class="col-4">
             <ul class="col-6 list-unstyled">
-                <h3 class="h3 fw-bold color-grey">Team members</h3>
+                <h3 class="h3 fw-bold color-grey"><spring:message code="footer.team"/></h3>
                 <li><p class="color-grey">Santos Rosati</p></li>
                 <li><p class="color-grey">Matias Lombardi</p></li>
                 <li><p class="color-grey">Patrick Dey</p></li>
@@ -17,11 +17,12 @@
         </div>
         <div class="col-4">
             <ul class="list-unstyled">
-                <li><h3 class="h3 fw-bold color-grey">Contact</h3></li>
-                <li><p class="lead color-grey">Email: <a href="mailto:paw2021b3@gmail.com" class="color-secondary">paw2021b3@gmail.com</a>
+                <li><h3 class="h3 fw-bold color-grey"><spring:message code="footer.contact"/></h3></li>
+                <li><p class="lead color-grey"><spring:message code="footer.email"/>: <a
+                        href="mailto:paw2021b3@gmail.com" class="color-secondary">paw2021b3@gmail.com</a>
                 </p>
                 </li>
-                <li><h3 class="h3 fw-bold color-grey">Language</h3></li>
+                <li><h3 class="h3 fw-bold color-grey"><spring:message code="footer.language"/></h3></li>
                 <li>
                     <div class="d-flex align-items-center">
                         <a href="?lang=es"><spring:message code="language.spanish"/></a>

@@ -84,7 +84,6 @@ public class UserServiceImplTest {
         Optional<User> optionalResult = userService.register(
                 user.getEmail(),
                 password,
-                password,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getLocation(),
@@ -125,7 +124,6 @@ public class UserServiceImplTest {
         userService.register(
                 user.getEmail(),
                 password,
-                password,
                 user.getFirstName(),
                 user.getLastName(),
                 user.getLocation(),
@@ -148,7 +146,6 @@ public class UserServiceImplTest {
         // Act
         Optional<User> optionalResult = userService.register(
                 user.getEmail(),
-                password,
                 password,
                 user.getFirstName(),
                 user.getLastName(),

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -59,8 +60,6 @@ public class ArticleServiceImpl implements ArticleService {
             orderBy = null;
 
         articles = this.articleDao.filter(name, category, orderBy, user, location, page);
-
-
         appendInfo(articles);
 
         return articles;
@@ -91,7 +90,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> recommendedArticles(Long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
-
         toReturn.forEach(article -> {
             appendImages(article);
             appendLocation(article);
@@ -102,8 +100,8 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     @Override
+    @Transactional
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
-
         Optional<Article> optArticle = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (optArticle.isPresent()) {
@@ -112,19 +110,17 @@ public class ArticleServiceImpl implements ArticleService {
                 categories.forEach(cat_id -> articleCategoryDao.addToArticle(article.getId(), cat_id));
                 this.appendCategories(article);
             }
-
             images.forEach(image -> {
                 Optional<DBImage> img = imageService.create(image);
                 img.ifPresent(dbImage -> articleImageDao.addToArticle(article.getId(), dbImage));
             });
-
             optArticle = Optional.of(article);
         }
-
         return optArticle;
     }
 
     @Override
+    @Transactional
     public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
         articleDao.editArticle(id, title, description, pricePerDay);
 
@@ -137,7 +133,6 @@ public class ArticleServiceImpl implements ArticleService {
                 toRemove.remove(c);
             }
         });
-
         toRemove.forEach(c -> articleCategoryDao.removeFromArticle(id, c));
 
         return articleDao.findById(id);
@@ -152,7 +147,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Article> rentedArticles(long renterId, long page) {
-
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
         return articles;
