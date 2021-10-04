@@ -4,7 +4,6 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-@Sql("classpath:schema.sql")
 @Sql("classpath:populateArticleTest.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -28,11 +26,6 @@ public class ArticleDaoJdbcTest {
     private ArticleDaoJdbc articleDao;
     @Autowired
     private DataSource dataSource;
-
-    @Before
-    public void setUp() {
-
-    }
 
     @After
     public void cleanUp(){

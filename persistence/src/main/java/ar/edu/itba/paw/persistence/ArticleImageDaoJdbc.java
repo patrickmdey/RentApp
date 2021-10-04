@@ -37,6 +37,7 @@ public class ArticleImageDaoJdbc implements ArticleImageDao {
                 new Object[] {articleId}, ROW_MAPPER);
     }
 
+    // TODO: why some functions throw exception and others return optional
     @Override
     public DBImage addToArticle(long articleId, DBImage image) {
         Map<String, Object> categoryData = new HashMap<>();
