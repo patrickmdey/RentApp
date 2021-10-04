@@ -4,7 +4,6 @@ import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.persistence.ArticleCategoryDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,6 @@ public class ArticleCategoryDaoJdbcTest {
     @Autowired
     private DataSource dataSource;
 
-    @Before
-    public void setUp() {
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
     @After
     public void cleanUp(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -50,9 +44,9 @@ public class ArticleCategoryDaoJdbcTest {
         // Arrange
         final long articleId = 1;
         final List<Category> expectedCategories = Arrays.asList(
-                new Category(1,"Category.Technology"),
-                new Category(2,"Category.Camping"),
-                new Category(6,"Category.travel")
+                new Category(1, "Category.Technology"),
+                new Category(2, "Category.Camping"),
+                new Category(6, "Category.travel")
         );
 
         // Act
