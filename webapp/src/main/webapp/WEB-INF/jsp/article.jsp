@@ -98,8 +98,8 @@
                         <p class="modal-title lead fw-bold">
                             <spring:message code="article.rentRequestTitle"/>
                         </p>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        </button>
                     </div>
 
                     <div class="modal-body bg-color-grey">
@@ -124,11 +124,16 @@
                                                placeholder="${enterMessage}"/>
                                 <form:errors path="message" element="p" cssClass="error"/>
                             </div>
+
+                            <form:input path="renterId" value="${user.id}" cssClass="d-none"/>
+                            <form:input path="articleId" value="${articleId}" cssClass="d-none"/>
+                            <form:errors path="articleId" element="p" cssClass="error"/>
                         </div>
 
                     </div>
                     <div class="modal-footer bg-color-grey">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><spring:message
+                                code="article.close"/></button>
                         <form:button type="submit" class="btn btn-success"><spring:message
                                 code="article.sendRequestButton"/></form:button>
                     </div>
@@ -145,15 +150,7 @@
                 <hr/>
                 <p class="lead"><c:out value="${article.description}"/></p>
             </div>
-
-            <%--            Reviews--%>
-            <%--            <div class="card card-style">--%>
-            <%--                <h:allReviews article="${article}" user="${user}"--%>
-            <%--                              hasRented="${hasRented}"--%>
-            <%--                              maxPage="${maxPage}" reviews="${reviews}"/>--%>
-            <%--            </div>--%>
         </div>
-
 
         <div class="col-md-4 col-12">
             <div class="card card-style">

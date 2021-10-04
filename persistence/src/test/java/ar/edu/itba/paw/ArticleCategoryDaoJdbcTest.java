@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
-@Sql("classpath:schema.sql")
 @Sql("classpath:populateArticleCategoryTest.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -34,7 +33,7 @@ public class ArticleCategoryDaoJdbcTest {
 
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @After

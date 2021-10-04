@@ -159,4 +159,9 @@ public class RentServiceImpl implements RentService {
 
         return rentDao.hasRented(renter.getId(), articleId);
     }
+
+    @Override
+    public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
+        return rentDao.isPresentSameDate(renterId, articleId, startDate, endDate);
+    }
 }

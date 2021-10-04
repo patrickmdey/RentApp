@@ -37,12 +37,12 @@ public class RentDaoJdbc implements RentDao {
     }
 
 
-    private StringBuilder sentQueryBuilder(String fields){
+    private StringBuilder sentQueryBuilder(String fields) {
         return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE renter_id = ? " +
                 "AND state = ? ");
     }
 
-    private StringBuilder receivedQueryBuilder(String fields){
+    private StringBuilder receivedQueryBuilder(String fields) {
         return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE article_id IN (" +
                 "SELECT article.id FROM article WHERE article.owner_id = ?) AND state = ? ");
     }
@@ -66,7 +66,7 @@ public class RentDaoJdbc implements RentDao {
     }
 
     private List<RentProposal> getRequests(long accountId, int state, long page,
-                        Function<String, StringBuilder> queryBuilder){
+                                           Function<String, StringBuilder> queryBuilder) {
         StringBuilder query = queryBuilder.apply("*");
         query.append("ORDER BY start_date DESC, end_date DESC LIMIT ? OFFSET ?");
         return jdbcTemplate.query(query.toString(),
@@ -80,7 +80,7 @@ public class RentDaoJdbc implements RentDao {
 
     @Override
     public List<RentProposal> sentRequests(long renterId, int state, long page) {
-       return getRequests(renterId, state, page, this::sentQueryBuilder);
+        return getRequests(renterId, state, page, this::sentQueryBuilder);
     }
 
     @Override
@@ -113,6 +113,14 @@ public class RentDaoJdbc implements RentDao {
     public boolean hasRented(long renterId, long articleId) {
         return !jdbcTemplate.query(
                 "SELECT * FROM rent_proposal WHERE article_id = ? AND renter_id = ? AND state = ?",
-                        new Object[]{articleId, renterId, RentState.ACCEPTED.ordinal()}, ROW_MAPPER).isEmpty();
+                new Object[]{articleId, renterId, RentState.ACCEPTED.ordinal()}, ROW_MAPPER).isEmpty();
+    }
+
+
+    @Override
+    public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM rent_proposal WHERE renter_id = ? AND" +
+                        " article_id = ? AND start_date = ? AND end_date = ?", Long.class, renterId,
+                articleId, startDate, endDate) != 0;
     }
 }
