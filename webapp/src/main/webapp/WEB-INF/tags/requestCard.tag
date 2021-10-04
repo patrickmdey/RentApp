@@ -12,6 +12,7 @@
 <%@ attribute name="state" required="true" %>
 <%@ attribute name="userId" required="true" %>
 <%@ attribute name="renterEmail" required="true" %>
+<%@ attribute name="isReceived" type="java.lang.Boolean" required="true" %>
 
 
 <c:url value="/user/my-requests/${id}/accept" var="acceptRequest"/>
@@ -37,7 +38,7 @@
         <spring:message code="myAccount.ownerRequests.message"/>
     </p>
     <p><c:out value="${message}"/></p>
-    <c:if test="${state == 0}">
+    <c:if test="${isReceived && state == 0}">
         <div class="d-flex justify-content-end">
             <form method="post" action="${acceptRequest}">
                 <button type="submit" class="btn btn-success me-1">

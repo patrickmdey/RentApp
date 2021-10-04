@@ -22,4 +22,5 @@
 </div>
 <h:footer/>
 </body>
+<h:mainScript/>
 </html>

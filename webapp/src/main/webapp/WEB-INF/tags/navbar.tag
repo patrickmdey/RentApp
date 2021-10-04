@@ -48,8 +48,14 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
                                 <li><a class="dropdown-item" href="${myAccount}"><spring:message
                                         code="dropdown.requests"/></a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="${viewUser}"><spring:message
                                         code="dropdown.profile"/></a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="${logout}"><spring:message
                                         code="dropdown.logout"/></a></li>
                             </ul>
