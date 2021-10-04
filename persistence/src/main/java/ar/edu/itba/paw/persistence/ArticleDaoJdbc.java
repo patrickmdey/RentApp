@@ -70,6 +70,7 @@ public class ArticleDaoJdbc implements ArticleDao {
         return query;
     }
 
+    // TODO: page should never be null. it should be long instead.
     @Override
     public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
         ArrayList<Object> params = new ArrayList<>();
@@ -154,6 +155,7 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
+        // TODO: Some Daos return Optional.empty() while other throw exceptions
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
     }
 
@@ -180,6 +182,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                 "LIMIT ? OFFSET ?", new Object[]{renterId, RentState.ACCEPTED.ordinal(), OFFSET, ((page - 1) * OFFSET)}, ROW_MAPPER);
     }
 
+    // TODO: articleId should be long. It can never be null
     @Override
     public Long timesRented(Long articleId) {
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article WHERE id IN (" +
