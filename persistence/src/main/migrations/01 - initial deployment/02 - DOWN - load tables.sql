@@ -1,3 +1,5 @@
+-- TODO: Delete this file
+
 BEGIN;
 
 --DELETE FROM article WHERE id <= 4;

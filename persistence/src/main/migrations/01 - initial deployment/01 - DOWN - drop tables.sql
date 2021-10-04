@@ -1,3 +1,4 @@
+-- TODO: Delete this file
 BEGIN;
 
 DROP TABLE picture CASCADE;

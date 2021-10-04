@@ -40,17 +40,19 @@ public class ArticleCategoryDaoJdbc implements ArticleCategoryDao {
                 new Object[] {articleId}, ROW_MAPPER);
     }
 
+    // TODO: should all of this be either long or Long?
     @Override
-    public Long addToArticle(long articleId, Long category) {
+    public Long addToArticle(long articleId, Long categoryId) {
         Map<String, Object> categoryData = new HashMap<>();
-        categoryData.put("category_id", category);
+        categoryData.put("category_id", categoryId);
         categoryData.put("article_id", articleId);
         jdbcInsert.execute(categoryData);
-        return category;
+        return categoryId;
     }
 
+    // TODO: should all of this be either long or Long?
     @Override
-    public void removeFromArticle(long id, Long c) {
-        jdbcTemplate.update("DELETE FROM article_category WHERE article_id = ? AND category_id = ?", id, c);
+    public void removeFromArticle(long articleId, Long categoryId) {
+        jdbcTemplate.update("DELETE FROM article_category WHERE article_id = ? AND category_id = ?", articleId, categoryId);
     }
 }
