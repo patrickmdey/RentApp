@@ -29,8 +29,6 @@ public class ArticleCategoryDaoJdbcTest {
     @Autowired
     private DataSource dataSource;
 
-    private JdbcTemplate jdbcTemplate;
-
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -38,7 +36,7 @@ public class ArticleCategoryDaoJdbcTest {
 
     @After
     public void cleanUp(){
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         JdbcTestUtils.deleteFromTables(jdbcTemplate,
                 "article",
                 "category",
