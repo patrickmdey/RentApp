@@ -17,6 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Controller
 @ControllerAdvice
 public class ErrorController {
+
     @Autowired
     private LoggedUserAdvice userAdvice;
 
@@ -43,4 +44,5 @@ public class ErrorController {
         mv.addObject("user", userAdvice.loggedUser());
         return mv;
     }
+
 }

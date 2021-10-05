@@ -51,7 +51,7 @@ public class MarketplaceController {
                 .sorted(Comparator.comparing(Locations::getName))
                 .collect(Collectors.toList()));
         mav.addObject("locationsEnum", Locations.values());
-        mav.addObject("category", categoryService.findById(searchForm.getCategory()));
+        mav.addObject("category", categoryService.findById(searchForm.getCategory()).orElse(null));
         mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));
         return mav;
     }

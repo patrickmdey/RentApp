@@ -1,10 +1,10 @@
 package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.service.EmailService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.UnableToSendEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,7 +18,6 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-
     private static final ClassPathResource LOGO = new ClassPathResource("/image/rentapp-logo.png");
 
     private static final String baseUrl = "http://localhost:8080";
@@ -32,9 +31,6 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    @Autowired
-    private UserService userService;
-
 
     private void sendHtmlMessage(String to, String subject, String htmlBody) {
         sendHtmlMessage(to, subject, htmlBody, null, null);
@@ -47,13 +43,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlBody, true);
-
             if (img != null)
                 helper.addInline(imgName, img);
 
             emailSender.send(message);
         } catch (MessagingException e) {
-            throw new RuntimeException();
+            throw new UnableToSendEmailException();
         }
     }
 

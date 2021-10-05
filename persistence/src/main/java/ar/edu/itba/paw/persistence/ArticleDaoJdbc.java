@@ -35,7 +35,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("article")
                 .usingGeneratedKeyColumns("id");
-
     }
 
     private StringBuilder queryBuilder(List<Object> params, String fields, String name, Long category, Long user, Long location) {
@@ -83,7 +82,6 @@ public class ArticleDaoJdbc implements ArticleDao {
         params.add(OFFSET);
         params.add((page - 1) * OFFSET);
 
-
         return jdbcTemplate.query(query.toString(), params.toArray(), ROW_MAPPER);
     }
 
@@ -93,7 +91,6 @@ public class ArticleDaoJdbc implements ArticleDao {
         StringBuilder query = queryBuilder(params, "COUNT(*)", name, category, user, location);
 
         Long size = jdbcTemplate.queryForObject(query.toString(), Long.class, params.toArray());
-
         int toSum = (size % OFFSET == 0) ? 0 : 1;
 
         return (size / OFFSET) + toSum;
@@ -122,9 +119,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     @Override
     public Optional<Article> findById(long id) {
         Optional<Article> optArticle = jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
-                        new Object[]{id}, ROW_MAPPER)
-                .stream()
-                .findFirst();
+                        new Object[]{id}, ROW_MAPPER).stream().findFirst();
 
         if (!optArticle.isPresent())
             return Optional.empty();

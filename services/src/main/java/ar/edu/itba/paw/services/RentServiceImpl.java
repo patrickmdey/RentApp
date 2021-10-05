@@ -65,11 +65,11 @@ public class RentServiceImpl implements RentService {
     }
 
     private void appendRenter(RentProposal proposal) {
-        proposal.setRenter(userService.findById(proposal.getRenterId()).orElseThrow(RuntimeException::new));
+        proposal.setRenter(userService.findById(proposal.getRenterId()).orElseThrow(UserNotFoundException::new));
     }
 
     private void appendArticle(RentProposal proposal) {
-        proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(RuntimeException::new));
+        proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(ArticleNotFoundException::new));
     }
 
     @Override

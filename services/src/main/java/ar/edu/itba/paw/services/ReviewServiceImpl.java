@@ -33,7 +33,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviews.forEach(review -> {
             review.setRenter(userService.
                     findById(review.getRenterId()).
-                    orElseThrow(RuntimeException::new));
+                    orElseThrow(UserNotFoundException::new));
         });
         return reviews;
     }
@@ -46,9 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
-        Optional<Article> article = articleService.findById(articleId);
-        if (!article.isPresent())
-            throw new ArticleNotFoundException();
+        articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
         Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
         review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new)));
@@ -63,7 +61,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public boolean hasReviewed(User user, Long articleId) {
         if (user == null || articleId == null)
-            return false;
+            throw new IllegalArgumentException();
+
         return reviewDao.hasReviewed(user.getId(), articleId);
     }
 
