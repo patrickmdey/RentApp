@@ -223,7 +223,7 @@ public class RentDaoJdbcTest {
         // Assert
         Assert.assertFalse(result);
     }
-    
+
 }
 
 

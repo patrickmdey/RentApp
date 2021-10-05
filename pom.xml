@@ -14,7 +14,7 @@
         <org.postgresql.version>42.2.5</org.postgresql.version>
         <mockito.version>2.25.1</mockito.version>
         <junit.version>4.12</junit.version>
-        <org.hsqldb.version>2.3.1</org.hsqldb.version>
+        <org.hsqldb.version>2.5.1</org.hsqldb.version>
         <org.com.sun.mail.version>1.6.2</org.com.sun.mail.version>
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
         <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
