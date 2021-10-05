@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.exceptions.ReviewNotFoundException;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.interfaces.ArticleService;
 import ar.edu.itba.paw.interfaces.ReviewService;
 import ar.edu.itba.paw.models.Review;
