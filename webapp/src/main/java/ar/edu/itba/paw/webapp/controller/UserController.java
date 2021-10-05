@@ -158,7 +158,7 @@ public class UserController {
     public ModelAndView delete(HttpServletResponse response) {
         userLogger.info("deleting account --> id: {}, email: {}", userAdvice.loggedUser().getId(), userAdvice.loggedUser().getEmail());
         userService.delete(userAdvice.loggedUser().getId());
-        return new ModelAndView("redirect:/user/login");
+        return new ModelAndView("redirect:/user/logout");
     }
 
     private void populateForm(EditAccountForm accountForm) {

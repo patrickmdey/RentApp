@@ -30,25 +30,25 @@
                     <div class="col-6">
                         <controls:TextBox path="password" type="password"
                                           labelCode="account.form.password"
-                                          placeholderCode="placeholder.password"
-                                          errorCode="errors.requiredPassword"/>
+                                          placeholderCode="placeholder.password"/>
                     </div>
                     <div class="col-6">
                         <controls:TextBox path="confirmPassword" type="password"
                                           labelCode="account.form.confirmPassword"
                                           placeholderCode="placeholder.secondPassword"
-                                          errorCode="errors.requiredSecondPassword"/>
+                        />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-6">
-                        <controls:Button col="col-12" color="bg-color-action btn-dark"
-                                         labelCode="account.form.publishButton"/>
+                        <c:url value="/user/view" var="cancelUrl"/>
+                        <controls:LinkButton col="col-12" href="${cancelUrl}"
+                                             color="btn-danger"
+                                             labelCode="account.form.cancelButton"/>
                     </div>
                     <div class="col-6">
-                        <c:url value="/user/view" var="cancelUrl"/>
-                        <controls:LinkButton col="col-12" href="${cancelUrl}" color="bg-color-secondary color-rentapp-black"
-                                             labelCode="account.form.cancelButton"/>
+                        <controls:Button col="col-12" color="bg-color-action btn-dark"
+                                         labelCode="account.form.publishButton"/>
                     </div>
 
                 </div>

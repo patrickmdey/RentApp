@@ -6,7 +6,6 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UnableToSendEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;

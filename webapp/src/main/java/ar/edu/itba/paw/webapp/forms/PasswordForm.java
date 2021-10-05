@@ -9,13 +9,10 @@ import javax.validation.constraints.Size;
 @FieldsEquality(firstFieldName = "password", secondFieldName = "confirmPassword")
 public class PasswordForm {
 
-    @NotNull
     @NotEmpty
     @Size(min=8, max=100)
     private String password;
 
-    @NotNull
-    @NotEmpty
     private String confirmPassword;
 
     public String getPassword() {
