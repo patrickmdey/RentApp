@@ -122,7 +122,7 @@
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-right"></i>
+                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
                     </div>
                 </div>
 
