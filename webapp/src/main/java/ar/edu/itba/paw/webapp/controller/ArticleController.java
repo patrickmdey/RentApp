@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.exceptions.CannotCreateArticleException;
-import ar.edu.itba.paw.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.interfaces.*;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
