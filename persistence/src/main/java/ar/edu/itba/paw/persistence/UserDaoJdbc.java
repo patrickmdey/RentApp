@@ -63,7 +63,7 @@ public class UserDaoJdbc implements UserDao {
         data.put("location", location.ordinal());
         data.put("picture", img);
         data.put("type", type.ordinal());
-        int userId = jdbcInsert.execute(data);
+        int userId = (int) jdbcInsert.executeAndReturnKey(data);
 
         return Optional.of(new User(userId, email, password, firstName, lastName, location, img, type));
     }
@@ -74,6 +74,7 @@ public class UserDaoJdbc implements UserDao {
         return users.stream().findFirst();
     }
 
+    // TODO: why in the create method we use UserType and here int?
     @Override
     public void update(long id, String firstName, String lastName, Locations location, int type) {
         jdbcTemplate.update("UPDATE account\n" +
