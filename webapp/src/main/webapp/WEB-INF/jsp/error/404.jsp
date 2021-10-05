@@ -8,12 +8,7 @@
 <h:head title="RentApp"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="error-container container-height">
-    <h1 class="display-3 fw-bold">Error 404</h1>
-    <p class="lead"><spring:message code="error.404"/></p>
-    <a href="${marketplace}"><spring:message code="error.return"/></a>
-
-</div>
+<h:errorView errorNum="404" errorMsg="error.404"/>
 <h:footer/>
 </body>
 <h:mainScript/>

@@ -20,11 +20,12 @@
 <div class="main-container">
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">
                         <spring:message code="account.view.form.titleDelete"/>
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -33,7 +34,7 @@
                     <spring:message code="account.view.form.warningDelete"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn bg-color-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn bg-color-action color-grey" data-bs-dismiss="modal">
                         <spring:message code="account.view.form.buttonCancel"/>
                     </button>
                     <form:form action="${deleteUrl}" method="post">
@@ -60,19 +61,21 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
                         <a class="dropdown-item" href="${editUrl}">
+                            <span><i class="bi bi-pencil-fill"></i></span>
                             <spring:message code="account.view.form.editButton"/>
 
                         </a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="${updatePasswordUrl}">
+                            <span><i class="bi bi-lock"></i></span>
                             <spring:message code="account.view.form.updatePasswordButton"/>
-
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" style="background-color: rgb(249, 103, 103);" data-bs-toggle="modal"
-                           data-bs-target="#exampleModal">
+                        <a class="dropdown-item color-danger" data-bs-toggle="modal"
+                           data-bs-target="#deleteAccountModal">
+                            <span><i class="bi bi-x-octagon"></i></span>
                             <spring:message code="account.view.form.buttonDelete"/>
                         </a>
                     </li>
@@ -84,12 +87,11 @@
     </div>
 
     <div class="card shadow-sm card-style">
-
-        <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
+        <nav class="nav nav-tabs mb-2 d-flex justify-content-center" id="nav-tab" role="tablist">
             <c:if test="${user.type.isOwner}">
                 <a class="nav-link active" id="nav-owned-tab" data-bs-toggle="tab" href="#nav-owned" role="tab"
                    aria-controls="nav-owned" aria-selected="true">
-                    <p class="lead my-1">
+                    <p class="lead">
                         <spring:message code="account.view.myArticles"/>
                     </p>
                 </a>
@@ -98,27 +100,27 @@
             <a class="nav-link ${!user.type.isOwner?' active':''}" id="nav-rented-tab" data-bs-toggle="tab"
                href="#nav-rented" role="tab"
                aria-controls="nav-rented" aria-selected="false">
-                <p class="lead my-1">
+                <p class="lead">
                     <spring:message code="account.view.myRentedArticles"/>
                 </p>
             </a>
         </nav>
 
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade ${user.type.isOwner?' show active':''} p-3" id="nav-owned" role="tabpanel"
+        <div class="tab-content pt-5 profile-articles" id="nav-tabContent">
+            <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-owned" role="tabpanel"
                  aria-labelledby="nav-owned-tab">
                 <c:choose>
                     <c:when test="${ownedArticles.size() == 0}">
-                        <h3 class="h3 text-center">
+                        <h2 class="h2">
                             <spring:message code="account.view.noPublishedArticles"/>
-                        </h3>
-                        <a class="lead text-center" href="${createArticle}">
+                        </h2>
+                        <a class="lead" href="${createArticle}">
                             <spring:message code="account.view.createArticle"/>
                         </a>
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"
-                                       currentUrl="${currentUrl}"/>
+                                       currentUrl="${currentUrl}" outlined="${true}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -126,16 +128,16 @@
                  aria-labelledby="nav-rented-tab">
                 <c:choose>
                     <c:when test="${rentedArticles.size() == 0}">
-                        <h3 class="h3 text-center">
+                        <h2 class="h2">
                             <spring:message code="account.view.noRentedArticles"/>
-                        </h3>
-                        <a class="lead text-center" href="${marketplace}">
+                        </h2>
+                        <a class="lead" href="${marketplace}">
                             <spring:message code="account.view.createArticle"/>
                         </a>
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${rentedArticles}" maxPage="${rentedMaxPage}"
-                                       currentUrl="${currentUrl}"/>
+                                       currentUrl="${currentUrl}" outlined="${true}"/>
                     </c:otherwise>
                 </c:choose>
             </div>

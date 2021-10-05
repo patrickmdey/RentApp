@@ -41,8 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private void appendLocation(Article article) {
         Optional<User> owner = userDao.findById(article.getIdOwner());
-        owner.ifPresent(user -> article.setLocation
-                (Locations.values()[Math.toIntExact(user.getLocation())]));
+        owner.ifPresent(user -> article.setLocation(user.getLocation()));
     }
 
     private void appendImages(Article article) {
@@ -51,7 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> get(String name, Long category, String orderBy, Long user, Long location, Long page) {
+    public List<Article> get(String name, Long category, String orderBy, Long user, Long location, long page) {
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
                 map(OrderOptions::getColumn).collect(Collectors.toList());
@@ -78,17 +77,17 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long getMaxPage(String name, Long category, Long user, Long location) {
-        return articleDao.getMaxPage(name, category, user, location);
+    public Long getMaxPage(String name, Long category, Long userId, Long location) {
+        return articleDao.getMaxPage(name, category, userId, location);
     }
 
     @Override
-    public Long getRentedMaxPage(Long user) {
-        return articleDao.getRentedMaxPage(user);
+    public Long getRentedMaxPage(Long renterId) {
+        return articleDao.getRentedMaxPage(renterId);
     }
 
     @Override
-    public List<Article> recommendedArticles(Long articleId) {
+    public List<Article> recommendedArticles(long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
         toReturn.forEach(article -> {
             appendImages(article);
@@ -136,13 +135,6 @@ public class ArticleServiceImpl implements ArticleService {
         toRemove.forEach(c -> articleCategoryDao.removeFromArticle(id, c));
 
         return articleDao.findById(id);
-    }
-
-    @Override
-    public List<Article> findByOwner(long ownerId) {
-        List<Article> articles = articleDao.findByOwner(ownerId);
-        appendInfo(articles);
-        return articles;
     }
 
     @Override

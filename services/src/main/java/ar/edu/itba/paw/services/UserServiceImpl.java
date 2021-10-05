@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.ImageService;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
         if (!dbImg.isPresent())
             return Optional.empty();
 
-        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, location, dbImg.get().getId(), type.ordinal());
+        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.get().getId(), type);
         if (!user.isPresent())
             throw new RuntimeException(); //EmailAlreadyInUseException
 
@@ -72,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(long id, String firstName, String lastName, Long location, Boolean isOwner) {
-        userDao.update(id, firstName, lastName, location, (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
+        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)], (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
     }
 
     @Override

@@ -189,7 +189,8 @@
                     <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                        id="${article.id}"
                                        location="${article.location}"
-                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"/>
+                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
+                                       outlined="${false}"/>
                 </div>
             </c:forEach>
         </div>

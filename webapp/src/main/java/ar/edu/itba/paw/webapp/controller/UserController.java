@@ -167,7 +167,7 @@ public class UserController {
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
         accountForm.setIsOwner(user.getType() == UserType.OWNER);
-        accountForm.setLocation(user.getLocation());
+        accountForm.setLocation((long) user.getLocation().ordinal());
     }
 
     private void populateForm(AccountForm accountForm) {
@@ -176,7 +176,7 @@ public class UserController {
         accountForm.setLastName(user.getLastName());
         accountForm.setEmail(user.getEmail());
         accountForm.setIsOwner(user.getType() == UserType.OWNER);
-        accountForm.setLocation(user.getLocation());
+        accountForm.setLocation((long) user.getLocation().ordinal());
     }
 
     @RequestMapping("/my-requests/accepted")

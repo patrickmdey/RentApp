@@ -24,9 +24,9 @@
                 </li>
                 <li><h3 class="h3 fw-bold color-grey"><spring:message code="footer.language"/></h3></li>
                 <li>
-                    <div class="d-flex align-items-center">
-                        <a href="?lang=es"><spring:message code="language.spanish"/></a>
-                        <a href="?lang=en"><spring:message code="language.english"/></a>
+                    <div>
+                        <a class="me-1 color-secondary" href="?lang=es"><spring:message code="language.spanish"/></a>
+                        <a class="color-secondary" href="?lang=en"><spring:message code="language.english"/></a>
                     </div>
                 </li>
             </ul>

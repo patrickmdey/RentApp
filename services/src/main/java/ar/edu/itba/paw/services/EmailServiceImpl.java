@@ -87,7 +87,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendMailRequestConfirmationToRenter(String to, Map<String, String> values) {
-        Context thymeleafContext = getThymeleafContext(values, baseUrl + "/");    //TODO: ver a donde mandar
+        Context thymeleafContext = getThymeleafContext(values, baseUrl + "/?category=" + values.getOrDefault("articleCategory", "1"));
         String htmlBody = thymeleafTemplateEngine.process("renter-request-accepted.html", thymeleafContext);
         sendHtmlMessage(to, "Alquiler confirmado: " + values.get("articleName"), htmlBody, resourceName, LOGO);
     }

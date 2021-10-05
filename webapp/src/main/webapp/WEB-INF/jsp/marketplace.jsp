@@ -83,9 +83,9 @@
 
                 <div class="row">
                     <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
-<%--                    <button class="btn btn-link col-4" type="reset">--%>
-<%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
-<%--                    </button>--%>
+                        <%--                    <button class="btn btn-link col-4" type="reset">--%>
+                        <%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
+                        <%--                    </button>--%>
                 </div>
                 <hr/>
                 <div>
@@ -122,7 +122,7 @@
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-right"></i>
+                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
                     </div>
                 </div>
 
@@ -165,7 +165,8 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"/>
+                    <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"
+                                   outlined="${false}"/>
                 </c:otherwise>
             </c:choose>
         </div>

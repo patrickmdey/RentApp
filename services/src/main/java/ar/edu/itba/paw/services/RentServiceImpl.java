@@ -30,6 +30,10 @@ public class RentServiceImpl implements RentService {
     private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 
 
+    private static final String baseUrl = "http://localhost:8080";
+//    private static final String baseUrl = "http://pawserver.it.itba.edu.ar/paw-2021b-3";
+
+
     private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
         List<RentProposal> proposals = getter.get(accountId, state, page);
         proposals.forEach(proposal -> {
@@ -110,10 +114,17 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public void acceptRequest(long requestId) {
+        RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RuntimeException::new); // TODO: RentProposalNotFoundException
 
         rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
 
         Map<String, String> values = getValuesMap(requestId);
+
+        appendArticle(rentProposal);
+
+        String category = String.valueOf(rentProposal.getArticle().getCategories().stream().findFirst().get().getId());
+
+        values.put("articleCategory", category);
 
         emailService.sendMailRequestConfirmationToRenter(values.get("renterEmail"), values);
         emailService.sendMailRequestConfirmationToOwner(values.get("ownerEmail"), values, Long.parseLong(values.get("ownerId")));
@@ -146,8 +157,8 @@ public class RentServiceImpl implements RentService {
         values.put("articleName", article.getTitle());
         values.put("renterEmail", renter.getEmail());
         values.put("ownerEmail", owner.getEmail());
-        values.put("callbackUrlOwner", "http://localhost:8080/user/" +
-                values.get("ownerId") + "/my-account"); // deberia ir a /user/{userId}/my-account
+        values.put("callbackUrlOwner", baseUrl + "/user/" +
+                values.get("ownerId") + "/my-account");
         values.put("callbackUrlRenter", "/");
         return values;
     }
