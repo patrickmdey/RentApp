@@ -89,7 +89,6 @@ public class ReviewDaoJdbc implements ReviewDao {
                 .stream().findFirst();
     }
 
-    // TODO: is there a reason for calling update twice instead of only one call?
     @Override
     public void update(int rating, String message, long reviewId) {
         jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);

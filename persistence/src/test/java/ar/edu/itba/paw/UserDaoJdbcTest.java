@@ -146,7 +146,7 @@ public class UserDaoJdbcTest {
         final String firstName = "first";
         final String lastName = "last";
         final Locations location = Locations.CHACARITA;
-        final int type = UserType.OWNER.ordinal();
+        final UserType type = UserType.OWNER;
 
         // Act
         userDao.update(userId,firstName,lastName,location,type);
@@ -162,7 +162,7 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations location = null;
-        final int type = UserType.RENTER.ordinal();
+        final UserType type = UserType.RENTER;
 
         // Act
         userDao.update(userId,firstName,lastName,location,type);
@@ -178,7 +178,7 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations location = Locations.AGRONOMIA;
-        final int type = UserType.RENTER.ordinal();
+        final UserType type = UserType.RENTER;
 
         // Act
         userDao.update(userId,firstName,lastName,location,type);

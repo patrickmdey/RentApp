@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(long id, String firstName, String lastName, Long location, Boolean isOwner) {
-        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)], (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
+        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)], (isOwner ? UserType.OWNER : UserType.RENTER));
     }
 
     @Override
