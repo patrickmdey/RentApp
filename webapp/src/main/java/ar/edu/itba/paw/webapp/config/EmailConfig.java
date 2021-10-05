@@ -14,10 +14,9 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-@Configuration
+@Configuration()
 @ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.services"})
 public class EmailConfig {
-
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -59,7 +58,7 @@ public class EmailConfig {
     public MessageSource emailMessageSource() {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
-        messageSource.setBasename("classpath:i18n/email-messages");
+        messageSource.setBasename("classpath:i18n/email_messages");
 
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
 

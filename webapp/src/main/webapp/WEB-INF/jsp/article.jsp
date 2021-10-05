@@ -107,13 +107,15 @@
                             <div class="col-6 my-2">
                                 <form:label path="startDate"><spring:message
                                         code="article.rentRequestForm.startDate"/></form:label>
-                                <form:input type="date" path="startDate" class="form-control form-control-custom"/>
+                                <form:input type="date" path="startDate"
+                                            class="form-control form-control-custom"/>
                                 <form:errors path="startDate" element="p" cssClass="error"/>
                             </div>
                             <div class="col-6 my-2">
                                 <form:label path="endDate"><spring:message
                                         code="article.rentRequestForm.endDate"/></form:label>
-                                <form:input type="date" path="endDate" class="form-control form-control-custom"/>
+                                <form:input type="date" min="2021-10-5" path="endDate"
+                                            class="form-control form-control-custom"/>
                                 <form:errors path="endDate" element="p" cssClass="error"/>
                             </div>
                             <div class="col-12 my-2">
@@ -202,15 +204,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<script>
-    const htmlImg = document.getElementById("main-img");
-    const baseURL = window.location.href.split('article/')[0] + "image/";
 
-    function setActiveImage(src) {
-        console.log(src);
-        htmlImg.setAttribute("src", src);
-    }
-</script>
 <script src="<c:url value="/resources/js/main.js"/>" defer></script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -220,6 +214,25 @@
         $('#rentFormModal').modal('show');
     });
     </c:if>
+</script>
+<script defer>
+    const htmlImg = document.getElementById("main-img");
+    const baseURL = window.location.href.split('article/')[0] + "image/";
+
+    const startDateEl = $('input[name="startDate"]');
+    const endDateEl = $('input[name="endDate"]');
+    const dateStr = new Date().toISOString().split('T')[0];
+    startDateEl.attr('min', dateStr);
+    startDateEl.change(() => {
+        endDateEl.attr('min', startDateEl.val());
+    });
+    endDateEl.attr('min', dateStr);
+
+
+    function setActiveImage(src) {
+        console.log(src);
+        htmlImg.setAttribute("src", src);
+    }
 </script>
 
 </html>
