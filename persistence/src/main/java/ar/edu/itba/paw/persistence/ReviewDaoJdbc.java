@@ -29,20 +29,12 @@ public class ReviewDaoJdbc implements ReviewDao {
     @Autowired
     public ReviewDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-
         jdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("review")
                 .usingGeneratedKeyColumns("id");
     }
 
-    private StringBuilder queryBuilder(String fields){
+    private StringBuilder queryBuilder(String fields) {
         return new StringBuilder("SELECT " + fields + "FROM review WHERE article_id = ? ");
-    }
-
-    @Override
-    public List<Review> getAll(long articleId) {
-        return jdbcTemplate.query(queryBuilder("*").toString(),
-                new Object[]{articleId},
-                ROW_MAPPER);
     }
 
     @Override

@@ -5,11 +5,13 @@ import ar.edu.itba.paw.interfaces.ImageService;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.interfaces.UserService;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private ImageService imageService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private EmailService emailService;
@@ -34,33 +36,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         if (id != null)
-            return this.userDao.findById(id);
+            return userDao.findById(id);
         return Optional.empty();
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return this.userDao.findByEmail(email);
+        return userDao.findByEmail(email);
     }
 
     @Override
     public List<User> list() {
-        return this.userDao.list();
+        return userDao.list();
     }
 
-    // TODO: do we need to pass "confirmPassword"? if so, shouldn't we check that it is equal to "password"?
     @Override
-    public Optional<User> register(String email, String password, String confirmPassword, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
+    @Transactional
+    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
         Optional<DBImage> dbImg = imageService.create(img);
         // TODO: raise exception instead of this?
         if (!dbImg.isPresent())
             return Optional.empty();
 
-        Optional<User> user = this.userDao.register(email, passwordHash, firstName, lastName, location, dbImg.get().getId(), type.ordinal());
-
+        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.get().getId(), type);
         if (!user.isPresent())
-            throw new RuntimeException();//EmailAlreadyInUseException
+            throw new RuntimeException(); //EmailAlreadyInUseException
+
         Map<String, String> values = new HashMap<>();
         values.put("ownerName", user.get().getFirstName());
         values.put("ownerEmail", user.get().getEmail());
@@ -71,18 +73,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(long id, String firstName, String lastName, Long location, Boolean isOwner) {
-        this.userDao.update(id, firstName, lastName, location, (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
+        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)], (isOwner ? UserType.OWNER : UserType.RENTER).ordinal());
     }
 
     @Override
     public void delete(long id) {
-        this.userDao.delete(id);
+        userDao.delete(id);
     }
 
     @Override
     public void updatePassword(long id, String password) {
         String passwordHash = passwordEncoder.encode(password);
         userDao.updatePassword(id, passwordHash);
-
     }
 }

@@ -47,12 +47,12 @@ public class UserServiceImplTest {
                 "password hash",
                 "name",
                 "last name",
-                (long) Locations.CHACARITA.ordinal(),
+                Locations.CHACARITA,
                 null,
-                UserType.RENTER.ordinal()
+                UserType.RENTER
         );
-        image = new MockMultipartFile("/image/test.png","image/png");
-        emptyImage = new MockMultipartFile("/invalidFile.png","image/png");
+        image = new MockMultipartFile("/image/test.png", "image/png");
+        emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
 
     }
 
@@ -69,27 +69,20 @@ public class UserServiceImplTest {
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
         when(imageService.create(eq(image))).thenReturn(Optional.of(uploadedImage));
-        when(userDao.register(
-                eq(user.getEmail()),
+        when(userDao.register(eq(user.getEmail()),
                 eq(user.getPassword()),
                 eq(user.getFirstName()),
                 eq(user.getLastName()),
                 eq(user.getLocation()),
                 eq(uploadedImage.getId()),
-                eq(user.getType().ordinal())
+                eq(user.getType())
         )).thenReturn(Optional.of(user));
         doNothing().when(emailService).sendNewUserMail(eq(user.getEmail()), any());
 
         // Act
-        Optional<User> optionalResult = userService.register(
-                user.getEmail(),
-                password,
-                password,
-                user.getFirstName(),
-                user.getLastName(),
-                user.getLocation(),
-                image,
-                user.getType()
+        Optional<User> optionalResult = userService.register(user.getEmail(), password,
+                user.getFirstName(), user.getLastName(),
+                (long) user.getLocation().ordinal(), image, user.getType()
         );
 
         // Assert
@@ -111,26 +104,16 @@ public class UserServiceImplTest {
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
         when(imageService.create(eq(image))).thenReturn(Optional.of(uploadedImage));
-        when(userDao.register(
-                eq(user.getEmail()),
-                eq(user.getPassword()),
-                eq(user.getFirstName()),
-                eq(user.getLastName()),
-                eq(user.getLocation()),
-                eq(uploadedImage.getId()),
-                eq(user.getType().ordinal())
+        when(userDao.register(eq(user.getEmail()), eq(user.getPassword()),
+                eq(user.getFirstName()), eq(user.getLastName()),
+                eq(user.getLocation()), eq(uploadedImage.getId()),
+                eq(user.getType())
         )).thenThrow(RuntimeException.class);
 
         // Act
         userService.register(
-                user.getEmail(),
-                password,
-                password,
-                user.getFirstName(),
-                user.getLastName(),
-                user.getLocation(),
-                image,
-                user.getType()
+                user.getEmail(), password, user.getFirstName(), user.getLastName(),
+                (long) user.getLocation().ordinal(), image, user.getType()
         );
 
         // Assert
@@ -147,19 +130,12 @@ public class UserServiceImplTest {
 
         // Act
         Optional<User> optionalResult = userService.register(
-                user.getEmail(),
-                password,
-                password,
-                user.getFirstName(),
-                user.getLastName(),
-                user.getLocation(),
-                image,
-                user.getType()
+                user.getEmail(), password, user.getFirstName(), user.getLastName(),
+                (long) user.getLocation().ordinal(), image, user.getType()
         );
 
         // Assert
         Assert.assertFalse(optionalResult.isPresent());
 
     }
-
 }

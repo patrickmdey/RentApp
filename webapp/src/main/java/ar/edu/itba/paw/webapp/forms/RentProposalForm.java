@@ -2,13 +2,16 @@ package ar.edu.itba.paw.webapp.forms;
 
 import ar.edu.itba.paw.webapp.forms.Annotations.FutureDate;
 import ar.edu.itba.paw.webapp.forms.Annotations.GreaterDate;
+import ar.edu.itba.paw.webapp.forms.Annotations.UniqueRentRequest;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @GreaterDate(baseField = "startDate", matchField = "endDate")
+@UniqueRentRequest(startDate = "startDate", endDate = "endDate", articleId = "articleId", renterId = "renterId")
 public class RentProposalForm {
 
     @NotNull
@@ -21,7 +24,11 @@ public class RentProposalForm {
     private String endDate;
 
     @NotEmpty
+    @Size(min=10, max=310)
     private String message;
+
+    private String articleId;
+    private String renterId;
 
     public String getMessage() {
         return message;
@@ -47,4 +54,19 @@ public class RentProposalForm {
         this.startDate = startDate;
     }
 
+    public String getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(String articleId) {
+        this.articleId = articleId;
+    }
+
+    public String getRenterId() {
+        return renterId;
+    }
+
+    public void setRenterId(String renterId) {
+        this.renterId = renterId;
+    }
 }

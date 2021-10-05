@@ -4,10 +4,7 @@ import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
 import ar.edu.itba.paw.interfaces.ArticleDao;
 import ar.edu.itba.paw.interfaces.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.UserDao;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,7 +37,6 @@ public class ArticleServiceImplTest {
     @Mock
     private UserDao userDao;
 
-
     private User userOwner;
     private User userRenter;
     private List<Article> articles;
@@ -48,19 +44,21 @@ public class ArticleServiceImplTest {
     private List<Long> categoriesId;
 
     @Before
-    public void setUp(){
-        this.userOwner = new User(1,"owner@mail.com","password","owner","owner",3L,null,UserType.OWNER.ordinal());
-        this.userRenter = new User(2,"renter@mail.com","password","renter","renter",5L,null,UserType.RENTER.ordinal());
+    public void setUp() {
+        this.userOwner = new User(1, "owner@mail.com", "password",
+                "owner", "owner", Locations.values()[3], null, UserType.OWNER);
+        this.userRenter = new User(2, "renter@mail.com", "password",
+                "renter", "renter", Locations.values()[5], null, UserType.RENTER);
 
         this.articles = Arrays.asList(
-                new Article(1, "Bicicleta","bmx de ciudad", 500F, 1),
-                new Article(2, "Moto","Moto de campo", 900F, 1),
-                new Article(3, "Auto","Auto de glaciar", 200F, 1),
-                new Article(4, "Monopatin","Monopatin de CABA", 100F, 1)
+                new Article(1, "Bicicleta", "bmx de ciudad", 500F, 1),
+                new Article(2, "Moto", "Moto de campo", 900F, 1),
+                new Article(3, "Auto", "Auto de glaciar", 200F, 1),
+                new Article(4, "Monopatin", "Monopatin de CABA", 100F, 1)
         );
 
         this.categories = Arrays.asList(
-                new Category(1,"Turismo"),
+                new Category(1, "Turismo"),
                 new Category(2, "Automotor"),
                 new Category(3, "Vacaciones"),
                 new Category(4, "Ciudad")
@@ -84,7 +82,7 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getIdOwner())
         )).thenReturn(Optional.of(articleToCreate));
 
-        categoriesId.forEach(t-> {
+        categoriesId.forEach(t -> {
             when(articleCategoryDao.addToArticle(
                     eq(articleToCreate.getId()),
                     eq(t)
@@ -97,12 +95,12 @@ public class ArticleServiceImplTest {
         // Act
 
         Optional<Article> optionalArticle = articleService.createArticle(
-                                                            articleToCreate.getTitle(),
-                                                            articleToCreate.getDescription(),
-                                                            articleToCreate.getPricePerDay(),
-                                                            categoriesId,
-                                                            new ArrayList<>(),
-                                                            articleToCreate.getIdOwner()
+                articleToCreate.getTitle(),
+                articleToCreate.getDescription(),
+                articleToCreate.getPricePerDay(),
+                categoriesId,
+                new ArrayList<>(),
+                articleToCreate.getIdOwner()
         );
 
         // Assert
@@ -170,12 +168,12 @@ public class ArticleServiceImplTest {
         // Assert
         Assert.assertEquals(articles.size(), results.size());
 
-        articles.forEach(t->{
-            Optional<Article> optionalResult = results.stream().filter(r-> r.getId() == t.getId()).findFirst();
+        articles.forEach(t -> {
+            Optional<Article> optionalResult = results.stream().filter(r -> r.getId() == t.getId()).findFirst();
             Assert.assertTrue(optionalResult.isPresent());
             Article r = optionalResult.get();
 
-            Assert.assertEquals((long)userOwner.getLocation(), r.getLocation().ordinal());
+            Assert.assertEquals(userOwner.getLocation().ordinal(), r.getLocation().ordinal());
         });
     }
 
@@ -195,7 +193,7 @@ public class ArticleServiceImplTest {
         Assert.fail();
     }
 
-   @Test
+    @Test
     public void testEditArticle() {
         // Arrange
         Article articleToEdit = articles.get(0);
@@ -216,8 +214,8 @@ public class ArticleServiceImplTest {
                 eq(articleToEdit.getPricePerDay())
         )).thenReturn((int) articleToEdit.getId());
 
-        when(articleCategoryDao.addToArticle(anyLong(),anyLong())).thenReturn(0L);
-        doNothing().when(articleCategoryDao).removeFromArticle(anyLong(),anyLong());
+        when(articleCategoryDao.addToArticle(anyLong(), anyLong())).thenReturn(0L);
+        doNothing().when(articleCategoryDao).removeFromArticle(anyLong(), anyLong());
 
         when(articleCategoryDao.findFromArticle(eq(articleToEdit.getId())))
                 .thenReturn(categories);
@@ -227,11 +225,11 @@ public class ArticleServiceImplTest {
 
         // Act
         Optional<Article> optionalArticle = articleService.editArticle(
-                                                                    articleToEdit.getId(),
-                                                                    articleToEdit.getTitle(),
-                                                                    articleToEdit.getDescription(),
-                                                                    articleToEdit.getPricePerDay(),
-                                                                    newCategoriesId
+                articleToEdit.getId(),
+                articleToEdit.getTitle(),
+                articleToEdit.getDescription(),
+                articleToEdit.getPricePerDay(),
+                newCategoriesId
         );
 
         // Assert
@@ -242,7 +240,7 @@ public class ArticleServiceImplTest {
         Assert.assertEquals(articleToEdit.getDescription(), article.getDescription());
         Assert.assertEquals(articleToEdit.getPricePerDay(), article.getPricePerDay());
 
-   }
+    }
 
 
     @Test(expected = RuntimeException.class)
@@ -272,11 +270,6 @@ public class ArticleServiceImplTest {
         Assert.fail();
 
     }
-
-
-
-
-
 
 
 }

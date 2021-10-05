@@ -30,13 +30,13 @@ import java.util.concurrent.TimeUnit;
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserDetailsService pawUserDetailService;
+    private UserDetailsService pawUserDetailService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
-@Sql("classpath:schema.sql")
 @Sql("classpath:populateArticleCategoryTest.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -34,18 +33,18 @@ public class ArticleCategoryDaoJdbcTest {
 
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @After
-    public void cleanUp(){
-        jdbcTemplate = new JdbcTemplate(dataSource);
+    public void cleanUp() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         JdbcTestUtils.deleteFromTables(jdbcTemplate,
                 "article",
                 "category",
                 "article_category",
                 "account"
-                );
+        );
     }
 
     @Test
@@ -53,16 +52,16 @@ public class ArticleCategoryDaoJdbcTest {
         // Arrange
         final long articleId = 1;
         final List<Category> expectedCategories = Arrays.asList(
-                new Category(1,"Category.Technology"),
-                new Category(2,"Category.Camping"),
-                new Category(6,"Category.travel")
+                new Category(1, "Category.Technology"),
+                new Category(2, "Category.Camping"),
+                new Category(6, "Category.travel")
         );
 
         // Act
         List<Category> result = articleCategoryDao.findFromArticle(articleId);
 
         // Assert
-        Assert.assertArrayEquals(expectedCategories.toArray(),result.toArray());
+        Assert.assertArrayEquals(expectedCategories.toArray(), result.toArray());
     }
 
     @Test
@@ -72,10 +71,10 @@ public class ArticleCategoryDaoJdbcTest {
         final long categoryId = 3;
 
         // Act
-        final long resultCategory = articleCategoryDao.addToArticle(articleId,categoryId);
+        final long resultCategory = articleCategoryDao.addToArticle(articleId, categoryId);
 
         // Assert
-        Assert.assertEquals(categoryId,resultCategory);
+        Assert.assertEquals(categoryId, resultCategory);
     }
 
     @Test(expected = DataAccessException.class)
@@ -85,7 +84,7 @@ public class ArticleCategoryDaoJdbcTest {
         final long categoryId = 3;
 
         // Act
-        articleCategoryDao.addToArticle(articleId,categoryId);
+        articleCategoryDao.addToArticle(articleId, categoryId);
 
         // Assert
         Assert.fail();
@@ -98,7 +97,7 @@ public class ArticleCategoryDaoJdbcTest {
         final long categoryId = 999;
 
         // Act
-        articleCategoryDao.addToArticle(articleId,categoryId);
+        articleCategoryDao.addToArticle(articleId, categoryId);
 
         // Assert
         Assert.fail();
@@ -111,7 +110,7 @@ public class ArticleCategoryDaoJdbcTest {
         final long categoryId = 999;
 
         // Act
-        articleCategoryDao.addToArticle(articleId,categoryId);
+        articleCategoryDao.addToArticle(articleId, categoryId);
 
         // Assert
         Assert.fail();
@@ -124,13 +123,12 @@ public class ArticleCategoryDaoJdbcTest {
         final long categoryId = 3;
 
         // Act
-        articleCategoryDao.removeFromArticle(articleId,categoryId);
+        articleCategoryDao.removeFromArticle(articleId, categoryId);
 
         // Assert
     }
     // TODO: Is there a way to test fail cases? like article does not exist?
     //       the function and SQL won't throw an error
-
 
 
 }

@@ -18,9 +18,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     private static final Long OFFSET = 9L;
 
-    @Autowired
-    ArticleCategoryDao articleCategoryDao;
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -71,7 +68,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, Long page) {
+    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, long page) {
         ArrayList<Object> params = new ArrayList<>();
 
         StringBuilder query = queryBuilder(params, "*", name, category, user, location);
@@ -104,15 +101,15 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Long getRentedMaxPage(Long user) {
+    public Long getRentedMaxPage(Long renterId) {
         Long size = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article WHERE id IN (" +
-                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1)", new Object[]{user}, Long.class);
+                "SELECT article_id FROM rent_proposal WHERE renter_id = ? AND state = 1)", new Object[]{renterId}, Long.class);
         int toSum = (size % OFFSET == 0) ? 0 : 1;
         return (size / OFFSET) + toSum;
     }
 
     @Override
-    public List<Article> recommendedArticles(Long articleId) {
+    public List<Article> recommendedArticles(long articleId) {
         return jdbcTemplate.query("SELECT * FROM article AS a1 WHERE a1.id != ? AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
                 "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +
@@ -139,12 +136,6 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> findByOwner(long ownerId) {
-        return jdbcTemplate.query("SELECT * FROM article WHERE owner_id = ?", new Object[]{ownerId}, ROW_MAPPER);
-    }
-
-
-    @Override
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
@@ -154,6 +145,7 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
+        // TODO: Some Daos return Optional.empty() while other throw exceptions
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
     }
 
@@ -181,7 +173,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Long timesRented(Long articleId) {
+    public Long timesRented(long articleId) {
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM article WHERE id IN (" +
                         "SELECT article_id FROM rent_proposal WHERE article_id = ? AND state = ? )",
                 new Object[]{articleId, RentState.ACCEPTED.ordinal()}, Long.class);

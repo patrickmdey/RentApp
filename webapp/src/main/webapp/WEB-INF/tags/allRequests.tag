@@ -5,6 +5,7 @@
 <%@ attribute name="proposals" type="java.util.List" required="true" %>
 <%@ attribute name="userId" required="true" %>
 <%@ attribute name="state" required="true" %>
+<%@ attribute name="isReceived" type="java.lang.Boolean" required="true" %>
 
 <c:choose>
     <c:when test="${proposals.size() != 0}">
@@ -15,7 +16,8 @@
                            renteLastName="${request.renter.lastName}"
                            startDate="${request.startDate}" endDate="${request.endDate}"
                            message="${request.message}" id="${request.id}" state="${request.state}"
-                           userId="${userId}" renterEmail="${request.renter.email}"/>
+                           userId="${userId}" renterEmail="${request.renter.email}"
+                           isReceived="${isReceived}"/>
         </c:forEach>
     </c:when>
     <c:otherwise>

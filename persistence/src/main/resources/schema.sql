@@ -8,20 +8,20 @@ CREATE TABLE IF NOT EXISTS picture
 CREATE TABLE IF NOT EXISTS category
 (
     id          SERIAL,
-    description VARCHAR NOT NULL UNIQUE,
+    description VARCHAR(1000) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS account
 (
     id         SERIAL  NOT NULL,
-    first_name VARCHAR NOT NULL,
+    first_name VARCHAR(1000) NOT NULL,
     last_name
-               VARCHAR
+               VARCHAR(1000)
                        NOT
                            NULL,
     email
-               VARCHAR
+               VARCHAR(1000)
                        NOT
                            NULL
         UNIQUE,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS account
                        NOT
                            NULL,
     password
-               VARCHAR
+               VARCHAR(1000)
                        NOT
                            NULL,
     picture
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS account
 CREATE TABLE IF NOT EXISTS article
 (
     id            SERIAL,
-    title         VARCHAR NOT NULL,
-    description   VARCHAR NOT NULL,
+    title         VARCHAR(1000) NOT NULL,
+    description   VARCHAR(1000) NOT NULL,
     price_per_day decimal NOT NULL,
     owner_id      INT     NOT NULL,
     PRIMARY KEY (id),
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS rent_proposal
     id         SERIAL             NOT NULL,
     start_date DATE               NOT NULL,
     end_date   DATE               NOT NULL,
-    message    VARCHAR            NOT NULL,
-    approved   BOOL DEFAULT FALSE NOT NULL,
+    message    VARCHAR(1000)            NOT NULL,
+    state       INT                 NOT NULL,
     article_id INT                NOT NULL,
     renter_id  INT                NOT NULL,
     PRIMARY KEY (id),
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS review
 (
     id         SERIAL    NOT NULL,
     rating     INT       NOT NULL,
-    message    VARCHAR   NOT NULL,
+    message    VARCHAR(1000)   NOT NULL,
     article_id INT       NOT NULL,
     renter_id  INT       NOT NULL,
     created_at TIMESTAMP NOT NULL,
