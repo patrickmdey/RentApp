@@ -29,16 +29,16 @@
         </button>
         <div class="collapse navbar-collapse mt-2" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active lead" href="${createArticle}"><spring:message
+                <a class="nav-link active h6" href="${createArticle}"><spring:message
                         code="navbar.publishArticle"/></a>
-                <a class="nav-link active lead" aria-current="page" href="${marketplace}"><spring:message
+                <a class="nav-link active h6" aria-current="page" href="${marketplace}"><spring:message
                         code="navbar.marketplace"/></a>
             </div>
             <div class="navbar-nav ms-auto">
                 <c:choose>
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">
-                            <a class="nav-link active color-grey dropdown-toggle lead" id="accountMenu"
+                            <a class="nav-link active color-grey dropdown-toggle h6" id="accountMenu"
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <span>
                                     <c:out value="${loggedUser.firstName}"/>
@@ -46,25 +46,31 @@
                                     <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
-                                <li><a class="dropdown-item" href="${myAccount}"><spring:message
-                                        code="dropdown.requests"/></a></li>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="${myAccount}">
+                                        <span><i class="bi bi-inbox-fill"></i></span>
+                                        <spring:message code="dropdown.requests"/>
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="${viewUser}"><spring:message
-                                        code="dropdown.profile"/></a></li>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="${viewUser}">
+                                        <span><i class="bi bi-person-fill"></i></span>
+                                        <spring:message code="dropdown.profile"/>
+                                    </a>
                                 </li>
-                                <li><a class="dropdown-item" href="${logout}"><spring:message
-                                        code="dropdown.logout"/></a></li>
+                                <li>
+                                    <a class="dropdown-item" href="${logout}">
+                                        <span><i class="bi bi-box-arrow-in-left"></i></span>
+                                        <spring:message code="dropdown.logout"/>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-link active lead" aria-current="page" href="${login}"><spring:message
+                        <a class="nav-link active h6" aria-current="page" href="${login}"><spring:message
                                 code="navbar.login"/></a>
-                        <a class="nav-link active lead" aria-current="page" href="${register}"><spring:message
+                        <a class="nav-link active h6" aria-current="page" href="${register}"><spring:message
                                 code="navbar.signup"/></a>
                     </c:otherwise>
                 </c:choose>
