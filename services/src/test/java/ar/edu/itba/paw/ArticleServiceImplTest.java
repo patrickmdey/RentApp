@@ -1,9 +1,9 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
-import ar.edu.itba.paw.interfaces.ArticleDao;
-import ar.edu.itba.paw.interfaces.ArticleImageDao;
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
+import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
 import org.junit.Assert;

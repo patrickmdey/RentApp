@@ -1,14 +1,15 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ReviewDao {
-    float getAverage(long articleId);
-
+public interface ReviewService {
     List<Review> getPaged(long articleId, long page);
+
+    int articleRating(long articleId);
 
     void update(int rating, String message, long reviewId);
 
@@ -18,5 +19,5 @@ public interface ReviewDao {
 
     Long getMaxPage(long articleId);
 
-    boolean hasReviewed(long userId, long articleId);
+    boolean hasReviewed(User user, Long articleId);
 }

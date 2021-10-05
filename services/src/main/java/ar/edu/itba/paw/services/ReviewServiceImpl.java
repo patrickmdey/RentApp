@@ -1,9 +1,14 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.*;
+import ar.edu.itba.paw.interfaces.dao.ReviewDao;
+import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.service.ReviewService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,13 +47,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public Optional<Review> create(int rating, String message, long articleId, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
-        // TODO: throw exception instead of returning empty??
-        if (article.isPresent()) {
-            Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
-            review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(RuntimeException::new)));
-            return review;
-        }
-        return Optional.empty();
+        if (!article.isPresent())
+            throw new ArticleNotFoundException();
+
+        Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
+        review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new)));
+        return review;
     }
 
     @Override

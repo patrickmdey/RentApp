@@ -1,6 +1,11 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.*;
+import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
+import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.service.ImageService;
 import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

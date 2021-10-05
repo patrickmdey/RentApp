@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.ArticleCategoryDao;
-import ar.edu.itba.paw.interfaces.ArticleDao;
+import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +144,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
 
-        // TODO: Some Daos return Optional.empty() while other throw exceptions
         return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
     }
 

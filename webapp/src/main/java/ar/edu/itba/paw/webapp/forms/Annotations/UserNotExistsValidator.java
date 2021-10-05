@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.forms.Annotations;
 
-import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

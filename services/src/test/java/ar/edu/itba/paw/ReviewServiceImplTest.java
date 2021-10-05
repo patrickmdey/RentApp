@@ -1,8 +1,8 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.interfaces.ArticleService;
-import ar.edu.itba.paw.interfaces.ReviewDao;
-import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.dao.ReviewDao;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.ReviewServiceImpl;
 import org.junit.Assert;

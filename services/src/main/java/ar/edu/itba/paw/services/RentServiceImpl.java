@@ -1,6 +1,11 @@
 package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.*;
+import ar.edu.itba.paw.interfaces.dao.RentDao;
+import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.service.EmailService;
+import ar.edu.itba.paw.interfaces.service.RentService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
@@ -29,13 +34,6 @@ public class RentServiceImpl implements RentService {
 
     @Autowired
     private UserService userService;
-
-    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-
-
-    private static final String baseUrl = "http://localhost:8080";
-//    private static final String baseUrl = "http://pawserver.it.itba.edu.ar/paw-2021b-3";
-
 
     private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
         List<RentProposal> proposals = getter.get(accountId, state, page);
@@ -74,7 +72,6 @@ public class RentServiceImpl implements RentService {
         proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(RuntimeException::new));
     }
 
-
     @Override
     public Optional<RentProposal> findById(long id) {
         return rentDao.findById(id);
@@ -85,44 +82,37 @@ public class RentServiceImpl implements RentService {
     public Optional<RentProposal> create(String message, Integer approved, Date startDate,
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
-        Optional<Article> article = articleService.findById(articleId);
-        if (article.isPresent()) {
-            Optional<User> owner = userService.findById(article.get().getIdOwner());
-            Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
-            if (proposal.isPresent() && owner.isPresent()) {
-                RentProposal rp = proposal.get();
-                appendArticle(rp);
-                appendRenter(rp);
-                emailService.sendMailRequest(rp, owner.get());
-                return proposal;
-            }
-        }
-        return Optional.empty();
+        Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
+
+        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
+
+        RentProposal rp = proposal.get();
+        appendArticle(rp);
+        appendRenter(rp);
+        emailService.sendMailRequest(rp, owner);
+        return proposal;
     }
 
     @Override
     @Transactional
     public void acceptRequest(long requestId) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
-        rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
 
+        rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
         appendArticle(rentProposal);
         appendRenter(rentProposal);
-
-        User owner = userService.findById(rentProposal.getArticle().getIdOwner()).orElseThrow(RuntimeException::new);
-//        String category = String.valueOf(rentProposal.getArticle().getCategories().stream().findFirst().get().getId());
+        User owner = userService.findById(rentProposal.getArticle().getIdOwner()).orElseThrow(UserNotFoundException::new);
 
         emailService.sendMailRequestConfirmation(rentProposal, owner);
-
     }
 
     @Override
     @Transactional
     public void rejectRequest(long requestId) {
-        rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
-
         RentProposal request = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
 
+        rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
         appendArticle(request);
         appendRenter(request);
         User owner = userService.findById(request.getArticle().getIdOwner()).orElseThrow(UserNotFoundException::new);
@@ -130,31 +120,10 @@ public class RentServiceImpl implements RentService {
         emailService.sendMailRequestDenied(request, owner);
     }
 
-    private Map<String, String> getValuesMap(long requestId) {
-        RentProposal request = rentDao.findById(requestId).orElseThrow(RuntimeException::new);
-        User renter = userService.findById(request.getRenterId()).orElseThrow(RuntimeException::new);
-        Article article = articleService.findById(request.getArticleId()).orElseThrow(RuntimeException::new);
-        User owner = userService.findById(article.getIdOwner()).orElseThrow(RuntimeException::new);
-
-        Map<String, String> values = new HashMap<>();
-
-        values.put("renterName", renter.getFirstName());
-        values.put("ownerName", owner.getFirstName());
-        values.put("ownerId", String.valueOf(owner.getId()));
-        values.put("startDate", dateFormatter.format(request.getStartDate()));
-        values.put("endDate", dateFormatter.format(request.getEndDate()));
-        values.put("articleName", article.getTitle());
-        values.put("renterEmail", renter.getEmail());
-        values.put("ownerEmail", owner.getEmail());
-        values.put("callbackUrlOwner", baseUrl + "/user/" + values.get("ownerId") + "/my-account");
-        values.put("callbackUrlRenter", "/");
-        return values;
-    }
-
     @Override
     public boolean hasRented(User renter, Long articleId) {
         if (articleId == null || renter == null)
-            return false;
+            throw new IllegalArgumentException();
 
         return rentDao.hasRented(renter.getId(), articleId);
     }

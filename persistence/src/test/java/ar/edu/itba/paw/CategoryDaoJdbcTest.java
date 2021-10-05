@@ -1,6 +1,6 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.interfaces.CategoryDao;
+import ar.edu.itba.paw.interfaces.dao.CategoryDao;
 import ar.edu.itba.paw.models.Category;
 import org.junit.After;
 import org.junit.Assert;

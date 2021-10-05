@@ -1,6 +1,6 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.interfaces.ReviewDao;
+import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Review;
 import org.junit.After;
 import org.junit.Assert;

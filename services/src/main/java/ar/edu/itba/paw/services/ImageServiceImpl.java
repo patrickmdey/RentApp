@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.ImageDao;
-import ar.edu.itba.paw.interfaces.ImageService;
+import ar.edu.itba.paw.interfaces.dao.ImageDao;
+import ar.edu.itba.paw.interfaces.service.ImageService;
 import ar.edu.itba.paw.models.DBImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,7 @@ public class ImageServiceImpl implements ImageService {
             byte[] data = img.getBytes();
             return imageDao.create(data);
         } catch (IOException e) {
-            e.printStackTrace();
-            return Optional.empty();
+            throw new IllegalArgumentException();
         }
     }
 }

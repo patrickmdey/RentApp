@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Article;
 import org.springframework.web.multipart.MultipartFile;
