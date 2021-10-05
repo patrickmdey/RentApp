@@ -213,7 +213,7 @@ public class UserController {
         List<RentProposal> receivedProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
         List<RentProposal> sentProposals = rentService.sentRequests(user.getId(), state.ordinal(), page);
 
-        mav.addObject("state", state.name());
+        mav.addObject("state", state);
         mav.addObject("receivedProposals", receivedProposals);
         mav.addObject("sentProposals", sentProposals);
         mav.addObject("receivedMaxPage", rentService.getReceivedMaxPage(user.getId(), state.ordinal()));

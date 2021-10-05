@@ -12,6 +12,7 @@ public class RentProposal {
     private long articleId;
     private long renterId;
     private User renter;
+    private User owner;
     private Article article;
 
     public RentProposal(long id, String message, Integer state, Date startDate, Date endDate, long articleId, long renterId) {
@@ -94,6 +95,14 @@ public class RentProposal {
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override

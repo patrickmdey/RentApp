@@ -1,20 +1,20 @@
 package ar.edu.itba.paw.interfaces;
 
 
+import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.User;
+
 import java.util.Map;
 
 public interface EmailService {
 
-    void sendNewUserMail(String to, Map<String, String> values);
+    void sendNewUserMail(User newUser);
 
-    void sendMailRequestToOwner(String to, Map<String, String> values, long ownerId);
+    void sendMailRequest(RentProposal rentProposal, User owner);
 
-    void sendMailRequestToRenter(String to, Map<String, String> values);
+//    void sendMailRequestConfirmationToOwner(String to, Map<String, String> values, long ownerId);
 
-    void sendMailRequestConfirmationToOwner(String to, Map<String, String> values, long ownerId);
+    void sendMailRequestConfirmation(RentProposal rentProposal, User owner);
 
-    void sendMailRequestConfirmationToRenter(String to, Map<String, String> values);
-
-    void sendMailRequestDenied(String to, Map<String, String> values);
-
+    void sendMailRequestDenied(RentProposal rentProposal, User owner);
 }

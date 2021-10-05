@@ -14,7 +14,7 @@
         <td></td>
         <td></td>
         <td>
-            <p><strong th:text="#{email.newUser.title(${ownerName})}" style="font-size: large"></strong></p>
+            <p><strong th:text="#{email.newUser.title(${name})}" style="font-size: large"></strong></p>
             <p th:text="#{email.newUser.saveLoginURL}" style="font-size: large">
 
             </p>
@@ -25,7 +25,7 @@
                 </a>
             </p>
             <hr/>
-            <p th:text="#{email.newUser.user(${ownerEmail})}"
+            <p th:text="#{email.newUser.user(${email})}"
                style="font-size: large">
             </p>
         </td>

@@ -77,7 +77,7 @@ public class UserServiceImplTest {
                 eq(uploadedImage.getId()),
                 eq(user.getType())
         )).thenReturn(Optional.of(user));
-        doNothing().when(emailService).sendNewUserMail(eq(user.getEmail()), any());
+        doNothing().when(emailService).sendNewUserMail(eq(user));
 
         // Act
         Optional<User> optionalResult = userService.register(user.getEmail(), password,

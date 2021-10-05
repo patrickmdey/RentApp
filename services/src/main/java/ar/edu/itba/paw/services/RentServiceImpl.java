@@ -5,6 +5,9 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.RentProposalNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,29 +86,15 @@ public class RentServiceImpl implements RentService {
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
         Optional<Article> article = articleService.findById(articleId);
-        // TODO: Shouldn't we throw an exception here instead of isPresent() ?
         if (article.isPresent()) {
             Optional<User> owner = userService.findById(article.get().getIdOwner());
-
             Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
-            if (proposal.isPresent()) {
-
-                Map<String, String> values = new HashMap<>();
-
-                if (owner.isPresent()) {
-                    values.put("ownerName", owner.get().getFirstName());
-                    values.put("renterName", renterName);
-                    values.put("startDate", dateFormatter.format(startDate));
-                    values.put("endDate", dateFormatter.format(endDate));
-                    values.put("articleName", article.get().getTitle());
-                    values.put("requestMessage", message);
-                    values.put("callbackUrl", "http://localhost:8080/webapp_war/"); //TODO: HARCODEADO
-
-                    emailService.sendMailRequestToOwner(owner.get().getEmail(), values, owner.get().getId());
-                    emailService.sendMailRequestToRenter(renterEmail, values);
-
-                    return proposal;
-                }
+            if (proposal.isPresent() && owner.isPresent()) {
+                RentProposal rp = proposal.get();
+                appendArticle(rp);
+                appendRenter(rp);
+                emailService.sendMailRequest(rp, owner.get());
+                return proposal;
             }
         }
         return Optional.empty();
@@ -114,35 +103,35 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public void acceptRequest(long requestId) {
-        RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RuntimeException::new); // TODO: RentProposalNotFoundException
-
+        RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
 
-        Map<String, String> values = getValuesMap(requestId);
-
         appendArticle(rentProposal);
+        appendRenter(rentProposal);
 
-        String category = String.valueOf(rentProposal.getArticle().getCategories().stream().findFirst().get().getId());
+        User owner = userService.findById(rentProposal.getArticle().getIdOwner()).orElseThrow(RuntimeException::new);
+//        String category = String.valueOf(rentProposal.getArticle().getCategories().stream().findFirst().get().getId());
 
-        values.put("articleCategory", category);
+        emailService.sendMailRequestConfirmation(rentProposal, owner);
 
-        emailService.sendMailRequestConfirmationToRenter(values.get("renterEmail"), values);
-        emailService.sendMailRequestConfirmationToOwner(values.get("ownerEmail"), values, Long.parseLong(values.get("ownerId")));
     }
 
     @Override
     @Transactional
     public void rejectRequest(long requestId) {
-        Map<String, String> values = getValuesMap(requestId);
-
         rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
 
-        emailService.sendMailRequestDenied(values.get("renterEmail"), values);
+        RentProposal request = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
+
+        appendArticle(request);
+        appendRenter(request);
+        User owner = userService.findById(request.getArticle().getIdOwner()).orElseThrow(UserNotFoundException::new);
+
+        emailService.sendMailRequestDenied(request, owner);
     }
 
     private Map<String, String> getValuesMap(long requestId) {
         RentProposal request = rentDao.findById(requestId).orElseThrow(RuntimeException::new);
-
         User renter = userService.findById(request.getRenterId()).orElseThrow(RuntimeException::new);
         Article article = articleService.findById(request.getArticleId()).orElseThrow(RuntimeException::new);
         User owner = userService.findById(article.getIdOwner()).orElseThrow(RuntimeException::new);
@@ -157,8 +146,7 @@ public class RentServiceImpl implements RentService {
         values.put("articleName", article.getTitle());
         values.put("renterEmail", renter.getEmail());
         values.put("ownerEmail", owner.getEmail());
-        values.put("callbackUrlOwner", baseUrl + "/user/" +
-                values.get("ownerId") + "/my-account");
+        values.put("callbackUrlOwner", baseUrl + "/user/" + values.get("ownerId") + "/my-account");
         values.put("callbackUrlRenter", "/");
         return values;
     }

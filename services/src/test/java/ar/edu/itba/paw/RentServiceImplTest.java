@@ -76,15 +76,14 @@ public class RentServiceImplTest {
                 eq(rentProposal.getRenterId())
         )).thenReturn(Optional.of(rentProposal));
 
-        doNothing().when(emailService).sendMailRequestToOwner(
-                eq(userOwner.getEmail()),
-                any(),
-                eq(userOwner.getId())
-        );
+//        doNothing().when(emailService).sendMailRequestToOwner(
+//                eq(userOwner.getEmail()),
+//                any(),
+//                eq(userOwner.getId())
+//        );
 
-        doNothing().when(emailService).sendMailRequestToRenter(
-                eq(userRenter.getEmail()),
-                any()
+        doNothing().when(emailService).sendMailRequest(
+                eq(rentProposal), eq(userOwner)
         );
 
         // Act

@@ -8,6 +8,7 @@ import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.EmailAlreadyInUseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,12 +62,9 @@ public class UserServiceImpl implements UserService {
 
         Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.get().getId(), type);
         if (!user.isPresent())
-            throw new RuntimeException(); //EmailAlreadyInUseException
+            throw new EmailAlreadyInUseException();
 
-        Map<String, String> values = new HashMap<>();
-        values.put("ownerName", user.get().getFirstName());
-        values.put("ownerEmail", user.get().getEmail());
-        emailService.sendNewUserMail(user.get().getEmail(), values);
+        emailService.sendNewUserMail(user.get());
 
         return user;
     }

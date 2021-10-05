@@ -10,10 +10,10 @@
 <h:navbar loggedUser="${user}"/>
 
 <c:choose>
-    <c:when test="${state == 'ACCEPTED'}">
+    <c:when test="${state.isAccepted}">
         <c:url value="/user/my-requests/accepted" var="currentUrl"/>
     </c:when>
-    <c:when test="${state == 'REJECTED'}">
+    <c:when test="${state.isDeclined}">
         <c:url value="/user/my-requests/declined" var="currentUrl"/>
     </c:when>
     <c:otherwise>
@@ -59,13 +59,13 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received" role="tabpanel"
                          aria-labelledby="nav-received-tab">
-                        <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state}"
+                        <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
                                        isReceived="${true}"/>
                         <h:pagination currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
                     </div>
                     <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
                          aria-labelledby="nav-sent-tab">
-                        <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state}"
+                        <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
                                        isReceived="${false}"/>
                         <h:pagination currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
                     </div>
