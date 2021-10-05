@@ -13,8 +13,6 @@ public interface ArticleDao {
 
     Optional<Article> findById(long id);
 
-    List<Article> findByOwner(long ownerId);
-
     Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner);
 
     int editArticle(long id, String title, String description, Float pricePerDay);

@@ -18,9 +18,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     private static final Long OFFSET = 9L;
 
-    @Autowired
-    private ArticleCategoryDao articleCategoryDao;
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -137,12 +134,6 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         return Optional.of(article);
     }
-
-    @Override
-    public List<Article> findByOwner(long ownerId) {
-        return jdbcTemplate.query("SELECT * FROM article WHERE owner_id = ?", new Object[]{ownerId}, ROW_MAPPER);
-    }
-
 
     @Override
     public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
