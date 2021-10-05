@@ -71,11 +71,12 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         StringBuilder query = queryBuilder(params, "*", name, category, user, location);
 
+        query.append(" ORDER BY ");
+
         if (orderBy != null) {
-            query.append(" ORDER BY ");
             query.append(orderBy);
         } else {
-            query.append(" ORDER BY title");
+            query.append(" LOWER(title) ");
         }
 
         query.append(" LIMIT ? OFFSET ?");

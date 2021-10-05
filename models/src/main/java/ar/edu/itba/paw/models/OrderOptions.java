@@ -2,8 +2,8 @@ package ar.edu.itba.paw.models;
 
 public enum OrderOptions {
 
-    LOWER_ARTICLE("enum.order.lowerArticle", "title ASC"),
-    HIGHER_ARTICLE("enum.order.higherArticle", "title DESC"),
+    LOWER_ARTICLE("enum.order.lowerArticle", "LOWER(title) ASC"),
+    HIGHER_ARTICLE("enum.order.higherArticle", "LOWER(title) DESC"),
     LOWER_PRICE("enum.order.lowerPrice", "price_per_day ASC"),
     HIGHER_PRICE("enum.order.higherPrice", "price_per_day DESC");
 

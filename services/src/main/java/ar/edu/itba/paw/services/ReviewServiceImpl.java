@@ -49,7 +49,10 @@ public class ReviewServiceImpl implements ReviewService {
         articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
         Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
-        review.ifPresent(value -> value.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new)));
+        if (!review.isPresent())
+            return Optional.empty();
+
+        review.get().setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
         return review;
     }
 

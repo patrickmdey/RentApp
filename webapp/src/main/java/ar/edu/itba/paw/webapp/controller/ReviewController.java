@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
 import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.ReviewService;
@@ -52,7 +53,8 @@ public class ReviewController {
         }
         reviewLogger.info("publishing review for article with id '{}' with params --> rating: {}, message: {}",
                 articleId, reviewForm.getRating(), reviewForm.getMessage());
-        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(), articleId, userAdvice.loggedUser().getId());
+        reviewService.create(reviewForm.getRating(), reviewForm.getMessage(),
+                articleId, userAdvice.loggedUser().getId()).orElseThrow(CannotCreateReviewException::new);
         return new ModelAndView("redirect:/article/" + articleId);
     }
 

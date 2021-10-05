@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
     public Optional<User> register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
         Optional<DBImage> dbImg = imageService.create(img);
-        // TODO: raise exception instead of this?
         if (!dbImg.isPresent())
             return Optional.empty();
 

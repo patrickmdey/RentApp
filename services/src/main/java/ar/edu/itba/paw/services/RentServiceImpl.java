@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -86,6 +85,8 @@ public class RentServiceImpl implements RentService {
 
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
         Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
+        if (!proposal.isPresent())
+            return Optional.empty();
 
         RentProposal rp = proposal.get();
         appendArticle(rp);

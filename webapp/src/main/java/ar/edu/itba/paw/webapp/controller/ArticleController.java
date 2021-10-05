@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
@@ -80,7 +81,7 @@ public class ArticleController {
 
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateProposalException::new);
 
 
         return new ModelAndView("redirect:/feedback");
@@ -149,7 +150,7 @@ public class ArticleController {
                 createArticleForm.getName(),
                 createArticleForm.getDescription(),
                 createArticleForm.getPricePerDay(),
-                createArticleForm.getCategories()).orElseThrow(CannotCreateArticleException::new);
+                createArticleForm.getCategories()).orElseThrow(ArticleNotFoundException::new);
 
         articleLogger.info("Editing article post with params --> name: {}, description: {}, price: {}, categories: {}",
                 article.getTitle(), article.getDescription(), article.getPricePerDay(), article.getCategories());

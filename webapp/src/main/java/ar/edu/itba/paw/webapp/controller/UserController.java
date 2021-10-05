@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import ar.edu.itba.paw.webapp.forms.PasswordForm;
@@ -69,7 +70,7 @@ public class UserController {
         userService.register(accountForm.getEmail(), accountForm.getPassword()
                 , accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(),
                 accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
-        );
+        ).orElseThrow(CannotCreateUserException::new);
 
         return new ModelAndView("redirect:/user/login");
     }
