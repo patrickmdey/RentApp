@@ -2,12 +2,12 @@ package ar.edu.itba.paw.webapp.auth;
 
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.RentService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.interfaces.service.ReviewService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

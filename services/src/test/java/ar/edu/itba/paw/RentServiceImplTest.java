@@ -1,8 +1,8 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.EmailService;
-import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.services.RentServiceImpl;

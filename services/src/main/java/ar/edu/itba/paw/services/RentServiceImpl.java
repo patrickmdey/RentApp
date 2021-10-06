@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.*;
+import ar.edu.itba.paw.interfaces.RequestsGetter;
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.EmailService;
@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RentServiceImpl implements RentService {

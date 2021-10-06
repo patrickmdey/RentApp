@@ -70,11 +70,13 @@
                 </div>
                 <h:imageInput path="img"/>
             </c:if>
-            <div class="my-2">
-                <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
-            </div>
+            <c:if test="${!isEdit}">
+                <div class="my-2">
+                    <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
+                </div>
+            </c:if>
             <c:if test="${!isView}">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center mt-2">
                     <controls:Button col="col-4" color="bg-color-action btn-dark"
                                      labelCode="account.form.publishButton"/>
                 </div>

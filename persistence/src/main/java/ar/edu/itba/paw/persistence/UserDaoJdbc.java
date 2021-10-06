@@ -80,13 +80,12 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public void update(long id, String firstName, String lastName, Locations location, UserType type) {
-        jdbcTemplate.update("UPDATE account\n" +
-                "SET first_name = ?,\n" +
-                "    last_name  = ?,\n" +
-                "    location   = ?,\n" +
-                "    type       = ?\n" +
-                "WHERE id = ?;", firstName, lastName, location.ordinal(), type.ordinal(), id);
+    public void update(long id, String firstName, String lastName, Locations location) {
+        jdbcTemplate.update("UPDATE account" +
+                " SET first_name = ?, " +
+                "    last_name  = ?, " +
+                "    location   = ? " +
+                "WHERE id = ?;", firstName, lastName, location.ordinal(), id);
     }
 
     @Override

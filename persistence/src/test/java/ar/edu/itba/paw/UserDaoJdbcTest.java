@@ -143,10 +143,9 @@ public class UserDaoJdbcTest {
         final String firstName = "first";
         final String lastName = "last";
         final Locations location = Locations.CHACARITA;
-        final UserType type = UserType.OWNER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
 
@@ -159,10 +158,9 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations location = null;
-        final UserType type = UserType.RENTER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
         Assert.fail();
@@ -175,10 +173,9 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations location = Locations.AGRONOMIA;
-        final UserType type = UserType.RENTER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
         Assert.fail();

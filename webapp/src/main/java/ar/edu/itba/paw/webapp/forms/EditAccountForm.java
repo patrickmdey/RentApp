@@ -1,10 +1,8 @@
 package ar.edu.itba.paw.webapp.forms;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class EditAccountForm {
 
@@ -19,8 +17,6 @@ public class EditAccountForm {
     @NotNull
     private Long location;
 
-    @NotNull
-    private Boolean isOwner;
 
     public String getFirstName() {
         return firstName;
@@ -46,11 +42,4 @@ public class EditAccountForm {
         this.location = location;
     }
 
-    public Boolean getIsOwner() {
-        return isOwner;
-    }
-
-    public void setIsOwner(Boolean owner) {
-        isOwner = owner;
-    }
 }

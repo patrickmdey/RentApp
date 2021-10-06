@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.services;
 
+import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(long id, String firstName, String lastName, Long location, Boolean isOwner) {
-        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)], (isOwner ? UserType.OWNER : UserType.RENTER));
+    public void update(long id, String firstName, String lastName, Long location) {
+        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)]);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
@@ -19,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)

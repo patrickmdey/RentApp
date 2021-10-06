@@ -1,11 +1,12 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.*;
+import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
-import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.webapp.forms.CreateArticleForm;
 import ar.edu.itba.paw.webapp.forms.EditArticleForm;
 import ar.edu.itba.paw.webapp.forms.RentProposalForm;
@@ -21,9 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/article")

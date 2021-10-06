@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
