@@ -101,7 +101,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestConfirmationToOwner(Context context) {
-        context.setVariable("callBackUrl", BASE_URL + "/user/my-requests");
+        context.setVariable("callbackUrl", BASE_URL + "/user/my-requests/accepted");
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
