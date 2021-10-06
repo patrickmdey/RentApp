@@ -137,7 +137,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView delete(HttpServletResponse response) {
+    public ModelAndView delete() {
         userLogger.info("deleting account --> id: {}, email: {}", userAdvice.loggedUser().getId(), userAdvice.loggedUser().getEmail());
         userService.delete(userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/user/logout");

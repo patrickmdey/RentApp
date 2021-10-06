@@ -22,8 +22,6 @@ public class CategoryDaoJdbc implements CategoryDao {
                     resultSet.getString("description")
             );
 
-
-
     @Autowired
     public CategoryDaoJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);

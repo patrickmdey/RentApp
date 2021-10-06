@@ -33,17 +33,21 @@ public class ExceptionHandlerAdvice {
         return mav;
     }
 
-    @ExceptionHandler({CannotCreateArticleException.class, CannotCreateProposalException.class,
+    @ExceptionHandler({CannotCreateArticleException.class, CannotCreateImageException.class,
+            CannotCreateProposalException.class, CannotCreateReviewException.class,
+            CannotCreateUserException.class, CannotEditArticleCategoryException.class,
+            CannotEditArticleException.class, CannotEditRequestException.class,
+            CannotEditReviewException.class, CannotEditUserException.class,
             UnableToSendEmailException.class})
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView databaseError(Exception exception) {
         ModelAndView mav = new ModelAndView("error/500");
+        mav.addObject("user", loggedUserAdvice.loggedUser());
         mav.addObject("message", exception.getMessage());
         return mav;
     }
 
 
-    //    @RequestMapping("/400")
     @ExceptionHandler({TypeMismatchException.class, MissingServletRequestPartException.class,
             MissingServletRequestParameterException.class, BindException.class,
             HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
@@ -53,7 +57,6 @@ public class ExceptionHandlerAdvice {
         return mav;
     }
 
-    //    @RequestMapping("/404")
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView notFoundE(Exception e) {
         ModelAndView mav = new ModelAndView("error/404");
@@ -61,11 +64,14 @@ public class ExceptionHandlerAdvice {
         return mav;
     }
 
-    /*
+
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultError() {
-        return new ModelAndView("error/404");
+        ModelAndView mav = new ModelAndView("error/500");
+        mav.addObject("user", loggedUserAdvice.loggedUser());
+        mav.addObject("message", "exception.unexpected");
+        return mav;
     }
-     */
+
 }
 

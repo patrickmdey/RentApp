@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UnableToSendEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,7 +17,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Locale;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -60,7 +60,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequest(RentProposal rentProposal, User owner) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-//        thymeleafContext.setVariable("callbackUrl", callbackUrl); // deberia ir a /user/{userId}/my-account
         sendMailRequestToOwner(thymeleafContext);
         sendMailRequestToRenter(thymeleafContext);
     }
@@ -69,7 +68,7 @@ public class EmailServiceImpl implements EmailService {
         context.setVariable("callbackUrl", BASE_URL + "/user/my-requests");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
-                emailMessageSource.getMessage("email.newRequest.owner", null, Locale.getDefault())
+                emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
                         + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
@@ -77,7 +76,7 @@ public class EmailServiceImpl implements EmailService {
         context.setVariable("callbackUrl", BASE_URL + "/");
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("renterEmail"),
-                emailMessageSource.getMessage("email.newRequest.renter", null, Locale.getDefault())
+                emailMessageSource.getMessage("email.newRequest.renter", null, LocaleContextHolder.getLocale())
                         + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
@@ -89,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
         context.setVariable("callbackUrl", BASE_URL + "/user/login");
         String htmlBody = thymeleafTemplateEngine.process("new-user.html", context);
         sendHtmlMessage(newUser.getEmail(),
-                emailMessageSource.getMessage("email.newUser.subject", null, Locale.getDefault())
+                emailMessageSource.getMessage("email.newUser.subject", null, LocaleContextHolder.getLocale())
                 , htmlBody);
     }
 
@@ -104,13 +103,13 @@ public class EmailServiceImpl implements EmailService {
     private void sendMailRequestConfirmationToOwner(Context context) {
         context.setVariable("callBackUrl", BASE_URL + "/user/my-requests");
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
-        sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, Locale.getDefault()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
+        sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
     private void sendMailRequestConfirmationToRenter(Context context, long categoryId) {
         context.setVariable("callbackUrl", BASE_URL + "/?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-accepted.html", context);
-        sendHtmlMessage((String) context.getVariable("renterEmail"), emailMessageSource.getMessage("email.accepted.renter", null, Locale.getDefault())
+        sendHtmlMessage((String) context.getVariable("renterEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale())
                 + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
@@ -120,13 +119,13 @@ public class EmailServiceImpl implements EmailService {
         long categoryId = rentProposal.getArticle().getCategories().get(0).getId();
         thymeleafContext.setVariable("callbackUrl", BASE_URL + "/?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);
-        sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, Locale.getDefault())
+        sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, LocaleContextHolder.getLocale())
                 + thymeleafContext.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
 
     private Context getThymeleafContext(RentProposal rentProposal, User owner) {
-        Context thymeleafContext = new Context();
+        Context thymeleafContext = new Context(LocaleContextHolder.getLocale());
         Article article = rentProposal.getArticle();
         User renter = rentProposal.getRenter();
         thymeleafContext.setVariable("renterName", renter.getFirstName());

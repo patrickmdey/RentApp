@@ -51,10 +51,7 @@ public class WebSecurity {
 
     public boolean checkCanReview(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
-        if (!loggedUser.isPresent())
-            return false;
-
-        return rentService.hasRented(loggedUser.get(), articleId) && !reviewService.hasReviewed(loggedUser.get(), articleId);
+        return loggedUser.filter(user -> rentService.hasRented(user, articleId) && !reviewService.hasReviewed(user, articleId)).isPresent();
 
     }
 

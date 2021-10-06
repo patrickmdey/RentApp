@@ -21,7 +21,6 @@
 
 <div>
     <fieldset ${isView ? "disabled" : ""}>
-        <%--@elvariable id="accountForm" type="ar.edu.itba.paw.webapp.forms.AccountForm"--%>
         <form:form modelAttribute="accountForm" action="${actionUrl}" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-6">

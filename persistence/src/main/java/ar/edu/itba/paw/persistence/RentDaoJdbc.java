@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
+import ar.edu.itba.paw.models.exceptions.CannotEditRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -109,8 +110,11 @@ public class RentDaoJdbc implements RentDao {
 
     @Override
     public void updateRequest(long requestId, int state) {
-        jdbcTemplate.update(
-                "UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
+        try {
+            jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
+        } catch(Exception e) {
+            throw new CannotEditRequestException();
+        }
     }
 
     @Override

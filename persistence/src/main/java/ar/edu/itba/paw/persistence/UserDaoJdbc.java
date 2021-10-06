@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
+import ar.edu.itba.paw.models.exceptions.CannotEditUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -81,24 +82,34 @@ public class UserDaoJdbc implements UserDao {
 
     @Override
     public void update(long id, String firstName, String lastName, Locations location) {
-        jdbcTemplate.update("UPDATE account" +
-                " SET first_name = ?, " +
-                "    last_name  = ?, " +
-                "    location   = ? " +
-                "WHERE id = ?;", firstName, lastName, location.ordinal(), id);
+        try {
+            jdbcTemplate.update("UPDATE account" +
+                    " SET first_name = ?, " +
+                    "    last_name  = ?, " +
+                    "    location   = ? " +
+                    "WHERE id = ?;", firstName, lastName, location.ordinal(), id);
+        } catch(Exception e){
+            throw new CannotEditUserException();
+        }
     }
 
     @Override
     public void delete(long id) {
-        jdbcTemplate.update("DELETE\n" +
-                "FROM account\n" +
-                "WHERE id = ?;", id);
+        try {
+            jdbcTemplate.update("DELETE\n" +
+                    "FROM account\n" +
+                    "WHERE id = ?;", id);
+        } catch(Exception e){
+            throw new CannotEditUserException();
+        }
     }
 
     @Override
     public void updatePassword(long id, String passwordHash) {
-        jdbcTemplate.update("UPDATE account\n" +
-                "SET password = ?\n" +
-                "where id = ?;", passwordHash, id);
+        try {
+            jdbcTemplate.update("UPDATE account SET password = ? WHERE id = ?;", passwordHash, id);
+        } catch(Exception e){
+            throw new CannotEditUserException();
+        }
     }
 }

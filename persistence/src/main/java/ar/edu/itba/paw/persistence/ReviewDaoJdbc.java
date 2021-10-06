@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
+import ar.edu.itba.paw.models.exceptions.CannotEditReviewException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -96,7 +97,11 @@ public class ReviewDaoJdbc implements ReviewDao {
 
     @Override
     public void update(int rating, String message, long reviewId) {
-        jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
-        jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
+        try {
+            jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
+            jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
+        } catch(Exception e){
+            throw new CannotEditReviewException();
+        }
     }
 }

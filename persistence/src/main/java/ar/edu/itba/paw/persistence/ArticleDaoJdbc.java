@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -120,15 +122,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public Optional<Article> findById(long id) {
-        Optional<Article> optArticle = jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
+        return jdbcTemplate.query("SELECT * FROM article WHERE id = ?",
                         new Object[]{id}, ROW_MAPPER).stream().findFirst();
-
-        if (!optArticle.isPresent())
-            return Optional.empty();
-
-        Article article = optArticle.get();
-
-        return Optional.of(article);
     }
 
     @Override
@@ -149,7 +144,11 @@ public class ArticleDaoJdbc implements ArticleDao {
 
     @Override
     public int editArticle(long id, String title, String description, Float pricePerDay) {
-        return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
+        try {
+            return jdbcTemplate.update("UPDATE article SET title = ?, description = ?, price_per_day = ? WHERE id = ?", title, description, pricePerDay, id);
+        } catch(Exception e){
+            throw new CannotEditArticleException();
+        }
     }
 
     private String parseNameQuery(String query) {

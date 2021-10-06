@@ -122,7 +122,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public PlatformTransactionManager transactionManager(final DataSource ds) {
         return new DataSourceTransactionManager(ds);
     }
-
-
-
 }
