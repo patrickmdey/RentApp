@@ -70,7 +70,7 @@ public class UserController {
         userService.register(accountForm.getEmail(), accountForm.getPassword()
                 , accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(),
                 accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
-        ).orElseThrow(CannotCreateUserException::new);
+        );
 
         return new ModelAndView("redirect:/user/login");
     }

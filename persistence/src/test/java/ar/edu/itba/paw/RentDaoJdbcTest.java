@@ -114,11 +114,9 @@ public class RentDaoJdbcTest {
         final long renterId = 1;
 
         // Act
-        Optional<RentProposal> optionalResult = rentDao.create(comment, state, startDate,endDate, articleId,renterId);
+        RentProposal result = rentDao.create(comment, state, startDate,endDate, articleId,renterId);
 
         // Assert
-        Assert.assertTrue(optionalResult.isPresent());
-        RentProposal result = optionalResult.get();
 
         Assert.assertEquals(comment,result.getMessage());
         Assert.assertEquals(state,result.getState());

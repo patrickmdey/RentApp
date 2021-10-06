@@ -13,7 +13,7 @@ public interface UserDao {
 
     Optional<User> findById(long id);
 
-    Optional<User> register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type);
+    User register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type);
 
     Optional<User> findByEmail(String email);
 

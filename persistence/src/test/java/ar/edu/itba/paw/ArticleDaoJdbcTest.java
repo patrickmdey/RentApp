@@ -155,11 +155,9 @@ public class ArticleDaoJdbcTest {
         final long idOwner = 1;
 
         // Act
-        Optional<Article> optionalResult = articleDao.createArticle(title,description,pricePerDay,idOwner);
+        Article result = articleDao.createArticle(title,description,pricePerDay,idOwner);
 
         // Assert
-        Assert.assertTrue(optionalResult.isPresent());
-        Article result = optionalResult.get();
 
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());

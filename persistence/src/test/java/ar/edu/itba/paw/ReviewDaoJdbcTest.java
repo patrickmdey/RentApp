@@ -97,12 +97,9 @@ public class ReviewDaoJdbcTest {
         final long userId = 2;
 
         // Act
-        Optional<Review> optionalReview = reviewDao.create(rating,message,articleId,userId);
+        Review review = reviewDao.create(rating,message,articleId,userId);
 
         // Assert
-        Assert.assertTrue(optionalReview.isPresent());
-        Review review = optionalReview.get();
-
         Assert.assertEquals(rating,review.getRating());
         Assert.assertEquals(message,review.getMessage());
         Assert.assertEquals(articleId,review.getArticleId());

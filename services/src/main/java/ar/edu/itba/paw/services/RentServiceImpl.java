@@ -78,20 +78,17 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public Optional<RentProposal> create(String message, Integer approved, Date startDate,
+    public RentProposal create(String message, Integer approved, Date startDate,
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
         User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
-        Optional<RentProposal> proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
-        if (!proposal.isPresent())
-            return Optional.empty();
+        RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
 
-        RentProposal rp = proposal.get();
-        appendArticle(rp);
-        appendRenter(rp);
-        emailService.sendMailRequest(rp, owner);
+        appendArticle(proposal);
+        appendRenter(proposal);
+        emailService.sendMailRequest(proposal, owner);
         return proposal;
     }
 

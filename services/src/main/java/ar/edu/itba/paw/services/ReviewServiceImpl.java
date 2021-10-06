@@ -45,14 +45,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Optional<Review> create(int rating, String message, long articleId, long renterId) {
+    public Review create(int rating, String message, long articleId, long renterId) {
         articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
-        Optional<Review> review = reviewDao.create(rating, message, articleId, renterId);
-        if (!review.isPresent())
-            return Optional.empty();
+        Review review = reviewDao.create(rating, message, articleId, renterId);
 
-        review.get().setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
+        review.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
         return review;
     }
 

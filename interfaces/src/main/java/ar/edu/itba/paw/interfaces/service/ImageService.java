@@ -9,6 +9,5 @@ public interface ImageService {
 
     Optional<DBImage> findById(long id);
 
-    Optional<DBImage> create(MultipartFile img);
-
+    DBImage create(MultipartFile img);
 }

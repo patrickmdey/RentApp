@@ -22,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Optional<DBImage> create(MultipartFile img) {
+    public DBImage create(MultipartFile img) {
         try {
             byte[] data = img.getBytes();
             return imageDao.create(data);

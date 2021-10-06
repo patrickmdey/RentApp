@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -54,7 +55,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public Optional<User> register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type) {
+    public User register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);
@@ -63,9 +64,13 @@ public class UserDaoJdbc implements UserDao {
         data.put("location", location.ordinal());
         data.put("picture", img);
         data.put("type", type.ordinal());
-        int userId = (int) jdbcInsert.executeAndReturnKey(data);
 
-        return Optional.of(new User(userId, email, password, firstName, lastName, location, img, type));
+        try {
+            int userId = (int) jdbcInsert.executeAndReturnKey(data);
+            return new User(userId, email, password, firstName, lastName, location, img, type);
+        } catch(Exception e){
+            throw new CannotCreateUserException();
+        }
     }
 
     @Override

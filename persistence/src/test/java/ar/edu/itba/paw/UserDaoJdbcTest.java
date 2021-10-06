@@ -89,12 +89,9 @@ public class UserDaoJdbcTest {
         final UserType type = UserType.OWNER;
 
         // Act
-        Optional<User> optionalUser = userDao.register(email,password,firstName,lastName,locationId,image,type);
+        User user = userDao.register(email,password,firstName,lastName,locationId,image,type);
 
         // Assert
-        Assert.assertTrue(optionalUser.isPresent());
-        User user = optionalUser.get();
-
         Assert.assertEquals(email, user.getEmail());
         Assert.assertEquals(password, user.getPassword());
         Assert.assertEquals(firstName, user.getFirstName());

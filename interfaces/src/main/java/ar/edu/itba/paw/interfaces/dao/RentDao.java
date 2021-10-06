@@ -18,7 +18,7 @@ public interface RentDao {
 
     boolean hasRented(long renterId, long articleId);
 
-    Optional<RentProposal> create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);
+    RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);
 
     Long getReceivedMaxPage(long ownerId, int state);
 

@@ -81,7 +81,7 @@ public class ArticleController {
 
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
                 new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId()).orElseThrow(CannotCreateProposalException::new);
+                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId());
 
 
         return new ModelAndView("redirect:/feedback");
@@ -107,7 +107,7 @@ public class ArticleController {
                 createArticleForm.getPricePerDay(),
                 createArticleForm.getCategories(),
                 createArticleForm.getFiles(),
-                userAdvice.loggedUser().getId()).orElseThrow(CannotCreateArticleException::new);
+                userAdvice.loggedUser().getId());
 
         articleLogger.info("creating article with params --> name: {}, description: {}, price: {}, categories: {}",
                 article.getTitle(), article.getDescription(), article.getPricePerDay(), article.getCategories());

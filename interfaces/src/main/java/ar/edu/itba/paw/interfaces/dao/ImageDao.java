@@ -8,6 +8,5 @@ public interface ImageDao {
 
     Optional<DBImage> findById(long id);
 
-    Optional<DBImage> create(byte[] img);
-
+    DBImage create(byte[] img);
 }

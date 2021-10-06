@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -131,16 +132,19 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public Optional<Article> createArticle(String title, String description, Float pricePerDay, long idOwner) {
+    public Article createArticle(String title, String description, Float pricePerDay, long idOwner) {
         Map<String, Object> data = new HashMap<>();
         data.put("title", title);
         data.put("description", description);
         data.put("price_per_day", pricePerDay);
         data.put("owner_id", idOwner);
 
-        long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
-
-        return Optional.of(new Article(articleId, title, description, pricePerDay, idOwner));
+        try {
+            long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
+            return new Article(articleId, title, description, pricePerDay, idOwner);
+        } catch(Exception e){
+            throw new CannotCreateArticleException();
+        }
     }
 
     @Override

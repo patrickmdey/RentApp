@@ -54,7 +54,7 @@ public class ReviewController {
         reviewLogger.info("publishing review for article with id '{}' with params --> rating: {}, message: {}",
                 articleId, reviewForm.getRating(), reviewForm.getMessage());
         reviewService.create(reviewForm.getRating(), reviewForm.getMessage(),
-                articleId, userAdvice.loggedUser().getId()).orElseThrow(CannotCreateReviewException::new);
+                articleId, userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/article/" + articleId);
     }
 

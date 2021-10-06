@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,12 +41,15 @@ public class ImageDaoJdbc implements ImageDao {
     }
 
     @Override
-    public Optional<DBImage> create(byte[] img) {
+    public DBImage create(byte[] img) {
         Map<String, Object> data = new HashMap<>();
         data.put("data", img);
 
-        long imageId =  jdbcInsert.executeAndReturnKey(data).longValue();
-
-        return Optional.of(new DBImage(imageId, img));
+        try {
+            long imageId = jdbcInsert.executeAndReturnKey(data).longValue();
+            return new DBImage(imageId, img);
+        } catch(Exception e){
+            throw new CannotCreateImageException();
+        }
     }
 }

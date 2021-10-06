@@ -80,7 +80,7 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getDescription()),
                 eq(articleToCreate.getPricePerDay()),
                 eq(articleToCreate.getIdOwner())
-        )).thenReturn(Optional.of(articleToCreate));
+        )).thenReturn(articleToCreate);
 
         categoriesId.forEach(t -> {
             when(articleCategoryDao.addToArticle(
@@ -94,7 +94,7 @@ public class ArticleServiceImplTest {
 
         // Act
 
-        Optional<Article> optionalArticle = articleService.createArticle(
+        Article article = articleService.createArticle(
                 articleToCreate.getTitle(),
                 articleToCreate.getDescription(),
                 articleToCreate.getPricePerDay(),
@@ -104,11 +104,6 @@ public class ArticleServiceImplTest {
         );
 
         // Assert
-
-        Assert.assertTrue(optionalArticle.isPresent());
-
-        Article article = optionalArticle.get();
-
         Assert.assertEquals(articleToCreate.getTitle(), article.getTitle());
         Assert.assertEquals(articleToCreate.getDescription(), article.getDescription());
         Assert.assertEquals(articleToCreate.getPricePerDay(), article.getPricePerDay());

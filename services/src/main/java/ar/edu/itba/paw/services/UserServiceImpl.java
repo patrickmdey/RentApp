@@ -51,17 +51,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<User> register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
+    public User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
         String passwordHash = passwordEncoder.encode(password);
-        Optional<DBImage> dbImg = imageService.create(img);
-        if (!dbImg.isPresent())
-            return Optional.empty();
+        DBImage dbImg = imageService.create(img);
 
-        Optional<User> user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.get().getId(), type);
-        if (!user.isPresent())
-            return Optional.empty();
-
-        emailService.sendNewUserMail(user.get());
+        User user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.getId(), type);
+        emailService.sendNewUserMail(user);
 
         return user;
     }

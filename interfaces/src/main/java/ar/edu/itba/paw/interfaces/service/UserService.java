@@ -14,7 +14,7 @@ public interface UserService {
 
     List<User> list();
 
-    Optional<User> register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type);
+    User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type);
 
     void update(long id, String firstName, String lastName, Long location, Boolean isOwner);
 

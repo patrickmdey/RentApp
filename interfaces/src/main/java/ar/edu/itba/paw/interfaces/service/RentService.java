@@ -18,7 +18,7 @@ public interface RentService {
 
     void rejectRequest(long requestId);
 
-    Optional<RentProposal> create(String comment, Integer approved, Date startDate,
+    RentProposal create(String comment, Integer approved, Date startDate,
                                   Date endDate, Long articleId,
                                   String renterName, String renterEmail, long renterId);
 

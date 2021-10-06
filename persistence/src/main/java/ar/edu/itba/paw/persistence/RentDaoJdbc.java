@@ -3,6 +3,7 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -89,7 +90,7 @@ public class RentDaoJdbc implements RentDao {
     }
 
     @Override
-    public Optional<RentProposal> create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
+    public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
         Map<String, Object> data = new HashMap<>();
         data.put("message", comment);
         data.put("state", approved);
@@ -98,9 +99,12 @@ public class RentDaoJdbc implements RentDao {
         data.put("article_id", articleId);
         data.put("renter_id", renterId);
 
-        long rentProposalId = jdbcInsert.executeAndReturnKey(data).longValue();
-
-        return Optional.of(new RentProposal(rentProposalId, comment, approved, startDate, endDate, articleId, renterId));
+        try {
+            long rentProposalId = jdbcInsert.executeAndReturnKey(data).longValue();
+            return new RentProposal(rentProposalId, comment, approved, startDate, endDate, articleId, renterId);
+        } catch(Exception e){
+            throw new CannotCreateProposalException();
+        }
     }
 
     @Override

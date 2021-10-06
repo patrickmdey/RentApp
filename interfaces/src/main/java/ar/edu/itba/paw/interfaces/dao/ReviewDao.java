@@ -14,7 +14,7 @@ public interface ReviewDao {
 
     Optional<Review> findById(long reviewId);
 
-    Optional<Review> create(int rating, String message, long articleId, long renterId);
+    Review create(int rating, String message, long articleId, long renterId);
 
     Long getMaxPage(long articleId);
 

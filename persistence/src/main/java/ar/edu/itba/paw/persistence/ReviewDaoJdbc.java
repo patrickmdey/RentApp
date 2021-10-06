@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -70,7 +71,7 @@ public class ReviewDaoJdbc implements ReviewDao {
     }
 
     @Override
-    public Optional<Review> create(int rating, String message, long articleId, long renterId) {
+    public Review create(int rating, String message, long articleId, long renterId) {
         Map<String, Object> data = new HashMap<>();
         data.put("rating", rating);
         data.put("message", message);
@@ -79,8 +80,12 @@ public class ReviewDaoJdbc implements ReviewDao {
         Date createdAt = new Date(System.currentTimeMillis());
         data.put("created_at", createdAt);
 
-        long reviewId = jdbcInsert.executeAndReturnKey(data).longValue();
-        return Optional.of(new Review(reviewId, rating, message, articleId, renterId, createdAt));
+        try {
+            long reviewId = jdbcInsert.executeAndReturnKey(data).longValue();
+            return new Review(reviewId, rating, message, articleId, renterId, createdAt);
+        } catch(Exception e){
+            throw new CannotCreateReviewException();
+        }
     }
 
     @Override
