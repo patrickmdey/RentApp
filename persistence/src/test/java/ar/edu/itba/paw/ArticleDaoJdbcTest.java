@@ -1,6 +1,7 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
@@ -165,7 +166,7 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(idOwner, result.getIdOwner());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateArticleException.class)
     public void createArticle_Fail_NullValues() {
         // Arrange
         final String title = null;
@@ -180,7 +181,7 @@ public class ArticleDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateArticleException.class)
     public void createArticle_Fail_OwnerNotFound() {
         // Arrange
         final String title = "Moto";

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -118,7 +119,7 @@ public class UserDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateUserException.class)
     public void register_Fail_NullValuesDuringInsert() {
         // Arrange
         final String email  = null;

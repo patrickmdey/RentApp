@@ -65,12 +65,10 @@ public class ArticleServiceImplTest {
         );
 
         this.categoriesId = categories.stream().map(Category::getId).collect(Collectors.toList());
-
-
     }
 
     @Test
-    public void testCreate() {
+    public void create_Succeed() {
 
         // Arrange
         Article articleToCreate = articles.stream().findFirst().get();
@@ -93,7 +91,6 @@ public class ArticleServiceImplTest {
                 .thenReturn(categories);
 
         // Act
-
         Article article = articleService.createArticle(
                 articleToCreate.getTitle(),
                 articleToCreate.getDescription(),
@@ -112,8 +109,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testCreateFails() {
-
+    public void create_Fail_ArticleDaoThrowsException() {
         // Arrange
         Article articleToCreate = articles.stream().findFirst().get();
 
@@ -123,11 +119,8 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getPricePerDay()),
                 eq(articleToCreate.getIdOwner())
         )).thenThrow(RuntimeException.class);
-        // TODO: Look for what exception I should throw here
-
 
         // Act
-
         articleService.createArticle(
                 articleToCreate.getTitle(),
                 articleToCreate.getDescription(),
@@ -138,14 +131,12 @@ public class ArticleServiceImplTest {
         );
 
         // Assert
-
         Assert.fail();
 
     }
 
     @Test
-    public void testRentedArticles() {
-
+    public void rentedArticles_Succeed() {
         // Arrange
         when(articleImageDao.findFromArticle(anyLong()))
                 .thenReturn(new ArrayList<>());
@@ -155,7 +146,6 @@ public class ArticleServiceImplTest {
 
         when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
                 .thenReturn(articles);
-
 
         // Act
         List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
@@ -173,7 +163,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testRentedArticlesFails() {
+    public void rentedArticles_Fail_ArticleDaoThrowsException() {
 
         // Arrange
         when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
@@ -189,7 +179,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test
-    public void testEditArticle() {
+    public void editArticle_Succeed() {
         // Arrange
         Article articleToEdit = articles.get(0);
 
@@ -239,7 +229,7 @@ public class ArticleServiceImplTest {
 
 
     @Test(expected = RuntimeException.class)
-    public void testEditArticleFails() {
+    public void editArticle_Fail_ArticleDaoThrowsException() {
         // Arrange
         Article articleToEdit = articles.get(0);
 

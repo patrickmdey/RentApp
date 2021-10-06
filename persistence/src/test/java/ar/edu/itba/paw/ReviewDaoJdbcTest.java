@@ -2,12 +2,12 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -106,7 +106,7 @@ public class ReviewDaoJdbcTest {
         Assert.assertEquals(userId,review.getRenterId());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateReviewException.class)
     public void create_Fail_ArticleNotFound() {
         // Assert
         final int rating = 2;
@@ -121,7 +121,7 @@ public class ReviewDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateReviewException.class)
     public void create_Fail_UserNotFound() {
         // Assert
         final int rating = 2;

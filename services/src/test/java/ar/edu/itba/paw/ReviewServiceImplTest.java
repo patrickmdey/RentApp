@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.services.ReviewServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -57,7 +59,7 @@ public class ReviewServiceImplTest {
     private Review review;
 
     @Test
-    public void testCreate() {
+    public void create_Succeed() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.of(userRenter));
@@ -79,7 +81,7 @@ public class ReviewServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testCreateFail() {
+    public void create_Fail_ReviewDaoThrowsException() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(reviewDao.create(
@@ -90,14 +92,14 @@ public class ReviewServiceImplTest {
         )).thenThrow(RuntimeException.class);
 
         // Act
-        reviewService.create(review.getRating(),review.getMessage(),review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
 
         // Assert
         Assert.fail();
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testCreateFailUserNotFound() {
+    @Test(expected = UserNotFoundException.class)
+    public void create_Fail_UserNotFound() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.empty());
@@ -109,24 +111,22 @@ public class ReviewServiceImplTest {
         )).thenReturn(review);
 
         // Act
-        reviewService.create(review.getRating(),review.getMessage(),review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
 
         // Assert
         Assert.fail();
     }
 
-    /* TODO: cambiar este test
-    @Test
-    public void testCreateFailArticleNotFound() {
+    @Test(expected = ArticleNotFoundException.class)
+    public void create_Fail_ArticleNotFound() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.empty());
 
         // Act
-        Optional<Review> optionalReview = reviewService.create(review.getRating(),review.getMessage(),review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
 
         // Assert
-        Assert.assertFalse(optionalReview.isPresent());
+        Assert.fail();
     }
 
-     */
 }
