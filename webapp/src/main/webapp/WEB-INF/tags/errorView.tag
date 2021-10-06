@@ -5,9 +5,9 @@
 <%@attribute name="errorMsg" required="true" %>
 
 <c:url value="/" var="marketplace"/>
-<c:url value="../../resources/image/error.png" var="errorImage"/>
+<c:url value="/resources/image/error.png" var="errorImage"/>
 <div class="error-container container-height">
-    <div class="d-flex justify-content-center my-n5">
+    <div class="d-flex justify-content-center">
         <img src="${errorImage}" width="70%" height="50%">
     </div>
     <h1 class="display-3 fw-bold">Error ${errorNum}</h1>

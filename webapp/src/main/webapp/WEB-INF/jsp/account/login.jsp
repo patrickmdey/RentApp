@@ -12,6 +12,7 @@
 
 <html>
 <h:head title="LogIn"/>
+<link rel="stylesheet" href="<c:url value="/resources/css/password.css"/>">
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container min-height">
@@ -28,19 +29,24 @@
                 <hr/>
                 <div class="row">
                     <div class="form-group">
-                        <label><spring:message code="login.form.email"/></label>
+                        <label for="email"><spring:message code="login.form.email"/></label>
                         <spring:message code="placeholder.email" var="emailPlaceholder"/>
-                        <input name="email" type="text" placeholder="${emailPlaceholder}"
+                        <input id="email" name="email" type="text" placeholder="${emailPlaceholder}"
                                class="form-control form-control-custom"/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group">
-                        <label><spring:message code="login.form.password"/></label>
+                        <label for="password"><spring:message code="login.form.password"/></label>
                         <spring:message code="placeholder.password" var="passwordPlaceholder"/>
-                        <input name="password" type="password" placeholder="${passwordPlaceholder}"
-                               class="form-control form-control-custom"/>
+                        <div class="input-group">
+                            <input id="password" name="password" type="password" placeholder="${passwordPlaceholder}"
+                                   class="form-control form-control-custom"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-eye-slash"></i></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -66,6 +72,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="<c:url value="/resources/js/main.js" />" defer></script>
+<script src="<c:url value="/resources/js/password.js" />" defer></script>
 
 </html>
