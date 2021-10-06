@@ -11,7 +11,7 @@
 <h:navbar loggedUser="${user}"/>
 
 
-<div class="main-container">
+<div class="main-container min-height">
     <div class="card shadow card-style create-card mx-3">
         <div class="form-container">
             <h3 class="h3 fw-bold my-1"><spring:message code="account.create.form.title"/></h3>

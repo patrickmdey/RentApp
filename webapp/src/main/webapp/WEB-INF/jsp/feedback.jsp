@@ -9,7 +9,7 @@
 <h:head title="Solicitud Enviada"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
     <div class="card shadow card-style">
         <div class="d-flex justify-content-center">
             <img src="${successIcon}" height="280px" width="280px" alt="success">

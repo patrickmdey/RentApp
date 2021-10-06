@@ -21,23 +21,24 @@
     </c:otherwise>
 </c:choose>
 
-<div class="main-container">
-    <h1 class="h1"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h1>
-    <hr/>
-    <div class="row w-100 g-0 align-items-start justify-content-between">
-        <div class="card card-style col-3">
-            <a class="btn btn-light mb-3" href="<c:url value="/user/my-requests/pending"/>">
+<div class="container min-height">
+    <div class="row align-items-start justify-content-center">
+        <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
+            <h3 class="h3"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h3>
+            <hr/>
+            <a class="btn bg-color-action color-grey mb-3" href="<c:url value="/user/my-requests/pending"/>">
                 <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
             </a>
-            <a class="btn btn-light mb-3" href="<c:url value="/user/my-requests/accepted"/>">
+            <a class="btn bg-color-action color-grey mb-3" href="<c:url value="/user/my-requests/accepted"/>">
                 <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
             </a>
-            <a class="btn btn-light" href="<c:url value="/user/my-requests/declined"/>">
+            <a class="btn bg-color-action color-grey" href="<c:url value="/user/my-requests/declined"/>">
                 <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
             </a>
         </div>
-        <div class="col-8">
-            <div class="card w-100 p-5">
+        <div class="col-md-9 col-lg-9 col-12">
+            <div class="card card-style my-requests-card">
+                <h3 class="h3"><spring:message code="myAccount.requestsTitle.${state.name()}"</h3>
                 <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
                     <c:if test="${user.type.isOwner}">
                         <a class="nav-link active" id="nav-received-tab" data-bs-toggle="tab" href="#nav-received"
@@ -60,14 +61,12 @@
                     <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received" role="tabpanel"
                          aria-labelledby="nav-received-tab">
                         <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
-                                       isReceived="${true}"/>
-                        <h:pagination currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
+                                       isReceived="${true}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
                     </div>
                     <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
                          aria-labelledby="nav-sent-tab">
                         <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
-                                       isReceived="${false}"/>
-                        <h:pagination currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                                       isReceived="${false}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
                     </div>
                 </div>
             </div>

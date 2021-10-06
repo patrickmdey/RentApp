@@ -105,6 +105,9 @@ i.overflow-icon:hover {
     align-items: center;
     margin-left: 15%;
     margin-right: 15%;
+}
+
+.min-height {
     min-height: 100vh;
 }
 
@@ -155,6 +158,10 @@ i.overflow-icon:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.card.my-requests-card {
+    min-height: 450px;
 }
 
 .footer-col {

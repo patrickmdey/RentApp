@@ -23,7 +23,7 @@
 <h:head title="Publish Form"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="createArticleForm" action="${articleUrl}" method="post"
                    enctype="multipart/form-data">
