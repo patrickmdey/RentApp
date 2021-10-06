@@ -23,14 +23,13 @@ label {
 .avatar-container {
     width: 80px;
     height: 80px;
-
 }
 
 .avatar-container img {
     max-height: 100%;
     max-width: 100%;
     border-radius: 50%;
-    object-fit: none;
+    object-fit: contain;
 }
 
 .card-style.article-card {
