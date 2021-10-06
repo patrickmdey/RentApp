@@ -126,9 +126,8 @@ public class ArticleCategoryDaoJdbcTest {
         articleCategoryDao.removeFromArticle(articleId, categoryId);
 
         // Assert
+
     }
-    // TODO: Is there a way to test fail cases? like article does not exist?
-    //       the function and SQL won't throw an error
 
 
 }

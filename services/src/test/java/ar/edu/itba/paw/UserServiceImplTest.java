@@ -60,7 +60,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    public void testRegister() throws IOException {
+    public void register_Succeed() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -84,7 +84,6 @@ public class UserServiceImplTest {
         );
 
         // Assert
-
         Assert.assertEquals(user.getEmail(), result.getEmail());
         Assert.assertEquals(user.getFirstName(), result.getFirstName());
         Assert.assertEquals(user.getLastName(), result.getLastName());
@@ -93,7 +92,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testRegisterFails() throws IOException {
+    public void register_Fail_UserDaoThrowsException() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -116,24 +115,23 @@ public class UserServiceImplTest {
         Assert.fail();
     }
 
-    /* TODO: cambiar este test
-    @Test
-    public void testRegisterFailImageNotUploaded() throws IOException {
+    @Test(expected = NullPointerException.class)
+    public void register_Fail_ImageNotUploaded() throws IOException {
         // Arrange
         final String password = "password";
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
-        when(imageService.create(eq(image))).thenReturn(Optional.empty());
+        when(imageService.create(eq(image))).thenReturn(null);
 
         // Act
-        User result = userService.register(
+        userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
                 (long) user.getLocation().ordinal(), image, user.getType()
         );
 
         // Assert
-        Assert.assertFalse(optionalResult.isPresent());
+        Assert.fail();
 
     }
-     */
+
 }

@@ -3,12 +3,12 @@ package ar.edu.itba.paw;
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -126,7 +126,7 @@ public class RentDaoJdbcTest {
         Assert.assertEquals(renterId,result.getRenterId());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateProposalException.class)
     public void create_Fail_ProposalExists() throws ParseException {
         // Assert
         final String comment = "";
@@ -145,7 +145,7 @@ public class RentDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateProposalException.class)
     public void create_Fail_ArticleNotFound() throws ParseException {
         // Assert
         final String comment = "";
@@ -164,7 +164,7 @@ public class RentDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotCreateProposalException.class)
     public void create_Fail_UserNotFound() throws ParseException {
         // Assert
         final String comment = "";
