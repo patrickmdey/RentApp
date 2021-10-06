@@ -2,6 +2,7 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
 import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
@@ -212,7 +213,7 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(updatedRows,result);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditArticleException.class)
     public void editArticle_Fail_NullValues() {
         // Arrange
         final long idArticle = 1;

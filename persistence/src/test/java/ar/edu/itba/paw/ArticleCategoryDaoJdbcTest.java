@@ -1,6 +1,8 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
 import ar.edu.itba.paw.persistence.ArticleCategoryDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
@@ -77,7 +79,7 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.assertEquals(categoryId, resultCategory);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditArticleCategoryException.class)
     public void addToArticle_Fail_ArticleNotFound() {
         // Arrange
         final long articleId = 999;
@@ -90,7 +92,7 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditArticleCategoryException.class)
     public void addToArticle_Fail_CategoryNotFound() {
         // Arrange
         final long articleId = 1;
@@ -103,7 +105,7 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditArticleCategoryException.class)
     public void addToArticle_Fail_ArticleHasCategory() {
         // Arrange
         final long articleId = 1;

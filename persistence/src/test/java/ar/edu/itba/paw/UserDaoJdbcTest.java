@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
+import ar.edu.itba.paw.models.exceptions.CannotEditUserException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -152,7 +153,7 @@ public class UserDaoJdbcTest {
 
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = CannotEditUserException.class)
     public void update_Fail_NullValuesBeforeUpdate() {
         // Arrange
         final long userId = 1;
@@ -167,7 +168,7 @@ public class UserDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditUserException.class)
     public void update_Fail_NullValuesDuringUpdate() {
         // Arrange
         final long userId = 1;
@@ -205,7 +206,7 @@ public class UserDaoJdbcTest {
         // Assert
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = CannotEditUserException.class)
     public void updatePassword_Fail_NullValues() {
         // Arrange
         final long userId = 1;
