@@ -14,7 +14,7 @@
 <h:head title="LogIn"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
 
     <c:if test="${loginError}">
         <h:messagePanel mode="error" cssClass="create-card card-style " visible="true" messages="login.form.error"/>

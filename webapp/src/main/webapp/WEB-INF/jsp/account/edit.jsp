@@ -12,7 +12,7 @@
 
 <body class="bg-color-grey ">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
 
     <h:messagePanel mode="success" visible="${showPanel}" messages="${successMsg}"/>
 

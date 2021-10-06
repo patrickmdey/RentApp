@@ -14,7 +14,7 @@
 <h:navbar loggedUser="${user}"/>
 
 
-<div class="main-container">
+<div class="main-container min-height">
 
     <c:if test="${showPanel}">
         <h:messagePanel mode="success" visible="true" messages="account.updatePassword.form.success"/>

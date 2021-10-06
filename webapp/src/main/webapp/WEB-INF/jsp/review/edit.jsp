@@ -13,7 +13,7 @@
 <h:head title="Editar Reseña"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="reviewForm" method="post" action="${updateReview}">
         <div class="form-container">

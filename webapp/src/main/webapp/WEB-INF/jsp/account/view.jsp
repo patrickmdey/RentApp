@@ -17,7 +17,7 @@
 
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
 
     <!-- Modal -->
     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"

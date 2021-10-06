@@ -12,7 +12,7 @@
 <h:head title="${article.title}"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
-<div class="main-container">
+<div class="main-container min-height">
     <div class="card card-style">
         <div class="row g-0">
             <div class="col-md-4 justify-content-center align-items-center">

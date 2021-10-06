@@ -19,10 +19,11 @@
 <c:url value="/user/my-requests/${id}/delete" var="deleteRequest"/>
 
 
-<div class="card card-style">
-    <h4 class="h4 mb-2"><c:out value="${articleName}"/></h4>
-    <p class="lead fw-bold mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
-                                                 arguments="${renterFirstName}, ${renteLastName}"/></p>
+<div class="card card-style mt-2">
+    <h3 class="h3 mb-2"><c:out value="${articleName}"/></h3>
+    <hr>
+    <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
+                                         arguments="${renterFirstName}, ${renteLastName}"/></p>
     <div class="row">
         <p class="lead col-4"><spring:message code="myAccount.ownerRequests.startDate"
                                               arguments="${startDate}"/></p>
@@ -30,13 +31,16 @@
                                                     arguments="${endDate}"/></p>
     </div>
     <c:if test="${state == 1}">
-        <a href="mailto:${renterEmail}" class="lead">
-            <c:out value="${renterEmail}"/>
-        </a>
+        <div class="row">
+            <p class="lead"><spring:message code="footer.contact"/></p>
+            <a href="mailto:${renterEmail}" class="lead">
+                <c:out value="${renterEmail}"/>
+            </a>
+        </div>
     </c:if>
-    <p class="lead fw-bold">
+    <h4 class="h4">
         <spring:message code="myAccount.ownerRequests.message"/>
-    </p>
+    </h4>
     <p><c:out value="${message}"/></p>
     <c:if test="${isReceived && state == 0}">
         <div class="d-flex justify-content-end">
