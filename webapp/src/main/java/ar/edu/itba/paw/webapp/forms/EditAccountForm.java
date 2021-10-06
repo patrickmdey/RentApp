@@ -3,15 +3,17 @@ package ar.edu.itba.paw.webapp.forms;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class EditAccountForm {
 
-    @NotNull
+
     @NotEmpty
+    @Size(min = 3, max = 20)
     private String firstName;
 
-    @NotNull
     @NotEmpty
+    @Size(min = 3, max = 20)
     private String lastName;
 
     @NotNull

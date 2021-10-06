@@ -9,12 +9,10 @@ import java.util.List;
 
 public class EditArticleForm {
 
-    @NotNull
     @NotEmpty
     @Size(min=5, max = 50)
     private String name;
 
-    @NotNull
     @NotEmpty
     @Size(min = 10, max = 310)
     private String description;

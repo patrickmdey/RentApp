@@ -13,19 +13,17 @@ import javax.validation.constraints.Size;
 @FieldsEquality(firstFieldName = "password", secondFieldName = "confirmPassword")
 public class AccountForm extends EditAccountForm {
 
-    @NotNull
     @NotEmpty
     @Size(min = 8, max = 20)
     private String password;
 
-    @NotNull
     @NotEmpty
     private String confirmPassword;
 
-    @NotNull
     @NotEmpty
     @Email
     @UserNotExists
+    @Size(min = 3, max = 320)
     private String email;
 
     @ValidFile
