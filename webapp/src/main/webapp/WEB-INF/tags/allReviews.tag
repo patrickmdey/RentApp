@@ -2,7 +2,7 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="control" tagdir="/WEB-INF/tags/controls" %>
 
 <%@attribute name="article" type="ar.edu.itba.paw.models.Article" required="true" %>
 <%@attribute name="user" type="ar.edu.itba.paw.models.User" required="true" %>

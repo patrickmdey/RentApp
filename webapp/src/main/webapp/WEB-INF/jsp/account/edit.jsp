@@ -3,7 +3,7 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="control" tagdir="/WEB-INF/tags/controls" %>
 
 <c:set value="account.edit.form.message" var="successMsg"/>
 

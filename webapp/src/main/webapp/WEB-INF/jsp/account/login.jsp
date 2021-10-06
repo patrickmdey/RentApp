@@ -2,7 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="control" tagdir="/WEB-INF/tags/controls" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
