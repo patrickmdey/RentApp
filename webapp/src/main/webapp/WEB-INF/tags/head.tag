@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ attribute name="title" required="true" %>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/marketplaceArticleCard.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/createArticle.css" />" rel="stylesheet">
