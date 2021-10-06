@@ -61,7 +61,7 @@
                         code="article.createArticleForm.category"/></form:label>
                 <div class="category-list-container my-2 mx-1">
                     <c:forEach items="${categories}" var="category">
-                        <div>
+                        <div class="category-item">
                             <form:checkbox cssClass="list-element" path="categories" value="${category.id}"/>
                             <spring:message code="${category.description}"/>
                         </div>

@@ -5,10 +5,14 @@
 }
 
 .category-list-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
+    column-gap: 1%;
+    row-gap: 1em;
+}
+
+.category-list-container .category-item {
+    white-space: nowrap;
 }
 
 .list-element {
