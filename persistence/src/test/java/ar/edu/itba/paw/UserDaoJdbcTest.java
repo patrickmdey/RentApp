@@ -41,7 +41,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void list_Succeed() {
+    public void listSucceed() {
         // Arrange
         final long[] expectedIds = {1,2};
 
@@ -53,7 +53,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Arrange
         final long userId = 1;
 
@@ -68,7 +68,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_UserNotFound() {
+    public void findByIdFailUserNotFound() {
         // Arrange
         final long userId = 999;
 
@@ -80,7 +80,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void register_Succeed() {
+    public void registerSucceed() {
         // Arrange
         final String email  = "mail@mail.com";
         final String password = "pass";
@@ -103,7 +103,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void register_Fail_NullValuesBeforeInsert() {
+    public void registerFailNullValuesBeforeInsert() {
         // Arrange
         final String email  = null;
         final String password = null;
@@ -121,7 +121,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = CannotCreateUserException.class)
-    public void register_Fail_NullValuesDuringInsert() {
+    public void registerFailNullValuesDuringInsert() {
         // Arrange
         final String email  = null;
         final String password = null;
@@ -139,7 +139,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void update_Succeed() {
+    public void updateSucceed() {
         // Arrange
         final long userId = 1;
         final String firstName = "first";
@@ -154,7 +154,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = CannotEditUserException.class)
-    public void update_Fail_NullValuesBeforeUpdate() {
+    public void updateFailNullValuesBeforeUpdate() {
         // Arrange
         final long userId = 1;
         final String firstName = null;
@@ -169,7 +169,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = CannotEditUserException.class)
-    public void update_Fail_NullValuesDuringUpdate() {
+    public void updateFailNullValuesDuringUpdate() {
         // Arrange
         final long userId = 1;
         final String firstName = null;
@@ -184,7 +184,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void delete_Succeed() {
+    public void deleteSucceed() {
         // Arrange
         final long userId = 1;
 
@@ -195,7 +195,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void updatePassword_Succeed() {
+    public void updatePasswordSucceed() {
         // Arrange
         final long userId = 1;
         final String passwordHash = "new hash";
@@ -207,7 +207,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = CannotEditUserException.class)
-    public void updatePassword_Fail_NullValues() {
+    public void updatePasswordFailNullValues() {
         // Arrange
         final long userId = 1;
         final String passwordHash = null;

@@ -60,7 +60,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    public void register_Succeed() throws IOException {
+    public void registerSucceed() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -92,7 +92,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void register_Fail_UserDaoThrowsException() throws IOException {
+    public void registerFailUserDaoThrowsException() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -116,7 +116,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void register_Fail_ImageNotUploaded() throws IOException {
+    public void registerFailImageNotUploaded() throws IOException {
         // Arrange
         final String password = "password";
 

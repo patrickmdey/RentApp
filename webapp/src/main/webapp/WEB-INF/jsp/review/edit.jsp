@@ -39,9 +39,7 @@
                 <spring:message code="placeholder.review.message" var="placeholder"/>
                 <form:textarea path="message" type="text" placeholder="${placeholder}"
                                class="form-control form-control-custom"/>
-                <form:errors path="message" element="p" cssClass="error">
-                    <spring:message code="errors.requiredReviewMessage"/>
-                </form:errors>
+                <form:errors path="message" element="p" cssClass="error"/>
             </div>
             <div class="d-flex justify-content-end">
                 <a href="${goBack}" class="me-1 rounded btn btn-danger">

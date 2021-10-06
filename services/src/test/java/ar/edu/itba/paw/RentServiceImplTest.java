@@ -65,7 +65,7 @@ public class RentServiceImplTest {
 
 
     @Test
-    public void create_Succeed() {
+    public void createSucceed() {
         // Arrange
         when(articleService.findById(eq(article.getId()))).thenReturn(Optional.of(article));
 
@@ -107,7 +107,7 @@ public class RentServiceImplTest {
 
 
     @Test(expected = ArticleNotFoundException.class)
-    public void create_Fail_ArticleNotFound() {
+    public void createFailArticleNotFound() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.empty());
 
@@ -130,7 +130,7 @@ public class RentServiceImplTest {
 
 
     @Test(expected = UserNotFoundException.class)
-    public void create_Fail_OwnerNotFound() {
+    public void createFailOwnerNotFound() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.empty());
@@ -153,7 +153,7 @@ public class RentServiceImplTest {
 
 
     @Test(expected = RuntimeException.class)
-    public void create_Fail_RentDaoThrowsException() {
+    public void createFailRentDaoThrowsException() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));

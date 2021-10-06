@@ -68,7 +68,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test
-    public void create_Succeed() {
+    public void createSucceed() {
 
         // Arrange
         Article articleToCreate = articles.stream().findFirst().get();
@@ -109,7 +109,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void create_Fail_ArticleDaoThrowsException() {
+    public void createFailArticleDaoThrowsException() {
         // Arrange
         Article articleToCreate = articles.stream().findFirst().get();
 
@@ -136,7 +136,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test
-    public void rentedArticles_Succeed() {
+    public void rentedArticlesSucceed() {
         // Arrange
         when(articleImageDao.findFromArticle(anyLong()))
                 .thenReturn(new ArrayList<>());
@@ -163,7 +163,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void rentedArticles_Fail_ArticleDaoThrowsException() {
+    public void rentedArticlesFailArticleDaoThrowsException() {
 
         // Arrange
         when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
@@ -179,7 +179,7 @@ public class ArticleServiceImplTest {
     }
 
     @Test
-    public void editArticle_Succeed() {
+    public void editArticleSucceed() {
         // Arrange
         Article articleToEdit = articles.get(0);
 
@@ -229,7 +229,7 @@ public class ArticleServiceImplTest {
 
 
     @Test(expected = RuntimeException.class)
-    public void editArticle_Fail_ArticleDaoThrowsException() {
+    public void editArticleFailArticleDaoThrowsException() {
         // Arrange
         Article articleToEdit = articles.get(0);
 

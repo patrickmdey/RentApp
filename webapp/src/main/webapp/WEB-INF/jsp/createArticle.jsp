@@ -50,7 +50,7 @@
                 <div class="col-12 my-2">
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <div class="input-group">
-                        <span class="input-group-text">$</span>
+                        <span class="input-group-text"><spring:message code="currency.symbol"/></span>
                         <form:input type="number" placeholder="0.0" path="pricePerDay"
                                     class="form-control form-control-custom"/>
                     </div>

@@ -27,7 +27,7 @@ public class ExceptionHandlerAdvice {
             UserNotFoundException.class})
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView notFound(Exception exception) {
-        ModelAndView mav = new ModelAndView("error/500");
+        ModelAndView mav = new ModelAndView("error/404");
         mav.addObject("message", exception.getMessage());
         mav.addObject("user", loggedUserAdvice.loggedUser());
         return mav;
@@ -61,6 +61,7 @@ public class ExceptionHandlerAdvice {
     public ModelAndView notFoundE(Exception e) {
         ModelAndView mav = new ModelAndView("error/404");
         mav.addObject("user", loggedUserAdvice.loggedUser());
+        mav.addObject("message", "error.404");
         return mav;
     }
 

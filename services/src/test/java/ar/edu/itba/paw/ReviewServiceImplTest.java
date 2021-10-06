@@ -59,7 +59,7 @@ public class ReviewServiceImplTest {
     private Review review;
 
     @Test
-    public void create_Succeed() {
+    public void createSucceed() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.of(userRenter));
@@ -81,7 +81,7 @@ public class ReviewServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void create_Fail_ReviewDaoThrowsException() {
+    public void createFailReviewDaoThrowsException() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(reviewDao.create(
@@ -99,7 +99,7 @@ public class ReviewServiceImplTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void create_Fail_UserNotFound() {
+    public void createFailUserNotFound() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.empty());
@@ -118,7 +118,7 @@ public class ReviewServiceImplTest {
     }
 
     @Test(expected = ArticleNotFoundException.class)
-    public void create_Fail_ArticleNotFound() {
+    public void createFailArticleNotFound() {
         // Arrange
         when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.empty());
 

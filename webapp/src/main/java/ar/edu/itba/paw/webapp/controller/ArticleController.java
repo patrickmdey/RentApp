@@ -142,7 +142,6 @@ public class ArticleController {
     public ModelAndView editArticle(@Valid @ModelAttribute("createArticleForm") EditArticleForm createArticleForm,
                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
         if (errors.hasErrors()) {
-            errors.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
             return viewEditArticleForm(createArticleForm, articleId);
         }
 

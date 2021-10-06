@@ -39,7 +39,6 @@
                                 <span>
                                     <c:out value="${loggedUser.firstName}"/>
                                 </span>
-                                    <%--                                <img src="${loggedUser.photo}" width="60px" height="60px">--%>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
                                 <li>

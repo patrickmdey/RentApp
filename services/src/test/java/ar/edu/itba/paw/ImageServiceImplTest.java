@@ -36,7 +36,7 @@ public class ImageServiceImplTest {
     private MultipartFile emptyImage;
 
     @Test
-    public void create_Succeed() throws IOException {
+    public void createSucceed() throws IOException {
         // Arrange
         DBImage dbImage = new DBImage(1, image.getBytes());
         when(imageDao.create(eq(image.getBytes())))
@@ -50,7 +50,7 @@ public class ImageServiceImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void create_Fail_ImageIsEmpty() {
+    public void createFailImageIsEmpty() {
         // Arrange
         MultipartFile image = emptyImage;
 

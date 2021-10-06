@@ -50,7 +50,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test
-    public void findFromArticle_Succeed() {
+    public void findFromArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final List<Category> expectedCategories = Arrays.asList(
@@ -67,7 +67,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test
-    public void addToArticle_Succeed() {
+    public void addToArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 3;
@@ -80,7 +80,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test(expected = CannotEditArticleCategoryException.class)
-    public void addToArticle_Fail_ArticleNotFound() {
+    public void addToArticleFailArticleNotFound() {
         // Arrange
         final long articleId = 999;
         final long categoryId = 3;
@@ -93,7 +93,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test(expected = CannotEditArticleCategoryException.class)
-    public void addToArticle_Fail_CategoryNotFound() {
+    public void addToArticleFailCategoryNotFound() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 999;
@@ -106,7 +106,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test(expected = CannotEditArticleCategoryException.class)
-    public void addToArticle_Fail_ArticleHasCategory() {
+    public void addToArticleFailArticleHasCategory() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 999;
@@ -119,7 +119,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void removeFromArticle_Succeed() {
+    public void removeFromArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 3;
