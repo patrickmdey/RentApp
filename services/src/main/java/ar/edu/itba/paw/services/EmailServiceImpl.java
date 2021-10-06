@@ -22,8 +22,8 @@ import javax.mail.internet.MimeMessage;
 public class EmailServiceImpl implements EmailService {
     private static final ClassPathResource LOGO = new ClassPathResource("/image/rentapp-logo.png");
 
-    private static final String BASE_URL = "http://localhost:8080";
-//    private static final String BASE_URL = "http://pawserver.it.itba.edu.ar/paw-2021b-3";
+//    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "http://pawserver.it.itba.edu.ar/paw-2021b-3";
 
     private static final String RESOURCE_NAME = "logo";
 
