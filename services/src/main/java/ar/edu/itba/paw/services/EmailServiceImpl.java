@@ -65,7 +65,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestToOwner(Context context) {
-        context.setVariable("callbackUrl", BASE_URL + "/user/my-requests");
+        context.setVariable("callbackUrl", BASE_URL + "/user/my-requests/pending");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
                 emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
