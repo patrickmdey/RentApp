@@ -121,7 +121,7 @@ public class RentServiceImpl implements RentService {
     @Override
     public boolean hasRented(User renter, Long articleId) {
         if (articleId == null || renter == null)
-            throw new IllegalArgumentException();
+            return false;
 
         return rentDao.hasRented(renter.getId(), articleId);
     }
