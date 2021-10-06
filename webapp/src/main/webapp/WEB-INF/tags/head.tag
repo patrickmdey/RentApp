@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="title" required="true" %>
+<%@ attribute name="titleParams" required="false" %>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="<c:url value="/resources/css/main.css" />" rel="stylesheet">
@@ -18,5 +21,5 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet"/>
-    <title>${title}</title>
+    <title><spring:message code="${title}" arguments="${titleParams}"/></title>
 </head>

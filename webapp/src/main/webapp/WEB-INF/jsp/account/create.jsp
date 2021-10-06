@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
-<h:head title="create"/>
+<h:head title="title.register"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/password.css"/>">
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>

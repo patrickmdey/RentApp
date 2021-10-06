@@ -8,7 +8,7 @@
 <c:set value="account.edit.form.message" var="successMsg"/>
 
 <html>
-<h:head title="Edit profile"/>
+<h:head title="title.editProfile"/>
 
 <body class="bg-color-grey ">
 <h:navbar loggedUser="${user}"/>

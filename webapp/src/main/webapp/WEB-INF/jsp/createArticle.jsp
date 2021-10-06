@@ -20,7 +20,7 @@
     </c:otherwise>
 </c:choose>
 <html>
-<h:head title="Publish Form"/>
+<h:head title="title.createArticle"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container min-height">

@@ -13,7 +13,7 @@
     </c:forEach>
 </c:url>
 <html>
-<h:head title="RentApp"/>
+<h:head title="title.main"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="container">

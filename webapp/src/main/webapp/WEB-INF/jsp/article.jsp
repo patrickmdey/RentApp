@@ -9,7 +9,7 @@
 <c:url value="/review/${articleId}/create" var="createReview"/>
 
 <html>
-<h:head title="${article.title}"/>
+<h:head title="title.viewArticle" titleParams="${article.title}"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container min-height">

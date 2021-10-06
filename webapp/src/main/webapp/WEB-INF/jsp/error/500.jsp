@@ -6,7 +6,7 @@
 
 <c:url value="/" var="marketplace"/>
 <html>
-<h:head title="RentApp"/>
+<h:head title="title.error.500"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <h:errorView errorNum="500" errorMsg="${message}"/>

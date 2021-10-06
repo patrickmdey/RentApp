@@ -5,7 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
-<h:head title="Manage Account"/>
+<h:head title="title.myRequests"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 

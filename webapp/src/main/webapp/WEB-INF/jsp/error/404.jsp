@@ -5,7 +5,7 @@
 
 <c:url value="/" var="marketplace"/>
 <html>
-<h:head title="RentApp"/>
+<h:head title="title.error.404"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <h:errorView errorNum="404" errorMsg="error.404"/>

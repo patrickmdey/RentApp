@@ -5,7 +5,7 @@
 
 <c:url value="/" var="marketplace"/>
 <html>
-<h:head title="RentApp"/>
+<h:head title="title.error.403"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <h:errorView errorNum="403" errorMsg="error.403"/>

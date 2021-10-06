@@ -6,7 +6,7 @@
 <c:set value="https://icons-for-free.com/iconfiles/png/512/complete+done+green+success+valid+icon-1320183462969251652.png"
        var="successIcon"/>
 <html>
-<h:head title="Solicitud Enviada"/>
+<h:head title="title.sentRequest"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container min-height">

@@ -10,7 +10,7 @@
 <c:url value="/article/${article.id}" var="goBack"/>
 
 <html>
-<h:head title="Editar Reseña"/>
+<h:head title="title.editReview"/>
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
 <div class="main-container min-height">

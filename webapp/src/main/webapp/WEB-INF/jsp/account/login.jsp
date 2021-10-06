@@ -11,7 +11,7 @@
 <c:url value="/user/register" var="registerUrl"/>
 
 <html>
-<h:head title="LogIn"/>
+<h:head title="title.login"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/password.css"/>">
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>

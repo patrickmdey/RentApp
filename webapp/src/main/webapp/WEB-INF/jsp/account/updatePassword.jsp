@@ -8,7 +8,7 @@
 <c:url value="/user/updatePassword" var="actionUrl"/>
 
 <html>
-<h:head title="Editar contraseña"/>
+<h:head title="title.updatePassword"/>
 <link rel="stylesheet" href="<c:url value="/resources/css/password.css"/>">
 
 

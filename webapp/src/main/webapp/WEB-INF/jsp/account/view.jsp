@@ -13,7 +13,7 @@
 <c:url value="/" var="marketplace"/>
 
 <html>
-<h:head title="Mi perfil"/>
+<h:head title="title.profile"/>
 
 <body class="bg-color-grey">
 <h:navbar loggedUser="${user}"/>
