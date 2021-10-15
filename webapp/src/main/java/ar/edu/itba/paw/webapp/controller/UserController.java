@@ -11,12 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -38,6 +43,9 @@ public class UserController {
     @Autowired
     private LoggedUserAdvice userAdvice;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     private final Logger userLogger = LoggerFactory.getLogger(UserController.class);
 
     private List<Locations> getLocationsOrdered() {
@@ -55,7 +63,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView register(@Valid @ModelAttribute("accountForm") AccountForm accountForm,
+    public ModelAndView register(HttpServletRequest request,
+                                 @Valid @ModelAttribute("accountForm") AccountForm accountForm,
                                  BindingResult errors) {
         if (errors.hasErrors())
             return register(accountForm);
@@ -68,7 +77,14 @@ public class UserController {
                 accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
         );
 
-        return new ModelAndView("redirect:/user/login");
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(accountForm.getEmail(), accountForm.getPassword());
+        authToken.setDetails(new WebAuthenticationDetails(request));
+
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping("/login")
@@ -113,7 +129,6 @@ public class UserController {
                 accountForm.getLocation()
         );
 
-        userLogger.info("Reloaded granted authorities");
         return new ModelAndView("redirect:/user/view");
     }
 
