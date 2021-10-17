@@ -55,12 +55,14 @@
                         <spring:message code="login.form.rememberMe"/>
                     </label>
                 </div>
-                <div class="row justify-content-center">
-                    <control:Button col="col-4" color="bg-color-action btn-dark" labelCode="login.form.loginButton"/>
+                <div class="text-center">
+                    <control:Button color="bg-color-action btn-dark" labelCode="login.form.loginButton"/>
 
-                    <control:LinkButton href="${registerUrl}" labelCode="login.form.registerButton" col="col-4"
-                                        color="color-rentapp-black bg-color-secondary"/>
-
+                    <a class="register-link" href="${registerUrl}">
+                        <p class="mt-3">
+                            <spring:message code="login.form.registerButton"/>
+                        </p>
+                    </a>
                 </div>
             </div>
         </form:form>

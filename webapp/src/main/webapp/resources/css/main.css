@@ -31,6 +31,10 @@ a.nav-link:hover {
     color: var(--color-secondary) !important;
 }
 
+a.register-link:hover {
+    color: var(--color-secondary) !important;
+}
+
 i.overflow-icon:hover {
     color: var(--color-secondary) !important;
 }

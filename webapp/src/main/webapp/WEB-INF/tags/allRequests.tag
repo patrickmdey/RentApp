@@ -18,7 +18,7 @@
                            startDate="${request.startDate}" endDate="${request.endDate}"
                            message="${request.message}" id="${request.id}" state="${request.state}"
                            userId="${userId}" renterEmail="${request.renter.email}"
-                           isReceived="${isReceived}"
+                           isReceived="${isReceived}" articleId="${request.article.id}"
             />
         </c:forEach>
         <h:pagination currentUrl="${currentUrl}" maxPage="${maxPage}"/>

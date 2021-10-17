@@ -10,11 +10,11 @@ import java.util.List;
 public class EditArticleForm {
 
     @NotEmpty
-    @Size(min=5, max = 50)
+    @Size(min = 5, max = 50)
     private String name;
 
     @NotEmpty
-    @Size(min = 10, max = 310)
+    @Size(min = 10, max = 700)
     private String description;
 
     @NotNull

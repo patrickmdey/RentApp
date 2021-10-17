@@ -9,6 +9,7 @@
 <%@ attribute name="endDate" required="true" %>
 <%@ attribute name="message" required="true" %>
 <%@ attribute name="id" required="true" %>
+<%@ attribute name="articleId" required="true" %>
 <%@ attribute name="state" required="true" %>
 <%@ attribute name="userId" required="true" %>
 <%@ attribute name="renterEmail" required="true" %>
@@ -17,10 +18,13 @@
 
 <c:url value="/user/my-requests/${id}/accept" var="acceptRequest"/>
 <c:url value="/user/my-requests/${id}/delete" var="deleteRequest"/>
+<c:url value="/article/${articleId}" var="goToArticle"/>
 
 
 <div class="card card-style mt-2">
-    <h3 class="h3 mb-2"><c:out value="${articleName}"/></h3>
+    <a href="${goToArticle}">
+        <h3 class="h3 mb-2"><c:out value="${articleName}"/></h3>
+    </a>
     <hr>
     <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
                                          arguments="${renterFirstName}, ${renteLastName}"/></p>
