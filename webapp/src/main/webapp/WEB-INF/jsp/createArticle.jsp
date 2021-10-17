@@ -74,8 +74,15 @@
                 </c:if>
 
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="rounded btn btn-dark bg-color-action"><spring:message
-                            code="${confirmButton}"/></button>
+                    <button type="submit" class="rounded btn btn-dark bg-color-action">
+                        <spring:message code="${confirmButton}"/>
+                    </button>
+                    <c:if test="${isEdit}">
+                        <button type="button" class="btn btn-link mx-1">
+                            <a class="color-danger" href="${goBack}"><spring:message
+                                    code="account.form.cancelButton"/></a>
+                        </button>
+                    </c:if>
                 </div>
             </div>
         </form:form>

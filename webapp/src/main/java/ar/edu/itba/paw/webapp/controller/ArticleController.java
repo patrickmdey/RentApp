@@ -93,6 +93,7 @@ public class ArticleController {
         final ModelAndView mav = new ModelAndView("createArticle");
         List<Category> categories = categoryService.listCategories();
         mav.addObject("categories", categories);
+        mav.addObject("isEdit", false);
         return mav;
     }
 
@@ -134,6 +135,7 @@ public class ArticleController {
 
         mav.addObject("categories", categories);
         mav.addObject("articleId", articleId);
+        mav.addObject("isEdit", true);
         return mav;
     }
 
