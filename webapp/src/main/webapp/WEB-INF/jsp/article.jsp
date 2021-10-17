@@ -60,8 +60,16 @@
                     </c:otherwise>
                 </c:choose>
 
-                <p class="lead"><spring:message code="article.stats.timesRented"
-                                                arguments="${article.timesRented}"/></p>
+                <c:choose>
+                    <c:when test="${article.timesRented == 1}">
+                        <p class="lead"><spring:message code="article.stats.timesRented.single"
+                                                        arguments="${article.timesRented}"/></p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="lead"><spring:message code="article.stats.timesRented.multiple"
+                                                        arguments="${article.timesRented}"/></p>
+                    </c:otherwise>
+                </c:choose>
 
                 <h4 class="card-text h4 color-rentapp-red"><spring:message
                         code="article.price"
@@ -134,9 +142,7 @@
 
                     </div>
                     <div class="modal-footer bg-color-grey">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><spring:message
-                                code="article.close"/></button>
-                        <form:button type="submit" class="btn btn-success"><spring:message
+                        <form:button type="submit" class="btn bg-color-action color-grey"><spring:message
                                 code="article.sendRequestButton"/></form:button>
                     </div>
                 </form:form>

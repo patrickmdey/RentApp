@@ -20,10 +20,34 @@
 <c:url value="/user/my-requests/${id}/delete" var="deleteRequest"/>
 <c:url value="/article/${articleId}" var="goToArticle"/>
 
+<!-- Modal -->
+<div class="modal fade" id="rejectRequestModal" tabindex="-1" aria-labelledby="rejectRequestModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rejectRequestModalLabel">
+                    <spring:message code="myAccount.ownerRequests.rejectTitle"/>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <spring:message code="myAccount.ownerRequests.rejectWarningMessage"/>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="${deleteRequest}">
+                    <button type="submit" class="btn btn-danger">
+                        <spring:message code="myAccount.ownerRequests.rejectButton"/>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card card-style mt-2">
     <a href="${goToArticle}">
-        <h3 class="h3 mb-2"><c:out value="${articleName}"/></h3>
+        <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
     <hr>
     <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
@@ -47,18 +71,17 @@
     </h4>
     <p><c:out value="${message}"/></p>
     <c:if test="${isReceived && state == 0}">
-        <div class="d-flex justify-content-end">
-            <form method="post" action="${acceptRequest}">
-                <button type="submit" class="btn btn-success me-1">
+        <div class="d-flex justify-content-end align-items-center">
+            <form:form method="post" action="${acceptRequest}">
+                <button type="submit" class="btn bg-color-action color-grey me-1">
                     <spring:message code="myAccount.ownerRequests.acceptButton"/>
                 </button>
-            </form>
 
-            <form method="post" action="${deleteRequest}">
-                <button type="submit" class="btn btn-danger">
+                <button type="button" class="btn btn-link color-danger" data-bs-toggle="modal"
+                        data-bs-target="#rejectRequestModal">
                     <spring:message code="myAccount.ownerRequests.rejectButton"/>
                 </button>
-            </form>
+            </form:form>
         </div>
     </c:if>
 </div>
