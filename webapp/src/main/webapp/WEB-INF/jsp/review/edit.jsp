@@ -42,12 +42,12 @@
                 <form:errors path="message" element="p" cssClass="error"/>
             </div>
             <div class="d-flex justify-content-end">
-                <a href="${goBack}" class="me-1 rounded btn btn-danger">
-                    <spring:message code="account.form.cancelButton"/>
-                </a>
-                <button type="submit" class="rounded btn bg-color-action color-grey">
+                <button type="submit" class="rounded btn bg-color-action color-grey me-1">
                     <spring:message code="account.form.publishButton"/>
                 </button>
+                <a href="${goBack}" class="rounded btn btn-link color-danger">
+                    <spring:message code="account.form.cancelButton"/>
+                </a>
             </div>
         </div>
     </div>

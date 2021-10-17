@@ -51,7 +51,7 @@
                     <form:label path="pricePerDay"><spring:message code="article.createArticleForm.price"/></form:label>
                     <div class="input-group">
                         <span class="input-group-text"><spring:message code="currency.symbol"/></span>
-                        <form:input type="number" placeholder="0.0" path="pricePerDay"
+                        <form:input type="number" step="0.01" placeholder="0.0" path="pricePerDay"
                                     class="form-control form-control-custom"/>
                     </div>
                     <form:errors path="pricePerDay" element="p" cssClass="error"/>
@@ -74,9 +74,6 @@
                 </c:if>
 
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="rounded btn btn-danger mx-1"><a class="color-grey"
-                                                                                 href="${goBack}"><spring:message
-                            code="account.form.cancelButton"/></a></button>
                     <button type="submit" class="rounded btn btn-dark bg-color-action"><spring:message
                             code="${confirmButton}"/></button>
                 </div>
