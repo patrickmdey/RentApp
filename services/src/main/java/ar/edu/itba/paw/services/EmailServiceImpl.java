@@ -4,19 +4,14 @@ import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.exceptions.UnableToSendEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -42,19 +37,19 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendHtmlMessage(String to, String subject, String htmlBody, String imgName, ClassPathResource img) {
-        MimeMessage message = emailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(htmlBody, true);
-            if (img != null)
-                helper.addInline(imgName, img);
-
-            emailSender.send(message);
-        } catch (MessagingException e) {
-            throw new UnableToSendEmailException();
-        }
+//        MimeMessage message = emailSender.createMimeMessage();
+//        try {
+//            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+//            helper.setTo(to);
+//            helper.setSubject(subject);
+//            helper.setText(htmlBody, true);
+//            if (img != null)
+//                helper.addInline(imgName, img);
+//
+//            emailSender.send(message);
+//        } catch (MessagingException e) {
+//            throw new UnableToSendEmailException();
+//        }
     }
 
     @Override
