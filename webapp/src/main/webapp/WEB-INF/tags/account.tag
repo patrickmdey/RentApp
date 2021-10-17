@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="controls" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="controls" tagdir="/WEB-INF/tags/controls" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 
 <%@ attribute name="mode" required="true" %>
@@ -21,7 +21,6 @@
 
 <div>
     <fieldset ${isView ? "disabled" : ""}>
-        <%--@elvariable id="accountForm" type="ar.edu.itba.paw.webapp.forms.AccountForm"--%>
         <form:form modelAttribute="accountForm" action="${actionUrl}" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-6">
@@ -70,11 +69,13 @@
                 </div>
                 <h:imageInput path="img"/>
             </c:if>
-            <div class="my-2">
-                <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
-            </div>
+            <c:if test="${!isEdit}">
+                <div class="my-2">
+                    <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
+                </div>
+            </c:if>
             <c:if test="${!isView}">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center mt-2">
                     <controls:Button col="col-4" color="bg-color-action btn-dark"
                                      labelCode="account.form.publishButton"/>
                 </div>

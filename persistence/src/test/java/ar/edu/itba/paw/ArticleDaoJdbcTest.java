@@ -1,6 +1,8 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
 import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
@@ -39,7 +41,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void filter_Succeed_ByName() {
+    public void filterSucceedByName() {
         // Arrange
         final long[] expectedIds = {1};
         final String name = "Moto";
@@ -57,7 +59,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void filter_Succeed_ByCategory() {
+    public void filterSucceedByCategory() {
         // Arrange
         final long[] expectedIds = {1,4};
         final String name = null;
@@ -75,7 +77,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void filter_Succeed_ByUser() {
+    public void filterSucceedByUser() {
         // Arrange
         final long[] expectedIds = {1,2,3,4};
         final String name = null;
@@ -93,7 +95,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void filter_Succeed_ByLocation() {
+    public void filterSucceedByLocation() {
         // Arrange
         final long[] expectedIds = {1,2,3,4};
         final String name = null;
@@ -111,7 +113,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Arrange
         final long idArticle = 1;
         final String title = "Moto";
@@ -134,7 +136,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_ArticleNotFound() {
+    public void findByIdFailArticleNotFound() {
         // Arrange
         final long idArticle = 9999;
 
@@ -147,7 +149,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void createArticle_Succeed() {
+    public void createArticleSucceed() {
         // Arrange
         final String title = "Moto";
         final String description = "moto para andar";
@@ -165,8 +167,8 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(idOwner, result.getIdOwner());
     }
 
-    @Test(expected = DataAccessException.class)
-    public void createArticle_Fail_NullValues() {
+    @Test(expected = CannotCreateArticleException.class)
+    public void createArticleFailNullValues() {
         // Arrange
         final String title = null;
         final String description = null;
@@ -180,8 +182,8 @@ public class ArticleDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void createArticle_Fail_OwnerNotFound() {
+    @Test(expected = CannotCreateArticleException.class)
+    public void createArticleFailOwnerNotFound() {
         // Arrange
         final String title = "Moto";
         final String description = "moto para andar";
@@ -196,7 +198,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void editArticle_Succeed() {
+    public void editArticleSucceed() {
         // Arrange
         final long idArticle = 1;
         final String title = "Moto nueva";
@@ -211,8 +213,8 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(updatedRows,result);
     }
 
-    @Test(expected = DataAccessException.class)
-    public void editArticle_Fail_NullValues() {
+    @Test(expected = CannotEditArticleException.class)
+    public void editArticleFailNullValues() {
         // Arrange
         final long idArticle = 1;
         final String title = null;
@@ -227,7 +229,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void editArticle_Fail_ArticleNotFound() {
+    public void editArticleFailArticleNotFound() {
         // Arrange
         final long idArticle = 9999;
         final String title = "Moto nueva";
@@ -243,7 +245,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void rentedArticles_Succeed() {
+    public void rentedArticlesSucceed() {
         // Arrange
         final long idRenter = 2;
         final long page = 1;
@@ -258,7 +260,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void timesRented_Succeed() {
+    public void timesRentedSucceed() {
         // Arrange
         final long articleId = 2;
         final Long timesRented = 1L;
@@ -271,7 +273,7 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void timesRented_Fail_ArticleNotFound() {
+    public void timesRentedFailArticleNotFound() {
         // Arrange
         final long articleId = 999;
         final Long timesRented = 0L;

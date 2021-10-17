@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,19 +41,25 @@ public class ArticleCategoryDaoJdbc implements ArticleCategoryDao {
                 new Object[] {articleId}, ROW_MAPPER);
     }
 
-    // TODO: should all of this be either long or Long?
     @Override
     public Long addToArticle(long articleId, Long categoryId) {
         Map<String, Object> categoryData = new HashMap<>();
         categoryData.put("category_id", categoryId);
         categoryData.put("article_id", articleId);
-        jdbcInsert.execute(categoryData);
+        try {
+            jdbcInsert.execute(categoryData);
+        } catch (Exception e) {
+            throw new CannotEditArticleCategoryException();
+        }
         return categoryId;
     }
 
-    // TODO: should all of this be either long or Long?
     @Override
     public void removeFromArticle(long articleId, Long categoryId) {
-        jdbcTemplate.update("DELETE FROM article_category WHERE article_id = ? AND category_id = ?", articleId, categoryId);
+        try {
+            jdbcTemplate.update("DELETE FROM article_category WHERE article_id = ? AND category_id = ?", articleId, categoryId);
+        } catch (Exception e) {
+            throw new CannotEditArticleCategoryException();
+        }
     }
 }

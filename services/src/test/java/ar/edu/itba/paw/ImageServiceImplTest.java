@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
@@ -28,42 +27,39 @@ public class ImageServiceImplTest {
     private ImageDao imageDao;
 
     @Before
-    public void setUp() throws IOException {
-
-        image = new MockMultipartFile("/image/test.png","image/png");
-        emptyImage = new MockMultipartFile("/invalidFile.png","image/png");
+    public void setUp() {
+        image = new MockMultipartFile("/image/test.png", "image/png");
+        emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
     }
 
     private MultipartFile image;
     private MultipartFile emptyImage;
 
     @Test
-    public void testCreate() throws IOException {
+    public void createSucceed() throws IOException {
         // Arrange
-        DBImage dbImage = new DBImage(1,image.getBytes());
+        DBImage dbImage = new DBImage(1, image.getBytes());
         when(imageDao.create(eq(image.getBytes())))
                 .thenReturn(dbImage);
 
         // Act
-
         DBImage result = imageService.create(image);
 
         // Assert
-        Assert.assertArrayEquals(image.getBytes(),result.getImg());
+        Assert.assertArrayEquals(image.getBytes(), result.getImg());
     }
 
-    /* TODO: cambiar este test
-    @Test
-    public void testCreateFail() {
+    @Test(expected = IllegalArgumentException.class)
+    public void createFailImageIsEmpty() {
         // Arrange
         MultipartFile image = emptyImage;
-        // Act
 
-        Optional<DBImage> optResult = imageService.create(image);
+        // Act
+        imageService.create(image);
 
         // Assert
-        Assert.assertFalse(optResult.isPresent());
+        Assert.fail();
 
     }
-     */
+
 }

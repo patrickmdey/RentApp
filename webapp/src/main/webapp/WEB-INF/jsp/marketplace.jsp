@@ -39,7 +39,6 @@
                 </div>
             </c:if>
 
-
             <c:if test="${ (param.category != null && param.category.length() > 0)
             || (param.user != null && param.user.length() > 0) }">
                 <div class="d-flex align-items-center">
@@ -52,7 +51,7 @@
                                 </c:if>
                             </c:forEach>
                         </c:url>
-                        <div class="badge bg-primary mx-2 p-2">
+                        <div class="badge bg-color-secondary mx-2 p-2">
                             <i class="bi bi-tag"></i>
                             <spring:message code="${category}"/>
                             <a href="${removeCategoryUrl}" class="text-light">X</a>
@@ -67,7 +66,7 @@
                                 </c:if>
                             </c:forEach>
                         </c:url>
-                        <div class="badge bg-primary mx-2 p-2"><i class="fa fa-user"></i>
+                        <div class="badge bg-color-secondary mx-2 p-2"><i class="fa fa-user"></i>
                             <c:out value="${userFilter.firstName}"/>
                             <a href="${removeUserUrl}" class="text-light">X</a>
                         </div>
@@ -80,13 +79,7 @@
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get" id="searchForm">
                 <form:input type="number" path="user" cssClass="d-none"/>
-
-                <div class="row">
-                    <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
-                        <%--                    <button class="btn btn-link col-4" type="reset">--%>
-                        <%--                        <i class="h4 color-rentapp-black bi bi-x"></i>--%>
-                        <%--                    </button>--%>
-                </div>
+                <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
                 <hr/>
                 <div>
                     <form:label path="query" cssClass="font-weight-bold">

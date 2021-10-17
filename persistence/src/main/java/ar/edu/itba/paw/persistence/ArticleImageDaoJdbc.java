@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,13 +38,16 @@ public class ArticleImageDaoJdbc implements ArticleImageDao {
                 new Object[] {articleId}, ROW_MAPPER);
     }
 
-    // TODO: why some functions throw exception and others return optional
     @Override
     public DBImage addToArticle(long articleId, DBImage image) {
         Map<String, Object> categoryData = new HashMap<>();
         categoryData.put("picture_id", image.getId());
         categoryData.put("article_id", articleId);
-        jdbcInsert.execute(categoryData);
+        try {
+            jdbcInsert.execute(categoryData);
+        } catch (Exception e) {
+            throw new CannotCreateArticleException();
+        }
         return image;
     }
 }

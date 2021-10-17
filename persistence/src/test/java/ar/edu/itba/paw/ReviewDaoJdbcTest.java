@@ -2,12 +2,12 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,7 +37,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void getAverage_Succeed() {
+    public void getAverageSucceed() {
         // Arrange
         final long articleId = 1;
         final float expectedAverage = 4;
@@ -50,7 +50,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void hasReviewed_Succeed() {
+    public void hasReviewedSucceed() {
         // Arrange
         final long userId = 2;
         final long articleId = 1;
@@ -63,7 +63,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void hasReviewed_UserNotFound() {
+    public void hasReviewedUserNotFound() {
         // Arrange
         final long userId = 200000;
         final long articleId = 1;
@@ -76,7 +76,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void hasReviewed_ArticleNotFound() {
+    public void hasReviewedArticleNotFound() {
         // Arrange
         final long userId = 2;
         final long articleId = 99999;
@@ -89,7 +89,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void create_Succeed() {
+    public void createSucceed() {
         // Assert
         final int rating = 2;
         final String message = "bad";
@@ -106,8 +106,8 @@ public class ReviewDaoJdbcTest {
         Assert.assertEquals(userId,review.getRenterId());
     }
 
-    @Test(expected = DataAccessException.class)
-    public void create_Fail_ArticleNotFound() {
+    @Test(expected = CannotCreateReviewException.class)
+    public void createFailArticleNotFound() {
         // Assert
         final int rating = 2;
         final String message = "bad";
@@ -121,8 +121,8 @@ public class ReviewDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void create_Fail_UserNotFound() {
+    @Test(expected = CannotCreateReviewException.class)
+    public void createFailUserNotFound() {
         // Assert
         final int rating = 2;
         final String message = "bad";
@@ -137,7 +137,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Assert
         final long reviewId = 1;
 
@@ -152,7 +152,7 @@ public class ReviewDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_ReviewNotFound() {
+    public void findByIdFailReviewNotFound() {
         // Assert
         final long reviewId = 9999;
 

@@ -4,7 +4,6 @@ import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
-import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import ar.edu.itba.paw.webapp.forms.AccountForm;
 import ar.edu.itba.paw.webapp.forms.EditAccountForm;
 import ar.edu.itba.paw.webapp.forms.PasswordForm;
@@ -12,11 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -108,33 +104,19 @@ public class UserController {
             return edit(accountForm);
         }
 
-        userLogger.info("Registering new user --> name: {}, lastName: {}, location: {}, type: {}",
-                accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER);
+        userLogger.info("Editing user --> name: {}, lastName: {}, location: {}",
+                accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation());
 
         userService.update(userAdvice.loggedUser().getId(),
                 accountForm.getFirstName(),
                 accountForm.getLastName(),
-                accountForm.getLocation(),
-                accountForm.getIsOwner()
+                accountForm.getLocation()
         );
 
-        reloadGrantedAuthorities(accountForm);
-        userLogger.info("reloaded granted authorities");
+        userLogger.info("Reloaded granted authorities");
         return new ModelAndView("redirect:/user/view");
     }
 
-    private void reloadGrantedAuthorities(EditAccountForm accountForm) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        List<GrantedAuthority> updatedAuthorities = new ArrayList<>();
-        updatedAuthorities.add(new SimpleGrantedAuthority(accountForm.getIsOwner() ? "OWNER" : "RENTER"));
-
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
-
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), updatedAuthorities);
-
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
-    }
 
     @RequestMapping("/view")
     public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm,
@@ -155,7 +137,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ModelAndView delete(HttpServletResponse response) {
+    public ModelAndView delete() {
         userLogger.info("deleting account --> id: {}, email: {}", userAdvice.loggedUser().getId(), userAdvice.loggedUser().getEmail());
         userService.delete(userAdvice.loggedUser().getId());
         return new ModelAndView("redirect:/user/logout");
@@ -165,7 +147,6 @@ public class UserController {
         User user = userAdvice.loggedUser();
         accountForm.setFirstName(user.getFirstName());
         accountForm.setLastName(user.getLastName());
-        accountForm.setIsOwner(user.getType() == UserType.OWNER);
         accountForm.setLocation((long) user.getLocation().ordinal());
     }
 

@@ -36,7 +36,7 @@ public class CategoryDaoJdbcTest {
     }
 
     @Test
-    public void listAll_Succeed() {
+    public void listAllSucceed() {
         // Arrange
         final long[] expectedIds = {1,2,3,4,5,6,7};
 
@@ -49,7 +49,7 @@ public class CategoryDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Arrange
         final long idCategory = 2;
 
@@ -64,7 +64,7 @@ public class CategoryDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_CategoryNotFound() {
+    public void findByIdFailCategoryNotFound() {
         // Arrange
         final long idCategory = 2000;
 

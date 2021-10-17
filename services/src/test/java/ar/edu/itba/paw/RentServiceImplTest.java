@@ -1,10 +1,12 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.EmailService;
-import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.services.RentServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,10 +65,13 @@ public class RentServiceImplTest {
 
 
     @Test
-    public void testCreate() {
+    public void createSucceed() {
         // Arrange
         when(articleService.findById(eq(article.getId()))).thenReturn(Optional.of(article));
+
+        when(userService.findById(eq(userRenter.getId()))).thenReturn(Optional.of(userRenter));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));
+
         when(rentDao.create(
                 eq(rentProposal.getMessage()),
                 eq(rentProposal.getState()),
@@ -75,12 +80,6 @@ public class RentServiceImplTest {
                 eq(rentProposal.getArticleId()),
                 eq(rentProposal.getRenterId())
         )).thenReturn(rentProposal);
-
-//        doNothing().when(emailService).sendMailRequestToOwner(
-//                eq(userOwner.getEmail()),
-//                any(),
-//                eq(userOwner.getId())
-//        );
 
         doNothing().when(emailService).sendMailRequest(
                 eq(rentProposal), eq(userOwner)
@@ -107,14 +106,13 @@ public class RentServiceImplTest {
     }
 
 
-    /* TODO: cambiar este test
-    @Test
-    public void testCreateFailArticleNotFound() {
+    @Test(expected = ArticleNotFoundException.class)
+    public void createFailArticleNotFound() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.empty());
 
         // Act
-        RentProposal result = rentService.create(
+        rentService.create(
                 rentProposal.getMessage(),
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
@@ -126,23 +124,19 @@ public class RentServiceImplTest {
         );
 
         // Assert
-        Assert.assertFalse(optionalResult.isPresent());
+        Assert.fail();
 
     }
 
-     */
 
-
-
-    /* TODO: cambiar este test
-    @Test
-    public void testCreateFailOwnerNotFound() {
+    @Test(expected = UserNotFoundException.class)
+    public void createFailOwnerNotFound() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.empty());
 
         // Act
-        Optional<RentProposal> optionalResult = rentService.create(
+        rentService.create(
                 rentProposal.getMessage(),
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
@@ -154,13 +148,12 @@ public class RentServiceImplTest {
         );
 
         // Assert
-        Assert.assertFalse(optionalResult.isPresent());
+        Assert.fail();
     }
 
-     */
 
     @Test(expected = RuntimeException.class)
-    public void testCreateFail() {
+    public void createFailRentDaoThrowsException() {
         // Arrange
         when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));

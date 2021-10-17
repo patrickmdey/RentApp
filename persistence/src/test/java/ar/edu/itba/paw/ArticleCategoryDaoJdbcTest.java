@@ -1,6 +1,8 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
 import ar.edu.itba.paw.persistence.ArticleCategoryDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
@@ -48,7 +50,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test
-    public void findFromArticle_Succeed() {
+    public void findFromArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final List<Category> expectedCategories = Arrays.asList(
@@ -65,7 +67,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test
-    public void addToArticle_Succeed() {
+    public void addToArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 3;
@@ -77,8 +79,8 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.assertEquals(categoryId, resultCategory);
     }
 
-    @Test(expected = DataAccessException.class)
-    public void addToArticle_Fail_ArticleNotFound() {
+    @Test(expected = CannotEditArticleCategoryException.class)
+    public void addToArticleFailArticleNotFound() {
         // Arrange
         final long articleId = 999;
         final long categoryId = 3;
@@ -90,8 +92,8 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void addToArticle_Fail_CategoryNotFound() {
+    @Test(expected = CannotEditArticleCategoryException.class)
+    public void addToArticleFailCategoryNotFound() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 999;
@@ -103,8 +105,8 @@ public class ArticleCategoryDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void addToArticle_Fail_ArticleHasCategory() {
+    @Test(expected = CannotEditArticleCategoryException.class)
+    public void addToArticleFailArticleHasCategory() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 999;
@@ -117,7 +119,7 @@ public class ArticleCategoryDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void removeFromArticle_Succeed() {
+    public void removeFromArticleSucceed() {
         // Arrange
         final long articleId = 1;
         final long categoryId = 3;
@@ -126,9 +128,8 @@ public class ArticleCategoryDaoJdbcTest {
         articleCategoryDao.removeFromArticle(articleId, categoryId);
 
         // Assert
+
     }
-    // TODO: Is there a way to test fail cases? like article does not exist?
-    //       the function and SQL won't throw an error
 
 
 }

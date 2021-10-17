@@ -1,4 +1,4 @@
-const togglePassword = $('form i.bi');
+const togglePassword = $('form i.bi').parent();
 
 togglePassword.click((e) => {
    console.log('click');
@@ -8,5 +8,5 @@ togglePassword.click((e) => {
    const type = password.prop('type') === 'password' ? 'text' : 'password';
    password.prop('type', type);
    // toggle the eye / eye slash icon
-   target.toggleClass('bi-eye');
+   target.children().toggleClass('bi-eye');
 });

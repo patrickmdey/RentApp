@@ -2,7 +2,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="control" tagdir="/WEB-INF/tags/Controls" %>
+<%@ taglib prefix="control" tagdir="/WEB-INF/tags/controls" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -39,9 +39,7 @@
                 <spring:message code="placeholder.review.message" var="placeholder"/>
                 <form:textarea path="message" type="text" placeholder="${placeholder}"
                                class="form-control form-control-custom"/>
-                <form:errors path="message" element="p" cssClass="error">
-                    <spring:message code="errors.requiredReviewMessage"/>
-                </form:errors>
+                <form:errors path="message" element="p" cssClass="error"/>
             </div>
             <div class="d-flex justify-content-end">
                 <a href="${goBack}" class="me-1 rounded btn btn-danger">

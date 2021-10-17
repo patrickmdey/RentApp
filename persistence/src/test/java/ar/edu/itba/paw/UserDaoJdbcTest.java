@@ -4,6 +4,8 @@ import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
+import ar.edu.itba.paw.models.exceptions.CannotEditUserException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,7 +41,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void list_Succeed() {
+    public void listSucceed() {
         // Arrange
         final long[] expectedIds = {1,2};
 
@@ -51,7 +53,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Arrange
         final long userId = 1;
 
@@ -66,7 +68,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_UserNotFound() {
+    public void findByIdFailUserNotFound() {
         // Arrange
         final long userId = 999;
 
@@ -78,7 +80,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void register_Succeed() {
+    public void registerSucceed() {
         // Arrange
         final String email  = "mail@mail.com";
         final String password = "pass";
@@ -101,7 +103,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void register_Fail_NullValuesBeforeInsert() {
+    public void registerFailNullValuesBeforeInsert() {
         // Arrange
         final String email  = null;
         final String password = null;
@@ -118,8 +120,8 @@ public class UserDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void register_Fail_NullValuesDuringInsert() {
+    @Test(expected = CannotCreateUserException.class)
+    public void registerFailNullValuesDuringInsert() {
         // Arrange
         final String email  = null;
         final String password = null;
@@ -137,55 +139,52 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void update_Succeed() {
+    public void updateSucceed() {
         // Arrange
         final long userId = 1;
         final String firstName = "first";
         final String lastName = "last";
         final Locations location = Locations.CHACARITA;
-        final UserType type = UserType.OWNER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
 
     }
 
-    @Test(expected = NullPointerException.class)
-    public void update_Fail_NullValuesBeforeUpdate() {
+    @Test(expected = CannotEditUserException.class)
+    public void updateFailNullValuesBeforeUpdate() {
         // Arrange
         final long userId = 1;
         final String firstName = null;
         final String lastName = null;
         final Locations location = null;
-        final UserType type = UserType.RENTER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void update_Fail_NullValuesDuringUpdate() {
+    @Test(expected = CannotEditUserException.class)
+    public void updateFailNullValuesDuringUpdate() {
         // Arrange
         final long userId = 1;
         final String firstName = null;
         final String lastName = null;
         final Locations location = Locations.AGRONOMIA;
-        final UserType type = UserType.RENTER;
 
         // Act
-        userDao.update(userId,firstName,lastName,location,type);
+        userDao.update(userId,firstName,lastName,location);
 
         // Assert
         Assert.fail();
     }
 
     @Test(expected = Test.None.class)
-    public void delete_Succeed() {
+    public void deleteSucceed() {
         // Arrange
         final long userId = 1;
 
@@ -196,7 +195,7 @@ public class UserDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void updatePassword_Succeed() {
+    public void updatePasswordSucceed() {
         // Arrange
         final long userId = 1;
         final String passwordHash = "new hash";
@@ -207,8 +206,8 @@ public class UserDaoJdbcTest {
         // Assert
     }
 
-    @Test(expected = DataAccessException.class)
-    public void updatePassword_Fail_NullValues() {
+    @Test(expected = CannotEditUserException.class)
+    public void updatePasswordFailNullValues() {
         // Arrange
         final long userId = 1;
         final String passwordHash = null;

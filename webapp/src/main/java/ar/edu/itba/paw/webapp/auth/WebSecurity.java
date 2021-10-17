@@ -2,12 +2,12 @@ package ar.edu.itba.paw.webapp.auth;
 
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.RentService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.interfaces.service.ReviewService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,10 +51,7 @@ public class WebSecurity {
 
     public boolean checkCanReview(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
-        if (!loggedUser.isPresent())
-            return false;
-
-        return rentService.hasRented(loggedUser.get(), articleId) && !reviewService.hasReviewed(loggedUser.get(), articleId);
+        return loggedUser.filter(user -> rentService.hasRented(user, articleId) && !reviewService.hasReviewed(user, articleId)).isPresent();
 
     }
 

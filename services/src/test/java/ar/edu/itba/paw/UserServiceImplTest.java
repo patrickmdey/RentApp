@@ -1,8 +1,8 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
@@ -19,9 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,7 +60,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    public void testRegister() throws IOException {
+    public void registerSucceed() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -86,7 +84,6 @@ public class UserServiceImplTest {
         );
 
         // Assert
-
         Assert.assertEquals(user.getEmail(), result.getEmail());
         Assert.assertEquals(user.getFirstName(), result.getFirstName());
         Assert.assertEquals(user.getLastName(), result.getLastName());
@@ -95,7 +92,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testRegisterFails() throws IOException {
+    public void registerFailUserDaoThrowsException() throws IOException {
         // Arrange
         final String password = "password";
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
@@ -118,24 +115,23 @@ public class UserServiceImplTest {
         Assert.fail();
     }
 
-    /* TODO: cambiar este test
-    @Test
-    public void testRegisterFailImageNotUploaded() throws IOException {
+    @Test(expected = NullPointerException.class)
+    public void registerFailImageNotUploaded() throws IOException {
         // Arrange
         final String password = "password";
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
-        when(imageService.create(eq(image))).thenReturn(Optional.empty());
+        when(imageService.create(eq(image))).thenReturn(null);
 
         // Act
-        User result = userService.register(
+        userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
                 (long) user.getLocation().ordinal(), image, user.getType()
         );
 
         // Assert
-        Assert.assertFalse(optionalResult.isPresent());
+        Assert.fail();
 
     }
-     */
+
 }

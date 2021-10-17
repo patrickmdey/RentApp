@@ -3,12 +3,12 @@ package ar.edu.itba.paw;
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -43,7 +43,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void ownerRequests_Succeed() {
+    public void ownerRequestsSucceed() {
         // Arrange
         final long idOwner = 1;
         final int state = RentState.ACCEPTED.ordinal();
@@ -58,7 +58,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void sentRequests_Succeed() {
+    public void sentRequestsSucceed() {
         // Arrange
         final long idOwner = 1;
         final int state = RentState.PENDING.ordinal();
@@ -73,7 +73,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void findById_Succeed() {
+    public void findByIdSucceed() {
         // Arrange
         final long idRentProposal = 1;
         final String expectedMessage = "can I rent 1";
@@ -90,7 +90,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void findById_Fail_RentProposalNotFound() {
+    public void findByIdFailRentProposalNotFound() {
         // Arrange
         final long idRentProposal = 112321;
 
@@ -102,7 +102,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void create_Succeed() throws ParseException {
+    public void createSucceed() throws ParseException {
         // Assert
         final String comment = "";
         final Integer state = 1;
@@ -126,8 +126,8 @@ public class RentDaoJdbcTest {
         Assert.assertEquals(renterId,result.getRenterId());
     }
 
-    @Test(expected = DataAccessException.class)
-    public void create_Fail_ProposalExists() throws ParseException {
+    @Test(expected = CannotCreateProposalException.class)
+    public void createFailProposalExists() throws ParseException {
         // Assert
         final String comment = "";
         final Integer state = 1;
@@ -145,8 +145,8 @@ public class RentDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void create_Fail_ArticleNotFound() throws ParseException {
+    @Test(expected = CannotCreateProposalException.class)
+    public void createFailArticleNotFound() throws ParseException {
         // Assert
         final String comment = "";
         final Integer state = 1;
@@ -164,8 +164,8 @@ public class RentDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = DataAccessException.class)
-    public void create_Fail_UserNotFound() throws ParseException {
+    @Test(expected = CannotCreateProposalException.class)
+    public void createFailUserNotFound() throws ParseException {
         // Assert
         final String comment = "";
         final Integer state = 1;
@@ -184,7 +184,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test(expected = Test.None.class)
-    public void updateRequest_Succeed() {
+    public void updateRequestSucceed() {
         // Arrange
         final long requestId = 1;
         final int state = RentState.ACCEPTED.ordinal();
@@ -197,7 +197,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void hasRented_Succeed_ReturnTrue() {
+    public void hasRentedSucceedReturnTrue() {
         // Arrange
         final long renterId = 2;
         final long articleId  = 2;
@@ -210,7 +210,7 @@ public class RentDaoJdbcTest {
     }
 
     @Test
-    public void hasRented_Succeed_ReturnFalse() {
+    public void hasRentedSucceedReturnFalse() {
         // Arrange
         final long renterId = 2;
         final long articleId  = 1;

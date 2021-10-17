@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.webapp.config;
 
-import ar.edu.itba.paw.interfaces.service.ArticleService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,12 +29,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService pawUserDetailService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ArticleService articleService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -109,6 +101,4 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
-
 }
