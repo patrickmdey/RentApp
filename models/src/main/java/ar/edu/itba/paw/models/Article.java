@@ -15,6 +15,7 @@ public class Article {
     private Locations location;
     private List<Long> images;
     private Long timesRented = 0L;
+    private long rating = 0;
 
     public Article(long id, String title, String description, Float pricePerDay,
                    List<Category> categories, long idOwner) {
@@ -118,5 +119,17 @@ public class Article {
 
     public List<Long> getImages() {
         return images;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getRating() {
+        return rating;
+    }
+
+    public void setRating(long rating) {
+        this.rating = rating;
     }
 }

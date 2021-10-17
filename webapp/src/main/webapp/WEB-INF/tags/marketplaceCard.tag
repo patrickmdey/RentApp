@@ -1,5 +1,6 @@
 <%@ tag language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="price" required="true" %>
@@ -7,6 +8,7 @@
 <%@ attribute name="location" required="true" %>
 <%@attribute name="image_id" required="true" %>
 <%@attribute name="outlined" required="true" type="java.lang.Boolean" %>
+<%@attribute name="rating" required="true" %>
 
 <html>
 <body>
@@ -27,7 +29,8 @@
             <h5 class="h5 color-action my-1"><i class="bi-geo-alt-fill"></i>
                 <c:out value="${location}"/>
             </h5>
-            <h4 class="h4 my-2 color-rentapp-red">
+            <h:rating rating="${rating}"/>
+            <h4 class="h4 mb-2 color-rentapp-red">
                 <spring:message
                         code="article.price"
                         arguments="${price}"/>

@@ -56,7 +56,7 @@
                         <p class="lead"><spring:message code="article.noRating"/></p>
                     </c:when>
                     <c:otherwise>
-                        <h:rating rating="${articleRating}"/>
+                        <h:rating rating="${article.rating}"/>
                     </c:otherwise>
                 </c:choose>
 
@@ -192,7 +192,8 @@
                                        id="${article.id}"
                                        location="${article.location}"
                                        image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
-                                       outlined="${false}"/>
+                                       outlined="${false}"
+                                       rating="${article.rating}"/>
                 </div>
             </c:forEach>
         </div>

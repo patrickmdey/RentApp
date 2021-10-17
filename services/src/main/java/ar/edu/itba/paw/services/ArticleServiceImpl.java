@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
+import ar.edu.itba.paw.interfaces.service.ReviewService;
 import ar.edu.itba.paw.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class ArticleServiceImpl implements ArticleService {
     private ImageService imageService;
 
     @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
     private ArticleImageDao articleImageDao;
 
     private void appendCategories(Article article) {
@@ -52,6 +56,10 @@ public class ArticleServiceImpl implements ArticleService {
     private void appendImages(Article article) {
         List<Long> images = this.articleImageDao.findFromArticle(article.getId());
         article.setImages(images);
+    }
+
+    private void appendRating(Article article) {
+        article.setRating(reviewService.articleRating(article.getId()));
     }
 
     @Override
@@ -77,6 +85,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendLocation(toReturn.get());
             appendImages(toReturn.get());
             appendTimesRented(toReturn.get());
+            appendRating(toReturn.get());
         }
         return toReturn;
     }
@@ -97,6 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
         toReturn.forEach(article -> {
             appendImages(article);
             appendLocation(article);
+            appendRating(article);
         });
 
         return toReturn;
@@ -151,6 +161,7 @@ public class ArticleServiceImpl implements ArticleService {
             appendImages(article);
             appendLocation(article);
             appendTimesRented(article);
+            appendRating(article);
         });
     }
 }
