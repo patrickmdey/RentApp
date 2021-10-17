@@ -18,10 +18,8 @@
 
     <div class="card shadow card-style">
         <div class="card-body">
-            <div class="row">
-                <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
-
-            </div>
+            <h3 class="card-title"><spring:message code="account.edit.form.title"/></h3>
+            <hr>
             <h:account mode="edit" locations="${locations}"/>
         </div>
     </div>

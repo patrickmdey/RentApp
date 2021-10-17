@@ -34,9 +34,6 @@
                     <spring:message code="account.view.form.warningDelete"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn bg-color-action color-grey" data-bs-dismiss="modal">
-                        <spring:message code="account.view.form.buttonCancel"/>
-                    </button>
                     <form:form action="${deleteUrl}" method="post">
                         <button type="submit" class="btn btn-danger">
                             <spring:message code="account.view.form.buttonDelete"/>
@@ -49,37 +46,28 @@
 
     <div class="card shadow card-style">
         <div class="row align-items-center">
-            <div class="col-11">
+            <div class="col-4">
                 <h3 class="card-title"><spring:message code="account.view.form.title"/></h3>
             </div>
 
-            <div class="col-1">
-                <i class="fa-lg bi bi-three-dots-vertical overflow-icon"
-                   data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="col-8 d-flex align-items-center justify-content-end">
+                <div class="text-center mx-2">
+                    <a href="${editUrl}">
+                        <i class="bi bi-pencil-fill color-action fa-lg"></i>
 
-                </i>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="${editUrl}">
-                            <span><i class="bi bi-pencil-fill"></i></span>
-                            <spring:message code="account.view.form.editButton"/>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="${updatePasswordUrl}">
-                            <span><i class="bi bi-lock"></i></span>
-                            <spring:message code="account.view.form.updatePasswordButton"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item color-danger" data-bs-toggle="modal"
-                           data-bs-target="#deleteAccountModal">
-                            <span><i class="bi bi-x-octagon"></i></span>
-                            <spring:message code="account.view.form.buttonDelete"/>
-                        </a>
-                    </li>
-                </ul>
+                    </a>
+                </div>
+                <div class="text-center mx-2">
+                    <a href="${updatePasswordUrl}">
+                        <i class="bi bi-lock color-action fa-lg"></i>
+                    </a>
+                </div>
+                <div class="text-center mx-2">
+                    <a href="#" data-bs-toggle="modal"
+                       data-bs-target="#deleteAccountModal">
+                        <i class="bi bi-trash-fill color-danger fa-lg"></i>
+                    </a>
+                </div>
             </div>
         </div>
         <hr/>

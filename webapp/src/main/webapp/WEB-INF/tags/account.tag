@@ -74,19 +74,24 @@
                     <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
                 </div>
             </c:if>
-            <c:if test="${!isView}">
+            <c:if test="${isCreate}">
                 <div class="d-flex justify-content-center mt-2">
                     <controls:Button col="col-4" color="bg-color-action btn-dark"
                                      labelCode="account.form.publishButton"/>
                 </div>
             </c:if>
+            <c:if test="${isEdit}">
+
+                <c:url value="/user/view" var="cancelUrl"/>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="rounded btn bg-color-action color-grey me-1">
+                        <spring:message code="account.form.publishButton"/>
+                    </button>
+                    <a href="${cancelUrl}" class="rounded btn btn-link color-danger">
+                        <spring:message code="account.form.cancelButton"/>
+                    </a>
+                </div>
+            </c:if>
         </form:form>
     </fieldset>
-    <c:if test="${!isView}">
-        <div class="d-flex justify-content-center">
-            <c:url value="/user/view" var="cancelUrl"/>
-            <controls:LinkButton col="col-4" href="${cancelUrl}" color="bg-color-secondary color-rentapp-black"
-                                 labelCode="account.form.cancelButton"/>
-        </div>
-    </c:if>
 </div>

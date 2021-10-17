@@ -26,39 +26,38 @@
         <div class="form-container">
             <h3 class="h3 fw-bold my-1"><spring:message code="account.updatePassword.form.title"/></h3>
             <hr/>
-
             <form:form method="post" action="${actionUrl}" modelAttribute="passwordForm">
-                <div class="row">
-                    <div class="col-6">
-                        <controls:TextBox path="password" type="password"
-                                          labelCode="account.form.password"
-                                          placeholderCode="placeholder.password"/>
-                    </div>
-                    <div class="col-6">
-                        <controls:TextBox path="confirmPassword" type="password"
-                                          labelCode="account.form.confirmPassword"
-                                          placeholderCode="placeholder.secondPassword"
-                        />
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <c:url value="/user/view" var="cancelUrl"/>
-                        <controls:LinkButton col="col-12" href="${cancelUrl}"
-                                             color="btn-danger"
-                                             labelCode="account.form.cancelButton"/>
-                    </div>
-                    <div class="col-6">
-                        <controls:Button col="col-12" color="bg-color-action btn-dark"
-                                         labelCode="account.form.publishButton"/>
-                    </div>
+            <controls:TextBox path="password" type="password"
+                              labelCode="account.form.password"
+                              placeholderCode="placeholder.password"/>
+            <div class="mt-2">
+                <controls:TextBox path="confirmPassword" type="password"
+                                  labelCode="account.form.confirmPassword"
+                                  placeholderCode="placeholder.secondPassword"
+                />
+            </div>
 
-                </div>
+            <c:url value="/user/view" var="cancelUrl"/>
+            <div class="mt-3 d-flex justify-content-end">
+                <button type="submit" class="rounded btn bg-color-action color-grey me-1">
+                    <spring:message code="account.form.publishButton"/>
+                </button>
+                <a href="${cancelUrl}" class="rounded btn btn-link color-danger">
+                    <spring:message code="account.form.cancelButton"/>
+                </a>
+            </div>
 
-            </form:form>
-
+                <%--            <controls:LinkButton href="${cancelUrl}"--%>
+                <%--                                 color="btn-danger"--%>
+                <%--                                 labelCode="account.form.cancelButton"/>--%>
+                <%--            <controls:Button color="bg-color-action btn-dark"--%>
+                <%--                             labelCode="account.form.publishButton"/>--%>
         </div>
     </div>
+    </form:form>
+</div>
+</div>
+</div>
 </div>
 
 <h:footer/>
