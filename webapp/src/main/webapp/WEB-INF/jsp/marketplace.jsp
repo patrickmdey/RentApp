@@ -4,11 +4,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<c:set value="${param.page != null ? 1 : 0}" var="pageSum"/>
+
 <c:url value="/" var="marketplaceUrl"/>
 <c:url value="/" var="currentUrl">
     <c:forEach items="${param}" var="entry">
         <c:if test="${entry.key != 'page'}">
             <c:param name="${entry.key}" value="${entry.value}"/>
+        </c:if>
+    </c:forEach>
+</c:url>
+<c:url value="/" var="clearFilterUrl">
+    <c:forEach var="p" items="${param}">
+        <c:if test="${p.key == 'page'}">
+            <c:param name="${p.key}" value="${p.value}"/>
         </c:if>
     </c:forEach>
 </c:url>
@@ -79,7 +88,13 @@
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get" id="searchForm">
                 <form:input type="number" path="user" cssClass="d-none"/>
-                <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
+                <div class="d-flex align-items-center">
+                    <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
+                    <c:if test="${param.size() > pageSum}">
+                        <a class="btn btn-link" href="${clearFilterUrl}"><i
+                                class="bi bi-arrow-counterclockwise fa-lg color-action"></i></a>
+                    </c:if>
+                </div>
                 <hr/>
                 <div>
                     <form:label path="query" cssClass="font-weight-bold">
