@@ -1,5 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:url value="" var="lang_es">
+    <c:forEach items="${param}" var="p">
+        <c:if test="${p.key != 'lang'}">
+            <c:param name="${p.key}" value="${p.value}"/>
+        </c:if>
+    </c:forEach>
+    <c:param name="lang" value="es"/>
+</c:url>
+<c:url value="" var="lang_en">
+    <c:forEach items="${param}" var="p">
+        <c:if test="${p.key != 'lang'}">
+            <c:param name="${p.key}" value="${p.value}"/>
+        </c:if>
+    </c:forEach>
+    <c:param name="lang" value="en"/>
+</c:url>
+
 <div class="footer-style bg-color-primary">
     <div class="card-body row my-n4">
         <div class="col-4 footer-image-col">
@@ -25,8 +43,8 @@
                 <li><h3 class="h3 fw-bold color-grey"><spring:message code="footer.language"/></h3></li>
                 <li>
                     <div>
-                        <a class="me-1 color-secondary" href="?lang=es"><spring:message code="language.spanish"/></a>
-                        <a class="color-secondary" href="?lang=en"><spring:message code="language.english"/></a>
+                        <a class="me-1 color-secondary" href="${lang_es}"><spring:message code="language.spanish"/></a>
+                        <a class="color-secondary" href="${lang_en}"><spring:message code="language.english"/></a>
                     </div>
                 </li>
             </ul>
