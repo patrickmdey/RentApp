@@ -130,6 +130,7 @@ i.overflow-icon:hover {
 
 .card-style.filters-card {
     height: auto;
+    margin: 0;
 }
 
 .filter-container {

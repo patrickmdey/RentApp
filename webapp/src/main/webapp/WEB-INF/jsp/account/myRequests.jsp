@@ -10,38 +10,51 @@
 <h:navbar loggedUser="${user}"/>
 
 <c:choose>
+    <c:when test="${state.isPending}">
+        <c:url value="/user/my-requests/pending" var="currentUrl"/>
+        <c:set var="stateColor" value="${1}"/>
+    </c:when>
     <c:when test="${state.isAccepted}">
         <c:url value="/user/my-requests/accepted" var="currentUrl"/>
-    </c:when>
-    <c:when test="${state.isDeclined}">
-        <c:url value="/user/my-requests/declined" var="currentUrl"/>
+        <c:set var="stateColor" value="${2}"/>
     </c:when>
     <c:otherwise>
-        <c:url value="/user/my-requests/pending" var="currentUrl"/>
+        <c:url value="/user/my-requests/declined" var="currentUrl"/>
+        <c:set var="stateColor" value="${3}"/>
     </c:otherwise>
 </c:choose>
 
 <div class="container min-height">
+    <div class="row align-items-start justify-content-center mb-2">
+        <div class="col-md-3 col-lg-3 col-12"></div>
+        <div class="col-md-9 col-lg-9 col-12">
+            <div class="d-flex align-items-center">
+                <a class="btn ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                   href="<c:url value="/user/my-requests/pending"/>">
+                    <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
+                </a>
+                <a class="btn ${stateColor == 2? "bg-color-secondary btn-dark":"bg-color-action color-grey"} mx-2"
+                   href="<c:url value="/user/my-requests/accepted"/>">
+                    <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
+                </a>
+                <a class="btn ${stateColor == 3? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                   href="<c:url value="/user/my-requests/declined"/>">
+                    <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
     <div class="row align-items-start justify-content-center">
         <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
-            <h3 class="h3"><spring:message code="myAccount.ownerRequests.myRequestsTitle"/></h3>
+            <h4 class="h4"><spring:message code="title.myRequests"/></h4>
             <hr/>
-            <a class="btn bg-color-action color-grey mb-3" href="<c:url value="/user/my-requests/pending"/>">
-                <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
-            </a>
-            <a class="btn bg-color-action color-grey mb-3" href="<c:url value="/user/my-requests/accepted"/>">
-                <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
-            </a>
-            <a class="btn bg-color-action color-grey" href="<c:url value="/user/my-requests/declined"/>">
-                <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
-            </a>
-        </div>
-        <div class="col-md-9 col-lg-9 col-12">
-            <div class="card card-style my-requests-card">
-                <h3 class="h3"><spring:message code="myAccount.requestsTitle.${state.name()}"/></h3>
-                <nav class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
+            <div>
+                <nav class="nav nav-tabs" id="nav-tab" role="tablist">
                     <c:if test="${user.type.isOwner}">
-                        <a class="nav-link active" id="nav-received-tab" data-bs-toggle="tab" href="#nav-received"
+                        <a class="nav-link active w-100 text-start" id="nav-received-tab" data-bs-toggle="tab"
+                           href="#nav-received"
                            role="tab"
                            aria-controls="nav-owned" aria-selected="true">
                             <p class="lead my-1">
@@ -49,7 +62,8 @@
                             </p>
                         </a>
                     </c:if>
-                    <a class="nav-link ${!user.type.isOwner?' active':''}" id="nav-sent-tab" data-bs-toggle="tab"
+                    <a class="nav-link ${!user.type.isOwner?' active':''} text-start w-100" id="nav-sent-tab"
+                       data-bs-toggle="tab"
                        href="#nav-sent" role="tab"
                        aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
                         <p class="lead my-1">
@@ -57,17 +71,20 @@
                         </p>
                     </a>
                 </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received" role="tabpanel"
-                         aria-labelledby="nav-received-tab">
-                        <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
-                                       isReceived="${true}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
-                    </div>
-                    <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
-                         aria-labelledby="nav-sent-tab">
-                        <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
-                                       isReceived="${false}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-9 col-12">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received"
+                     role="tabpanel"
+                     aria-labelledby="nav-received-tab">
+                    <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
+                                   isReceived="${true}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                </div>
+                <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
+                     aria-labelledby="nav-sent-tab">
+                    <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
+                                   isReceived="${false}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
                 </div>
             </div>
         </div>
