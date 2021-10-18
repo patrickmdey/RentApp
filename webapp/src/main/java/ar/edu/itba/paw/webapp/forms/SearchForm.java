@@ -1,14 +1,21 @@
 package ar.edu.itba.paw.webapp.forms;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public class SearchForm {
     private String query;
 
+    @Min(1)
+    @Max(8)
     private Long category;
 
     private String orderBy;
 
     private Long user;
-    
+
+    @Min(0)
+    @Max(47)
     private Long location;
 
     public String getQuery() {
