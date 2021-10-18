@@ -24,23 +24,30 @@
     </c:otherwise>
 </c:choose>
 
+
 <div class="container min-height">
     <div class="row align-items-start justify-content-center mb-2">
         <div class="col-md-3 col-lg-3 col-12"></div>
         <div class="col-md-9 col-lg-9 col-12">
-            <div class="d-flex align-items-center">
-                <a class="btn ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
-                   href="<c:url value="/user/my-requests/pending"/>">
-                    <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
-                </a>
-                <a class="btn ${stateColor == 2? "bg-color-secondary btn-dark":"bg-color-action color-grey"} mx-2"
-                   href="<c:url value="/user/my-requests/accepted"/>">
-                    <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
-                </a>
-                <a class="btn ${stateColor == 3? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
-                   href="<c:url value="/user/my-requests/declined"/>">
-                    <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
-                </a>
+            <div class="row cols-3 g-1 justify-content-between">
+                <div class="col">
+                    <a class="btn w-100 ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                       href="<c:url value="/user/my-requests/pending"/>">
+                        <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="btn w-100 ${stateColor == 2? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                       href="<c:url value="/user/my-requests/accepted"/>">
+                        <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="btn w-100 ${stateColor == 3? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                       href="<c:url value="/user/my-requests/declined"/>">
+                        <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -51,22 +58,24 @@
             <h4 class="h4"><spring:message code="title.myRequests"/></h4>
             <hr/>
             <div>
-                <nav class="nav nav-tabs" id="nav-tab" role="tablist">
+                <nav class="nav nav-pills" id="nav-tab" role="tablist">
                     <c:if test="${user.type.isOwner}">
-                        <a class="nav-link active w-100 text-start" id="nav-received-tab" data-bs-toggle="tab"
+                        <a class="nav-link active w-100 text-start bg-color-action" id="nav-received-tab"
+                           data-bs-toggle="pill"
                            href="#nav-received"
                            role="tab"
                            aria-controls="nav-owned" aria-selected="true">
-                            <p class="lead my-1">
+                            <p class="my-1 color-grey">
                                 <spring:message code="requests.received"/>
                             </p>
                         </a>
                     </c:if>
-                    <a class="nav-link ${!user.type.isOwner?' active':''} text-start w-100" id="nav-sent-tab"
-                       data-bs-toggle="tab"
+                    <a class="nav-link bg-color-action ${!user.type.isOwner?' active':''} text-start w-100"
+                       id="nav-sent-tab"
+                       data-bs-toggle="pill"
                        href="#nav-sent" role="tab"
                        aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
-                        <p class="lead my-1">
+                        <p class="my-1 color-grey">
                             <spring:message code="requests.sent"/>
                         </p>
                     </a>
