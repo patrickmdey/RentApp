@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -33,9 +34,12 @@ public class MarketplaceController {
     private UserService userService;
 
     @RequestMapping("/")
-    public ModelAndView marketplace(@ModelAttribute("searchForm") SearchForm searchForm,
-                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+    public ModelAndView marketplace(@Valid @ModelAttribute("searchForm") SearchForm searchForm,
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page
+    ) {
+
         final ModelAndView mav = new ModelAndView("marketplace");
+
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
                 searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
         List<Category> categories = categoryService.listCategories();

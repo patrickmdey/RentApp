@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.models.exceptions.*;
+import ar.edu.itba.paw.models.exceptions.InternalErrorException;
+import ar.edu.itba.paw.models.exceptions.NotFoundException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,23 +23,17 @@ public class ExceptionHandlerAdvice {
     @Autowired
     LoggedUserAdvice loggedUserAdvice;
 
-    @ExceptionHandler({ArticleNotFoundException.class, CategoryNotFoundException.class,
-            RentProposalNotFoundException.class, ReviewNotFoundException.class,
-            UserNotFoundException.class})
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView notFound(Exception exception) {
         ModelAndView mav = new ModelAndView("error/404");
+
         mav.addObject("message", exception.getMessage());
         mav.addObject("user", loggedUserAdvice.loggedUser());
         return mav;
     }
 
-    @ExceptionHandler({CannotCreateArticleException.class, CannotCreateImageException.class,
-            CannotCreateProposalException.class, CannotCreateReviewException.class,
-            CannotCreateUserException.class, CannotEditArticleCategoryException.class,
-            CannotEditArticleException.class, CannotEditRequestException.class,
-            CannotEditReviewException.class, CannotEditUserException.class,
-            UnableToSendEmailException.class})
+    @ExceptionHandler(InternalErrorException.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView databaseError(Exception exception) {
         ModelAndView mav = new ModelAndView("error/500");
@@ -50,7 +45,8 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler({TypeMismatchException.class, MissingServletRequestPartException.class,
             MissingServletRequestParameterException.class, BindException.class,
-            HttpMessageNotReadableException.class, MethodArgumentNotValidException.class})
+            HttpMessageNotReadableException.class, MethodArgumentNotValidException.class,
+            org.springframework.validation.BindException.class})
     public ModelAndView badRequest() {
         ModelAndView mav = new ModelAndView("error/400");
         mav.addObject("user", loggedUserAdvice.loggedUser());
@@ -67,7 +63,7 @@ public class ExceptionHandlerAdvice {
 
 
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultError() {
+    public ModelAndView defaultError(Exception exception) {
         ModelAndView mav = new ModelAndView("error/500");
         mav.addObject("user", loggedUserAdvice.loggedUser());
         mav.addObject("message", "exception.unexpected");
