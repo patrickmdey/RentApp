@@ -2,13 +2,13 @@ package ar.edu.itba.paw.webapp.forms;
 
 public class SearchForm {
     private String query;
-
+    
     private Long category;
 
     private String orderBy;
 
     private Long user;
-    
+
     private Long location;
 
     public String getQuery() {
