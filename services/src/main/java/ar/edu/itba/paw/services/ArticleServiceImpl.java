@@ -63,6 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Article> get(String name, Long category, String orderBy, Long user, Long location, long page) {
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
@@ -78,6 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Article> findById(long articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
         if (toReturn.isPresent()) {
@@ -91,16 +93,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getMaxPage(String name, Long category, Long userId, Long location) {
         return articleDao.getMaxPage(name, category, userId, location);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getRentedMaxPage(Long renterId) {
         return articleDao.getRentedMaxPage(renterId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Article> recommendedArticles(long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
         toReturn.forEach(article -> {
@@ -149,6 +154,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Article> rentedArticles(long renterId, long page) {
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);

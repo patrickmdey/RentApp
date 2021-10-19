@@ -75,7 +75,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("ar.edu.itba.model");
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.models");
         factoryBean.setDataSource(dataSource());
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -154,8 +154,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return localeChangeInterceptor;
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManager(final DataSource ds) {
-        return new DataSourceTransactionManager(ds);
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager(final DataSource ds) {
+//        return new DataSourceTransactionManager(ds);
+//    }
 }

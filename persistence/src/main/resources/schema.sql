@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS picture
 
 CREATE TABLE IF NOT EXISTS category
 (
-    id          SERIAL,
+    id          SERIAL NOT NULL,
     description VARCHAR(30) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
@@ -16,36 +16,19 @@ CREATE TABLE IF NOT EXISTS account
 (
     id         SERIAL  NOT NULL,
     first_name VARCHAR(20) NOT NULL,
-    last_name
-               VARCHAR(20)
-                       NOT
-                           NULL,
-    email
-               VARCHAR(320)
-                       NOT
-                           NULL
-        UNIQUE,
-    location
-               INTEGER
-                       NOT
-                           NULL,
-    password
-               VARCHAR(100)
-                       NOT
-                           NULL,
-    picture
-               INT,
-    type
-               INT
-                       NOT
-                           NULL,
+    last_name VARCHAR(20) NOT NULL,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    location INTEGER NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    picture INT,
+    type INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS article
 (
-    id            SERIAL,
+    id            SERIAL NOT NULL,
     title         VARCHAR(50) NOT NULL,
     description   VARCHAR(310) NOT NULL,
     price_per_day decimal NOT NULL,

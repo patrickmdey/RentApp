@@ -8,6 +8,7 @@ import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         if (id == null)
             return Optional.empty();
@@ -40,13 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userDao.findByEmail(email);
-    }
-
-    @Override
-    public List<User> list() {
-        return userDao.list();
     }
 
     @Override
@@ -55,23 +53,30 @@ public class UserServiceImpl implements UserService {
         String passwordHash = passwordEncoder.encode(password);
         DBImage dbImg = imageService.create(img);
 
-        User user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg.getId(), type);
+        User user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg, type);
         emailService.sendNewUserMail(user);
 
         return user;
     }
 
     @Override
+    @Transactional
     public void update(long id, String firstName, String lastName, Long location) {
-        userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)]);
+        User user = findById(id).orElseThrow(UserNotFoundException::new);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(Locations.values()[Math.toIntExact(location)]);
+        //userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)]);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         userDao.delete(id);
     }
 
     @Override
+    @Transactional
     public void updatePassword(long id, String password) {
         String passwordHash = passwordEncoder.encode(password);
         userDao.updatePassword(id, passwordHash);

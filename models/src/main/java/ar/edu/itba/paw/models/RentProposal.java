@@ -11,6 +11,7 @@ public class RentProposal {
     private Date endDate;
     private long articleId;
     private long renterId;
+
     private User renter;
     private User owner;
     private Article article;

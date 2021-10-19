@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
@@ -31,7 +32,7 @@ public class UserDaoJdbc implements UserDao {
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
                     Locations.values()[resultSet.getInt("location")],
-                    resultSet.getLong("picture"),
+                    null, //resultSet.getLong("picture"),
                     UserType.values()[resultSet.getInt("type")]);
 
     @Autowired
@@ -43,11 +44,6 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public List<User> list() {
-        return jdbcTemplate.query("SELECT * from account", ROW_MAPPER);
-    }
-
-    @Override
     public Optional<User> findById(long id) {
 
         List<User> users = jdbcTemplate.query("SELECT * FROM account WHERE id = ?", new Object[]{id}, ROW_MAPPER);
@@ -56,7 +52,7 @@ public class UserDaoJdbc implements UserDao {
     }
 
     @Override
-    public User register(String email, String password, String firstName, String lastName, Locations location, Long img, UserType type) {
+    public User register(String email, String password, String firstName, String lastName, Locations location, DBImage img, UserType type) {
         Map<String, Object> data = new HashMap<>();
         data.put("email", email);
         data.put("password", password);

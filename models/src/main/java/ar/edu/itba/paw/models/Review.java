@@ -1,15 +1,29 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
 import java.util.Date;
 
+//@Entity
+//@Table(name = "review")
 public class Review {
-    private long id;
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")
+//    @SequenceGenerator(sequenceName = "review_id_seq", name = "review_id_seq", allocationSize = 1)
+    private Long id;
+
     private int rating;
+
+//    @Column()
     private String message;
     private long articleId;
     private long renterId;
     private Date createdAt;
     private User renter;
+
+//    /*package*/ Review(){
+//        //Just for Hibernate
+//    }
 
     public Review(long id, int rating, String message, long articleId, long renterId, Date createdAt) {
         this(rating, message, articleId, renterId, createdAt);

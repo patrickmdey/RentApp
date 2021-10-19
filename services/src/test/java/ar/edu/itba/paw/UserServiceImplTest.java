@@ -72,7 +72,7 @@ public class UserServiceImplTest {
                 eq(user.getFirstName()),
                 eq(user.getLastName()),
                 eq(user.getLocation()),
-                eq(uploadedImage.getId()),
+                eq(uploadedImage),
                 eq(user.getType())
         )).thenReturn(user);
         doNothing().when(emailService).sendNewUserMail(eq(user));
@@ -101,7 +101,7 @@ public class UserServiceImplTest {
         when(imageService.create(eq(image))).thenReturn(uploadedImage);
         when(userDao.register(eq(user.getEmail()), eq(user.getPassword()),
                 eq(user.getFirstName()), eq(user.getLastName()),
-                eq(user.getLocation()), eq(uploadedImage.getId()),
+                eq(user.getLocation()), eq(uploadedImage),
                 eq(user.getType())
         )).thenThrow(RuntimeException.class);
 

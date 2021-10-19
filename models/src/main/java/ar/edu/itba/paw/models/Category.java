@@ -1,15 +1,27 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+//@Entity
+//@Table(name = "category")
 public class Category {
 
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
+    //@SequenceGenerator(sequenceName = "category_id_seq", name = "category_id_seq", allocationSize = 1)
+    private Long id;
+
+    //@Column(nullable = false, length = 30, unique = true)
     private String description;
-    private long id;
 
     public Category(long id, String description) {
         this.id = id;
         this.description = description;
+    }
+
+    /* package */ Category() {
+        // Just for Hibernate
     }
 
     public String getDescription() {
