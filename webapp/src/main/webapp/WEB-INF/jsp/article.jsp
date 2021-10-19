@@ -28,12 +28,14 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <h2 class="card-title display-6"><c:out value="${article.title}"/></h2>
+                <p class="text-muted small"><spring:message code="article.stats.timesRented"
+                                                            arguments="${article.timesRented}"/></p>
+                <h2 class="card-title h2 my-n2"><c:out value="${article.title}"/></h2>
                 <c:url var="locationFilterUrl" value="/">
                     <c:param name="location" value="${article.location.ordinal()}"/>
                 </c:url>
-                <p class="lead article-location color-action">
-                    <a href="${locationFilterUrl}">
+                <p class="lead article-location">
+                    <a href="${locationFilterUrl}" class="color-action">
                         <i class="bi-geo-alt-fill"></i><c:out value="${article.location.name}"/>
                     </a>
                 </p>
@@ -60,18 +62,7 @@
                     </c:otherwise>
                 </c:choose>
 
-                <c:choose>
-                    <c:when test="${article.timesRented == 1}">
-                        <p class="lead"><spring:message code="article.stats.timesRented.single"
-                                                        arguments="${article.timesRented}"/></p>
-                    </c:when>
-                    <c:otherwise>
-                        <p class="lead"><spring:message code="article.stats.timesRented.multiple"
-                                                        arguments="${article.timesRented}"/></p>
-                    </c:otherwise>
-                </c:choose>
-
-                <h4 class="card-text h4 color-rentapp-red"><spring:message
+                <h4 class="card-text mt-n1 h4 color-rentapp-red"><spring:message
                         code="article.price"
                         arguments="${article.pricePerDay}"/></h4>
                 <c:choose>
