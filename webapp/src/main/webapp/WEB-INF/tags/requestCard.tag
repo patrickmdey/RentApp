@@ -45,18 +45,18 @@
     </div>
 </div>
 
-<div class="card card-style mt-2">
+<div class="card card-style mb-2">
     <a href="${goToArticle}">
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
     <hr>
     <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
                                          arguments="${renterFirstName}, ${renteLastName}"/></p>
-    <div class="row">
-        <p class="lead col-4"><spring:message code="myAccount.ownerRequests.startDate"
-                                              arguments="${startDate}"/></p>
-        <p class="lead col-5 ms-n3"><spring:message code="myAccount.ownerRequests.endDate"
-                                                    arguments="${endDate}"/></p>
+    <div class="row justify-content-start">
+        <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.startDate"
+                                                                 arguments="${startDate}"/></p>
+        <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.endDate"
+                                                                 arguments="${endDate}"/></p>
     </div>
     <c:if test="${state == 1}">
         <div class="row">

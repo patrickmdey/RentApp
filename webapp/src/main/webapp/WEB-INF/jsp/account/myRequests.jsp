@@ -60,22 +60,22 @@
             <div>
                 <nav class="nav nav-pills" id="nav-tab" role="tablist">
                     <c:if test="${user.type.isOwner}">
-                        <a class="nav-link active w-100 text-start bg-color-action" id="nav-received-tab"
+                        <a class="nav-link request-pill active w-100 text-start" id="nav-received-tab"
                            data-bs-toggle="pill"
                            href="#nav-received"
                            role="tab"
                            aria-controls="nav-owned" aria-selected="true">
-                            <p class="my-1 color-grey">
+                            <p class="my-1">
                                 <spring:message code="requests.received"/>
                             </p>
                         </a>
                     </c:if>
-                    <a class="nav-link bg-color-action ${!user.type.isOwner?' active':''} text-start w-100"
+                    <a class="nav-link request-pill  ${!user.type.isOwner?' active':''} text-start w-100"
                        id="nav-sent-tab"
                        data-bs-toggle="pill"
                        href="#nav-sent" role="tab"
                        aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
-                        <p class="my-1 color-grey">
+                        <p class="my-1">
                             <spring:message code="requests.sent"/>
                         </p>
                     </a>
@@ -88,7 +88,7 @@
                      role="tabpanel"
                      aria-labelledby="nav-received-tab">
                     <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
-                                   isReceived="${true}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                                   isReceived="${true}" currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
                 </div>
                 <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
                      aria-labelledby="nav-sent-tab">
