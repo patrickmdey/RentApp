@@ -3,38 +3,45 @@ package ar.edu.itba.paw.models;
 import javax.persistence.*;
 import java.util.Date;
 
-//@Entity
-//@Table(name = "review")
+@Entity
+@Table(name = "review")
 public class Review {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")
-//    @SequenceGenerator(sequenceName = "review_id_seq", name = "review_id_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")
+    @SequenceGenerator(sequenceName = "review_id_seq", name = "review_id_seq", allocationSize = 1)
     private Long id;
 
-    private int rating;
+    @Column(nullable = false)
+    private Integer rating;
 
-//    @Column()
+    @Column(nullable = false, length = 310)
     private String message;
-    private long articleId;
-    private long renterId;
+
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
+    private Article article;
+
+    @ManyToOne
+    @JoinColumn(name = "renter_id", referencedColumnName = "id")
     private User renter;
 
-//    /*package*/ Review(){
-//        //Just for Hibernate
-//    }
 
-    public Review(long id, int rating, String message, long articleId, long renterId, Date createdAt) {
-        this(rating, message, articleId, renterId, createdAt);
+    /*package*/ Review() {
+        //Just for Hibernate
+    }
+
+    public Review(long id, int rating, String message, Date createdAt) {
+        this(rating, message, createdAt);
         this.id = id;
     }
 
-    public Review(int rating, String message, long articleId, long renterId, Date createdAt) {
+    public Review(int rating, String message, Date createdAt) {
         this.rating = rating;
         this.message = message;
-        this.articleId = articleId;
-        this.renterId = renterId;
         this.createdAt = createdAt;
     }
 
@@ -58,20 +65,12 @@ public class Review {
         this.message = message;
     }
 
-    public long getArticleId() {
-        return articleId;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setArticleId(long articleId) {
-        this.articleId = articleId;
-    }
-
-    public long getRenterId() {
-        return renterId;
-    }
-
-    public void setRenterId(long renterId) {
-        this.renterId = renterId;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     public User getRenter() {

@@ -131,7 +131,7 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());
         Assert.assertEquals(pricePerDay, result.getPricePerDay());
-        Assert.assertEquals(idOwner, result.getIdOwner());
+        Assert.assertEquals(idOwner, result.getOwner().getId());
 
     }
 
@@ -164,7 +164,7 @@ public class ArticleDaoJdbcTest {
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());
         Assert.assertEquals(pricePerDay, result.getPricePerDay());
-        Assert.assertEquals(idOwner, result.getIdOwner());
+        Assert.assertEquals(idOwner, result.getOwner().getId());
     }
 
     @Test(expected = CannotCreateArticleException.class)

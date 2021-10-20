@@ -45,7 +45,7 @@ public class WebSecurity {
 
         Optional<RentProposal> proposal = rentService.findById(rentId);
 
-        return proposal.filter(rentProposal -> isArticleOwner(loggedUser.get(), rentProposal.getArticleId())).isPresent();
+        return proposal.filter(rentProposal -> isArticleOwner(loggedUser.get(), rentProposal.getArticle().getId())).isPresent();
 
     }
 
@@ -62,7 +62,7 @@ public class WebSecurity {
             return false;
 
         Optional<Review> reviewOpt = reviewService.findById(reviewId);
-        return reviewOpt.filter(review -> review.getRenterId() == loggedUser.get().getId()).isPresent();
+        return reviewOpt.filter(review -> review.getRenter().getId() == loggedUser.get().getId()).isPresent();
     }
 
     private Optional<User> getUser(Authentication authentication) {
@@ -77,6 +77,6 @@ public class WebSecurity {
     private boolean isArticleOwner(User user, Long articleId) {
         Optional<Article> article = articleService.findById(articleId);
 
-        return article.isPresent() && user.getId() == article.get().getIdOwner();
+        return article.isPresent() && user.getId() == article.get().getOwner().getId();
     }
 }

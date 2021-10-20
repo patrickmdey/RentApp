@@ -40,16 +40,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ArticleImageDao articleImageDao;
 
+    /*
     private void appendCategories(Article article) {
         article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
     }
 
-    private void appendTimesRented(Article article) {
-        article.setTimesRented(this.articleDao.timesRented(article.getId()));
-    }
-
     private void appendLocation(Article article) {
-        Optional<User> owner = userDao.findById(article.getIdOwner());
+        Optional<User> owner = userDao.findById(article.getOwner().getId());
         owner.ifPresent(user -> article.setLocation(user.getLocation()));
     }
 
@@ -57,14 +54,18 @@ public class ArticleServiceImpl implements ArticleService {
         List<Long> images = this.articleImageDao.findFromArticle(article.getId());
         article.setImages(images);
     }
-
+     */
     private void appendRating(Article article) {
         article.setRating(reviewService.articleRating(article.getId()));
+    }
+    private void appendTimesRented(Article article) {
+        article.setTimesRented(this.articleDao.timesRented(article.getId()));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Article> get(String name, Long category, String orderBy, Long user, Long location, long page) {
+        System.out.println("Entre al get");
         List<Article> articles;
         List<String> orderOptions = Arrays.stream(OrderOptions.values()).
                 map(OrderOptions::getColumn).collect(Collectors.toList());
@@ -73,6 +74,8 @@ public class ArticleServiceImpl implements ArticleService {
             orderBy = null;
 
         articles = this.articleDao.filter(name, category, orderBy, user, location, page);
+
+        //articles.forEach(this::appendRating);
         appendInfo(articles);
 
         return articles;
@@ -82,13 +85,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(readOnly = true)
     public Optional<Article> findById(long articleId) {
         Optional<Article> toReturn = articleDao.findById(articleId);
+
         if (toReturn.isPresent()) {
-            appendCategories(toReturn.get());
-            appendLocation(toReturn.get());
-            appendImages(toReturn.get());
+            //appendCategories(toReturn.get());
+            //appendLocation(toReturn.get());
+            //appendImages(toReturn.get());
+            //appendInfo(toReturn.get());
             appendTimesRented(toReturn.get());
             appendRating(toReturn.get());
         }
+
+
         return toReturn;
     }
 
@@ -108,11 +115,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(readOnly = true)
     public List<Article> recommendedArticles(long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
+
         toReturn.forEach(article -> {
-            appendImages(article);
-            appendLocation(article);
+            //appendImages(article);
+            //appendLocation(article);
             appendRating(article);
         });
+
 
         return toReturn;
     }
@@ -125,7 +134,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         if (categories != null) {
             categories.forEach(catId -> articleCategoryDao.addToArticle(article.getId(), catId));
-            this.appendCategories(article);
+            //this.appendCategories(article);
         }
         images.forEach(image -> {
             DBImage img = imageService.create(image);
@@ -134,7 +143,7 @@ public class ArticleServiceImpl implements ArticleService {
         return article;
     }
 
-    @Override
+    @Override //TODO cambiarlo
     @Transactional
     public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
         articleDao.editArticle(id, title, description, pricePerDay);
@@ -158,16 +167,19 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> rentedArticles(long renterId, long page) {
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
-        return articles;
+        return articleDao.rentedArticles(renterId, page);
+
+//        appendInfo(articles);
+        //return articles;
     }
 
     private void appendInfo(List<Article> articles) {
         articles.forEach(article -> {
-            appendCategories(article);
-            appendImages(article);
-            appendLocation(article);
+//            appendCategories(article);
+//            appendImages(article);
+//            appendLocation(article);
             appendTimesRented(article);
             appendRating(article);
-        });
+       });
     }
 }

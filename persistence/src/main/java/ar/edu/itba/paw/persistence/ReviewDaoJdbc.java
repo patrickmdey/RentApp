@@ -15,6 +15,8 @@ import java.util.*;
 
 @Repository
 public class ReviewDaoJdbc implements ReviewDao {
+
+
     private static final Long OFFSET = 3L;
 
     private final JdbcTemplate jdbcTemplate;
@@ -24,9 +26,10 @@ public class ReviewDaoJdbc implements ReviewDao {
                     resultSet.getLong("id"),
                     resultSet.getInt("rating"),
                     resultSet.getString("message"),
-                    resultSet.getInt("article_id"),
-                    resultSet.getInt("renter_id"),
-                    resultSet.getTimestamp("created_at"));
+                    //resultSet.getInt("article_id"),
+                    //resultSet.getInt("renter_id"),
+                    resultSet.getTimestamp("created_at")
+            );
 
     @Autowired
     public ReviewDaoJdbc(DataSource dataSource) {
@@ -83,7 +86,8 @@ public class ReviewDaoJdbc implements ReviewDao {
 
         try {
             long reviewId = jdbcInsert.executeAndReturnKey(data).longValue();
-            return new Review(reviewId, rating, message, articleId, renterId, createdAt);
+            //return new Review(reviewId, rating, message, articleId, renterId, createdAt);
+            return new Review(reviewId, rating, message, createdAt);
         } catch(Exception e){
             throw new CannotCreateReviewException();
         }
@@ -95,13 +99,13 @@ public class ReviewDaoJdbc implements ReviewDao {
                 .stream().findFirst();
     }
 
-    @Override
-    public void update(int rating, String message, long reviewId) {
-        try {
-            jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
-            jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
-        } catch(Exception e){
-            throw new CannotEditReviewException();
-        }
-    }
+//    @Override
+//    public void update(int rating, String message, long reviewId) {
+//        try {
+//            jdbcTemplate.update("UPDATE review SET rating = ? WHERE id = ? ", rating, reviewId);
+//            jdbcTemplate.update("UPDATE review SET message = ? WHERE id = ? ", message, reviewId);
+//        } catch(Exception e){
+//            throw new CannotEditReviewException();
+//        }
+//    }
 }

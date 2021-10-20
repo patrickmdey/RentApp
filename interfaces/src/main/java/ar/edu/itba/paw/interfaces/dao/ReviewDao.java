@@ -10,7 +10,7 @@ public interface ReviewDao {
 
     List<Review> getPaged(long articleId, long page);
 
-    void update(int rating, String message, long reviewId);
+    //void update(int rating, String message, long reviewId);
 
     Optional<Review> findById(long reviewId);
 

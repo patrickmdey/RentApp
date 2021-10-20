@@ -26,9 +26,9 @@ public class RentDaoJdbc implements RentDao {
                     resultSet.getString("message"),
                     resultSet.getInt("state"),
                     resultSet.getDate("start_date"),
-                    resultSet.getDate("end_date"),
-                    resultSet.getInt("article_id"),
-                    resultSet.getInt("renter_id"));
+                    resultSet.getDate("end_date"));
+                    //null,//resultSet.getInt("article_id"),
+                    //null);//resultSet.getInt("renter_id"));
 
     @Autowired
     public RentDaoJdbc(DataSource dataSource) {
@@ -102,18 +102,9 @@ public class RentDaoJdbc implements RentDao {
 
         try {
             long rentProposalId = jdbcInsert.executeAndReturnKey(data).longValue();
-            return new RentProposal(rentProposalId, comment, approved, startDate, endDate, articleId, renterId);
+            return new RentProposal(rentProposalId, comment, approved, startDate, endDate);
         } catch(Exception e){
             throw new CannotCreateProposalException();
-        }
-    }
-
-    @Override
-    public void updateRequest(long requestId, int state) {
-        try {
-            jdbcTemplate.update("UPDATE rent_proposal SET state = ? WHERE id = ?", state, requestId);
-        } catch(Exception e) {
-            throw new CannotEditRequestException();
         }
     }
 

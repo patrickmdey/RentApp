@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Primary
 public class CategoryDaoJdbc implements CategoryDao {
 
     private final JdbcTemplate jdbcTemplate;

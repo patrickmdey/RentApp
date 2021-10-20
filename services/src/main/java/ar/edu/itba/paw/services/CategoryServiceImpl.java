@@ -25,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public Optional<Category> findById(Long id) {
+        if(id == null){
+            return Optional.empty();
+        }
         return categoryDao.findById(id);
     }
 }

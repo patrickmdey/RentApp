@@ -40,9 +40,9 @@ public class UserDaoJpa implements UserDao {
         return query.getResultList().stream().findFirst();
     }
 
-    @Override
+    @Override //TODO: se podria borrar
     public void update(long id, String firstName, String lastName, Locations location) {
-        User user = findById(id).orElseThrow(UserNotFoundException::new);
+        User user = em.find(User.class, id);// findById(id).orElseThrow(UserNotFoundException::new);
         //em.getTransaction().begin();
 
         user.setFirstName(firstName);
@@ -54,13 +54,13 @@ public class UserDaoJpa implements UserDao {
 
     @Override
     public void delete(long id) {
-        User user = findById(id).orElseThrow(UserNotFoundException::new);
+        User user = em.find(User.class, id);//findById(id).orElseThrow(UserNotFoundException::new);
         em.remove(user);
     }
 
-    @Override
+    @Override //TODO: se podria borrar
     public void updatePassword(long id, String passwordHash) {
-        User user = findById(id).orElseThrow(UserNotFoundException::new);
+        User user = em.find(User.class, id);//findById(id).orElseThrow(UserNotFoundException::new);
         user.setPassword(passwordHash);
         em.persist(user);
     }

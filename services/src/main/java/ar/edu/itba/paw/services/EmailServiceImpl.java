@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -92,7 +93,7 @@ public class EmailServiceImpl implements EmailService {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
         sendMailRequestConfirmationToOwner(thymeleafContext);
 
-        sendMailRequestConfirmationToRenter(thymeleafContext, rentProposal.getArticle().getCategories().get(0).getId());
+        sendMailRequestConfirmationToRenter(thymeleafContext, rentProposal.getArticle().getCategories().stream().findFirst().orElseThrow(CategoryNotFoundException::new).getId());
     }
 
     private void sendMailRequestConfirmationToOwner(Context context) {
@@ -111,7 +112,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequestDenied(RentProposal rentProposal, User owner) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        long categoryId = rentProposal.getArticle().getCategories().get(0).getId();
+        long categoryId = rentProposal.getArticle().getCategories().stream().findFirst().orElseThrow(CategoryNotFoundException::new).getId();
         thymeleafContext.setVariable("callbackUrl", BASE_URL + "/?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);
         sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, LocaleContextHolder.getLocale())

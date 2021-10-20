@@ -56,8 +56,8 @@ public class ArticleController {
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
         final ModelAndView mav = new ModelAndView("article");
         Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
-        article.setLocation(owner.getLocation());
+        User owner = userService.findById(article.getOwner().getId()).orElseThrow(UserNotFoundException::new);
+        //article.setLocation(owner.getLocation());
 
         mav.addObject("article", article);
         mav.addObject("owner", owner);

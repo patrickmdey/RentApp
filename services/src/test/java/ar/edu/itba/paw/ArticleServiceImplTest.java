@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,10 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
@@ -51,10 +49,10 @@ public class ArticleServiceImplTest {
                 "renter", "renter", Locations.values()[5], null, UserType.RENTER);
 
         this.articles = Arrays.asList(
-                new Article(1, "Bicicleta", "bmx de ciudad", 500F, 1),
-                new Article(2, "Moto", "Moto de campo", 900F, 1),
-                new Article(3, "Auto", "Auto de glaciar", 200F, 1),
-                new Article(4, "Monopatin", "Monopatin de CABA", 100F, 1)
+                new Article(1, "Bicicleta", "bmx de ciudad", 500F, userOwner),
+                new Article(2, "Moto", "Moto de campo", 900F, userOwner),
+                new Article(3, "Auto", "Auto de glaciar", 200F, userOwner),
+                new Article(4, "Monopatin", "Monopatin de CABA", 100F, userOwner)
         );
 
         this.categories = Arrays.asList(
@@ -77,7 +75,7 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getTitle()),
                 eq(articleToCreate.getDescription()),
                 eq(articleToCreate.getPricePerDay()),
-                eq(articleToCreate.getIdOwner())
+                eq(articleToCreate.getOwner().getId())
         )).thenReturn(articleToCreate);
 
         categoriesId.forEach(t -> {
@@ -97,7 +95,7 @@ public class ArticleServiceImplTest {
                 articleToCreate.getPricePerDay(),
                 categoriesId,
                 new ArrayList<>(),
-                articleToCreate.getIdOwner()
+                articleToCreate.getOwner().getId()
         );
 
         // Assert
@@ -117,7 +115,7 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getTitle()),
                 eq(articleToCreate.getDescription()),
                 eq(articleToCreate.getPricePerDay()),
-                eq(articleToCreate.getIdOwner())
+                eq(articleToCreate.getOwner().getId())
         )).thenThrow(RuntimeException.class);
 
         // Act
@@ -127,7 +125,7 @@ public class ArticleServiceImplTest {
                 articleToCreate.getPricePerDay(),
                 categoriesId,
                 new ArrayList<>(),
-                articleToCreate.getIdOwner()
+                articleToCreate.getOwner().getId()
         );
 
         // Assert
@@ -158,7 +156,7 @@ public class ArticleServiceImplTest {
             Assert.assertTrue(optionalResult.isPresent());
             Article r = optionalResult.get();
 
-            Assert.assertEquals(userOwner.getLocation().ordinal(), r.getLocation().ordinal());
+            Assert.assertEquals(userOwner.getLocation().ordinal(), r.getOwner().getLocation().ordinal());
         });
     }
 
@@ -186,9 +184,9 @@ public class ArticleServiceImplTest {
         articleToEdit.setTitle("new title");
         articleToEdit.setDescription("new description");
         articleToEdit.setPricePerDay(123F);
-        articleToEdit.setCategories(Arrays.asList(
-                new Category(123, "new category")
-        ));
+        Set<Category> categories = new HashSet<>();
+        categories.add(new Category(123, "new category"));
+        articleToEdit.setCategories(categories);
 
         final List<Long> newCategoriesId = articleToEdit.getCategories().stream().map(Category::getId).collect(Collectors.toList());
 
@@ -203,7 +201,7 @@ public class ArticleServiceImplTest {
         doNothing().when(articleCategoryDao).removeFromArticle(anyLong(), anyLong());
 
         when(articleCategoryDao.findFromArticle(eq(articleToEdit.getId())))
-                .thenReturn(categories);
+                .thenReturn(new ArrayList<>(categories));
 
         when(articleDao.findById(eq(articleToEdit.getId())))
                 .thenReturn(Optional.of(articleToEdit));

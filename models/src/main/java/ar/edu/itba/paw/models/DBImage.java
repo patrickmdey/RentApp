@@ -13,7 +13,6 @@ public class DBImage {
     @SequenceGenerator(sequenceName = "picture_id_seq", name = "picture_id_seq", allocationSize = 1)
     private Long id;
 
-    @Basic
     @Column(name = "data", nullable = false)
     private byte[] img;
 
@@ -24,6 +23,10 @@ public class DBImage {
 
     DBImage (){
         // For hibernate
+    }
+
+    public DBImage(byte[] img) {
+        this.img = img;
     }
 
     public byte[] getImg() {

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Primary
 public class CategoryDaoJpa implements CategoryDao {
 
     @PersistenceContext
@@ -19,7 +20,7 @@ public class CategoryDaoJpa implements CategoryDao {
 
     @Override
     public List<Category> listAll() {
-        final TypedQuery<Category> query = em.createQuery("from Category as c where true", Category.class);
+        final TypedQuery<Category> query = em.createQuery("FROM Category", Category.class);
         return query.getResultList();
     }
 

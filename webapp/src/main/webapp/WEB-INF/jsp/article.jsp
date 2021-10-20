@@ -30,11 +30,11 @@
             <div class="col-md-7">
                 <h2 class="card-title display-6"><c:out value="${article.title}"/></h2>
                 <c:url var="locationFilterUrl" value="/">
-                    <c:param name="location" value="${article.location.ordinal()}"/>
+                    <c:param name="location" value="${article.owner.location.ordinal()}"/>
                 </c:url>
                 <p class="lead article-location color-action">
                     <a href="${locationFilterUrl}">
-                        <i class="bi-geo-alt-fill"></i><c:out value="${article.location.name}"/>
+                        <i class="bi-geo-alt-fill"></i><c:out value="${article.owner.location.name}"/>
                     </a>
                 </p>
                 <div class="d-flex">

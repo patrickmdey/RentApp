@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
 import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 @Repository
+@Primary
 public class ArticleDaoJdbc implements ArticleDao {
 
     private static final Long OFFSET = 9L;
@@ -29,7 +31,7 @@ public class ArticleDaoJdbc implements ArticleDao {
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getFloat("price_per_day"),
-                    resultSet.getLong("owner_id")
+                    null//resultSet.getLong("owner_id")
             );
 
     @Autowired
@@ -136,7 +138,8 @@ public class ArticleDaoJdbc implements ArticleDao {
 
         try {
             long articleId = jdbcInsert.executeAndReturnKey(data).longValue();
-            return new Article(articleId, title, description, pricePerDay, idOwner);
+            //return new Article(articleId, title, description, pricePerDay, idOwner);
+            return new Article(articleId, title, description, pricePerDay, null);
         } catch(Exception e){
             throw new CannotCreateArticleException();
         }
