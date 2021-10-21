@@ -21,11 +21,11 @@ public class Review {
     @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id", referencedColumnName = "id")
     private Article article;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "renter_id", referencedColumnName = "id")
     private User renter;
 

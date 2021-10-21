@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence.jpa;
+package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;

@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "rent_proposal")
+@Table(name = "rent_proposal",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"start_date", "end_date", "article_id", "renter_id"}))
 public class RentProposal {
 
     @Id
@@ -24,11 +25,11 @@ public class RentProposal {
     @Column(name = "end_date", nullable = false)
     private Date endDate;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "renter_id", referencedColumnName = "id")
     private User renter;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id", referencedColumnName = "id")
     private Article article;
 

@@ -1,6 +1,7 @@
-package ar.edu.itba.paw.persistence.jpa;
+package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
+import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import org.springframework.beans.factory.annotation.Autowired;

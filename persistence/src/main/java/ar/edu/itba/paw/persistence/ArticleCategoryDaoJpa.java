@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.persistence.jpa;
+package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
 import ar.edu.itba.paw.models.Article;

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.interfaces.service.ImageService;
+import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -22,11 +22,11 @@ public class Article {
     @Column(name = "price_per_day", nullable = false)
     private Float pricePerDay;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     @JoinTable(
             name = "article_picture",
             joinColumns=@JoinColumn(name="article_id", referencedColumnName="id"),
@@ -34,7 +34,7 @@ public class Article {
     )
     private Set<DBImage> images = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "article_category",
             joinColumns=@JoinColumn(name="article_id", referencedColumnName="id"),
@@ -143,6 +143,10 @@ public class Article {
 
     public void setImages(Set<DBImage> images) {
         this.images = images;
+    }
+
+    public void addImage(DBImage img) {
+        this.images.add(img);
     }
 
     public List<DBImage> getImages() {

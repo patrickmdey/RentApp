@@ -29,7 +29,7 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     private UserType type;
 
-    @OneToOne
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "picture", referencedColumnName = "id")
     private DBImage picture;
 

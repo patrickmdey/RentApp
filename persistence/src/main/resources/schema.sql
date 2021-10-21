@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS account
     email VARCHAR(320) NOT NULL UNIQUE,
     location INTEGER NOT NULL,
     password VARCHAR(100) NOT NULL,
-    picture INT,
+    picture INT NOT NULL,
     type INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE

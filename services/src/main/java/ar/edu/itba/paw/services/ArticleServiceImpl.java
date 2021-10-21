@@ -136,7 +136,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         images.forEach(image -> {
             DBImage img = imageService.create(image);
-            articleImageDao.addToArticle(article.getId(), img);
+            articleImageDao.addToArticle(article, img);
         });
         return article;
     }

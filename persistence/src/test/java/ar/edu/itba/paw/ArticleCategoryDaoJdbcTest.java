@@ -1,16 +1,14 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
-import ar.edu.itba.paw.persistence.ArticleCategoryDaoJdbc;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -27,7 +25,7 @@ import java.util.List;
 public class ArticleCategoryDaoJdbcTest {
 
     @Autowired
-    private ArticleCategoryDaoJdbc articleCategoryDao;
+    private ArticleCategoryDao articleCategoryDao;
     @Autowired
     private DataSource dataSource;
 
