@@ -124,13 +124,13 @@
                         <div class="col-11">
                             <form:select path="orderBy" class="form-control form-control-custom">
                                 <c:forEach var="option" items="${orderOptions}">
-                                    <form:option value="${option.column}">
+                                    <form:option value="${option.ordinal()}">
                                         <spring:message code="${option.description}"/>
                                     </form:option>
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <i class="col-1 ms-n2 color-rentapp-black fa-2x bi bi-filter-left"></i>
+                        <i class="col-1 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
                     </div>
                 </div>
 

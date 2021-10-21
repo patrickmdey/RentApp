@@ -128,24 +128,19 @@ public class ArticleDaoJpa implements ArticleDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, long page) {
+    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, long page) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder idQueryBuilder = queryBuilder(params, "id", name, category, user, location);
         idQueryBuilder.append(" ORDER BY ");
 
-        if (orderBy != null) {
-            idQueryBuilder.append(orderBy);
-        } else {
-            idQueryBuilder.append(" LOWER(title) ");
-        }
+        idQueryBuilder.append(orderBy.getNativeColumn()).append(" ").append(orderBy.getOrder());
 
         idQueryBuilder.append(" LIMIT :limit OFFSET :offset");
-
 
         Query idQueries = em.createNativeQuery(idQueryBuilder.toString());
         params.forEach(idQueries::setParameter);
 
-        idQueries.setParameter("limit", RESULTS_PER_PAGE);
+        idQueries.setParameter("limit", RESULTS_PER_PAGE); // TODO: modularize?
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         List<Integer> aux = idQueries.getResultList();
@@ -155,20 +150,14 @@ public class ArticleDaoJpa implements ArticleDao {
         if(articleIds.isEmpty())
             return new ArrayList<>();
 
-        final TypedQuery<Article> articleQuery = em.createQuery("from Article " +
-                "WHERE id IN (:articleIds) ORDER BY :orderBy", Article.class);
+        String hqlQuery = "SELECT a, " + orderBy.getJpaColumn() + " AS order_option " +
+                "from Article AS a WHERE a.id IN (:articleIds) ORDER BY order_option " + orderBy.getOrder();
 
+        final TypedQuery<Object[]> articleQuery = em.createQuery(hqlQuery, Object[].class);
 
         articleQuery.setParameter("articleIds", articleIds);
 
-        if (orderBy != null) {
-            articleQuery.setParameter("orderBy", orderBy); //TODO cambiar esto
-        } else {
-            articleQuery.setParameter("orderBy", " LOWER(title) ");
-        }
-
-        List<Article> articles = articleQuery.getResultList();
-        return articles;
+        return articleQuery.getResultList().stream().map(el -> (Article) el[0]).collect(Collectors.toList());
     }
 
     @Override

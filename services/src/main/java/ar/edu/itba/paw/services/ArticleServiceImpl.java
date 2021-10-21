@@ -64,16 +64,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Article> get(String name, Long category, String orderBy, Long user, Long location, long page) {
-        System.out.println("Entre al get");
+    public List<Article> get(String name, Long category, Long orderBy, Long user, Long location, long page) {
         List<Article> articles;
-        List<String> orderOptions = Arrays.stream(OrderOptions.values()).
-                map(OrderOptions::getColumn).collect(Collectors.toList());
 
-        if (!orderOptions.contains(orderBy)) // check orderBy is a valid value
-            orderBy = null;
+        OrderOptions orderOp = OrderOptions.LOWER_ARTICLE;
+        if (orderBy != null && orderBy > 0 && orderBy < OrderOptions.values().length)
+            orderOp = OrderOptions.values()[orderBy.intValue()];
 
-        articles = this.articleDao.filter(name, category, orderBy, user, location, page);
+        articles = this.articleDao.filter(name, category, orderOp, user, location, page);
 
         //articles.forEach(this::appendRating);
         appendInfo(articles);

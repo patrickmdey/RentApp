@@ -1,6 +1,7 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
 import ar.edu.itba.paw.persistence.ArticleDaoJdbc;
@@ -46,7 +47,7 @@ public class ArticleDaoJdbcTest {
         final long[] expectedIds = {1};
         final String name = "Moto";
         final Long category = null;
-        final String orderBy = "id";
+        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
         final Long idUser = null;
         final Long location = null;
         final Long page = 1L;
@@ -59,12 +60,12 @@ public class ArticleDaoJdbcTest {
     }
 
     @Test
-    public void filterSucceedByCategory() {
+    public void filterSucceedByCategory() { // TODO: Change expected order to actual ordered array (In whole test)
         // Arrange
         final long[] expectedIds = {1,4};
         final String name = null;
         final Long category = 1L;
-        final String orderBy = "id";
+        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
         final Long idUser = null;
         final Long location = null;
         final Long page = 1L;
@@ -82,7 +83,7 @@ public class ArticleDaoJdbcTest {
         final long[] expectedIds = {1,2,3,4};
         final String name = null;
         final Long category = null;
-        final String orderBy = "id";
+        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
         final Long idUser = 1L;
         final Long location = null;
         final Long page = 1L;
@@ -100,7 +101,7 @@ public class ArticleDaoJdbcTest {
         final long[] expectedIds = {1,2,3,4};
         final String name = null;
         final Long category = null;
-        final String orderBy = "id";
+        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
         final Long idUser = null;
         final Long location = 20L;
         final Long page = 1L;

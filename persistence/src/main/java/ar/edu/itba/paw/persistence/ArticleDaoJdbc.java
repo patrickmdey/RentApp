@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.models.exceptions.CannotEditArticleCategoryException;
@@ -71,7 +72,7 @@ public class ArticleDaoJdbc implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, String orderBy, Long user, Long location, long page) {
+    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, long page) {
         ArrayList<Object> params = new ArrayList<>();
 
         StringBuilder query = queryBuilder(params, "*", name, category, user, location);
