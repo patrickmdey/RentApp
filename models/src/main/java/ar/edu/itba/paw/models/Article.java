@@ -46,7 +46,7 @@ public class Article {
     //private List<Review> reviews = new ArrayList<>();
 
     @Transient
-    private Long timesRented = 0L;
+    private Long timesRented = 0L; //TODO cambiar tipo de dato
 
     @Transient
     private long rating = 0;

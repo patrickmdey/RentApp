@@ -1,4 +1,4 @@
-<%@ attribute name="rating" type="java.lang.Integer" required="true" %>
+<%@ attribute name="rating" type="java.lang.Long" required="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${rating > 0}">

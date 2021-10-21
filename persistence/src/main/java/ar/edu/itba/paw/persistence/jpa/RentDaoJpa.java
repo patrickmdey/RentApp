@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +26,14 @@ import java.util.stream.Collectors;
 public class RentDaoJpa implements RentDao {
     private static final Long RESULTS_PER_PAGE = 4L;
 
+    private static final String OWNER_PARAM = "owner_id";
+    private static final String RENTER_PARAM = "renter_id";
+
     @PersistenceContext
     private EntityManager em;
 
     private StringBuilder sentQueryBuilder(String fields) {
-        return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE renter_id = :renter " +
+        return new StringBuilder("SELECT " + fields + " FROM rent_proposal WHERE renter_id = :renter_id " +
                 "AND state = :state ");
     }
 
@@ -40,20 +44,20 @@ public class RentDaoJpa implements RentDao {
 
     @Override
     public Long getReceivedMaxPage(long ownerId, int state) {
-        return getMaxPage(ownerId, state, this::receivedQueryBuilder);
+        return getMaxPage(ownerId, state, this::receivedQueryBuilder, OWNER_PARAM);
     }
 
     @Override
     public Long getSentMaxPage(long ownerId, int state) {
-        return getMaxPage(ownerId, state, this::sentQueryBuilder);
+        return getMaxPage(ownerId, state, this::sentQueryBuilder, RENTER_PARAM);
     }
 
-    private Long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder) {
+    private Long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
         Query query = em.createNativeQuery(queryBuilder.apply("COUNT(*)").toString());
-        query.setParameter("owner_id", ownerId);
+        query.setParameter(userParam, ownerId);
         query.setParameter("state", state);
 
-        Long size = (Long) query.getSingleResult();
+        long size = Long.parseLong(query.getSingleResult().toString());
         int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
 
         return (size / RESULTS_PER_PAGE) + toSum;
@@ -63,38 +67,39 @@ public class RentDaoJpa implements RentDao {
 
     @SuppressWarnings("unchecked")
     private List<RentProposal> getRequests(long accountId, int state, long page,
-                                           Function<String, StringBuilder> queryBuilder) {
+                                           Function<String, StringBuilder> queryBuilder, String userParam) {
         StringBuilder queryBuild = queryBuilder.apply("id");
         queryBuild.append("ORDER BY start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
 
-        Query query = em.createNativeQuery(queryBuilder.toString());
+        Query query = em.createNativeQuery(queryBuild.toString());
         query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", page * RESULTS_PER_PAGE);
-        query.setParameter("owner_id", accountId);
+        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
+        query.setParameter(userParam, accountId);
         query.setParameter("state", state);
-
-
 
         List<Integer> aux = query.getResultList();
 
         List<Long> rentProposalIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
+        if(rentProposalIds.isEmpty())
+            return new ArrayList<>();
+
         TypedQuery<RentProposal> rentProposalQuery = em.createQuery("FROM RentProposal WHERE" +
                 " id IN (:rentProposalIds) ORDER BY startDate DESC, endDate DESC", RentProposal.class);
 
-        query.setParameter("rentProposalIds", rentProposalIds);
+        rentProposalQuery.setParameter("rentProposalIds", rentProposalIds);
 
         return rentProposalQuery.getResultList();
     }
 
     @Override
     public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
-        return getRequests(ownerId, state, page, this::receivedQueryBuilder);
+        return getRequests(ownerId, state, page, this::receivedQueryBuilder, OWNER_PARAM);
     }
 
     @Override
     public List<RentProposal> sentRequests(long renterId, int state, long page) {
-        return getRequests(renterId, state, page, this::sentQueryBuilder);
+        return getRequests(renterId, state, page, this::sentQueryBuilder, RENTER_PARAM);
     }
 
     @Override

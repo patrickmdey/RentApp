@@ -12,10 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -39,11 +36,12 @@ public class ArticleDaoJpa implements ArticleDao {
         query.setParameter("limit", RESULTS_PER_PAGE);
         query.setParameter("offset", page * RESULTS_PER_PAGE);
 
-
-
         List<Integer> aux = query.getResultList();
 
         List<Long> rentedArticlesIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+
+        if (rentedArticlesIds.isEmpty())
+            return new ArrayList<>();
 
         TypedQuery<Article> rentedArticleQuery = em.createQuery("FROM Article WHERE" +
                 "id IN (:rentedArticleIds) ORDER BY start_date", Article.class);
@@ -122,7 +120,7 @@ public class ArticleDaoJpa implements ArticleDao {
 
         params.forEach(query::setParameter);
 
-        Long size = Long.valueOf(query.getSingleResult().toString());
+        long size = Long.parseLong(query.getSingleResult().toString());
         int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
 
         return (size / RESULTS_PER_PAGE) + toSum;
@@ -154,6 +152,9 @@ public class ArticleDaoJpa implements ArticleDao {
 
         List<Long> articleIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
+        if(articleIds.isEmpty())
+            return new ArrayList<>();
+
         final TypedQuery<Article> articleQuery = em.createQuery("from Article " +
                 "WHERE id IN (:articleIds) ORDER BY :orderBy", Article.class);
 
@@ -177,7 +178,7 @@ public class ArticleDaoJpa implements ArticleDao {
 
         query.setParameter("renter_id", user);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
-        Long size = (Long) query.getSingleResult();
+        long size = Long.parseLong(query.getSingleResult().toString());
 
         int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
         return (size / RESULTS_PER_PAGE) + toSum;
@@ -186,14 +187,17 @@ public class ArticleDaoJpa implements ArticleDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Article> recommendedArticles(long articleId) {
-        Query query = em.createNativeQuery("SELECT * FROM article AS a1 WHERE a1.id != ? AND a1.id IN (SELECT a2.id " +
+        Query query = em.createNativeQuery("SELECT * FROM article AS a1 WHERE a1.id != :article_id AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
                 "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +
                 "(SELECT acc2.id FROM account AS acc2 JOIN rent_proposal rp ON acc2.id = rp.renter_id" +
-                " WHERE rp.article_id = ?)" +
+                " WHERE rp.article_id = :article_id)" +
                 " GROUP BY a2.id " +
                 " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
                 ")");
+
+        query.setParameter("article_id", articleId);
+
         return (List<Article>) query.getResultList();
     }
 

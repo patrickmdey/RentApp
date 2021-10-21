@@ -16,12 +16,12 @@
     <div class="card card-style">
         <div class="row g-0">
             <div class="col-md-4 justify-content-center align-items-center">
-                <img src="<c:url value="/image/${article.images.get(0)}"/>" id="main-img"
+                <img src="<c:url value="/image/${article.images.get(0).id}"/>" id="main-img"
                      class="img-thumbnail rounded-start article-img" sizes="" alt="main image">
                 <div class="d-flex flex-wrap">
                     <c:forEach var="image" items="${article.images}">
-                        <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image}"/>')">
-                            <img src="<c:url value="/image/${image}"/>" width="30px" height="30px" alt="image">
+                        <button class="btn btn-link" onclick="setActiveImage('<c:url value="/image/${image.id}"/>')">
+                            <img src="<c:url value="/image/${image.id}"/>" width="30px" height="30px" alt="image">
                         </button>
                     </c:forEach>
                 </div>
@@ -79,7 +79,7 @@
                         <a class="btn color-grey bg-color-action color-grey mt-2"
                            href="<c:url value="/user/login"/>"><spring:message code="article.rent"/></a>
                     </c:when>
-                    <c:when test="${user.id == article.idOwner}">
+                    <c:when test="${user.id == article.owner.id}">
                         <a class="btn color-grey bg-color-primary color-grey mt-2"
                            href="<c:url value="/article/${articleId}/edit"/>"><spring:message code="article.edit"/></a>
                     </c:when>
@@ -166,7 +166,7 @@
                 <hr>
                 <div class="row align-items-center">
                     <div class="avatar-container col-4">
-                        <img src="<c:url value="/image/${owner.picture}"/>"
+                        <img src="<c:url value="/image/${owner.picture.id}"/>"
                              alt="<c:out value="${owner.firstName}"/> picture"/>
                     </div>
                     <span class="lead col-8"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
@@ -196,7 +196,7 @@
                 <div class="col">
                     <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                        id="${article.id}"
-                                       location="${article.location}"
+                                       location="${article.owner.location.name()}"
                                        image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
                                        outlined="${false}"
                                        rating="${article.rating}"/>

@@ -29,7 +29,7 @@ public class ReviewDaoJpa implements ReviewDao {
     private EntityManager em;
 
     private StringBuilder queryBuilder(String fields) {
-        return new StringBuilder("SELECT " + fields + "FROM review WHERE article_id = :article_id ");
+        return new StringBuilder("SELECT " + fields + " FROM review WHERE article_id = :article_id ");
     }
 
     @Override
@@ -46,14 +46,16 @@ public class ReviewDaoJpa implements ReviewDao {
         queryBuilder.append("ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuilder.toString());
+        query.setParameter("article_id", articleId);
         query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", page * RESULTS_PER_PAGE);
-
-
+        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         List<Integer> aux = query.getResultList();
 
         List<Long> reviewIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+
+        if (reviewIds.isEmpty())
+            return new ArrayList<>();
 
         TypedQuery<Review> reviewQuery = em.createQuery("from Review " +
                 "WHERE id IN (:reviewIds) ORDER BY createdAt", Review.class);
@@ -68,7 +70,7 @@ public class ReviewDaoJpa implements ReviewDao {
 
         Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
         query.setParameter("article_id", articleId);
-        Long size = (Long) query.getSingleResult();
+        long size = Long.parseLong(query.getSingleResult().toString());
         int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
 
         return (size / RESULTS_PER_PAGE) + toSum;
@@ -77,10 +79,10 @@ public class ReviewDaoJpa implements ReviewDao {
     @Override
     public boolean hasReviewed(long userId, long articleId) {
         final TypedQuery<Review> query = em.createQuery(
-                "from Review as r WHERE r.renter.id = :renter AND r.article.id = :article", Review.class);
+                "from Review as r WHERE r.renter.id = :renter AND r.article.id = :article_id", Review.class);
 
         query.setParameter("renter", userId);
-        query.setParameter("article", articleId);
+        query.setParameter("article_id", articleId);
 
         return !query.getResultList().isEmpty();
     }
