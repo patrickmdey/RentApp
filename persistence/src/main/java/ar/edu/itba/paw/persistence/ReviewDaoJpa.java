@@ -1,14 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
-import ar.edu.itba.paw.interfaces.service.ArticleService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -16,11 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class ReviewDaoJpa implements ReviewDao {
 
     private final static long RESULTS_PER_PAGE = 3L;
@@ -67,7 +64,6 @@ public class ReviewDaoJpa implements ReviewDao {
 
     @Override
     public Long getMaxPage(long articleId) {
-
         Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
         query.setParameter("article_id", articleId);
         long size = Long.parseLong(query.getSingleResult().toString());
@@ -89,8 +85,8 @@ public class ReviewDaoJpa implements ReviewDao {
 
     @Override
     public Review create(int rating, String message, long articleId, long renterId) {
-        Article article = em.find(Article.class, articleId);//articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        User renter = em.find(User.class, renterId);//userService.findById(renterId).orElseThrow(UserNotFoundException::new);
+        Article article = em.find(Article.class, articleId);
+        User renter = em.find(User.class, renterId);
 
         Review review = new Review(rating, message, new Date(System.currentTimeMillis()));
         review.setArticle(article);

@@ -1,14 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
-import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 @Repository
-@Primary
 public class ImageDaoJpa implements ImageDao {
 
     @PersistenceContext

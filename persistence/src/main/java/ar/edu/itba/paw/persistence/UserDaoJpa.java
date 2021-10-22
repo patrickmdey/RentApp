@@ -5,8 +5,6 @@ import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
-import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
-@Primary
 @Repository
 public class UserDaoJpa implements UserDao {
 
@@ -40,28 +37,9 @@ public class UserDaoJpa implements UserDao {
         return query.getResultList().stream().findFirst();
     }
 
-    @Override //TODO: se podria borrar
-    public void update(long id, String firstName, String lastName, Locations location) {
-        User user = em.find(User.class, id);// findById(id).orElseThrow(UserNotFoundException::new);
-        //em.getTransaction().begin();
-
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setLocation(location);
-        em.persist(user);
-        //em.getTransaction().commit();
-    }
-
     @Override
     public void delete(long id) {
-        User user = em.find(User.class, id);//findById(id).orElseThrow(UserNotFoundException::new);
+        User user = em.find(User.class, id);
         em.remove(user);
-    }
-
-    @Override //TODO: se podria borrar
-    public void updatePassword(long id, String passwordHash) {
-        User user = em.find(User.class, id);//findById(id).orElseThrow(UserNotFoundException::new);
-        user.setPassword(passwordHash);
-        em.persist(user);
     }
 }

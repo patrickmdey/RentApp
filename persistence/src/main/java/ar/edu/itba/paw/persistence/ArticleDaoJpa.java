@@ -16,7 +16,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class ArticleDaoJpa implements ArticleDao {
 
     private static final Long RESULTS_PER_PAGE = 4L;
@@ -58,20 +57,10 @@ public class ArticleDaoJpa implements ArticleDao {
 
     @Override
     public Article createArticle(String title, String description, Float pricePerDay, long idOwner) {
-        User owner = em.find(User.class, idOwner);// userService.findById(idOwner).orElseThrow(UserNotFoundException::new);
+        User owner = em.find(User.class, idOwner);
         Article article = new Article(title, description, pricePerDay, owner);
         em.persist(article);
         return article;
-    }
-
-    //TODO: pasar al service (es un update)
-    @Override
-    public int editArticle(long id, String title, String description, Float pricePerDay) {
-        Article article = em.find(Article.class, id);
-        article.setTitle(title);
-        article.setDescription(description);
-        article.setPricePerDay(pricePerDay);
-        return 0;
     }
 
 
@@ -140,7 +129,7 @@ public class ArticleDaoJpa implements ArticleDao {
         Query idQueries = em.createNativeQuery(idQueryBuilder.toString());
         params.forEach(idQueries::setParameter);
 
-        idQueries.setParameter("limit", RESULTS_PER_PAGE); // TODO: modularize?
+        idQueries.setParameter("limit", RESULTS_PER_PAGE);
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         List<Integer> aux = idQueries.getResultList();
@@ -192,19 +181,13 @@ public class ArticleDaoJpa implements ArticleDao {
 
     @Override
     public Long timesRented(long articleId) {
-        /*
-        Query query = em.createNativeQuery("SELECT COUNT(*) FROM article WHERE id IN (" +
-                "SELECT article_id FROM rent_proposal WHERE article_id = :article_id AND state = :state )");
-         */
-
-
-        TypedQuery<RentProposal> query = em.createQuery("FROM RentProposal WHERE " +
-                "article.id = :article AND state = :state", RentProposal.class);
+        TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM RentProposal r WHERE " +
+                "r.article.id = :article AND r.state = :state", Long.class);
 
         query.setParameter("article", articleId);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
 
-        return (long) query.getResultList().size();
+        return Long.parseLong(query.getSingleResult().toString());
     }
 
 

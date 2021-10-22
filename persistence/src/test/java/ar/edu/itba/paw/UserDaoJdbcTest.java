@@ -136,9 +136,18 @@ public class UserDaoJdbcTest {
         final Locations location = Locations.CHACARITA;
 
         // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
+        Assert.assertEquals(user.getFirstName(), firstName);
+        Assert.assertEquals(user.getLastName(), lastName);
+        Assert.assertEquals(user.getLocation(), location);
 
     }
 
@@ -151,7 +160,13 @@ public class UserDaoJdbcTest {
         final Locations location = null;
 
         // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
         Assert.fail();
@@ -165,8 +180,13 @@ public class UserDaoJdbcTest {
         final String lastName = null;
         final Locations location = Locations.AGRONOMIA;
 
-        // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
         Assert.fail();
@@ -190,7 +210,11 @@ public class UserDaoJdbcTest {
         final String passwordHash = "new hash";
 
         // Act
-        userDao.updatePassword(userId,passwordHash);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setPassword(passwordHash);
 
         // Assert
     }
@@ -201,8 +225,11 @@ public class UserDaoJdbcTest {
         final long userId = 1;
         final String passwordHash = null;
 
-        // Act
-        userDao.updatePassword(userId,passwordHash);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setPassword(passwordHash);
 
         // Assert
         Assert.fail();

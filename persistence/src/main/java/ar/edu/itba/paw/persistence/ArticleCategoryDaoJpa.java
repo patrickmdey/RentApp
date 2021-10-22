@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Primary
 public class ArticleCategoryDaoJpa implements ArticleCategoryDao {
 
     @PersistenceContext

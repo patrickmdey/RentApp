@@ -79,6 +79,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updatePassword(long id, String password) {
         String passwordHash = passwordEncoder.encode(password);
-        userDao.updatePassword(id, passwordHash);
+        User user = findById(id).orElseThrow(UserNotFoundException::new);
+        user.setPassword(password);
+        //userDao.updatePassword(id, passwordHash);
     }
 }

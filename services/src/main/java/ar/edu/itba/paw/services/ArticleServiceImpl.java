@@ -1,22 +1,18 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.dao.ArticleCategoryDao;
-import ar.edu.itba.paw.interfaces.dao.ArticleDao;
-import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
-import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.interfaces.dao.*;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
 import ar.edu.itba.paw.interfaces.service.ReviewService;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,13 +28,13 @@ public class ArticleServiceImpl implements ArticleService {
     private UserDao userDao;
 
     @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
     private ImageService imageService;
 
     @Autowired
     private ReviewService reviewService;
-
-    @Autowired
-    private ArticleImageDao articleImageDao;
 
     /*
     private void appendCategories(Article article) {
@@ -136,28 +132,23 @@ public class ArticleServiceImpl implements ArticleService {
         }
         images.forEach(image -> {
             DBImage img = imageService.create(image);
-            articleImageDao.addToArticle(article, img);
+            article.addImage(img);
         });
         return article;
     }
 
-    @Override //TODO cambiarlo
+    @Override
     @Transactional
     public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
-        articleDao.editArticle(id, title, description, pricePerDay);
+        Article article = articleDao.findById(id).orElseThrow(ArticleNotFoundException::new);
+        article.setTitle(title);
+        article.setDescription(description);
+        article.setPricePerDay(pricePerDay);
 
-        List<Long> old = articleCategoryDao.findFromArticle(id).stream().map(Category::getId).collect(Collectors.toList());
-        List<Long> toRemove = new ArrayList<>(old);
-        categories.forEach(c -> {
-            if (!old.contains(c)) {
-                articleCategoryDao.addToArticle(id, c);
-            } else {
-                toRemove.remove(c);
-            }
-        });
-        toRemove.forEach(c -> articleCategoryDao.removeFromArticle(id, c));
+        article.setCategories(categories.stream().map(c -> categoryDao.findById(c)
+                        .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
 
-        return articleDao.findById(id);
+        return Optional.of(article);
     }
 
     @Override
@@ -165,17 +156,11 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> rentedArticles(long renterId, long page) {
         List<Article> articles = articleDao.rentedArticles(renterId, page);
         appendInfo(articles);
-        return articleDao.rentedArticles(renterId, page);
-
-//        appendInfo(articles);
-        //return articles;
+        return articles;
     }
 
     private void appendInfo(List<Article> articles) {
         articles.forEach(article -> {
-//            appendCategories(article);
-//            appendImages(article);
-//            appendLocation(article);
             appendTimesRented(article);
             appendRating(article);
        });

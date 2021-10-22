@@ -1,12 +1,10 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.RentDao;
-import ar.edu.itba.paw.interfaces.service.ArticleService;
-import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.models.*;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.User;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +20,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class RentDaoJpa implements RentDao {
     private static final Long RESULTS_PER_PAGE = 4L;
 
@@ -109,11 +106,10 @@ public class RentDaoJpa implements RentDao {
 
     @Override
     public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
-        Article article = em.find(Article.class, articleId);// articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        User renter = em.find(User.class, renterId);//userService.findById(renterId).orElseThrow(UserNotFoundException::new);
+        Article article = em.find(Article.class, articleId);
+        User renter = em.find(User.class, renterId);
 
         RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
-
         rentProposal.setArticle(article);
         rentProposal.setRenter(renter);
 
@@ -125,7 +121,7 @@ public class RentDaoJpa implements RentDao {
     @Override
     public boolean hasRented(long renterId, long articleId) {
         final TypedQuery<RentProposal> query = em.createQuery(
-                "FROM RentProposal WHERE renter.id = :renter AND article.id = :article " +
+                "from RentProposal WHERE renter.id = :renter AND article.id = :article " +
                         "AND state = :state", RentProposal.class);
 
         query.setParameter("renter", renterId);

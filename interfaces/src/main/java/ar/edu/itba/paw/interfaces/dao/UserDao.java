@@ -16,9 +16,6 @@ public interface UserDao {
 
     Optional<User> findByEmail(String email);
 
-    void update(long id, String firstName, String lastName, Locations location);
-
     void delete(long id);
 
-    void updatePassword(long id, String passwordHash);
 }
