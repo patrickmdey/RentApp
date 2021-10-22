@@ -64,4 +64,12 @@ public class MarketplaceController {
     public ModelAndView viewFeedback() {
         return new ModelAndView("feedback");
     }
+
+    @RequestMapping("/landing")
+    public ModelAndView landingPage(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+        ModelAndView mav = new ModelAndView("landing");
+        List<Article> articles = articleService.get(null, null, null, null, null, page);
+        mav.addObject("articles", articles);
+        return mav;
+    }
 }

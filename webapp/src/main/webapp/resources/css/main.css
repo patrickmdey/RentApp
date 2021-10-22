@@ -6,6 +6,7 @@
     --color-rentapp-red: #FF6B4D;
     --color-grey: #EAEDEA;
     --color-danger: red;
+    --color-white: white;
 }
 
 html {
@@ -91,6 +92,14 @@ i.overflow-icon:hover {
     background-color: var(--color-grey) !important;
 }
 
+.color-white {
+    color: var(--color-white) !important;
+}
+
+.bg-color-white {
+    background-color: var(--color-white) !important;
+}
+
 .nav-bar-style {
     height: 75px;
     align-items: center;
@@ -117,6 +126,11 @@ i.overflow-icon:hover {
 
 .min-height {
     min-height: 100vh;
+}
+
+.main-margins {
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .card-style {
