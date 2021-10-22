@@ -1,11 +1,10 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
-import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.models.*;
-import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.OrderOptions;
+import ar.edu.itba.paw.models.RentState;
+import ar.edu.itba.paw.models.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -189,6 +188,4 @@ public class ArticleDaoJpa implements ArticleDao {
 
         return Long.parseLong(query.getSingleResult().toString());
     }
-
-
 }

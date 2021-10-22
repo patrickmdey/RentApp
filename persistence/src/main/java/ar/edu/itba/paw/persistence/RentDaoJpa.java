@@ -5,7 +5,6 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -120,29 +119,29 @@ public class RentDaoJpa implements RentDao {
 
     @Override
     public boolean hasRented(long renterId, long articleId) {
-        final TypedQuery<RentProposal> query = em.createQuery(
-                "from RentProposal WHERE renter.id = :renter AND article.id = :article " +
-                        "AND state = :state", RentProposal.class);
+        final TypedQuery<Long> query = em.createQuery("SELECT count(r) from RentProposal as r " +
+                        "WHERE r.renter.id = :renter AND r.article.id = :article " +
+                        "AND r.state = :state", Long.class);
 
         query.setParameter("renter", renterId);
         query.setParameter("article", articleId);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
 
-        return !query.getResultList().isEmpty();
+        return Long.parseLong(query.getSingleResult().toString()) != 0;
     }
 
 
     @Override
     public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
-        final TypedQuery<RentProposal> query = em.createQuery(
-                "FROM RentProposal WHERE renter.id = :renter AND article.id = :article " +
-                        "AND startDate = :startDate AND endDate = :endDate", RentProposal.class);
+        final TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM RentProposal as r " +
+                "WHERE r.renter.id = :renter AND r.article.id = :article " +
+                        "AND r.startDate = :startDate AND r.endDate = :endDate", Long.class);
 
         query.setParameter("renter", renterId);
         query.setParameter("article", articleId);
         query.setParameter("startDate", startDate);
         query.setParameter("endDate", endDate);
 
-        return !query.getResultList().isEmpty();
+        return Long.parseLong(query.getSingleResult().toString()) != 0;
     }
 }

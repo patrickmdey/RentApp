@@ -4,7 +4,6 @@ import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -74,13 +73,13 @@ public class ReviewDaoJpa implements ReviewDao {
 
     @Override
     public boolean hasReviewed(long userId, long articleId) {
-        final TypedQuery<Review> query = em.createQuery(
-                "from Review as r WHERE r.renter.id = :renter AND r.article.id = :article_id", Review.class);
+        final TypedQuery<Long> query = em.createQuery("SELECT count(r) from Review as r " +
+                "WHERE r.renter.id = :renter AND r.article.id = :article_id", Long.class);
 
         query.setParameter("renter", userId);
         query.setParameter("article_id", articleId);
 
-        return !query.getResultList().isEmpty();
+        return Long.parseLong(query.getSingleResult().toString()) != 0;
     }
 
     @Override

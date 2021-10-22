@@ -22,12 +22,6 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
 
     @Autowired
-    private ArticleCategoryDao articleCategoryDao;
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private CategoryDao categoryDao;
 
     @Autowired
@@ -69,7 +63,6 @@ public class ArticleServiceImpl implements ArticleService {
 
         articles = this.articleDao.filter(name, category, orderOp, user, location, page);
 
-        //articles.forEach(this::appendRating);
         appendInfo(articles);
 
         return articles;
@@ -110,13 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> recommendedArticles(long articleId) {
         List<Article> toReturn = articleDao.recommendedArticles(articleId);
 
-        toReturn.forEach(article -> {
-            //appendImages(article);
-            //appendLocation(article);
-            appendRating(article);
-        });
-
-
+        toReturn.forEach(this::appendRating);
         return toReturn;
     }
 
@@ -127,8 +114,8 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (categories != null) {
-            categories.forEach(catId -> articleCategoryDao.addToArticle(article.getId(), catId));
-            //this.appendCategories(article);
+            article.setCategories(categories.stream().map(c -> categoryDao.findById(c)
+                    .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
         }
         images.forEach(image -> {
             DBImage img = imageService.create(image);
