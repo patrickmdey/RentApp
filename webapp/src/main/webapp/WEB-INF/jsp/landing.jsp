@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url value="/" var="marketplace"/>
+<c:url value="/user/my-requests/pending" var="myRequestsUrl"/>
 <c:url value="/landing" var="currentUrl"/>
 <c:url var="landingIllustration"
        value="https://previews.123rf.com/images/emojoez/emojoez1808/emojoez180800011/112266418-illustrations-concept-small-people-creating-value-of-partner-business-via-handshake-deal-between-com.jpg"
@@ -18,15 +19,45 @@
 <body>
 <h:navbar loggedUser="${user}"/>
 <div class="d-flex flex-column align-items-center">
-    <div class="row bg-color-white main-margins p-4">
+    <div class="row main-margins landing-title-container">
         <div class="col-1"></div>
-        <div class="col-6">
-            <h1 class="h1"><spring:message code="landing.title"/></h1>
-            <p class="lead"><spring:message code="landing.description"/></p>
-            <div class="d-grid gap-2 text-center">
-                <a href="${marketplace}" class="btn bg-color-action color-grey"><spring:message
-                        code="landing.viewArticles"/></a>
-            </div>
+        <div class="col-5">
+            <c:choose>
+                <c:when test="${user != null && !user.type.isOwner}">
+                    <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
+                </c:when>
+                <c:when test="${user != null && user.type.isOwner}">
+                    <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
+                    <c:choose>
+                        <c:when test="${pendingRequestAmount > 0}">
+                            <c:choose>
+                                <c:when test="${pendingRequestAmount == 0}">
+                                    <p class="lead"><spring:message code="landing.pendingRequests.single"/></p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="lead"><spring:message code="landing.pendingRequests.multiple"
+                                                                    arguments="${pendingRequestAmount}"/></p>
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="d-grid gap-2 text-center">
+                                <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
+                                        code="landing.viewRequests"/></a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="lead"><spring:message code="landing.pendingRequests.none"/></p>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <h1 class="h1"><spring:message code="landing.title"/></h1>
+                    <p class="lead"><spring:message code="landing.description"/></p>
+                    <div class="d-grid gap-2 text-center">
+                        <a href="${marketplace}" class="btn bg-color-action color-grey"><spring:message
+                                code="landing.viewArticles"/></a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="col-5 d-flex justify-content-center align-items-center">
             <div class="avatar-container landing-avatar">
@@ -39,6 +70,7 @@
                 <img src="<c:url value="/resources/image/rentapp-favicon.png"/>" width="170px" height="auto">
             </div>
         </div>
+        <div class="col-1"></div>
     </div>
 
     <div class="bg-color-grey">

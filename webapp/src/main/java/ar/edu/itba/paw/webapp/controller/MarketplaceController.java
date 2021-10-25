@@ -70,6 +70,7 @@ public class MarketplaceController {
         ModelAndView mav = new ModelAndView("landing");
         List<Article> articles = articleService.get(null, null, null, null, null, page);
         mav.addObject("articles", articles);
+        mav.addObject("pendingRequestAmount", 0); // TODO: Poner metodo que traiga cantidad de solicitudes pendientes
         return mav;
     }
 }
