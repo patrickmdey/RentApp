@@ -21,24 +21,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ReviewDao reviewDao;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private ArticleService articleService;
-
     @Override
     @Transactional(readOnly = true)
     public List<Review> getPaged(long articleId, long page) {
-        List<Review> reviews = reviewDao.getPaged(articleId, page);
-
-        /*
-        reviews.forEach(review -> review.setRenter(userService.
-                findById(review.getRenter().getId()).
-                orElseThrow(UserNotFoundException::new)));
-
-         */
-        return reviews;
+        return reviewDao.getPaged(articleId, page);
     }
 
     @Override
@@ -50,11 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Review create(int rating, String message, long articleId, long renterId) {
-        //articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-        Review review = reviewDao.create(rating, message, articleId, renterId);
-
-        //review.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
-        return review;
+        return reviewDao.create(rating, message, articleId, renterId);
     }
 
     @Override
@@ -84,11 +66,6 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = findById(reviewId).orElseThrow(ReviewNotFoundException::new);
         review.setRating(rating);
         review.setMessage(message);
-        //reviewDao.update(rating, message, reviewId);
     }
 
-    @Override
-    public long timesReviewed(long articleId) {
-        return reviewDao.timesReviewed(articleId);
-    }
 }

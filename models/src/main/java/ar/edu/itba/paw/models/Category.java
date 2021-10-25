@@ -16,9 +16,6 @@ public class Category {
     @Column(nullable = false, length = 30, unique = true)
     private String description;
 
-    //@ManyToMany(mappedBy = "categories")
-    //private List<Article> articles;
-
     public Category(long id, String description) {
         this.id = id;
         this.description = description;

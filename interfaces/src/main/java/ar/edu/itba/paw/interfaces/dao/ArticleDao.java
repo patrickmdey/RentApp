@@ -21,6 +21,4 @@ public interface ArticleDao {
     Long getRentedMaxPage(Long user);
 
     List<Article> recommendedArticles(long articleId);
-
-    Long timesRented(long articleId);
 }

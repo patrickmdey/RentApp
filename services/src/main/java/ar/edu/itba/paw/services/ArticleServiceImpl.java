@@ -45,31 +45,17 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public List<Article> get(String name, Long category, Long orderBy, Long user, Long location, long page) {
-        List<Article> articles;
-
         OrderOptions orderOp = OrderOptions.LOWER_ARTICLE;
         if (orderBy != null && orderBy > 0 && orderBy < OrderOptions.values().length)
             orderOp = OrderOptions.values()[orderBy.intValue()];
 
-        articles = this.articleDao.filter(name, category, orderOp, user, location, page);
-
-        appendInfo(articles);
-
-        return articles;
+        return this.articleDao.filter(name, category, orderOp, user, location, page);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Article> findById(long articleId) {
-        Optional<Article> toReturn = articleDao.findById(articleId);
-
-        if (toReturn.isPresent()) {
-            appendTimesRented(toReturn.get());
-            appendRating(toReturn.get());
-            appendTimesReviewed(toReturn.get());
-        }
-
-        return toReturn;
+        return articleDao.findById(articleId);
     }
 
     @Override
@@ -127,16 +113,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public List<Article> rentedArticles(long renterId, long page) {
-        List<Article> articles = articleDao.rentedArticles(renterId, page);
-        appendInfo(articles);
-        return articles;
-    }
-
-    private void appendInfo(List<Article> articles) {
-        articles.forEach(article -> {
-            appendTimesRented(article);
-            appendRating(article);
-            appendTimesReviewed(article);
-       });
+        return articleDao.rentedArticles(renterId, page);
     }
 }
