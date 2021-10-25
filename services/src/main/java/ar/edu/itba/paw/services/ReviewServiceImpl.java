@@ -28,12 +28,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public int articleRating(long articleId) {
-        return Math.round(reviewDao.getAverage(articleId));
-    }
-
-    @Override
     @Transactional
     public Review create(int rating, String message, long articleId, long renterId) {
         return reviewDao.create(rating, message, articleId, renterId);

@@ -63,7 +63,7 @@ public class ArticleController {
         mav.addObject("owner", owner);
         mav.addObject("requestFormHasErrors", requestFormHasErrors);
         mav.addObject("reviews", reviewService.getPaged(articleId, page));
-        mav.addObject("articleRating", reviewService.articleRating(articleId));
+        mav.addObject("articleRating", article.getRating());//reviewService.articleRating(articleId));
 
         mav.addObject("canReview", rentService.hasRented(userAdvice.loggedUser(), articleId) && !reviewService.hasReviewed(userAdvice.loggedUser(), articleId));
         mav.addObject("maxPage", reviewService.getMaxPage(articleId));

@@ -30,17 +30,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ReviewService reviewService;
 
-    private void appendRating(Article article) {
-        article.setRating(reviewService.articleRating(article.getId()));
-    }
-
-    private void appendTimesRented(Article article) {
-        article.setTimesRented(this.articleDao.timesRented(article.getId()));
-    }
-
-    private void appendTimesReviewed(Article article) {
-        article.setTimesReviewed(reviewService.timesReviewed(article.getId()));
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -73,10 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public List<Article> recommendedArticles(long articleId) {
-        List<Article> toReturn = articleDao.recommendedArticles(articleId);
-
-        toReturn.forEach(this::appendRating);
-        return toReturn;
+        return articleDao.recommendedArticles(articleId);
     }
 
 

@@ -43,8 +43,8 @@ public class Article {
     )
     private Set<Category> categories = new HashSet<>();
 
-    @Transient
-    private Long timesRented = 0L; //TODO cambiar tipo de dato
+    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r WHERE r.article_id = id AND r.state = 1)")
+    private long timesRented = 0L; //TODO cambiar tipo de dato
 
     @Formula("(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = id)")
     private int rating = 0;
