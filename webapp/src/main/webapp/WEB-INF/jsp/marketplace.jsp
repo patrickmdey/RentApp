@@ -28,22 +28,12 @@
 <div class="container">
     <div class="row filter-container mb-3">
         <div class="col-md-3 col-lg-3 col-12"></div>
-        <div class="col-md-8 col-lg-8 d-flex justify-content-start">
+        <div class="col-md-6 col-lg-6 d-flex justify-content-start">
             <!-- ACA SE MUESTRAN LOS PARAMETROS DE LA URL -->
             <c:if test="${ query != null && query.length() > 0 }">
                 <div class="d-flex align-items-center">
                     <span class="me-2 align-middle">
                         <spring:message code="filters.marketplace.search"/><c:out value="${query}"/>
-                    </span>
-                </div>
-            </c:if>
-
-            <c:if test="${ param.location != null && param.location.length() > 0 }">
-                <div class="d-flex align-items-center">
-                    <span class="me-2 align-middle">
-                        <i class="bi bi-pin-map"></i>
-                        <spring:message code="filters.marketplace.location"/>
-                        <c:out value="${locationsEnum[searchForm.location].name}"/>
                     </span>
                 </div>
             </c:if>
@@ -80,6 +70,16 @@
                             <a href="${removeUserUrl}" class="text-light">X</a>
                         </div>
                     </c:if>
+                </div>
+            </c:if>
+        </div>
+        <div class="col-md-2 col-lg-2 d-flex justify-content-end">
+            <c:if test="${ param.location != null && param.location.length() > 0 }">
+                <div class="d-flex align-items-center">
+                    <span class="me-2 align-middle">
+                        <c:out value="${locationsEnum[searchForm.location].name}"/>
+                        <i class="bi bi-pin-map"></i>
+                    </span>
                 </div>
             </c:if>
         </div>
@@ -176,7 +176,7 @@
                 </c:when>
                 <c:otherwise>
                     <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"
-                                   />
+                    />
                 </c:otherwise>
             </c:choose>
         </div>

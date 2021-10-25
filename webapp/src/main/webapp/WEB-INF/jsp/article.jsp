@@ -55,7 +55,7 @@
                 </div>
                 <c:choose>
                     <c:when test="${reviews.size() == 0}">
-                        <p class="lead"><spring:message code="article.noRating"/></p>
+                        <p class="lead text-muted"><spring:message code="article.noRating"/></p>
                     </c:when>
                     <c:otherwise>
                         <h:rating rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
@@ -140,7 +140,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="row w-100 g-0 justify-content-between">
         <div class="col-md-8 col-12 pe-md-3 pe-0">
