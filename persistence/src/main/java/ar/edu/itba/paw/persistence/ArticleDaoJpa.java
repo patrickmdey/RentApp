@@ -177,15 +177,4 @@ public class ArticleDaoJpa implements ArticleDao {
 
         return (List<Article>) query.getResultList();
     }
-
-    @Override
-    public Long timesRented(long articleId) {
-        TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM RentProposal r WHERE " +
-                "r.article.id = :article AND r.state = :state", Long.class);
-
-        query.setParameter("article", articleId);
-        query.setParameter("state", RentState.ACCEPTED.ordinal());
-
-        return Long.parseLong(query.getSingleResult().toString());
-    }
 }

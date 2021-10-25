@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.*;
@@ -42,16 +43,13 @@ public class Article {
     )
     private Set<Category> categories = new HashSet<>();
 
-    //@OneToMany(mappedBy = "article", orphanRemoval = true)
-    //private List<Review> reviews = new ArrayList<>();
+    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r WHERE r.article_id = id AND r.state = 1)")
+    private long timesRented = 0L; //TODO cambiar tipo de dato
 
-    @Transient
-    private Long timesRented = 0L; //TODO cambiar tipo de dato
+    @Formula("(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = id)")
+    private int rating = 0;
 
-    @Transient
-    private long rating = 0;
-
-    @Transient
+    @Formula("(SELECT COUNT(*) FROM review AS r WHERE r.article_id = id)")
     private long timesReviewed = 0;
 
     /*package*/ Article() {
@@ -74,11 +72,11 @@ public class Article {
         this.owner = owner;
     }
 
-    public Long getTimesRented() {
+    public long getTimesRented() {
         return timesRented;
     }
 
-    public void setTimesRented(Long timesRented) {
+    public void setTimesRented(long timesRented) {
         this.timesRented = timesRented;
     }
 
@@ -160,11 +158,11 @@ public class Article {
         this.id = id;
     }
 
-    public long getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

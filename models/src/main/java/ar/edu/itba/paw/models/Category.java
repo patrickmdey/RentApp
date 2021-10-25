@@ -16,9 +16,6 @@ public class Category {
     @Column(nullable = false, length = 30, unique = true)
     private String description;
 
-    //@ManyToMany(mappedBy = "categories")
-    //private List<Article> articles;
-
     public Category(long id, String description) {
         this.id = id;
         this.description = description;
@@ -43,16 +40,6 @@ public class Category {
     public void setId(long id) {
         this.id = id;
     }
-
-    /*
-    public List<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    }
-     */
 
     @Override
     public boolean equals(Object o) {

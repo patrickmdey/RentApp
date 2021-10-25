@@ -9,8 +9,6 @@ import java.util.Optional;
 public interface ReviewService {
     List<Review> getPaged(long articleId, long page);
 
-    int articleRating(long articleId);
-
     void update(int rating, String message, long reviewId);
 
     Optional<Review> findById(long reviewId);
@@ -20,6 +18,4 @@ public interface ReviewService {
     Long getMaxPage(long articleId);
 
     boolean hasReviewed(User user, Long articleId);
-
-    long timesReviewed(long articleId);
 }

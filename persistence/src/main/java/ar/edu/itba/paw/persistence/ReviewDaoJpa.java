@@ -29,13 +29,6 @@ public class ReviewDaoJpa implements ReviewDao {
     }
 
     @Override
-    public float getAverage(long articleId) {
-        Query query = em.createNativeQuery(queryBuilder("COALESCE(AVG(rating), 0)").toString());
-        query.setParameter("article_id", articleId);
-        return Float.parseFloat(query.getSingleResult().toString());
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public List<Review> getPaged(long articleId, long page) {
         StringBuilder queryBuilder = queryBuilder("id");
@@ -98,13 +91,6 @@ public class ReviewDaoJpa implements ReviewDao {
     @Override
     public Optional<Review> findById(long reviewId) {
         return Optional.ofNullable(em.find(Review.class, reviewId));
-    }
-
-    @Override
-    public long timesReviewed(long articleId){
-        Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
-        query.setParameter("article_id", articleId);
-        return Long.parseLong(query.getSingleResult().toString());
     }
 
 }
