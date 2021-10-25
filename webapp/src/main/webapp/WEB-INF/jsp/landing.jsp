@@ -79,7 +79,7 @@
             <div class="col-10">
                 <h3><spring:message code="landing.articlesTitle"/></h3>
                 <hr>
-                <h:allArticles articles="${articles}" maxPage="1" currentUrl="${currentUrl}" outlined="${false}"/>
+                <h:allArticles articles="${articles}" maxPage="1" currentUrl="${currentUrl}"/>
             </div>
             <div class="col-1"></div>
         </div>

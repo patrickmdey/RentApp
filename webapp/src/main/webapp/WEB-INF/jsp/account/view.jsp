@@ -95,7 +95,7 @@
         </nav>
 
         <div class="tab-content pt-5 profile-articles" id="nav-tabContent">
-            <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-owned" role="tabpanel"
+            <div class="tab-pane fade ${user.type.isOwner?' show active':''} w-100" id="nav-owned" role="tabpanel"
                  aria-labelledby="nav-owned-tab">
                 <c:choose>
                     <c:when test="${ownedArticles.size() == 0}">
@@ -108,7 +108,7 @@
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"
-                                       currentUrl="${currentUrl}" outlined="${true}"/>
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -125,7 +125,7 @@
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${rentedArticles}" maxPage="${rentedMaxPage}"
-                                       currentUrl="${currentUrl}" outlined="${true}"/>
+                                       currentUrl="${currentUrl}"/>
                     </c:otherwise>
                 </c:choose>
             </div>

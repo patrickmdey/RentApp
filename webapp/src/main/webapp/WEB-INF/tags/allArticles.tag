@@ -5,16 +5,14 @@
 <%@ attribute name="articles" type="java.util.List" required="true" %>
 <%@ attribute name="maxPage" required="true" %>
 <%@ attribute name="currentUrl" required="true" %>
-<%@attribute name="outlined" required="true" type="java.lang.Boolean" %>
-<div class="justify-content-center">
-    <div class="row row-cols-3 justify-content-start container-height">
+<div class="justify-content-center w-100">
+    <div class="row row-cols-3 w-100 justify-content-start container-height">
         <c:forEach var="article" items="${articles}">
             <div class="col">
                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                    id="${article.id}"
                                    location="${article.owner.location.name}"
-                                   image_id="${article.images.size() == 0 ? 1 : article.images.get(0).id}"
-                                   outlined="${outlined}"
+                                   image_id="${article.images.get(0).id}"
                                    rating="${article.rating}"/>
             </div>
         </c:forEach>

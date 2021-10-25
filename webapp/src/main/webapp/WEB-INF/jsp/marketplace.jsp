@@ -89,10 +89,12 @@
             <form:form modelAttribute="searchForm" action="${marketplaceUrl}" method="get" id="searchForm">
                 <form:input type="number" path="user" cssClass="d-none"/>
                 <div class="d-flex align-items-center">
-                    <h4 class="h4 color-rentapp-black col-8"><spring:message code="filter.title"/></h4>
+                    <h4 class="h4 color-rentapp-black col-9"><spring:message code="filter.title"/></h4>
                     <c:if test="${param.size() > pageSum}">
-                        <a class="btn btn-link" href="${clearFilterUrl}"><i
-                                class="bi bi-arrow-counterclockwise fa-lg color-action"></i></a>
+                        <div class="col-3 justify-content-end">
+                            <a href="${clearFilterUrl}">
+                                <spring:message code="filters.marketplace.clear"/></a>
+                        </div>
                     </c:if>
                 </div>
                 <hr/>
@@ -121,7 +123,7 @@
                         <spring:message code="filterForm.orderBy"/>
                     </form:label>
                     <div class="my-2 row align-items-center">
-                        <div class="col-11">
+                        <div class="col-10">
                             <form:select path="orderBy" class="form-control form-control-custom">
                                 <c:forEach var="option" items="${orderOptions}">
                                     <form:option value="${option.ordinal()}">
@@ -130,7 +132,7 @@
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <i class="col-1 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
+                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
                     </div>
                 </div>
 
@@ -174,7 +176,7 @@
                 </c:when>
                 <c:otherwise>
                     <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"
-                                   outlined="${false}"/>
+                                   />
                 </c:otherwise>
             </c:choose>
         </div>

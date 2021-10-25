@@ -189,7 +189,6 @@
                                        id="${article.id}"
                                        location="${article.owner.location.name()}"
                                        image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
-                                       outlined="${false}"
                                        rating="${article.rating}"/>
                 </div>
             </c:forEach>
