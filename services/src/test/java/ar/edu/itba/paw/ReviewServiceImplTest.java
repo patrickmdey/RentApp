@@ -42,15 +42,15 @@ public class ReviewServiceImplTest {
         this.userRenter = new User(2,"renter@mail.com","password","renter",
                 "renter",Locations.values()[5],null,UserType.RENTER);
 
-        this.article = new Article(123,"bike", "fast bike", 400F,userOwner.getId());
+        this.article = new Article(123,"bike", "fast bike", 400F,userOwner);
 
         this.review = new Review(
                 786,
                 "Good product",
-                article.getId(),
-                userRenter.getId(),
                 new Date(System.currentTimeMillis())
         );
+        this.review.setArticle(this.article);
+        this.review.setRenter(this.userRenter);
     }
 
     private User userOwner;
@@ -61,38 +61,38 @@ public class ReviewServiceImplTest {
     @Test
     public void createSucceed() {
         // Arrange
-        when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.of(userRenter));
+        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
+        when(userService.findById(eq(review.getRenter().getId()))).thenReturn(Optional.of(userRenter));
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
-                eq(review.getArticleId()),
-                eq(review.getRenterId())
+                eq(review.getArticle().getId()),
+                eq(review.getRenter().getId())
         )).thenReturn(review);
 
         // Act
-        Review result = reviewService.create(review.getRating(),review.getMessage(),review.getArticleId(), review.getRenterId());
+        Review result = reviewService.create(review.getRating(),review.getMessage(),review.getArticle().getId(), review.getRenter().getId());
 
         // Assert
         Assert.assertEquals(review.getMessage(), result.getMessage());
         Assert.assertEquals(review.getRating(), result.getRating());
-        Assert.assertEquals(review.getArticleId(), result.getArticleId());
-        Assert.assertEquals(review.getRenterId(), result.getRenterId());
+        Assert.assertEquals(review.getArticle().getId(), result.getArticle().getId());
+        Assert.assertEquals(review.getRenter().getId(), result.getRenter().getId());
     }
 
     @Test(expected = RuntimeException.class)
     public void createFailReviewDaoThrowsException() {
         // Arrange
-        when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
+        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
-                eq(review.getArticleId()),
-                eq(review.getRenterId())
+                eq(review.getArticle().getId()),
+                eq(review.getRenter().getId())
         )).thenThrow(RuntimeException.class);
 
         // Act
-        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticle().getId(), review.getRenter().getId());
 
         // Assert
         Assert.fail();
@@ -101,17 +101,17 @@ public class ReviewServiceImplTest {
     @Test(expected = UserNotFoundException.class)
     public void createFailUserNotFound() {
         // Arrange
-        when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(review.getRenterId()))).thenReturn(Optional.empty());
+        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
+        when(userService.findById(eq(review.getRenter().getId()))).thenReturn(Optional.empty());
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
-                eq(review.getArticleId()),
-                eq(review.getRenterId())
+                eq(review.getArticle().getId()),
+                eq(review.getRenter().getId())
         )).thenReturn(review);
 
         // Act
-        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticle().getId(), review.getRenter().getId());
 
         // Assert
         Assert.fail();
@@ -120,10 +120,10 @@ public class ReviewServiceImplTest {
     @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() {
         // Arrange
-        when(articleService.findById(eq(review.getArticleId()))).thenReturn(Optional.empty());
+        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.empty());
 
         // Act
-        reviewService.create(review.getRating(), review.getMessage(), review.getArticleId(), review.getRenterId());
+        reviewService.create(review.getRating(), review.getMessage(), review.getArticle().getId(), review.getRenter().getId());
 
         // Assert
         Assert.fail();

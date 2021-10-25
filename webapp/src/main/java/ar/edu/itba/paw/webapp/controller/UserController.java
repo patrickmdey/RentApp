@@ -235,6 +235,6 @@ public class UserController {
         mv.addObject("showPanel", true);
 
         userService.updatePassword(userAdvice.loggedUser().getId(), passwordForm.getPassword());
-        return mv;
+        return new ModelAndView("redirect:/user/view");
     }
 }

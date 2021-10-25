@@ -14,8 +14,6 @@ public interface RentDao {
 
     Optional<RentProposal> findById(long id);
 
-    void updateRequest(long requestId, int state);
-
     boolean hasRented(long renterId, long articleId);
 
     RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);

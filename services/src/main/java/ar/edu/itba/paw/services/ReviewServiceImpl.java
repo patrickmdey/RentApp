@@ -7,6 +7,7 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,21 @@ public class ReviewServiceImpl implements ReviewService {
     private ArticleService articleService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Review> getPaged(long articleId, long page) {
         List<Review> reviews = reviewDao.getPaged(articleId, page);
-        reviews.forEach(review -> {
-            review.setRenter(userService.
-                    findById(review.getRenterId()).
-                    orElseThrow(UserNotFoundException::new));
-        });
+
+        /*
+        reviews.forEach(review -> review.setRenter(userService.
+                findById(review.getRenter().getId()).
+                orElseThrow(UserNotFoundException::new)));
+
+         */
         return reviews;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int articleRating(long articleId) {
         return Math.round(reviewDao.getAverage(articleId));
     }
@@ -45,20 +50,21 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Review create(int rating, String message, long articleId, long renterId) {
-        articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-
+        //articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         Review review = reviewDao.create(rating, message, articleId, renterId);
 
-        review.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
+        //review.setRenter(userService.findById(renterId).orElseThrow(UserNotFoundException::new));
         return review;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getMaxPage(long articleId) {
         return reviewDao.getMaxPage(articleId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean hasReviewed(User user, Long articleId) {
         if (user == null || articleId == null)
             throw new IllegalArgumentException();
@@ -67,13 +73,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Review> findById(long reviewId) {
         return reviewDao.findById(reviewId);
     }
 
     @Override
+    @Transactional
     public void update(int rating, String message, long reviewId) {
-        reviewDao.update(rating, message, reviewId);
+        Review review = findById(reviewId).orElseThrow(ReviewNotFoundException::new);
+        review.setRating(rating);
+        review.setMessage(message);
+        //reviewDao.update(rating, message, reviewId);
     }
 
 }

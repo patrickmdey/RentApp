@@ -121,16 +121,16 @@
                         <spring:message code="filterForm.orderBy"/>
                     </form:label>
                     <div class="my-2 row align-items-center">
-                        <div class="col-10">
+                        <div class="col-11">
                             <form:select path="orderBy" class="form-control form-control-custom">
                                 <c:forEach var="option" items="${orderOptions}">
-                                    <form:option value="${option.column}">
+                                    <form:option value="${option.ordinal()}">
                                         <spring:message code="${option.description}"/>
                                     </form:option>
                                 </c:forEach>
                             </form:select>
                         </div>
-                        <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
+                        <i class="col-1 ms-n2 color-rentapp-black fa-lg bi bi-filter-left"></i>
                     </div>
                 </div>
 

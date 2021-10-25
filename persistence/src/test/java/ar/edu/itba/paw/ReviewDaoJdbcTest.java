@@ -102,8 +102,8 @@ public class ReviewDaoJdbcTest {
         // Assert
         Assert.assertEquals(rating,review.getRating());
         Assert.assertEquals(message,review.getMessage());
-        Assert.assertEquals(articleId,review.getArticleId());
-        Assert.assertEquals(userId,review.getRenterId());
+        Assert.assertEquals(articleId,review.getArticle().getId());
+        Assert.assertEquals(userId,review.getRenter().getId());
     }
 
     @Test(expected = CannotCreateReviewException.class)

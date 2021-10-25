@@ -65,7 +65,7 @@ public class ReviewController {
         Review review = reviewService.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 
         mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
-        mav.addObject("article", articleService.findById(review.getArticleId()).orElseThrow(ArticleNotFoundException::new));
+        mav.addObject("article", articleService.findById(review.getArticle().getId()).orElseThrow(ArticleNotFoundException::new));
         populateReviewForm(review, reviewForm);
         return mav;
     }
@@ -85,7 +85,7 @@ public class ReviewController {
         Review review = reviewService.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
         reviewService.update(reviewForm.getRating(), reviewForm.getMessage(), reviewId);
 
-        return new ModelAndView("redirect:/article/" + review.getArticleId());
+        return new ModelAndView("redirect:/article/" + review.getArticle().getId());
     }
 
     private void populateReviewForm(Review review, ReviewForm reviewForm) {

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
@@ -41,18 +42,6 @@ public class UserDaoJdbcTest {
     }
 
     @Test
-    public void listSucceed() {
-        // Arrange
-        final long[] expectedIds = {1,2};
-
-        // Act
-        List<User> users = userDao.list();
-
-        // Assert
-        Assert.assertArrayEquals(expectedIds,users.stream().mapToLong(User::getId).toArray());
-    }
-
-    @Test
     public void findByIdSucceed() {
         // Arrange
         final long userId = 1;
@@ -87,7 +76,7 @@ public class UserDaoJdbcTest {
         final String firstName = "first";
         final String lastName = "last";
         final Locations locationId = Locations.CHACARITA;
-        final Long image = null;
+        final DBImage image = null;
         final UserType type = UserType.OWNER;
 
         // Act
@@ -110,7 +99,7 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations locationId = null;
-        final Long image = null;
+        final DBImage image = null;
         final UserType type = null;
 
         // Act
@@ -128,7 +117,7 @@ public class UserDaoJdbcTest {
         final String firstName = null;
         final String lastName = null;
         final Locations locationId = Locations.CHACARITA;
-        final Long image = null;
+        final DBImage image = null;
         final UserType type = UserType.OWNER;
 
         // Act
@@ -147,9 +136,18 @@ public class UserDaoJdbcTest {
         final Locations location = Locations.CHACARITA;
 
         // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
+        Assert.assertEquals(user.getFirstName(), firstName);
+        Assert.assertEquals(user.getLastName(), lastName);
+        Assert.assertEquals(user.getLocation(), location);
 
     }
 
@@ -162,7 +160,13 @@ public class UserDaoJdbcTest {
         final Locations location = null;
 
         // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
         Assert.fail();
@@ -176,8 +180,13 @@ public class UserDaoJdbcTest {
         final String lastName = null;
         final Locations location = Locations.AGRONOMIA;
 
-        // Act
-        userDao.update(userId,firstName,lastName,location);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setLocation(location);
 
         // Assert
         Assert.fail();
@@ -201,7 +210,11 @@ public class UserDaoJdbcTest {
         final String passwordHash = "new hash";
 
         // Act
-        userDao.updatePassword(userId,passwordHash);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setPassword(passwordHash);
 
         // Assert
     }
@@ -212,8 +225,11 @@ public class UserDaoJdbcTest {
         final long userId = 1;
         final String passwordHash = null;
 
-        // Act
-        userDao.updatePassword(userId,passwordHash);
+        User user = userDao.findById(userId).orElse(null);
+        if (user == null)
+            Assert.fail();
+
+        user.setPassword(passwordHash);
 
         // Assert
         Assert.fail();

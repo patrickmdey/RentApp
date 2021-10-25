@@ -5,7 +5,7 @@ public class SearchForm {
     
     private Long category;
 
-    private String orderBy;
+    private Long orderBy;
 
     private Long user;
 
@@ -27,11 +27,11 @@ public class SearchForm {
         this.category = category;
     }
 
-    public String getOrderBy() {
+    public Long getOrderBy() {
         return orderBy;
     }
 
-    public void setOrderBy(String orderBy) {
+    public void setOrderBy(Long orderBy) {
         this.orderBy = orderBy;
     }
 

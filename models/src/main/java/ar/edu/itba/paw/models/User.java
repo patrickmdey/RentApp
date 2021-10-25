@@ -1,17 +1,43 @@
 package ar.edu.itba.paw.models;
 
+import javax.persistence.*;
+
+@Entity(name = "User")
+@Table(name = "account")
 public class User {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_seq")
+    @SequenceGenerator(sequenceName = "account_id_seq", name = "account_id_seq", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "first_name", length = 20, nullable = false)
     private String firstName;
+
+    @Column(name = "last_name", length = 20, nullable = false)
     private String lastName;
+
+    @Column(length = 320, nullable = false, unique = true)
     private String email;
+
+    @Column(length = 100, nullable = false)
     private String password;
+
+    @Enumerated(EnumType.ORDINAL)
     private Locations location;
-    private Long picture;
+
+    @Enumerated(EnumType.ORDINAL)
     private UserType type;
 
-    public User(String email, String password, String firstName, String lastName, Locations location, Long picture, UserType type) {
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "picture", referencedColumnName = "id")
+    private DBImage picture;
+
+    /* package */ User() {
+        // Just for Hibernate
+    }
+
+    public User(String email, String password, String firstName, String lastName, Locations location, DBImage picture, UserType type) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -21,7 +47,7 @@ public class User {
         this.type = type;
     }
 
-    public User(long id, String email, String password, String firstName, String lastName, Locations location, Long picture, UserType type) {
+    public User(long id, String email, String password, String firstName, String lastName, Locations location, DBImage picture, UserType type) {
         this(email, password, firstName, lastName, location, picture, type);
         this.id = id;
     }
@@ -70,11 +96,11 @@ public class User {
         this.location = location;
     }
 
-    public Long getPicture() {
+    public DBImage getPicture() {
         return picture;
     }
 
-    public void setPicture(Long picture) {
+    public void setPicture(DBImage picture) {
         this.picture = picture;
     }
 

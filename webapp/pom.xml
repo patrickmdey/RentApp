@@ -127,6 +127,11 @@
             <artifactId>logback-ext-spring</artifactId>
         </dependency>
 
+        <!-- JPA Migration -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -45,16 +45,14 @@ public class RentServiceImplTest {
         this.userRenter = new User(2, "renter@mail.com", "password", "renter",
                 "renter", Locations.values()[5], null, UserType.RENTER);
 
-        this.article = new Article(123, "bike", "fast bike", 400F, userOwner.getId());
+        this.article = new Article(123, "bike", "fast bike", 400F, userOwner);
 
         this.rentProposal = new RentProposal(
                 565,
                 "I want to rent your bike",
                 RentState.PENDING.ordinal(),
                 new SimpleDateFormat("yyyy-MM-dd").parse("2021-11-15"),
-                new SimpleDateFormat("yyyy-MM-dd").parse("2021-12-15"),
-                this.article.getId(),
-                this.userRenter.getId()
+                new SimpleDateFormat("yyyy-MM-dd").parse("2021-12-15")
         );
     }
 
@@ -77,8 +75,8 @@ public class RentServiceImplTest {
                 eq(rentProposal.getState()),
                 eq(rentProposal.getStartDate()),
                 eq(rentProposal.getEndDate()),
-                eq(rentProposal.getArticleId()),
-                eq(rentProposal.getRenterId())
+                eq(rentProposal.getArticle().getId()),
+                eq(rentProposal.getRenter().getId())
         )).thenReturn(rentProposal);
 
         doNothing().when(emailService).sendMailRequest(
@@ -91,10 +89,10 @@ public class RentServiceImplTest {
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
-                rentProposal.getArticleId(),
+                rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenterId()
+                rentProposal.getRenter().getId()
         );
 
         // Assert
@@ -109,7 +107,7 @@ public class RentServiceImplTest {
     @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.empty());
+        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.empty());
 
         // Act
         rentService.create(
@@ -117,10 +115,10 @@ public class RentServiceImplTest {
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
-                rentProposal.getArticleId(),
+                rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenterId()
+                rentProposal.getRenter().getId()
         );
 
         // Assert
@@ -132,7 +130,7 @@ public class RentServiceImplTest {
     @Test(expected = UserNotFoundException.class)
     public void createFailOwnerNotFound() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
+        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.empty());
 
         // Act
@@ -141,10 +139,10 @@ public class RentServiceImplTest {
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
-                rentProposal.getArticleId(),
+                rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenterId()
+                rentProposal.getRenter().getId()
         );
 
         // Assert
@@ -155,7 +153,7 @@ public class RentServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void createFailRentDaoThrowsException() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticleId()))).thenReturn(Optional.of(article));
+        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.of(article));
         when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));
 
         when(rentDao.create(
@@ -163,8 +161,8 @@ public class RentServiceImplTest {
                 eq(rentProposal.getState()),
                 eq(rentProposal.getStartDate()),
                 eq(rentProposal.getEndDate()),
-                eq(rentProposal.getArticleId()),
-                eq(rentProposal.getRenterId())
+                eq(rentProposal.getArticle().getId()),
+                eq(rentProposal.getRenter().getId())
         )).thenThrow(RuntimeException.class);
 
         // Act
@@ -173,10 +171,10 @@ public class RentServiceImplTest {
                 rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
-                rentProposal.getArticleId(),
+                rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenterId()
+                rentProposal.getRenter().getId()
         );
 
         // Assert

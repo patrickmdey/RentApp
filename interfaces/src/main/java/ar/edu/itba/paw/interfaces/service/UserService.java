@@ -12,8 +12,6 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
-    List<User> list();
-
     User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type);
 
     void update(long id, String firstName, String lastName, Long location);

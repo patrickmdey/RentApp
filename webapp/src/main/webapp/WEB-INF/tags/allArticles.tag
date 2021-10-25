@@ -12,8 +12,8 @@
             <div class="col">
                 <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                    id="${article.id}"
-                                   location="${article.location.name}"
-                                   image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
+                                   location="${article.owner.location.name}"
+                                   image_id="${article.images.size() == 0 ? 1 : article.images.get(0).id}"
                                    outlined="${outlined}"
                                    rating="${article.rating}"/>
             </div>

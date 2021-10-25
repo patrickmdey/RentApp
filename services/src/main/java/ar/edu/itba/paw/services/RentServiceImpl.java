@@ -38,42 +38,49 @@ public class RentServiceImpl implements RentService {
 
     private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
         List<RentProposal> proposals = getter.get(accountId, state, page);
-        proposals.forEach(proposal -> {
-            appendArticle(proposal);
-            appendRenter(proposal);
-        });
+//        proposals.forEach(proposal -> {
+//            appendArticle(proposal);
+//            appendRenter(proposal);
+//        });
         return proposals;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
         return getRequests(rentDao::ownerRequests, ownerId, state, page);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RentProposal> sentRequests(long ownerId, int state, long page) {
         return getRequests(rentDao::sentRequests, ownerId, state, page);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getReceivedMaxPage(long ownerId, int state) {
         return rentDao.getReceivedMaxPage(ownerId, state);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getSentMaxPage(long ownerId, int state) {
         return rentDao.getSentMaxPage(ownerId, state);
     }
 
+    /*
     private void appendRenter(RentProposal proposal) {
-        proposal.setRenter(userService.findById(proposal.getRenterId()).orElseThrow(UserNotFoundException::new));
+        proposal.setRenter(userService.findById(proposal.getRenter().getId()).orElseThrow(UserNotFoundException::new));
     }
 
     private void appendArticle(RentProposal proposal) {
-        proposal.setArticle(articleService.findById((int) proposal.getArticleId()).orElseThrow(ArticleNotFoundException::new));
+        proposal.setArticle(articleService.findById((int) proposal.getArticle().getId()).orElseThrow(ArticleNotFoundException::new));
     }
+     */
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<RentProposal> findById(long id) {
         return rentDao.findById(id);
     }
@@ -83,14 +90,16 @@ public class RentServiceImpl implements RentService {
     public RentProposal create(String message, Integer approved, Date startDate,
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
-        Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
+        //Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
-        User owner = userService.findById(article.getIdOwner()).orElseThrow(UserNotFoundException::new);
+        //User owner = userService.findById(article.getOwner().getId()).orElseThrow(UserNotFoundException::new);
         RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
 
-        appendArticle(proposal);
-        appendRenter(proposal);
-        emailService.sendMailRequest(proposal, owner);
+        //appendArticle(proposal);
+        //appendRenter(proposal);
+        //emailService.sendMailRequest(proposal, owner);
+        emailService.sendMailRequest(proposal, proposal.getArticle().getOwner());
+
         return proposal;
     }
 
@@ -99,12 +108,14 @@ public class RentServiceImpl implements RentService {
     public void acceptRequest(long requestId) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
 
-        rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
-        appendArticle(rentProposal);
-        appendRenter(rentProposal);
-        User owner = userService.findById(rentProposal.getArticle().getIdOwner()).orElseThrow(UserNotFoundException::new);
+        rentProposal.setState(RentState.ACCEPTED.ordinal());
+        //rentDao.updateRequest(requestId, RentState.ACCEPTED.ordinal());
+        //appendArticle(rentProposal);
+        //appendRenter(rentProposal);
 
-        emailService.sendMailRequestConfirmation(rentProposal, owner);
+        //User owner = userService.findById(rentProposal.getArticle().getOwner().getId()).orElseThrow(UserNotFoundException::new);
+
+        emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner());
     }
 
     @Override
@@ -112,15 +123,18 @@ public class RentServiceImpl implements RentService {
     public void rejectRequest(long requestId) {
         RentProposal request = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
 
-        rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
-        appendArticle(request);
-        appendRenter(request);
-        User owner = userService.findById(request.getArticle().getIdOwner()).orElseThrow(UserNotFoundException::new);
+        request.setState(RentState.DECLINED.ordinal());
+        //rentDao.updateRequest(requestId, RentState.DECLINED.ordinal());
+        //appendArticle(request);
+        //appendRenter(request);
 
-        emailService.sendMailRequestDenied(request, owner);
+        //User owner = userService.findById(request.getArticle().getOwner().getId()).orElseThrow(UserNotFoundException::new);
+
+        emailService.sendMailRequestDenied(request, request.getArticle().getOwner());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean hasRented(User renter, Long articleId) {
         if (articleId == null || renter == null)
             return false;
@@ -129,6 +143,7 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
         return rentDao.isPresentSameDate(renterId, articleId, startDate, endDate);
     }
