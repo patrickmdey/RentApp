@@ -24,13 +24,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse mt-2" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+
+            <div class="navbar-nav ms-auto">
                 <a class="nav-link active h6" href="${createArticle}"><spring:message
                         code="navbar.publishArticle"/></a>
                 <a class="nav-link active h6" aria-current="page" href="${marketplace}"><spring:message
                         code="navbar.marketplace"/></a>
-            </div>
-            <div class="navbar-nav ms-auto">
                 <c:choose>
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">
