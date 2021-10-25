@@ -87,4 +87,8 @@ public class ReviewServiceImpl implements ReviewService {
         //reviewDao.update(rating, message, reviewId);
     }
 
+    @Override
+    public long timesReviewed(long articleId) {
+        return reviewDao.timesReviewed(articleId);
+    }
 }

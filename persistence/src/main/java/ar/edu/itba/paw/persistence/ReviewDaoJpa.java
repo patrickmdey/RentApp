@@ -54,7 +54,7 @@ public class ReviewDaoJpa implements ReviewDao {
             return new ArrayList<>();
 
         TypedQuery<Review> reviewQuery = em.createQuery("from Review " +
-                "WHERE id IN (:reviewIds) ORDER BY createdAt", Review.class);
+                "WHERE id IN (:reviewIds) ORDER BY createdAt DESC", Review.class);
 
         reviewQuery.setParameter("reviewIds", reviewIds);
 
@@ -98,6 +98,13 @@ public class ReviewDaoJpa implements ReviewDao {
     @Override
     public Optional<Review> findById(long reviewId) {
         return Optional.ofNullable(em.find(Review.class, reviewId));
+    }
+
+    @Override
+    public long timesReviewed(long articleId){
+        Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
+        query.setParameter("article_id", articleId);
+        return Long.parseLong(query.getSingleResult().toString());
     }
 
 }

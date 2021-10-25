@@ -13,7 +13,8 @@
                                    id="${article.id}"
                                    location="${article.owner.location.name}"
                                    image_id="${article.images.get(0).id}"
-                                   rating="${article.rating}"/>
+                                   rating="${article.rating}"
+                                   timesReviewed="${article.timesReviewed}"/>
             </div>
         </c:forEach>
     </div>

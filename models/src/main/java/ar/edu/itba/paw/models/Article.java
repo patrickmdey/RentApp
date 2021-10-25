@@ -51,6 +51,9 @@ public class Article {
     @Transient
     private long rating = 0;
 
+    @Transient
+    private long timesReviewed = 0;
+
     /*package*/ Article() {
         //Just for Hibernate
     }
@@ -163,5 +166,13 @@ public class Article {
 
     public void setRating(long rating) {
         this.rating = rating;
+    }
+
+    public long getTimesReviewed() {
+        return timesReviewed;
+    }
+
+    public void setTimesReviewed(long timesReviewed) {
+        this.timesReviewed = timesReviewed;
     }
 }

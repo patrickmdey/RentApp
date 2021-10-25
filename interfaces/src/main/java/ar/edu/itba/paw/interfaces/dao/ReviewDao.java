@@ -19,4 +19,6 @@ public interface ReviewDao {
     Long getMaxPage(long articleId);
 
     boolean hasReviewed(long userId, long articleId);
+
+    long timesReviewed(long articleId);
 }

@@ -30,26 +30,16 @@ public class ArticleServiceImpl implements ArticleService {
     @Autowired
     private ReviewService reviewService;
 
-    /*
-    private void appendCategories(Article article) {
-        article.setCategories(this.articleCategoryDao.findFromArticle(article.getId()));
-    }
-
-    private void appendLocation(Article article) {
-        Optional<User> owner = userDao.findById(article.getOwner().getId());
-        owner.ifPresent(user -> article.setLocation(user.getLocation()));
-    }
-
-    private void appendImages(Article article) {
-        List<Long> images = this.articleImageDao.findFromArticle(article.getId());
-        article.setImages(images);
-    }
-     */
     private void appendRating(Article article) {
         article.setRating(reviewService.articleRating(article.getId()));
     }
+
     private void appendTimesRented(Article article) {
         article.setTimesRented(this.articleDao.timesRented(article.getId()));
+    }
+
+    private void appendTimesReviewed(Article article) {
+        article.setTimesReviewed(reviewService.timesReviewed(article.getId()));
     }
 
     @Override
@@ -74,14 +64,10 @@ public class ArticleServiceImpl implements ArticleService {
         Optional<Article> toReturn = articleDao.findById(articleId);
 
         if (toReturn.isPresent()) {
-            //appendCategories(toReturn.get());
-            //appendLocation(toReturn.get());
-            //appendImages(toReturn.get());
-            //appendInfo(toReturn.get());
             appendTimesRented(toReturn.get());
             appendRating(toReturn.get());
+            appendTimesReviewed(toReturn.get());
         }
-
 
         return toReturn;
     }
@@ -150,6 +136,7 @@ public class ArticleServiceImpl implements ArticleService {
         articles.forEach(article -> {
             appendTimesRented(article);
             appendRating(article);
+            appendTimesReviewed(article);
        });
     }
 }

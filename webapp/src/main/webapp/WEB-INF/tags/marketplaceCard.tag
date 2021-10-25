@@ -6,8 +6,9 @@
 <%@ attribute name="price" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="location" required="true" %>
-<%@attribute name="image_id" required="true" %>
-<%@attribute name="rating" required="true" %>
+<%@ attribute name="image_id" required="true" %>
+<%@ attribute name="rating" required="true" %>
+<%@ attribute name="timesReviewed" required="true" %>
 
 <html>
 <body>
@@ -28,7 +29,7 @@
             <h5 class="h5 color-action my-1"><i class="bi-geo-alt-fill"></i>
                 <c:out value="${location}"/>
             </h5>
-            <h:rating rating="${rating}"/>
+            <h:rating rating="${rating}" timesReviewed="${timesReviewed}"/>
             <h4 class="h4 mb-2 color-rentapp-red">
                 <spring:message
                         code="article.price"
