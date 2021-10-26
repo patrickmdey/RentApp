@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.models;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 
 @Entity(name = "User")
@@ -32,6 +34,9 @@ public class User {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "picture", referencedColumnName = "id")
     private DBImage picture;
+
+    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r JOIN article AS a ON r.article_id = a.id WHERE r.state = 0 AND a.owner_id = id)")
+    private Long pendingRequestAmount = 0L;
 
     /* package */ User() {
         // Just for Hibernate
@@ -110,6 +115,14 @@ public class User {
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public Long getPendingRequestAmount() {
+        return pendingRequestAmount;
+    }
+
+    public void setPendingRequestAmount(Long pendingRequestAmount) {
+        this.pendingRequestAmount = pendingRequestAmount;
     }
 
     @Override

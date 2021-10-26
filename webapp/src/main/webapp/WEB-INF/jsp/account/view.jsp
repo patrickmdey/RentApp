@@ -108,7 +108,7 @@
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${ownedArticles}" maxPage="${ownedMaxPage}"
-                                       currentUrl="${currentUrl}"/>
+                                       currentUrl="${currentUrl}" articlePerRow="3"/>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -125,7 +125,7 @@
                     </c:when>
                     <c:otherwise>
                         <h:allArticles articles="${rentedArticles}" maxPage="${rentedMaxPage}"
-                                       currentUrl="${currentUrl}"/>
+                                       currentUrl="${currentUrl}" articlePerRow="3"/>
                     </c:otherwise>
                 </c:choose>
             </div>

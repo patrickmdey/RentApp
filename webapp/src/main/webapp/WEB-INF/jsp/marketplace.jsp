@@ -176,6 +176,7 @@
                 </c:when>
                 <c:otherwise>
                     <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"
+                                   articlePerRow="3"
                     />
                 </c:otherwise>
             </c:choose>

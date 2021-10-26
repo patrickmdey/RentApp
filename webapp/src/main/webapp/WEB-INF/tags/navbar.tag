@@ -35,15 +35,19 @@
                         <div class="dropdown">
                             <a class="nav-link active color-grey dropdown-toggle h6" id="accountMenu"
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                                <span>
-                                    <c:out value="${loggedUser.firstName}"/>
-                                </span>
+                                <span><c:out value="${loggedUser.firstName}"/></span>
+                                <c:if test="${user.pendingRequestAmount > 0}">
+                                    <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount}</span>
+                                </c:if>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
                                 <li>
-                                    <a class="dropdown-item" href="${myAccount}">
+                                    <a class="dropdown-item align-items-center" href="${myAccount}">
                                         <span><i class="bi bi-inbox-fill"></i></span>
                                         <spring:message code="dropdown.requests"/>
+                                        <c:if test="${user.pendingRequestAmount > 0}">
+                                            <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount}</span>
+                                        </c:if>
                                     </a>
                                 </li>
                                 <li>

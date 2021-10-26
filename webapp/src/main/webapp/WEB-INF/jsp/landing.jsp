@@ -15,7 +15,7 @@
 <c:url var="selectImg"
        value="https://thumbs.dreamstime.com/b/happy-man-mobile-shopping-choose-product-goods-smartphone-give-rating-feedback-vector-173000676.jpg"/>
 <html>
-<h:head title="title.createArticle"/>
+<h:head title="title.main"/>
 <body>
 <h:navbar loggedUser="${user}"/>
 <div class="d-flex flex-column align-items-center">
@@ -29,14 +29,14 @@
                 <c:when test="${user != null && user.type.isOwner}">
                     <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
                     <c:choose>
-                        <c:when test="${pendingRequestAmount > 0}">
+                        <c:when test="${user.pendingRequestAmount > 0}">
                             <c:choose>
-                                <c:when test="${pendingRequestAmount == 0}">
+                                <c:when test="${user.pendingRequestAmount == 1}">
                                     <p class="lead"><spring:message code="landing.pendingRequests.single"/></p>
                                 </c:when>
                                 <c:otherwise>
                                     <p class="lead"><spring:message code="landing.pendingRequests.multiple"
-                                                                    arguments="${pendingRequestAmount}"/></p>
+                                                                    arguments="${user.pendingRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
                             <div class="d-grid gap-2 text-center">
@@ -79,10 +79,12 @@
             <div class="col-10">
                 <h3><spring:message code="landing.articlesTitle"/></h3>
                 <hr>
-                <h:allArticles articles="${topRatingArticles}" maxPage="1" currentUrl="${currentUrl}"/>
+                <h:allArticles articles="${topRatingArticles}" maxPage="1" currentUrl="${currentUrl}"
+                               articlePerRow="4"/>
                 <h3><spring:message code="landing.articlesTitle"/></h3>
                 <hr>
-                <h:allArticles articles="${topRentedArticles}" maxPage="1" currentUrl="${currentUrl}"/>
+                <h:allArticles articles="${topRentedArticles}" maxPage="1" currentUrl="${currentUrl}"
+                               articlePerRow="4"/>
             </div>
             <div class="col-1"></div>
         </div>
