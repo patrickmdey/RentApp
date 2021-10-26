@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class ArticleDaoJpa implements ArticleDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Article> rentedArticles(long renterId, long page) {
-        Query query = em.createNativeQuery("SELECT id FROM article WHERE id IN (" +
+        Query query = em.createNativeQuery("SELECT id FROM article AS a WHERE id IN (" +
                 "SELECT article_id FROM rent_proposal WHERE renter_id = :renter_id AND state = :state ORDER BY start_date)" +
                 "LIMIT :limit OFFSET :offset");
 
@@ -75,7 +76,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     private StringBuilder queryBuilder(Map<String, Object> params, String fields, String name, Long category, Long user, Long location) {
-        StringBuilder query = new StringBuilder("SELECT " + fields + " FROM article WHERE true ");
+        StringBuilder query = new StringBuilder("SELECT " + fields + " FROM article AS a WHERE true ");
 
         if (name != null && name.length() > 0) {
             query.append(" AND LOWER(article.title) LIKE :title ");
@@ -115,7 +116,6 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, long page) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder idQueryBuilder = queryBuilder(params, "id", name, category, user, location);
@@ -131,9 +131,8 @@ public class ArticleDaoJpa implements ArticleDao {
         idQueries.setParameter("limit", RESULTS_PER_PAGE);
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
-        List<Integer> aux = idQueries.getResultList();
-
-        List<Long> articleIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        @SuppressWarnings("unchecked")
+        List<Long> articleIds = ((List<Integer>) idQueries.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
         if(articleIds.isEmpty())
             return new ArrayList<>();
