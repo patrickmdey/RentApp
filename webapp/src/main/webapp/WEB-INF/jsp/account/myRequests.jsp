@@ -41,6 +41,11 @@
                                aria-controls="nav-owned" aria-selected="true">
                                 <p class="my-1">
                                     <spring:message code="requests.received"/>
+                                    <c:if test="${user.pendingRequestAmount > 0}">
+                                        <span class="badge bg-color-rentapp-red ms-1">
+                                                ${user.pendingRequestAmount}
+                                        </span>
+                                    </c:if>
                                 </p>
                             </a>
                         </c:if>

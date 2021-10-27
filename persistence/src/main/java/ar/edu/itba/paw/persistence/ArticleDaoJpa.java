@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Repository
 public class ArticleDaoJpa implements ArticleDao {
 
-    private static final Long RESULTS_PER_PAGE = 4L;
+    private static final Long RESULTS_PER_PAGE = 9L;
 
     @PersistenceContext
     private EntityManager em;
