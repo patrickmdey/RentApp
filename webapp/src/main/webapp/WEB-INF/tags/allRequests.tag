@@ -12,12 +12,13 @@
 <c:choose>
     <c:when test="${proposals.size() > 0}">
         <c:forEach var="request" items="${proposals}">
+            <c:set var="uInfo" value="${isReceived ? request.renter : request.article.owner}"/>
             <h:requestCard articleName="${request.article.title}"
-                           renterFirstName="${request.renter.firstName}"
-                           renteLastName="${request.renter.lastName}"
+                           firstName="${uInfo.firstName}"
+                           lastName="${uInfo.lastName}"
                            startDate="${request.startDate}" endDate="${request.endDate}"
                            message="${request.message}" id="${request.id}" state="${request.state}"
-                           userId="${userId}" email="${isReceived ? request.renter.email : request.article.owner.email}"
+                           userId="${userId}" email="${uInfo.email}"
                            isReceived="${isReceived}" articleId="${request.article.id}"
             />
         </c:forEach>

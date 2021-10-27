@@ -3,10 +3,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="articleName" required="true" %>
-<%@ attribute name="renterFirstName" required="true" %>
-<%@ attribute name="renteLastName" required="true" %>
-<%@ attribute name="startDate" required="true" %>
-<%@ attribute name="endDate" required="true" %>
+<%@ attribute name="firstName" required="true" %>
+<%@ attribute name="lastName" required="true" %>
+<%@ attribute name="startDate" required="true" type="java.util.Date" %>
+<%@ attribute name="endDate" required="true" type="java.util.Date" %>
 <%@ attribute name="message" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="articleId" required="true" %>
@@ -45,18 +45,18 @@
     </div>
 </div>
 
-<div class="card card-style mb-2">
+<div class="card card-style my-requests-card my-2">
     <a href="${goToArticle}">
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
     <hr>
-    <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestFrom"
-                                         arguments="${renterFirstName}, ${renteLastName}"/></p>
+    <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestContact"
+                                         arguments="${firstName}, ${lastName}"/></p>
     <div class="row justify-content-start">
         <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.startDate"
-                                                                 arguments="${startDate}"/></p>
+                                                                 arguments="${startDate.toLocaleString()}"/></p>
         <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.endDate"
-                                                                 arguments="${endDate}"/></p>
+                                                                 arguments="${endDate.toLocaleString()}"/></p>
     </div>
     <c:if test="${state == 1}">
         <div class="d-flex">

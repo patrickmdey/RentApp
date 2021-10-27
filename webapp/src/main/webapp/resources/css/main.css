@@ -7,6 +7,8 @@
     --color-grey: #EAEDEA;
     --color-danger: red;
     --color-white: white;
+    --color-light-grey: #F6F6F6;
+    --color-dark-grey: #A0A0A0;
 }
 
 html {
@@ -196,7 +198,9 @@ a.request-pill.active {
 }
 
 .card.my-requests-card {
-    min-height: 450px;
+    min-height: 200px;
+    border: 1px solid var(--color-dark-grey);
+    background-color: var(--color-light-grey);
 }
 
 .footer-col {
@@ -207,6 +211,6 @@ a.request-pill.active {
 }
 
 .nav-link.request-pill[aria-selected="true"] {
-    background-color: #93C4E6 !important;
+    background-color: var(--color-secondary) !important;
 }
 
