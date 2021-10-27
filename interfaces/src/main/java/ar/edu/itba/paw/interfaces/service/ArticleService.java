@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Locations;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ArticleService {
     Long getRentedMaxPage(Long renterId);
 
     List<Article> recommendedArticles(long articleId);
+
+    List<Locations> getUsedLocations();
 }

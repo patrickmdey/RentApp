@@ -64,9 +64,7 @@ public class MarketplaceController {
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
 
-        mav.addObject("locations", Arrays.stream(Locations.values())
-                .sorted(Comparator.comparing(Locations::getName))
-                .collect(Collectors.toList()));
+        mav.addObject("locations", articleService.getUsedLocations());
         mav.addObject("locationsEnum", Locations.values());
         mav.addObject("category", categoryService.findById(searchForm.getCategory()).orElse(null));
         mav.addObject("userFilter", userService.findById(searchForm.getUser()).orElse(null));

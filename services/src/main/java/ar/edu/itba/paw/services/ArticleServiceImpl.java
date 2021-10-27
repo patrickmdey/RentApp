@@ -65,6 +65,13 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.recommendedArticles(articleId);
     }
 
+    @Override
+    public List<Locations> getUsedLocations() {
+        return articleDao.getUsedLocations().stream()
+                .sorted(Comparator.comparing(Locations::getName))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     @Transactional

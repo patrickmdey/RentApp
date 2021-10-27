@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.dao;
 
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.OrderOptions;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ArticleDao {
     Long getRentedMaxPage(Long user);
 
     List<Article> recommendedArticles(long articleId);
+
+    List<Locations> getUsedLocations();
 }

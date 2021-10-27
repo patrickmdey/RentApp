@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
-import ar.edu.itba.paw.models.Article;
-import ar.edu.itba.paw.models.OrderOptions;
-import ar.edu.itba.paw.models.RentState;
-import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -175,5 +172,13 @@ public class ArticleDaoJpa implements ArticleDao {
         query.setParameter("article_id", articleId);
 
         return (List<Article>) query.getResultList();
+    }
+
+    @Override
+    public List<Locations> getUsedLocations() {
+        TypedQuery<Locations> query = em.createQuery("SELECT DISTINCT a.owner.location FROM Article AS a"
+                , Locations.class);
+
+        return query.getResultList();
     }
 }
