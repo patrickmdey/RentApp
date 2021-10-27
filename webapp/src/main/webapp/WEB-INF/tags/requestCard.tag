@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<span class="card card-style mb-2">
+<div class="card card-style mb-2">
     <a href="${goToArticle}">
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
@@ -84,4 +84,4 @@
             </form:form>
         </div>
     </c:if>
-    </div>
+</div>
