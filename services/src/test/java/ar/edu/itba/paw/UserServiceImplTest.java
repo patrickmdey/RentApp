@@ -18,6 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.PersistenceException;
 import java.io.IOException;
 
 import static org.mockito.Mockito.*;
@@ -50,13 +51,10 @@ public class UserServiceImplTest {
                 UserType.RENTER
         );
         image = new MockMultipartFile("/image/test.png", "image/png");
-        emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
-
     }
 
     private User user;
     private MultipartFile image;
-    private MultipartFile emptyImage;
 
 
     @Test
@@ -91,7 +89,7 @@ public class UserServiceImplTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = PersistenceException.class)
     public void registerFailUserDaoThrowsException() throws IOException {
         // Arrange
         final String password = "password";
@@ -103,7 +101,7 @@ public class UserServiceImplTest {
                 eq(user.getFirstName()), eq(user.getLastName()),
                 eq(user.getLocation()), eq(uploadedImage),
                 eq(user.getType())
-        )).thenThrow(RuntimeException.class);
+        )).thenThrow(PersistenceException.class);
 
         // Act
         userService.register(
@@ -115,13 +113,12 @@ public class UserServiceImplTest {
         Assert.fail();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void registerFailImageNotUploaded() throws IOException {
         // Arrange
         final String password = "password";
 
-        when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
-        when(imageService.create(eq(image))).thenReturn(null);
+        when(imageService.create(eq(image))).thenThrow(IllegalArgumentException.class);
 
         // Act
         userService.register(
