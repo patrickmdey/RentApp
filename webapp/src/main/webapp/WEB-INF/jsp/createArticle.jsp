@@ -8,7 +8,7 @@
 <c:choose>
     <c:when test="${articleId == null}">
         <c:url value="/article/create" var="articleUrl"/>
-        <c:url value="/" var="goBack"/>
+        <c:url value="/marketplace" var="goBack"/>
         <c:set var="titleCode" value="article.createArticleForm.title"/>
         <c:set var="confirmButton" value="article.createArticleForm.publish"/>
     </c:when>

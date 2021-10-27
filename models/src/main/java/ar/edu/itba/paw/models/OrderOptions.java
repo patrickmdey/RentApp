@@ -7,7 +7,9 @@ public enum OrderOptions {
     LOWER_PRICE("enum.order.lowerPrice", "ASC", "pricePerDay", "price_per_day"),
     HIGHER_PRICE("enum.order.higherPrice", "DESC", "pricePerDay", "price_per_day"),
     LOWER_RATING("enum.order.lowerRating", "ASC", "rating", "(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = a.id)"),
-    HIGHER_RATING("enum.order.higherRating", "DESC", "rating", "(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = a.id)");
+    HIGHER_RATING("enum.order.higherRating", "DESC", "rating", "(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = a.id)"),
+    LOWER_TIMES_RENTED("enum.order.lowerTimesRented", "ASC", "timesRented", "(SELECT COUNT(*) FROM rent_proposal AS r WHERE r.article_id = id AND r.state = 1)"),
+    HIGHER_TIMES_RENTED("enum.order.higherTimesRented", "DESC", "timesRented", "(SELECT COUNT(*) FROM rent_proposal AS r WHERE r.article_id = id AND r.state = 1)");
 
 
     private final String description;
@@ -16,7 +18,7 @@ public enum OrderOptions {
     private final String nativeColumn;
 
 
-    OrderOptions(String description, String order, String jpaColumn, String nativeColumn){
+    OrderOptions(String description, String order, String jpaColumn, String nativeColumn) {
         this.description = description;
         this.order = order;
         this.jpaColumn = jpaColumn;

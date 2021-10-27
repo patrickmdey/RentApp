@@ -34,17 +34,25 @@ public class MarketplaceController {
     private UserService userService;
 
     @RequestMapping("/")
+    public ModelAndView landingPage() {
+        ModelAndView mav = new ModelAndView("landing");
+        List<Article> topRatingArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_RATING.ordinal(), null, null, 1);
+        List<Article> topRentedArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_TIMES_RENTED.ordinal(), null, null, 1);
+        mav.addObject("topRatingArticles", topRatingArticles.subList(0, Math.min(4, topRatingArticles.size())));
+        mav.addObject("topRentedArticles", topRentedArticles.subList(0, Math.min(4, topRentedArticles.size())));
+        mav.addObject("categories", categoryService.listCategories());
+        return mav;
+    }
+
+    @RequestMapping("/marketplace")
     public ModelAndView marketplace(@Valid @ModelAttribute("searchForm") SearchForm searchForm,
                                     @RequestParam(value = "page", required = false, defaultValue = "1") Long page
     ) {
 
         final ModelAndView mav = new ModelAndView("marketplace");
 
-        System.out.println("ESTAMOS ACA");
-
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
                 searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
-        System.out.println("LA QUEDAMOS EN EL GET ACA");
 
 
         List<Category> categories = categoryService.listCategories();
@@ -68,14 +76,5 @@ public class MarketplaceController {
     @RequestMapping("/feedback")
     public ModelAndView viewFeedback() {
         return new ModelAndView("feedback");
-    }
-
-    @RequestMapping("/landing")
-    public ModelAndView landingPage(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
-        ModelAndView mav = new ModelAndView("landing");
-        List<Article> articles = articleService.get(null, null, null, null, null, page);
-        mav.addObject("articles", articles);
-        mav.addObject("pendingRequestAmount", 0); // TODO: Poner metodo que traiga cantidad de solicitudes pendientes
-        return mav;
     }
 }

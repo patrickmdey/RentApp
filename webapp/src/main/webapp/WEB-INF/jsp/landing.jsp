@@ -3,9 +3,9 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/" var="marketplace"/>
+<c:url value="/marketplace" var="marketplace"/>
 <c:url value="/user/my-requests/pending" var="myRequestsUrl"/>
-<c:url value="/landing" var="currentUrl"/>
+<c:url value="/" var="currentUrl"/>
 <c:url var="landingIllustration"
        value="https://previews.123rf.com/images/emojoez/emojoez1808/emojoez180800011/112266418-illustrations-concept-small-people-creating-value-of-partner-business-via-handshake-deal-between-com.jpg"
 />
@@ -15,7 +15,7 @@
 <c:url var="selectImg"
        value="https://thumbs.dreamstime.com/b/happy-man-mobile-shopping-choose-product-goods-smartphone-give-rating-feedback-vector-173000676.jpg"/>
 <html>
-<h:head title="title.createArticle"/>
+<h:head title="title.main"/>
 <body>
 <h:navbar loggedUser="${user}"/>
 <div class="d-flex flex-column align-items-center">
@@ -29,14 +29,14 @@
                 <c:when test="${user != null && user.type.isOwner}">
                     <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
                     <c:choose>
-                        <c:when test="${pendingRequestAmount > 0}">
+                        <c:when test="${user.pendingRequestAmount > 0}">
                             <c:choose>
-                                <c:when test="${pendingRequestAmount == 0}">
+                                <c:when test="${user.pendingRequestAmount == 1}">
                                     <p class="lead"><spring:message code="landing.pendingRequests.single"/></p>
                                 </c:when>
                                 <c:otherwise>
                                     <p class="lead"><spring:message code="landing.pendingRequests.multiple"
-                                                                    arguments="${pendingRequestAmount}"/></p>
+                                                                    arguments="${user.pendingRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
                             <div class="d-grid gap-2 text-center">
@@ -73,15 +73,59 @@
         <div class="col-1"></div>
     </div>
 
-    <div class="bg-color-grey">
-        <div class="row main-margins p-4">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <h3><spring:message code="landing.articlesTitle"/></h3>
-                <hr>
-                <h:allArticles articles="${articles}" maxPage="1" currentUrl="${currentUrl}"/>
+    <div class="bg-color-grey w-100">
+        <div class="main-margins p-4 justify-content-center">
+            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <hr>
+            <div class="row row-cols-4 justify-content-center w-100">
+                <c:forEach var="article" items="${topRatingArticles}">
+                    <div class="col">
+                        <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                           id="${article.id}"
+                                           location="${article.owner.location.name()}"
+                                           image_id="${article.images.size()==0 ? 1 : article.images.get(0).id}"
+                                           rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
+                    </div>
+                </c:forEach>
             </div>
-            <div class="col-1"></div>
+        </div>
+    </div>
+    <!--TODO arreglar toda esta parte-->
+    <div class="bg-color-secondary w-100">
+        <h3 class="h3 text-bold text-center mt-2">Buscar por categorías</h3>
+        <div class="row row-cols-7 justify-content-center align-items-center landing-category-container">
+            <c:forEach items="${categories}" var="category">
+                <div class="col">
+                    <div class="card card-style category-card">
+                        <img src="<c:url value="/image/${category.picture.id}"/>" width="100%" height="auto"
+                             alt="${category.description}">
+                        <div class="text-center mt-2">
+                            <p class="lead"><spring:message code="${category.description}"/></p>
+                        </div>
+                        <c:url value="/marketplace" var="categoryUrl"> <!--TODO pensar si poner un orderBy-->
+                            <c:param name="category" value="${category.id}"/>
+                        </c:url>
+                        <a href="${categoryUrl}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+    <div class="bg-color-grey w-100">
+        <div class="main-margins p-4 justify-content-center">
+            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <hr>
+            <div class="row row-cols-4 justify-content-center w-100">
+                <c:forEach var="article" items="${topRentedArticles}">
+                    <div class="col">
+                        <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                           id="${article.id}"
+                                           location="${article.owner.location.name()}"
+                                           image_id="${article.images.size()==0 ? 1 : article.images.get(0).id}"
+                                           rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
+                    </div>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </div>

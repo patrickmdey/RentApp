@@ -6,15 +6,15 @@
 
 <c:set value="${param.page != null ? 1 : 0}" var="pageSum"/>
 
-<c:url value="/" var="marketplaceUrl"/>
-<c:url value="/" var="currentUrl">
+<c:url value="/marketplace" var="marketplaceUrl"/>
+<c:url value="/marketplace" var="currentUrl">
     <c:forEach items="${param}" var="entry">
         <c:if test="${entry.key != 'page'}">
             <c:param name="${entry.key}" value="${entry.value}"/>
         </c:if>
     </c:forEach>
 </c:url>
-<c:url value="/" var="clearFilterUrl">
+<c:url value="/marketplace" var="clearFilterUrl">
     <c:forEach var="p" items="${param}">
         <c:if test="${p.key == 'page'}">
             <c:param name="${p.key}" value="${p.value}"/>
@@ -43,7 +43,7 @@
                 <div class="d-flex align-items-center">
                     <spring:message code="filters.marketplace.filtering"/>
                     <c:if test="${ param.category != null && param.category.length() > 0}">
-                        <c:url value="/" var="removeCategoryUrl">
+                        <c:url value="/marketplace" var="removeCategoryUrl">
                             <c:forEach var="p" items="${param}">
                                 <c:if test="${p.key != 'category'}">
                                     <c:param name="${p.key}" value="${p.value}"/>
@@ -58,7 +58,7 @@
                     </c:if>
 
                     <c:if test="${ param.user != null && param.user.length() > 0}">
-                        <c:url value="/" var="removeUserUrl">
+                        <c:url value="/marketplace" var="removeUserUrl">
                             <c:forEach var="p" items="${param}">
                                 <c:if test="${p.key != 'user'}">
                                     <c:param name="${p.key}" value="${p.value}"/>
@@ -176,6 +176,7 @@
                 </c:when>
                 <c:otherwise>
                     <h:allArticles articles="${articles}" maxPage="${maxPage}" currentUrl="${currentUrl}"
+                                   articlePerRow="3"
                     />
                 </c:otherwise>
             </c:choose>

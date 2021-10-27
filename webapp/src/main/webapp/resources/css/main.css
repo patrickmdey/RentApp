@@ -156,6 +156,16 @@ a.request-pill.active {
     align-items: center;
 }
 
+.landing-category-container {
+    min-height: 300px;
+    width: 100%;
+}
+
+.card-style.category-card {
+    padding: 15px;
+    width: 90%;
+}
+
 .card-style.filters-card {
     height: auto;
     margin: 0;
