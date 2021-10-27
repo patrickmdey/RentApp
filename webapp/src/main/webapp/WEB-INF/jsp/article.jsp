@@ -31,7 +31,7 @@
                 <p class="text-muted small"><spring:message code="article.stats.timesRented"
                                                             arguments="${article.timesRented}"/></p>
                 <h2 class="card-title h2 my-n2"><c:out value="${article.title}"/></h2>
-                <c:url var="locationFilterUrl" value="/">
+                <c:url var="locationFilterUrl" value="/marketplace">
                     <c:param name="location" value="${article.owner.location.ordinal()}"/>
                 </c:url>
                 <p class="lead article-location color-action">
@@ -41,7 +41,7 @@
                 </p>
                 <div class="d-flex">
                     <c:forEach var="category" items="${article.categories}">
-                        <c:url var="marketplaceUrl" value="/">
+                        <c:url var="marketplaceUrl" value="/marketplace">
                             <c:param name="category" value="${category.id}"/>
                         </c:url>
                         <h5>
@@ -161,7 +161,7 @@
                     </div>
                     <span class="lead col-8"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
 
-                    <c:url var="userFilterUrl" value="/">
+                    <c:url var="userFilterUrl" value="/marketplace">
                         <c:param name="user" value="${owner.id}"/>
                     </c:url>
 

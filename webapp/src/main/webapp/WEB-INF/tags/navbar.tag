@@ -1,7 +1,8 @@
 <%@ tag pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<c:url value="/" var="marketplace"/>
+<c:url value="/" var="landingPage"/>
+<c:url value="/marketplace" var="marketplace"/>
 <c:url value="/article/create" var="createArticle"/>
 
 <%@ attribute type="ar.edu.itba.paw.models.User" name="loggedUser" required="true" %>
@@ -16,7 +17,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
     <div class="container">
-        <a class="navbar-brand" href="${marketplace}">
+        <a class="navbar-brand" href="${landingPage}">
             <img src="<c:url value="/resources/image/rentapp-logo.png"/>" height="50px" alt="RentApp">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"

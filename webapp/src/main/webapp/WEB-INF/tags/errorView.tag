@@ -4,7 +4,7 @@
 <%@attribute name="errorNum" required="true" %>
 <%@attribute name="errorMsg" required="true" %>
 
-<c:url value="/" var="marketplace"/>
+<c:url value="/" var="landingPage"/>
 <c:url value="/resources/image/error.png" var="errorImage"/>
 <div class="error-container container-height">
     <div class="d-flex justify-content-center">
@@ -12,5 +12,5 @@
     </div>
     <h1 class="display-3 fw-bold">Error ${errorNum}</h1>
     <p class="lead"><spring:message code="${errorMsg}"/></p>
-    <a href="${marketplace}"><spring:message code="error.return"/></a>
+    <a href="${landingPage}"><spring:message code="error.return"/></a>
 </div>

@@ -3,9 +3,9 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/" var="marketplace"/>
+<c:url value="/marketplace" var="marketplace"/>
 <c:url value="/user/my-requests/pending" var="myRequestsUrl"/>
-<c:url value="/landing" var="currentUrl"/>
+<c:url value="/" var="currentUrl"/>
 <c:url var="landingIllustration"
        value="https://previews.123rf.com/images/emojoez/emojoez1808/emojoez180800011/112266418-illustrations-concept-small-people-creating-value-of-partner-business-via-handshake-deal-between-com.jpg"
 />
@@ -90,6 +90,7 @@
             </div>
         </div>
     </div>
+    <!--TODO arreglar toda esta parte-->
     <div class="bg-color-secondary w-100">
         <h3 class="h3 text-bold text-center mt-2">Buscar por categorías</h3>
         <div class="row row-cols-7 justify-content-center align-items-center landing-category-container">
@@ -101,8 +102,10 @@
                         <div class="text-center mt-2">
                             <p class="lead"><spring:message code="${category.description}"/></p>
                         </div>
-                        <a href="<c:url value="/?user=&query=&category=${category.id}&orderBy=7&location="/>"
-                           class="stretched-link"></a>
+                        <c:url value="/marketplace" var="categoryUrl"> <!--TODO pensar si poner un orderBy-->
+                            <c:param name="category" value="${category.id}"/>
+                        </c:url>
+                        <a href="${categoryUrl}" class="stretched-link"></a>
                     </div>
                 </div>
             </c:forEach>

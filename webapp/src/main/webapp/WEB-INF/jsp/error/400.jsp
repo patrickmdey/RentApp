@@ -3,7 +3,6 @@
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:url value="/" var="marketplace"/>
 <html>
 <h:head title="title.error.400"/>
 <body class="bg-color-grey">

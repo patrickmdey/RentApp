@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestToRenter(Context context) {
-        context.setVariable("callbackUrl", BASE_URL + "/");
+        context.setVariable("callbackUrl", BASE_URL + "/marketplace");
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("renterEmail"),
                 emailMessageSource.getMessage("email.newRequest.renter", null, LocaleContextHolder.getLocale())
@@ -103,7 +103,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestConfirmationToRenter(Context context, long categoryId) {
-        context.setVariable("callbackUrl", BASE_URL + "/?category=" + categoryId);
+        context.setVariable("callbackUrl", BASE_URL + "/marketplace?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-accepted.html", context);
         sendHtmlMessage((String) context.getVariable("renterEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale())
                 + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
@@ -113,7 +113,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendMailRequestDenied(RentProposal rentProposal, User owner) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
         long categoryId = rentProposal.getArticle().getCategories().stream().findFirst().orElseThrow(CategoryNotFoundException::new).getId();
-        thymeleafContext.setVariable("callbackUrl", BASE_URL + "/?category=" + categoryId);
+        thymeleafContext.setVariable("callbackUrl", BASE_URL + "/marketplace?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);
         sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, LocaleContextHolder.getLocale())
                 + thymeleafContext.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);

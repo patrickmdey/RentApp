@@ -56,9 +56,6 @@
     </div>
     </form:form>
 </div>
-</div>
-</div>
-</div>
 
 <h:footer/>
 

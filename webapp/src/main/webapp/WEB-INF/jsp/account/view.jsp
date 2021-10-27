@@ -10,7 +10,7 @@
 <c:url value="/user/edit" var="editUrl"/>
 <c:url value="article/create" var="createArticle"/>
 <c:url value="/user/view" var="currentUrl"/>
-<c:url value="/" var="marketplace"/>
+<c:url value="/marketplace" var="marketplace"/>
 
 <html>
 <h:head title="title.profile"/>
