@@ -25,7 +25,7 @@
         <h:pagination currentUrl="${currentUrl}" maxPage="${maxPage}"/>
     </c:when>
     <c:otherwise>
-        <div class="card card-style align-items-center pa-3 justify-content-center">
+        <div class="card card-style my-requests-card mt-3 min-height align-items-center pa-3 justify-content-center">
             <c:choose>
                 <c:when test="${isReceived}">
                     <h2 class="h2">

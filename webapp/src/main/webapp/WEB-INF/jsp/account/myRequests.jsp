@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="col-md-9 col-lg-9 col-12">
-            <div class="card card-style">
+            <div class="card card-style min-height">
                 <div class="row cols-3 g-1 justify-content-between mb-1">
                     <div class="col">
                         <a class="btn w-100 ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
