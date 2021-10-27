@@ -77,6 +77,7 @@ public class MarketplaceController {
         List<Article> topRentedArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_TIMES_RENTED.ordinal(), null, null, 1);
         mav.addObject("topRatingArticles", topRatingArticles.subList(0, Math.min(4, topRatingArticles.size())));
         mav.addObject("topRentedArticles", topRentedArticles.subList(0, Math.min(4, topRentedArticles.size())));
+        mav.addObject("categories", categoryService.listCategories());
         return mav;
     }
 }

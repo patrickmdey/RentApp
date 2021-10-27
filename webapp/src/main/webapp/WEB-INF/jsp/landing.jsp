@@ -73,20 +73,29 @@
         <div class="col-1"></div>
     </div>
 
-    <div class="bg-color-grey">
-        <div class="row main-margins p-4">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <h3><spring:message code="landing.articlesTitle"/></h3>
-                <hr>
-                <h:allArticles articles="${topRatingArticles}" maxPage="1" currentUrl="${currentUrl}"
-                               articlePerRow="4"/>
-                <h3><spring:message code="landing.articlesTitle"/></h3>
-                <hr>
-                <h:allArticles articles="${topRentedArticles}" maxPage="1" currentUrl="${currentUrl}"
-                               articlePerRow="4"/>
-            </div>
-            <div class="col-1"></div>
+    <div class="bg-color-grey w-100">
+        <div class="main-margins p-4 justify-content-center">
+            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <hr>
+            <h:allArticles articles="${topRatingArticles}" maxPage="1" currentUrl="${currentUrl}"
+                           articlePerRow="4"/>
+            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <hr>
+            <h:allArticles articles="${topRentedArticles}" maxPage="1" currentUrl="${currentUrl}"
+                           articlePerRow="4"/>
+        </div>
+    </div>
+    <div class="bg-color-secondary w-100">
+        <div class="d-flex main-margin p-4 justify-content-center">
+            <c:forEach items="${categories}" var="category">
+                <div class="justify-content-center">
+                    <div class="avatar-container landing-avatar">
+                        <img src="<c:url value="/image/${category.picture.id}"/>"
+                             width="200px" height="200px" alt="${category.description}">
+                    </div>
+                    <p><spring:message code="${category.description}"/></p>
+                </div>
+            </c:forEach>
         </div>
     </div>
 </div>
