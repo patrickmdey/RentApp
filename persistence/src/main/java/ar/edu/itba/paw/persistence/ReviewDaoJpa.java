@@ -4,12 +4,11 @@ import ar.edu.itba.paw.interfaces.dao.ReviewDao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,8 +76,19 @@ public class ReviewDaoJpa implements ReviewDao {
 
     @Override
     public Review create(int rating, String message, long articleId, long renterId) {
-        Article article = em.find(Article.class, articleId);
-        User renter = em.find(User.class, renterId);
+        Article article;
+        try {
+            article = em.find(Article.class, articleId);
+        } catch (PersistenceException e) {
+            throw new ArticleNotFoundException();
+        }
+
+        User renter;
+        try {
+            renter = em.find(User.class, renterId);
+        } catch (PersistenceException e) {
+            throw new UserNotFoundException();
+        }
 
         Review review = new Review(rating, message, new Date(System.currentTimeMillis()));
         review.setArticle(article);

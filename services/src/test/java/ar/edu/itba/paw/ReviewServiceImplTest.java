@@ -15,9 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.text.ParseException;
 import java.util.Date;
-import java.util.Optional;
 
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
@@ -36,13 +34,13 @@ public class ReviewServiceImplTest {
     private UserService userService;
 
     @Before
-    public void setUp() throws ParseException {
-        this.userOwner = new User(1,"owner@mail.com","password","owner",
-                "owner", Locations.values()[3],null, UserType.OWNER);
-        this.userRenter = new User(2,"renter@mail.com","password","renter",
-                "renter",Locations.values()[5],null,UserType.RENTER);
+    public void setUp() {
+        this.userOwner = new User(1, "owner@mail.com", "password", "owner",
+                "owner", Locations.values()[3], null, UserType.OWNER);
+        this.userRenter = new User(2, "renter@mail.com", "password", "renter",
+                "renter", Locations.values()[5], null, UserType.RENTER);
 
-        this.article = new Article(123,"bike", "fast bike", 400F,userOwner);
+        this.article = new Article(123, "bike", "fast bike", 400F, userOwner);
 
         this.review = new Review(
                 786,
@@ -61,8 +59,6 @@ public class ReviewServiceImplTest {
     @Test
     public void createSucceed() {
         // Arrange
-        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(review.getRenter().getId()))).thenReturn(Optional.of(userRenter));
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
@@ -83,7 +79,6 @@ public class ReviewServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void createFailReviewDaoThrowsException() {
         // Arrange
-        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
@@ -101,14 +96,12 @@ public class ReviewServiceImplTest {
     @Test(expected = UserNotFoundException.class)
     public void createFailUserNotFound() {
         // Arrange
-        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(review.getRenter().getId()))).thenReturn(Optional.empty());
         when(reviewDao.create(
                 eq(review.getRating()),
                 eq(review.getMessage()),
                 eq(review.getArticle().getId()),
                 eq(review.getRenter().getId())
-        )).thenReturn(review);
+        )).thenThrow(UserNotFoundException.class);
 
         // Act
         reviewService.create(review.getRating(), review.getMessage(), review.getArticle().getId(), review.getRenter().getId());
@@ -120,7 +113,12 @@ public class ReviewServiceImplTest {
     @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() {
         // Arrange
-        when(articleService.findById(eq(review.getArticle().getId()))).thenReturn(Optional.empty());
+        when(reviewDao.create(
+                eq(review.getRating()),
+                eq(review.getMessage()),
+                eq(review.getArticle().getId()),
+                eq(review.getRenter().getId())
+        )).thenThrow(ArticleNotFoundException.class);
 
         // Act
         reviewService.create(review.getRating(), review.getMessage(), review.getArticle().getId(), review.getRenter().getId());
