@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS category
 (
     id          SERIAL NOT NULL,
     description VARCHAR(30) NOT NULL UNIQUE,
+    picture INT NOT NULL UNIQUE,
     PRIMARY KEY (id)
 );
 
@@ -20,7 +21,7 @@ CREATE TABLE IF NOT EXISTS account
     email VARCHAR(320) NOT NULL UNIQUE,
     location INTEGER NOT NULL,
     password VARCHAR(100) NOT NULL,
-    picture INT NOT NULL,
+    picture INT NOT NULL UNIQUE,
     type INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture) REFERENCES picture (id) ON UPDATE CASCADE ON DELETE CASCADE
