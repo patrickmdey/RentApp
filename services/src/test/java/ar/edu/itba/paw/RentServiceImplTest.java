@@ -1,9 +1,7 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.RentDao;
-import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.EmailService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
@@ -18,7 +16,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -31,10 +28,6 @@ public class RentServiceImplTest {
     @Mock
     private RentDao rentDao;
     @Mock
-    private ArticleService articleService;
-    @Mock
-    private UserService userService;
-    @Mock
     private EmailService emailService;
 
 
@@ -45,7 +38,7 @@ public class RentServiceImplTest {
         this.userRenter = new User(2, "renter@mail.com", "password", "renter",
                 "renter", Locations.values()[5], null, UserType.RENTER);
 
-        this.article = new Article(123, "bike", "fast bike", 400F, userOwner);
+        Article article = new Article(123, "bike", "fast bike", 400F, userOwner);
 
         this.rentProposal = new RentProposal(
                 565,
@@ -54,22 +47,19 @@ public class RentServiceImplTest {
                 new SimpleDateFormat("yyyy-MM-dd").parse("2021-11-15"),
                 new SimpleDateFormat("yyyy-MM-dd").parse("2021-12-15")
         );
+
+        this.rentProposal.setArticle(article);
+        this.rentProposal.setRenter(userRenter);
     }
 
     private User userOwner;
     private User userRenter;
-    private Article article;
     private RentProposal rentProposal;
 
 
     @Test
     public void createSucceed() {
         // Arrange
-        when(articleService.findById(eq(article.getId()))).thenReturn(Optional.of(article));
-
-        when(userService.findById(eq(userRenter.getId()))).thenReturn(Optional.of(userRenter));
-        when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));
-
         when(rentDao.create(
                 eq(rentProposal.getMessage()),
                 eq(rentProposal.getState()),
@@ -107,7 +97,14 @@ public class RentServiceImplTest {
     @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.empty());
+        when(rentDao.create(
+                eq(rentProposal.getMessage()),
+                eq(rentProposal.getState()),
+                eq(rentProposal.getStartDate()),
+                eq(rentProposal.getEndDate()),
+                eq(rentProposal.getArticle().getId()),
+                eq(rentProposal.getRenter().getId())
+        )).thenThrow(ArticleNotFoundException.class);
 
         // Act
         rentService.create(
@@ -130,8 +127,14 @@ public class RentServiceImplTest {
     @Test(expected = UserNotFoundException.class)
     public void createFailOwnerNotFound() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.empty());
+        when(rentDao.create(
+                eq(rentProposal.getMessage()),
+                eq(rentProposal.getState()),
+                eq(rentProposal.getStartDate()),
+                eq(rentProposal.getEndDate()),
+                eq(rentProposal.getArticle().getId()),
+                eq(rentProposal.getRenter().getId())
+        )).thenThrow(UserNotFoundException.class);
 
         // Act
         rentService.create(
@@ -153,9 +156,6 @@ public class RentServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void createFailRentDaoThrowsException() {
         // Arrange
-        when(articleService.findById(eq(rentProposal.getArticle().getId()))).thenReturn(Optional.of(article));
-        when(userService.findById(eq(userOwner.getId()))).thenReturn(Optional.of(userOwner));
-
         when(rentDao.create(
                 eq(rentProposal.getMessage()),
                 eq(rentProposal.getState()),

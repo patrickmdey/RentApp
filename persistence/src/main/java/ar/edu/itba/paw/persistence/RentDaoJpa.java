@@ -5,12 +5,11 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -105,8 +104,20 @@ public class RentDaoJpa implements RentDao {
 
     @Override
     public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
-        Article article = em.find(Article.class, articleId);
-        User renter = em.find(User.class, renterId);
+
+        Article article;
+        try {
+            article = em.find(Article.class, articleId);
+        } catch (PersistenceException e) {
+            throw new ArticleNotFoundException();
+        }
+
+        User renter;
+        try {
+            renter = em.find(User.class, renterId);
+        } catch (PersistenceException e) {
+            throw new UserNotFoundException();
+        }
 
         RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
         rentProposal.setArticle(article);

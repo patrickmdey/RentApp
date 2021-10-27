@@ -6,13 +6,10 @@ import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.EmailService;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.RentProposalNotFoundException;
-import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,14 +87,9 @@ public class RentServiceImpl implements RentService {
     public RentProposal create(String message, Integer approved, Date startDate,
                                          Date endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
-        //Article article = articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new);
 
-        //User owner = userService.findById(article.getOwner().getId()).orElseThrow(UserNotFoundException::new);
         RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
 
-        //appendArticle(proposal);
-        //appendRenter(proposal);
-        //emailService.sendMailRequest(proposal, owner);
         emailService.sendMailRequest(proposal, proposal.getArticle().getOwner());
 
         return proposal;
