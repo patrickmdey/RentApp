@@ -40,11 +40,8 @@ public class MarketplaceController {
 
         final ModelAndView mav = new ModelAndView("marketplace");
 
-        System.out.println("ESTAMOS ACA");
-
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
                 searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
-        System.out.println("LA QUEDAMOS EN EL GET ACA");
 
 
         List<Category> categories = categoryService.listCategories();

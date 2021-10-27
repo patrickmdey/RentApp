@@ -77,25 +77,52 @@
         <div class="main-margins p-4 justify-content-center">
             <h3><spring:message code="landing.articlesTitle"/></h3>
             <hr>
-            <h:allArticles articles="${topRatingArticles}" maxPage="1" currentUrl="${currentUrl}"
-                           articlePerRow="4"/>
-            <h3><spring:message code="landing.articlesTitle"/></h3>
-            <hr>
-            <h:allArticles articles="${topRentedArticles}" maxPage="1" currentUrl="${currentUrl}"
-                           articlePerRow="4"/>
+            <div class="row row-cols-4 justify-content-center w-100">
+                <c:forEach var="article" items="${topRatingArticles}">
+                    <div class="col">
+                        <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                           id="${article.id}"
+                                           location="${article.owner.location.name()}"
+                                           image_id="${article.images.size()==0 ? 1 : article.images.get(0).id}"
+                                           rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
+                    </div>
+                </c:forEach>
+            </div>
         </div>
     </div>
     <div class="bg-color-secondary w-100">
-        <div class="d-flex main-margin p-4 justify-content-center">
+        <h3 class="h3 text-bold text-center mt-2">Buscar por categorías</h3>
+        <div class="row row-cols-7 justify-content-center align-items-center landing-category-container">
             <c:forEach items="${categories}" var="category">
-                <div class="justify-content-center">
-                    <div class="avatar-container landing-avatar">
-                        <img src="<c:url value="/image/${category.picture.id}"/>"
-                             width="200px" height="200px" alt="${category.description}">
+                <div class="col">
+                    <div class="card card-style category-card">
+                        <img src="<c:url value="/image/${category.picture.id}"/>" width="100%" height="auto"
+                             alt="${category.description}">
+                        <div class="text-center mt-2">
+                            <p class="lead"><spring:message code="${category.description}"/></p>
+                        </div>
+                        <a href="<c:url value="/?user=&query=&category=${category.id}&orderBy=7&location="/>"
+                           class="stretched-link"></a>
                     </div>
-                    <p><spring:message code="${category.description}"/></p>
                 </div>
             </c:forEach>
+        </div>
+    </div>
+    <div class="bg-color-grey w-100">
+        <div class="main-margins p-4 justify-content-center">
+            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <hr>
+            <div class="row row-cols-4 justify-content-center w-100">
+                <c:forEach var="article" items="${topRentedArticles}">
+                    <div class="col">
+                        <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                           id="${article.id}"
+                                           location="${article.owner.location.name()}"
+                                           image_id="${article.images.size()==0 ? 1 : article.images.get(0).id}"
+                                           rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
+                    </div>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </div>

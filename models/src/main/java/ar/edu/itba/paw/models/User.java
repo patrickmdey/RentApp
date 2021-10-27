@@ -35,7 +35,7 @@ public class User {
     @JoinColumn(name = "picture", referencedColumnName = "id")
     private DBImage picture;
 
-    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r JOIN article AS a ON r.article_id = a.id WHERE r.state = 0 AND a.owner_id = id)")
+    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r JOIN article AS a ON (r.article_id = a.id) WHERE r.state = 0 AND a.owner_id = id)")
     private Long pendingRequestAmount = 0L;
 
     /* package */ User() {
