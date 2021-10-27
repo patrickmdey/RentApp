@@ -79,7 +79,7 @@ public class ArticleDaoJpa implements ArticleDao {
         StringBuilder query = new StringBuilder("SELECT " + fields + " FROM article AS a WHERE true ");
 
         if (name != null && name.length() > 0) {
-            query.append(" AND LOWER(article.title) LIKE :title ");
+            query.append(" AND LOWER(a.title) LIKE :title ");
             params.put("title", "%" + parseNameQuery(name.toLowerCase()) + "%");
         }
 
@@ -89,7 +89,7 @@ public class ArticleDaoJpa implements ArticleDao {
         }
 
         if (category != null) {
-            query.append(" AND article.id IN (SELECT article_id FROM article_category " +
+            query.append(" AND a.id IN (SELECT article_id FROM article_category " +
                     "WHERE category_id = :category_id) ");
             params.put("category_id", category);
         }
