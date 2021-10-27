@@ -16,6 +16,10 @@ public class Category {
     @Column(nullable = false, length = 30, unique = true)
     private String description;
 
+    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "picture", referencedColumnName = "id")
+    private DBImage picture;
+
     public Category(long id, String description) {
         this.id = id;
         this.description = description;
@@ -41,6 +45,14 @@ public class Category {
         this.id = id;
     }
 
+    public DBImage getPicture() {
+        return picture;
+    }
+
+    public void setPicture(DBImage picture) {
+        this.picture = picture;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,4 +70,5 @@ public class Category {
     public String toString() {
         return description;
     }
+
 }
