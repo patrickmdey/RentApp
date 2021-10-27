@@ -12,7 +12,7 @@
 <%@ attribute name="articleId" required="true" %>
 <%@ attribute name="state" required="true" %>
 <%@ attribute name="userId" required="true" %>
-<%@ attribute name="renterEmail" required="true" %>
+<%@ attribute name="email" required="true" %>
 <%@ attribute name="isReceived" type="java.lang.Boolean" required="true" %>
 
 
@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<div class="card card-style mb-2">
+<span class="card card-style mb-2">
     <a href="${goToArticle}">
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
@@ -59,10 +59,10 @@
                                                                  arguments="${endDate}"/></p>
     </div>
     <c:if test="${state == 1}">
-        <div class="row">
+        <div class="d-flex">
             <p class="lead"><spring:message code="footer.contact"/></p>
-            <a href="mailto:${renterEmail}" class="lead">
-                <c:out value="${renterEmail}"/>
+            <a href="mailto:${email}" class="lead ms-1">
+                <c:out value="${email}"/>
             </a>
         </div>
     </c:if>
@@ -84,4 +84,4 @@
             </form:form>
         </div>
     </c:if>
-</div>
+    </div>

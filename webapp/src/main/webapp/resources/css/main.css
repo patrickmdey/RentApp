@@ -206,3 +206,7 @@ a.request-pill.active {
     align-items: center;
 }
 
+.nav-link.request-pill[aria-selected="true"] {
+    background-color: #93C4E6 !important;
+}
+

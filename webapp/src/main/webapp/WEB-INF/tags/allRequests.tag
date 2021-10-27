@@ -10,14 +10,14 @@
 <%@attribute name="maxPage" required="true" %>
 
 <c:choose>
-    <c:when test="${proposals.size() != 0}">
+    <c:when test="${proposals.size() > 0}">
         <c:forEach var="request" items="${proposals}">
             <h:requestCard articleName="${request.article.title}"
                            renterFirstName="${request.renter.firstName}"
                            renteLastName="${request.renter.lastName}"
                            startDate="${request.startDate}" endDate="${request.endDate}"
                            message="${request.message}" id="${request.id}" state="${request.state}"
-                           userId="${userId}" renterEmail="${request.renter.email}"
+                           userId="${userId}" email="${isReceived ? request.renter.email : request.article.owner.email}"
                            isReceived="${isReceived}" articleId="${request.article.id}"
             />
         </c:forEach>

@@ -12,7 +12,7 @@
 <c:choose>
     <c:when test="${state.isPending}">
         <c:url value="/user/my-requests/pending" var="currentUrl"/>
-        <c:set var="stateColor" value="${1}"/>
+        <c:set var="stateColor" value="${1}"/> <!-- TODO cambiar esto -->
     </c:when>
     <c:when test="${state.isAccepted}">
         <c:url value="/user/my-requests/accepted" var="currentUrl"/>
@@ -26,74 +26,71 @@
 
 
 <div class="container min-height">
-    <div class="row align-items-start justify-content-center mb-2">
-        <div class="col-md-3 col-lg-3 col-12"></div>
-        <div class="col-md-9 col-lg-9 col-12">
-            <div class="row cols-3 g-1 justify-content-between">
-                <div class="col">
-                    <a class="btn w-100 ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
-                       href="<c:url value="/user/my-requests/pending"/>">
-                        <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="btn w-100 ${stateColor == 2? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
-                       href="<c:url value="/user/my-requests/accepted"/>">
-                        <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
-                    </a>
-                </div>
-                <div class="col">
-                    <a class="btn w-100 ${stateColor == 3? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
-                       href="<c:url value="/user/my-requests/declined"/>">
-                        <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row align-items-start justify-content-center">
-        <div class="card card-style filters-card col-md-3 col-lg-3 col-12">
-            <h4 class="h4"><spring:message code="title.myRequests"/></h4>
-            <hr/>
-            <div>
-                <nav class="nav nav-pills" id="nav-tab" role="tablist">
-                    <c:if test="${user.type.isOwner}">
-                        <a class="nav-link request-pill active w-100 text-start" id="nav-received-tab"
+    <div class="row align-items-start justify-content-center mb-2 g-2">
+        <div class="col-md-3 col-lg-3 col-12">
+            <div class="card card-style filters-card">
+                <h4 class="h4"><spring:message code="title.myRequests"/></h4>
+                <hr/>
+                <div>
+                    <nav class="nav nav-pills" id="nav-tab" role="tablist">
+                        <c:if test="${user.type.isOwner}">
+                            <a class="nav-link request-pill active w-100 text-start" id="nav-received-tab"
+                               data-bs-toggle="pill"
+                               href="#nav-received"
+                               role="tab"
+                               aria-controls="nav-owned" aria-selected="true">
+                                <p class="my-1">
+                                    <spring:message code="requests.received"/>
+                                </p>
+                            </a>
+                        </c:if>
+                        <a class="nav-link request-pill  ${!user.type.isOwner?' active':''} text-start w-100"
+                           id="nav-sent-tab"
                            data-bs-toggle="pill"
-                           href="#nav-received"
-                           role="tab"
-                           aria-controls="nav-owned" aria-selected="true">
+                           href="#nav-sent" role="tab"
+                           aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
                             <p class="my-1">
-                                <spring:message code="requests.received"/>
+                                <spring:message code="requests.sent"/>
                             </p>
                         </a>
-                    </c:if>
-                    <a class="nav-link request-pill  ${!user.type.isOwner?' active':''} text-start w-100"
-                       id="nav-sent-tab"
-                       data-bs-toggle="pill"
-                       href="#nav-sent" role="tab"
-                       aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
-                        <p class="my-1">
-                            <spring:message code="requests.sent"/>
-                        </p>
-                    </a>
-                </nav>
+                    </nav>
+                </div>
             </div>
         </div>
         <div class="col-md-9 col-lg-9 col-12">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received"
-                     role="tabpanel"
-                     aria-labelledby="nav-received-tab">
-                    <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
-                                   isReceived="${true}" currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
+            <div class="card card-style">
+                <div class="row cols-3 g-1 justify-content-between mb-1">
+                    <div class="col">
+                        <a class="btn w-100 ${stateColor == 1? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                           href="<c:url value="/user/my-requests/pending"/>">
+                            <spring:message code="myAccount.ownerRequests.myRequests.pending"/>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a class="btn w-100 ${stateColor == 2? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                           href="<c:url value="/user/my-requests/accepted"/>">
+                            <spring:message code="myAccount.ownerRequests.myRequests.accepted"/>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a class="btn w-100 ${stateColor == 3? "bg-color-secondary btn-dark":"bg-color-action color-grey"}"
+                           href="<c:url value="/user/my-requests/declined"/>">
+                            <spring:message code="myAccount.ownerRequests.myRequests.declined"/>
+                        </a>
+                    </div>
                 </div>
-                <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
-                     aria-labelledby="nav-sent-tab">
-                    <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
-                                   isReceived="${false}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade ${user.type.isOwner?' show active':''}" id="nav-received"
+                         role="tabpanel"
+                         aria-labelledby="nav-received-tab">
+                        <h:allRequests proposals="${receivedProposals}" userId="${user.id}" state="${state.name()}"
+                                       isReceived="${true}" currentUrl="${currentUrl}" maxPage="${receivedMaxPage}"/>
+                    </div>
+                    <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-sent" role="tabpanel"
+                         aria-labelledby="nav-sent-tab">
+                        <h:allRequests proposals="${sentProposals}" userId="${user.id}" state="${state.name()}"
+                                       isReceived="${false}" currentUrl="${currentUrl}" maxPage="${sentMaxPage}"/>
+                    </div>
                 </div>
             </div>
         </div>
