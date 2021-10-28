@@ -2,6 +2,8 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -55,9 +57,16 @@ public class ArticleDaoJpa implements ArticleDao {
     @Override
     public Article createArticle(String title, String description, Float pricePerDay, long idOwner) {
         User owner = em.find(User.class, idOwner);
+        if (owner == null)
+            throw new UserNotFoundException();
+
         Article article = new Article(title, description, pricePerDay, owner);
-        em.persist(article);
-        return article;
+        try {
+            em.persist(article);
+            return article;
+        } catch(Exception e) {
+            throw new CannotCreateArticleException();
+        }
     }
 
 

@@ -6,6 +6,7 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -105,26 +106,24 @@ public class RentDaoJpa implements RentDao {
     @Override
     public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
 
-        Article article;
-        try {
-            article = em.find(Article.class, articleId);
-        } catch (PersistenceException e) {
+        Article article = em.find(Article.class, articleId);
+        if(article == null)
             throw new ArticleNotFoundException();
-        }
 
-        User renter;
-        try {
-            renter = em.find(User.class, renterId);
-        } catch (PersistenceException e) {
+        User renter = em.find(User.class, renterId);
+        if (renter == null)
             throw new UserNotFoundException();
-        }
 
         RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
         rentProposal.setArticle(article);
         rentProposal.setRenter(renter);
 
-        em.persist(rentProposal);
-        return rentProposal;
+        try {
+            em.persist(rentProposal);
+            return rentProposal;
+        } catch(Exception e) {
+            throw new CannotCreateProposalException();
+        }
     }
 
 

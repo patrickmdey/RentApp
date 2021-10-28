@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,8 +23,12 @@ public class ImageDaoJpa implements ImageDao {
     @Override
     public DBImage create(byte[] img) {
         DBImage image = new DBImage(img);
-        em.persist(image);
-        return image;
+        try {
+            em.persist(image);
+            return image;
+        } catch(Exception e){
+            throw new CannotCreateImageException();
+        }
     }
 
 }

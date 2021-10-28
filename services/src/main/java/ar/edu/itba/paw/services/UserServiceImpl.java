@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -66,7 +65,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setLocation(Locations.values()[Math.toIntExact(location)]);
-        //userDao.update(id, firstName, lastName, Locations.values()[Math.toIntExact(location)]);
     }
 
     @Override
@@ -80,7 +78,6 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(long id, String password) {
         String passwordHash = passwordEncoder.encode(password);
         User user = findById(id).orElseThrow(UserNotFoundException::new);
-        user.setPassword(password);
-        //userDao.updatePassword(id, passwordHash);
+        user.setPassword(passwordHash);
     }
 }

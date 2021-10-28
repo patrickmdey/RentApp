@@ -26,11 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ImageService imageService;
-
-    @Autowired
-    private ReviewService reviewService;
-
-
+    
     @Override
     @Transactional(readOnly = true)
     public List<Article> get(String name, Long category, Long orderBy, Long user, Long location, long page) {
@@ -99,7 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         article.setCategories(categories.stream().map(c -> categoryDao.findById(c)
                         .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
-
+        
         return Optional.of(article);
     }
 

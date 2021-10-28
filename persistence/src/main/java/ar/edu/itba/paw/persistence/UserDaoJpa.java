@@ -5,6 +5,9 @@ import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
+import ar.edu.itba.paw.models.exceptions.CannotEditUserException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,8 +29,12 @@ public class UserDaoJpa implements UserDao {
     @Override
     public User register(String email, String password, String firstName, String lastName, Locations location, DBImage img, UserType type) {
         final User user = new User(email, password, firstName, lastName, location, img, type);
-        em.persist(user);
-        return user;
+        try {
+            em.persist(user);
+            return user;
+        } catch (Exception e) {
+            throw new CannotCreateUserException();
+        }
     }
 
     @Override
@@ -40,6 +47,13 @@ public class UserDaoJpa implements UserDao {
     @Override
     public void delete(long id) {
         User user = em.find(User.class, id);
-        em.remove(user);
+        if (user == null)
+            throw new UserNotFoundException();
+        
+        try {
+            em.remove(user);
+        } catch (Exception e) {
+            throw new CannotEditUserException();
+        }
     }
 }

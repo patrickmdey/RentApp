@@ -2,8 +2,8 @@ package ar.edu.itba.paw.services;
 
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
             byte[] data = img.getBytes();
             return imageDao.create(data);
         } catch (IOException e) {
-            throw new IllegalArgumentException();
+            throw new CannotCreateImageException();
         }
     }
 }
