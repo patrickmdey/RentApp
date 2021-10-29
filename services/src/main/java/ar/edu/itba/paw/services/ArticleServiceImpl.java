@@ -1,10 +1,13 @@
 package ar.edu.itba.paw.services;
 
-import ar.edu.itba.paw.interfaces.dao.*;
+import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.service.CategoryService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.interfaces.service.ReviewService;
-import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.Locations;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +27,7 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
 
     @Autowired
-    private CategoryDao categoryDao;
+    private CategoryService categoryService;
 
     @Autowired
     private ImageService imageService;
@@ -75,7 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (categories != null) {
-            article.setCategories(categories.stream().map(c -> categoryDao.findById(c)
+            article.setCategories(categories.stream().map(c -> categoryService.findById(c)
                     .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
         }
         images.forEach(image -> {
@@ -93,8 +98,8 @@ public class ArticleServiceImpl implements ArticleService {
         article.setDescription(description);
         article.setPricePerDay(pricePerDay);
 
-        article.setCategories(categories.stream().map(c -> categoryDao.findById(c)
-                        .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
+        article.setCategories(categories.stream().map(c -> categoryService.findById(c)
+                .orElseThrow(CategoryNotFoundException::new)).collect(Collectors.toSet()));
         
         return Optional.of(article);
     }

@@ -1,9 +1,13 @@
 package ar.edu.itba.paw;
 
+import ar.edu.itba.paw.helpers.AssertionHelper;
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
+import ar.edu.itba.paw.interfaces.service.CategoryService;
 import ar.edu.itba.paw.models.*;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import ar.edu.itba.paw.services.ArticleServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +34,8 @@ public class ArticleServiceImplTest {
     private ArticleImageDao articleImageDao;
     @Mock
     private UserDao userDao;
+    @Mock
+    private CategoryService categoryService;
 
     private User userOwner;
     private User userRenter;
@@ -61,7 +67,6 @@ public class ArticleServiceImplTest {
         this.categoriesId = categories.stream().map(Category::getId).collect(Collectors.toList());
     }
 
-    /* TODO cambiar el dao de articleCategory por un service
     @Test
     public void createSucceed() {
 
@@ -75,15 +80,11 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getOwner().getId())
         )).thenReturn(articleToCreate);
 
-        categoriesId.forEach(t -> {
-            when(articleCategoryDao.addToArticle(
-                    eq(articleToCreate.getId()),
-                    eq(t)
-            )).thenReturn(t);
+        categories.forEach(t -> {
+            when(categoryService.findById(eq(t.getId())))
+                    .thenReturn(Optional.of(t));
         });
 
-        when(articleCategoryDao.findFromArticle(articleToCreate.getId()))
-                .thenReturn(categories);
 
         // Act
         Article article = articleService.createArticle(
@@ -99,11 +100,10 @@ public class ArticleServiceImplTest {
         Assert.assertEquals(articleToCreate.getTitle(), article.getTitle());
         Assert.assertEquals(articleToCreate.getDescription(), article.getDescription());
         Assert.assertEquals(articleToCreate.getPricePerDay(), article.getPricePerDay());
-        Assert.assertEquals(categories, article.getCategories());
+        AssertionHelper.AssertCollectionEquals(categories, article.getCategories());
 
     }
 
-     */
 
     @Test(expected = RuntimeException.class)
     public void createFailArticleDaoThrowsException() {
@@ -135,13 +135,6 @@ public class ArticleServiceImplTest {
     @Test
     public void rentedArticlesSucceed() {
         // Arrange
-        // TODO: fix this test
-        //when(articleImageDao.findFromArticle(anyLong()))
-        //       .thenReturn(new ArrayList<>());
-
-        when(userDao.findById(userOwner.getId()))
-                .thenReturn(Optional.of(userOwner));
-
         when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
                 .thenReturn(articles);
 
@@ -162,21 +155,17 @@ public class ArticleServiceImplTest {
 
     @Test(expected = RuntimeException.class)
     public void rentedArticlesFailArticleDaoThrowsException() {
-
         // Arrange
         when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
                 .thenThrow(RuntimeException.class);
-
 
         // Act
         List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
 
         // Assert
-
         Assert.fail();
     }
 
-    /* TODO cambiar el dao de articleCategory por un service
     @Test
     public void editArticleSucceed() {
         // Arrange
@@ -185,27 +174,17 @@ public class ArticleServiceImplTest {
         articleToEdit.setTitle("new title");
         articleToEdit.setDescription("new description");
         articleToEdit.setPricePerDay(123F);
+
         Set<Category> categories = new HashSet<>();
         categories.add(new Category(123, "new category"));
         articleToEdit.setCategories(categories);
 
         final List<Long> newCategoriesId = articleToEdit.getCategories().stream().map(Category::getId).collect(Collectors.toList());
 
-//        when(articleDao.editArticle(
-//                eq(articleToEdit.getId()),
-//                eq(articleToEdit.getTitle()),
-//                eq(articleToEdit.getDescription()),
-//                eq(articleToEdit.getPricePerDay())
-//        )).thenReturn((int) articleToEdit.getId());
-
-        when(articleCategoryDao.addToArticle(anyLong(), anyLong())).thenReturn(0L);
-        doNothing().when(articleCategoryDao).removeFromArticle(anyLong(), anyLong());
-
-        when(articleCategoryDao.findFromArticle(eq(articleToEdit.getId())))
-                .thenReturn(new ArrayList<>(categories));
-
         when(articleDao.findById(eq(articleToEdit.getId())))
                 .thenReturn(Optional.of(articleToEdit));
+
+        categories.forEach(t -> when(categoryService.findById(eq(t.getId()))).thenReturn(Optional.of(t)));
 
         // Act
         Optional<Article> optionalArticle = articleService.editArticle(
@@ -225,24 +204,20 @@ public class ArticleServiceImplTest {
         Assert.assertEquals(articleToEdit.getPricePerDay(), article.getPricePerDay());
 
     }
-     */
 
-    @Test(expected = RuntimeException.class)
-    public void editArticleFailArticleDaoThrowsException() {
+
+    @Test(expected = ArticleNotFoundException.class)
+    public void editArticleFailArticleNotFound() {
         // Arrange
         Article articleToEdit = articles.get(0);
 
-        final List<Long> newCategoriesId = articleToEdit.getCategories().stream().map(Category::getId).collect(Collectors.toList());
+        final List<Long> newCategoriesId = Collections.singletonList(1L);
 
-//        when(articleDao.editArticle(
-//                eq(articleToEdit.getId()),
-//                eq(articleToEdit.getTitle()),
-//                eq(articleToEdit.getDescription()),
-//                eq(articleToEdit.getPricePerDay())
-//        )).thenThrow(RuntimeException.class);
+        when(articleDao.findById(eq(articleToEdit.getId())))
+                .thenThrow(ArticleNotFoundException.class);
 
         // Act
-        Optional<Article> optionalArticle = articleService.editArticle(
+        articleService.editArticle(
                 articleToEdit.getId(),
                 articleToEdit.getTitle(),
                 articleToEdit.getDescription(),
@@ -252,7 +227,32 @@ public class ArticleServiceImplTest {
 
         // Assert
         Assert.fail();
+    }
 
+    @Test(expected = CategoryNotFoundException.class)
+    public void editArticleFailCategoryNotFound() {
+        // Arrange
+        Article articleToEdit = articles.get(0);
+
+        final List<Long> newCategoriesId = Collections.singletonList(1L);
+
+        when(articleDao.findById(eq(articleToEdit.getId())))
+                .thenReturn(Optional.of(articleToEdit));
+
+        when(categoryService.findById(any()))
+                .thenThrow(CategoryNotFoundException.class);
+
+        // Act
+        articleService.editArticle(
+                articleToEdit.getId(),
+                articleToEdit.getTitle(),
+                articleToEdit.getDescription(),
+                articleToEdit.getPricePerDay(),
+                newCategoriesId
+        );
+
+        // Assert
+        Assert.fail();
     }
 
 

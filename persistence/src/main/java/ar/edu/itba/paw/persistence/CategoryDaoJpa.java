@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.CategoryDao;
 import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -24,6 +25,12 @@ public class CategoryDaoJpa implements CategoryDao {
 
     @Override
     public Optional<Category> findById(Long category) {
-        return Optional.ofNullable(em.find(Category.class, category));
+        Category result = em.find(Category.class, category);
+
+        if (result == null)
+            throw new CategoryNotFoundException();
+
+        return Optional.of(result);
+
     }
 }

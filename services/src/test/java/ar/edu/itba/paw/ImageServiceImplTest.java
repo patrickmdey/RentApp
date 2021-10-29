@@ -3,6 +3,7 @@ package ar.edu.itba.paw;
 import ar.edu.itba.paw.helpers.MockMultipartFile;
 import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.models.DBImage;
+import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import ar.edu.itba.paw.services.ImageServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -51,11 +52,11 @@ public class ImageServiceImplTest {
         Assert.assertArrayEquals(image.getBytes(), result.getImg());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = CannotCreateImageException.class)
     public void createFailImageIsEmpty() {
         // Arrange
         MultipartFile image = emptyImage;
-        "".length()
+
         // Act
         imageService.create(image);
 
