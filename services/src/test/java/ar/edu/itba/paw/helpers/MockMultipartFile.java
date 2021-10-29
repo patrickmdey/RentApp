@@ -1,4 +1,4 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.helpers;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;

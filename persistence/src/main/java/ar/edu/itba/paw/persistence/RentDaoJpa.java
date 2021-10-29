@@ -114,9 +114,10 @@ public class RentDaoJpa implements RentDao {
         if (renter == null)
             throw new UserNotFoundException();
 
-        RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
-        rentProposal.setArticle(article);
-        rentProposal.setRenter(renter);
+        try {
+            RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
+            rentProposal.setArticle(article);
+            rentProposal.setRenter(renter);
 
         try {
             em.persist(rentProposal);
