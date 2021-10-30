@@ -56,6 +56,11 @@
                            aria-controls="nav-rented" aria-selected="${user.type.isOwner?'false':'true'}">
                             <p class="my-1">
                                 <spring:message code="requests.sent"/>
+                                <c:if test="${user.acceptedRequestAmount > 0}">
+                                        <span class="badge bg-color-rentapp-red ms-1">
+                                                ${user.acceptedRequestAmount}
+                                        </span>
+                                </c:if>
                             </p>
                         </a>
                     </nav>

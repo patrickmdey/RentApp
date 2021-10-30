@@ -9,6 +9,7 @@
 <c:url value="/review/${reviewId}/edit" var="updateReview"/>
 <c:url value="/article/${article.id}" var="goBack"/>
 
+<!-- TODO Este archivo es igual al review/create. MODULARIZAR -->
 <html>
 <h:head title="title.editReview"/>
 <body class="bg-color-grey">
@@ -19,9 +20,17 @@
         <div class="form-container">
             <h3 class="h3 fw-bold"><spring:message code="article.editReview.title"/></h3>
             <hr/>
-            <div class="d-flex">
-                <h4 class="h4 me-1"><spring:message code="article.writeReview.articleName"/></h4>
-                <p class="lead"><c:out value="${article.title}"/></p>
+            <div class="row">
+                <div class="col-4">
+                    <img src="<c:url value="/image/${article.images.get(0).id}"/>" class="card-image"
+                         alt="<c:out value="${article.title}"/> - image">
+                </div>
+                <div class="col-8">
+                    <div class="d-flex">
+                        <p class="lead me-1"><spring:message code="article.writeReview.articleName"/></p>
+                        <p class="lead"><c:out value="${article.title}"/></p>
+                    </div>
+                </div>
             </div>
             <p class="lead mt-n3"><spring:message code="article.writeReview.rating"/></p>
             <div class="d-flex justify-content-center align-items-center">

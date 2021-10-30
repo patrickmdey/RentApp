@@ -14,6 +14,7 @@
         <c:forEach var="request" items="${proposals}">
             <c:set var="uInfo" value="${isReceived ? request.renter : request.article.owner}"/>
             <h:requestCard articleName="${request.article.title}"
+                           imageId="${request.article.images.get(0).id}"
                            firstName="${uInfo.firstName}"
                            lastName="${uInfo.lastName}"
                            startDate="${request.startDate}" endDate="${request.endDate}"

@@ -38,7 +38,7 @@
                                data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <span><c:out value="${loggedUser.firstName}"/></span>
                                 <c:if test="${user.pendingRequestAmount > 0}">
-                                    <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount}</span>
+                                    <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount + user.acceptedRequestAmount}</span>
                                 </c:if>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
@@ -47,7 +47,7 @@
                                         <span><i class="bi bi-inbox-fill"></i></span>
                                         <spring:message code="dropdown.requests"/>
                                         <c:if test="${user.pendingRequestAmount > 0}">
-                                            <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount}</span>
+                                            <span class="badge bg-color-rentapp-red ms-1">${user.pendingRequestAmount + user.acceptedRequestAmount}</span>
                                         </c:if>
                                     </a>
                                 </li>
