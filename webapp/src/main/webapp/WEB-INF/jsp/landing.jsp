@@ -25,11 +25,31 @@
             <c:choose>
                 <c:when test="${user != null && !user.type.isOwner}">
                     <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
+                    <c:choose>
+                        <c:when test="${user.acceptedRequestAmount > 0}">
+                            <c:choose>
+                                <c:when test="${user.acceptedRequestAmount == 1}">
+                                    <p class="lead"><spring:message code="landing.acceptedRequest.single"/></p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="lead"><spring:message code="landing.acceptedRequest.multiple"
+                                                                    arguments="${user.acceptedRequestAmount}"/></p>
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="d-grid gap-2 text-center">
+                                <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
+                                        code="landing.viewRequests"/></a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="lead"><spring:message code="landing.acceptedRequest.none"/></p>
+                        </c:otherwise>
+                    </c:choose>
                 </c:when>
                 <c:when test="${user != null && user.type.isOwner}">
                     <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
                     <c:choose>
-                        <c:when test="${user.pendingRequestAmount > 0}">
+                        <c:when test="${user.pendingRequestAmount > 0 || user.acceptedRequestsAmount > 0}">
                             <c:choose>
                                 <c:when test="${user.pendingRequestAmount == 1}">
                                     <p class="lead"><spring:message code="landing.pendingRequests.single"/></p>
@@ -37,6 +57,15 @@
                                 <c:otherwise>
                                     <p class="lead"><spring:message code="landing.pendingRequests.multiple"
                                                                     arguments="${user.pendingRequestAmount}"/></p>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${user.acceptedRequestAmount == 1}">
+                                    <p class="lead"><spring:message code="landing.acceptedRequest.single"/></p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p class="lead"><spring:message code="landing.acceptedRequest.multiple"
+                                                                    arguments="${user.acceptedRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
                             <div class="d-grid gap-2 text-center">

@@ -46,9 +46,6 @@
     </div>
 </div>
 
-<img src="<c:url value="/image/${imageId}"/>" class="card-image"
-     alt="<c:out value="${articleName}"/> image}">
-
 <div class="card card-style my-requests-card my-2">
     <a href="${goToArticle}">
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
