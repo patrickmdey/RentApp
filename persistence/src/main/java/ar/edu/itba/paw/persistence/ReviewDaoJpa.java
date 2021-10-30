@@ -10,10 +10,7 @@ import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,22 +26,20 @@ public class ReviewDaoJpa implements ReviewDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Review> getPaged(long articleId, long page) {
         StringBuilder queryBuilder = queryBuilder("id");
-        queryBuilder.append("ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
+        queryBuilder.append(" ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuilder.toString());
         query.setParameter("article_id", articleId);
         query.setParameter("limit", RESULTS_PER_PAGE);
         query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
-        List<Integer> aux = query.getResultList();
-
-        List<Long> reviewIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        @SuppressWarnings("unchecked")
+        List<Long> reviewIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
         if (reviewIds.isEmpty())
-            return new ArrayList<>();
+            return Collections.emptyList();
 
         TypedQuery<Review> reviewQuery = em.createQuery("from Review " +
                 "WHERE id IN (:reviewIds) ORDER BY createdAt DESC", Review.class);

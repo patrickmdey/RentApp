@@ -14,8 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.math.BigInteger;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +64,6 @@ public class RentDaoJpa implements RentDao {
 
 
 
-    @SuppressWarnings("unchecked")
     private List<RentProposal> getRequests(long accountId, int state, long page,
                                            Function<String, StringBuilder> queryBuilder, String userParam) {
         StringBuilder queryBuild = queryBuilder.apply("id");
@@ -77,12 +75,12 @@ public class RentDaoJpa implements RentDao {
         query.setParameter(userParam, accountId);
         query.setParameter("state", state);
 
-        List<BigInteger> aux = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Long> rentProposalIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
-        List<Long> rentProposalIds = aux.stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
 
         if(rentProposalIds.isEmpty())
-            return new ArrayList<>();
+            return Collections.emptyList();
 
         TypedQuery<RentProposal> rentProposalQuery = em.createQuery("FROM RentProposal WHERE" +
                 " id IN (:rentProposalIds) ORDER BY startDate DESC, endDate DESC", RentProposal.class);
