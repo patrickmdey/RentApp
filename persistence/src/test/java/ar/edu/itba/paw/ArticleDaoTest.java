@@ -208,7 +208,6 @@ public class ArticleDaoTest {
         // Arrange
         final long articleId = 2;
         final Long timesRented = 1L;
-// TODO: fix
 
         // Act
         Article article = articleDao.findById(articleId).get();
