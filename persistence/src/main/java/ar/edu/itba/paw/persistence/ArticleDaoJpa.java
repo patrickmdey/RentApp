@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,26 +22,25 @@ public class ArticleDaoJpa implements ArticleDao {
     private EntityManager em;
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Article> rentedArticles(long renterId, long page) {
-        Query query = em.createNativeQuery("SELECT id FROM article AS a WHERE id IN (" +
-                "SELECT article_id FROM rent_proposal WHERE renter_id = :renter_id AND state = :state ORDER BY start_date)" +
-                "LIMIT :limit OFFSET :offset");
+        OrderOptions orderOptions = OrderOptions.HIGHER_ARTICLE;
+        String idsStringQuery = "SELECT id FROM article AS a WHERE id IN " + "(SELECT article_id FROM rent_proposal " +
+                "WHERE renter_id = :renter_id AND state = :state) ORDER BY " +
+                orderOptions.getNativeColumn() + " " + orderOptions.getOrder() + " LIMIT :limit OFFSET :offset";
+
+        Query query = em.createNativeQuery(idsStringQuery);
 
         query.setParameter("renter_id", renterId);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
         query.setParameter("limit", RESULTS_PER_PAGE);
         query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
-        List<BigInteger> aux = query.getResultList();
-
-        List<Long> rentedArticlesIds = aux.stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
-
+        @SuppressWarnings("unchecked")
+        List<Long> rentedArticlesIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
         if (rentedArticlesIds.isEmpty())
-            return new ArrayList<>();
+            return Collections.emptyList();
 
-        TypedQuery<Article> rentedArticleQuery = em.createQuery("FROM Article WHERE" +
-                " id IN (:rentedArticleIds)", Article.class);
+        TypedQuery<Article> rentedArticleQuery = em.createQuery("FROM Article WHERE id IN (:rentedArticleIds) ORDER BY " + orderOptions.getJpaColumn() + " " + orderOptions.getOrder(), Article.class);
 
         rentedArticleQuery.setParameter("rentedArticleIds", rentedArticlesIds);
 
@@ -138,10 +136,10 @@ public class ArticleDaoJpa implements ArticleDao {
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         @SuppressWarnings("unchecked")
-        List<Long> articleIds = ((List<BigInteger>) idQueries.getResultList()).stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
+        List<Long> articleIds = ((List<Integer>) idQueries.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
 
         if(articleIds.isEmpty())
-            return new ArrayList<>();
+            return Collections.emptyList();
 
         String hqlQuery = "SELECT a, " + orderBy.getJpaColumn() + " AS order_option " +
                 "from Article AS a WHERE a.id IN (:articleIds) ORDER BY order_option " + orderBy.getOrder();
@@ -185,9 +183,7 @@ public class ArticleDaoJpa implements ArticleDao {
 
     @Override
     public List<Locations> getUsedLocations() {
-        TypedQuery<Locations> query = em.createQuery("SELECT DISTINCT a.owner.location FROM Article AS a"
-                , Locations.class);
-
+        TypedQuery<Locations> query = em.createQuery("SELECT DISTINCT a.owner.location FROM Article AS a", Locations.class);
         return query.getResultList();
     }
 }
