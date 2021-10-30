@@ -32,17 +32,17 @@ public class ArticleDaoJpa implements ArticleDao {
         query.setParameter("renter_id", renterId);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
         query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", page * RESULTS_PER_PAGE);
+        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
-        List<Integer> aux = query.getResultList();
+        List<BigInteger> aux = query.getResultList();
 
-        List<Long> rentedArticlesIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> rentedArticlesIds = aux.stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
 
         if (rentedArticlesIds.isEmpty())
             return new ArrayList<>();
 
         TypedQuery<Article> rentedArticleQuery = em.createQuery("FROM Article WHERE" +
-                "id IN (:rentedArticleIds) ORDER BY start_date", Article.class);
+                " id IN (:rentedArticleIds)", Article.class);
 
         rentedArticleQuery.setParameter("rentedArticleIds", rentedArticlesIds);
 
@@ -138,7 +138,7 @@ public class ArticleDaoJpa implements ArticleDao {
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         @SuppressWarnings("unchecked")
-        List<Long> articleIds = ((List<Integer>) idQueries.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> articleIds = ((List<BigInteger>) idQueries.getResultList()).stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
 
         if(articleIds.isEmpty())
             return new ArrayList<>();

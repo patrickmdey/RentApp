@@ -10,7 +10,11 @@ import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,9 +77,9 @@ public class RentDaoJpa implements RentDao {
         query.setParameter(userParam, accountId);
         query.setParameter("state", state);
 
-        List<Integer> aux = query.getResultList();
+        List<BigInteger> aux = query.getResultList();
 
-        List<Long> rentProposalIds = aux.stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> rentProposalIds = aux.stream().mapToLong(BigInteger::longValue).boxed().collect(Collectors.toList());
 
         if(rentProposalIds.isEmpty())
             return new ArrayList<>();
@@ -107,7 +111,7 @@ public class RentDaoJpa implements RentDao {
     public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
 
         Article article = em.find(Article.class, articleId);
-        if(article == null)
+        if (article == null)
             throw new ArticleNotFoundException();
 
         User renter = em.find(User.class, renterId);
@@ -121,7 +125,7 @@ public class RentDaoJpa implements RentDao {
         try {
             em.persist(rentProposal);
             return rentProposal;
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new CannotCreateProposalException();
         }
     }

@@ -2,43 +2,34 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Category;
+import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
-import ar.edu.itba.paw.models.exceptions.CannotEditArticleException;
-import org.junit.After;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Sql("classpath:populateArticleTest.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class ArticleDaoJdbcTest {
+@Transactional
+@Rollback(value = true)
+public class ArticleDaoTest {
     @Autowired
     private ArticleDao articleDao;
-    @Autowired
-    private DataSource dataSource;
-
-    @After
-    public void cleanUp(){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,
-                "article",
-                "category",
-                "article_category",
-                "account"
-        );
-    }
 
     @Test
     public void filterSucceedByName() {
@@ -52,64 +43,64 @@ public class ArticleDaoJdbcTest {
         final Long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name,category,orderBy,idUser,location,page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(Article::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
     }
 
     @Test
-    public void filterSucceedByCategory() { // TODO: Change expected order to actual ordered array (In whole test)
+    public void filterSucceedByCategory() {
         // Arrange
-        final long[] expectedIds = {1,4};
+        final long[] expectedIds = {4, 1};
         final String name = null;
         final Long category = 1L;
-        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
+        final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = null;
         final Long location = null;
         final Long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name,category,orderBy,idUser,location,page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(Article::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
     }
 
     @Test
     public void filterSucceedByUser() {
         // Arrange
-        final long[] expectedIds = {1,2,3,4};
+        final long[] expectedIds = {4, 1, 3, 2};
         final String name = null;
         final Long category = null;
-        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
+        final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = 1L;
         final Long location = null;
         final Long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name,category,orderBy,idUser,location,page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(Article::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
     }
 
     @Test
     public void filterSucceedByLocation() {
         // Arrange
-        final long[] expectedIds = {1,2,3,4};
+        final long[] expectedIds = {4, 1, 3, 2};
         final String name = null;
         final Long category = null;
-        final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
+        final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = null;
         final Long location = 20L;
         final Long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name,category,orderBy,idUser,location,page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(Article::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
     }
 
     @Test
@@ -157,7 +148,7 @@ public class ArticleDaoJdbcTest {
         final long idOwner = 1;
 
         // Act
-        Article result = articleDao.createArticle(title,description,pricePerDay,idOwner);
+        Article result = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         // Assert
 
@@ -176,13 +167,13 @@ public class ArticleDaoJdbcTest {
         final long idOwner = 1;
 
         // Act
-        articleDao.createArticle(title,description,pricePerDay,idOwner);
+        articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         // Assert
         Assert.fail();
     }
 
-    @Test(expected = CannotCreateArticleException.class)
+    @Test(expected = UserNotFoundException.class)
     public void createArticleFailOwnerNotFound() {
         // Arrange
         final String title = "Moto";
@@ -191,57 +182,10 @@ public class ArticleDaoJdbcTest {
         final long idOwner = 99999;
 
         // Act
-        articleDao.createArticle(title,description,pricePerDay,idOwner);
+        articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         // Assert
         Assert.fail();
-    }
-
-    @Test
-    public void editArticleSucceed() {
-        // Arrange
-        final long idArticle = 1;
-        final String title = "Moto nueva";
-        final String description = "super moto para andar";
-        final Float pricePerDay = 500F;
-        final int updatedRows = 1;
-
-        // Act
-        //int result = articleDao.editArticle(idArticle,title,description,pricePerDay);
-
-        // Assert
-        //Assert.assertEquals(updatedRows,result);
-    }
-
-    @Test(expected = CannotEditArticleException.class)
-    public void editArticleFailNullValues() {
-        // Arrange
-        final long idArticle = 1;
-        final String title = null;
-        final String description = null;
-        final Float pricePerDay = null;
-
-        // Act
-        //articleDao.editArticle(idArticle,title,description,pricePerDay);
-
-        // Assert
-        Assert.fail();
-    }
-
-    @Test
-    public void editArticleFailArticleNotFound() {
-        // Arrange
-        final long idArticle = 9999;
-        final String title = "Moto nueva";
-        final String description = "super moto para andar";
-        final Float pricePerDay = 500F;
-        final int updatedRows = 0;
-
-        // Act
-        //int result = articleDao.editArticle(idArticle,title,description,pricePerDay);
-
-        // Assert
-        //Assert.assertEquals(updatedRows,result);
     }
 
     @Test
@@ -249,13 +193,13 @@ public class ArticleDaoJdbcTest {
         // Arrange
         final long idRenter = 2;
         final long page = 1;
-        final long[] expectedIds= {2,3};
+        final long[] expectedIds = {2, 3};
 
         // Act
-        List<Article> result = articleDao.rentedArticles(idRenter,page);
+        List<Article> result = articleDao.rentedArticles(idRenter, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(Article::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
 
     }
 
@@ -265,29 +209,71 @@ public class ArticleDaoJdbcTest {
         final long articleId = 2;
         final Long timesRented = 1L;
 // TODO: fix
-//
-//        // Act
-//        Long result = articleDao.timesRented(articleId);
-//
-//        // Assert
-//        Assert.assertEquals(timesRented, result);
+
+        // Act
+        Article article = articleDao.findById(articleId).get();
+        Long result = article.getTimesRented();
+
+        // Assert
+        Assert.assertEquals(timesRented, result);
     }
 
     @Test
-    public void timesRentedFailArticleNotFound() {
+    public void ratingSucceed() {
         // Arrange
-        final long articleId = 999;
-        final Long timesRented = 0L;
+        final long idArticle = 2;
+        final int expectedRating = 3;
 
+        // Act
+        Article article = articleDao.findById(idArticle).get();
+        int result = article.getRating();
 
-        // TODO: fix
-//        // Act
-//        Long result = articleDao.timesRented(articleId);
-//
-//        // Assert
-//        Assert.assertEquals(timesRented, result);
+        // Assert
+        Assert.assertEquals(expectedRating, result);
     }
 
+    @Test
+    public void timesReviewedSucceed() {
+        // Arrange
+        final long idArticle = 2;
+        final long expectedTimesReviewed = 2;
+
+        // Act
+        Article article = articleDao.findById(idArticle).get();
+        long result = article.getTimesReviewed();
+
+        // Assert
+        Assert.assertEquals(expectedTimesReviewed, result);
+    }
+
+    @Test
+    public void categoriesSucceed() {
+        // Arrange
+        final long idArticle = 2;
+        final Set<Category> expectedCategories = new HashSet<Category>();
+        expectedCategories.add(new Category(3, "Category.Cars"));
+
+        // Act
+        Article article = articleDao.findById(idArticle).get();
+        Set<Category> result = article.getCategories();
+
+        // Assert
+        Assert.assertEquals(expectedCategories, result);
+    }
+
+    @Test
+    public void imagesSucceed() {
+        // Arrange
+        final long idArticle = 2;
+        final int expectedImagesCount = 1;
+
+        // Act
+        Article article = articleDao.findById(idArticle).get();
+        List<DBImage> result = article.getImages();
+
+        // Assert
+        Assert.assertEquals(expectedImagesCount, result.size());
+    }
 
 }
 

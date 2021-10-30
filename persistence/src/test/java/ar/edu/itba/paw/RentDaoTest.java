@@ -3,19 +3,18 @@ package ar.edu.itba.paw;
 import ar.edu.itba.paw.interfaces.dao.RentDao;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
-import ar.edu.itba.paw.models.exceptions.CannotCreateProposalException;
-import org.junit.After;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,22 +24,12 @@ import java.util.Optional;
 @Sql("classpath:populateRentTest.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-public class RentDaoJdbcTest {
+@Transactional
+@Rollback(value = true)
+public class RentDaoTest {
     @Autowired
     private RentDao rentDao;
-    @Autowired
-    private DataSource dataSource;
 
-    @After
-    public void cleanUp(){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate,
-                "article",
-                "category",
-                "article_category",
-                "account"
-        );
-    }
 
     @Test
     public void ownerRequestsSucceed() {
@@ -48,7 +37,7 @@ public class RentDaoJdbcTest {
         final long idOwner = 1;
         final int state = RentState.ACCEPTED.ordinal();
         final long page = 1;
-        final long[] expectedIds  = {2,3};
+        final long[] expectedIds = {2, 3};
 
         // Act
         List<RentProposal> result = rentDao.ownerRequests(idOwner,state,page);
@@ -114,38 +103,19 @@ public class RentDaoJdbcTest {
         final long renterId = 1;
 
         // Act
-        RentProposal result = rentDao.create(comment, state, startDate,endDate, articleId,renterId);
+        RentProposal result = rentDao.create(comment, state, startDate, endDate, articleId, renterId);
 
         // Assert
 
-        Assert.assertEquals(comment,result.getMessage());
-        Assert.assertEquals(state,result.getState());
-        Assert.assertEquals(startDate,result.getStartDate());
-        Assert.assertEquals(endDate,result.getEndDate());
-        Assert.assertEquals(articleId,result.getArticle().getId());
-        Assert.assertEquals(renterId,result.getRenter().getId());
+        Assert.assertEquals(comment, result.getMessage());
+        Assert.assertEquals(state, result.getState());
+        Assert.assertEquals(startDate, result.getStartDate());
+        Assert.assertEquals(endDate, result.getEndDate());
+        Assert.assertEquals(articleId, result.getArticle().getId());
+        Assert.assertEquals(renterId, result.getRenter().getId());
     }
 
-    @Test(expected = CannotCreateProposalException.class)
-    public void createFailProposalExists() throws ParseException {
-        // Assert
-        final String comment = "";
-        final Integer state = 1;
-        final Date startDate = new SimpleDateFormat("yyyy-MM-dd").
-                parse("2021-10-05");
-        final Date endDate = new SimpleDateFormat("yyyy-MM-dd")
-                .parse("2021-11-01");
-        final long articleId = 1L;
-        final long renterId = 2;
-
-        // Act
-        rentDao.create(comment, state, startDate,endDate, articleId,renterId);
-
-        // Assert
-        Assert.fail();
-    }
-
-    @Test(expected = CannotCreateProposalException.class)
+    @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() throws ParseException {
         // Assert
         final String comment = "";
@@ -164,7 +134,7 @@ public class RentDaoJdbcTest {
         Assert.fail();
     }
 
-    @Test(expected = CannotCreateProposalException.class)
+    @Test(expected = UserNotFoundException.class)
     public void createFailUserNotFound() throws ParseException {
         // Assert
         final String comment = "";

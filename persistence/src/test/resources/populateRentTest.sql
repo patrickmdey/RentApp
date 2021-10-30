@@ -1,18 +1,21 @@
+-- load images
+INSERT INTO picture (id, data)
+values (1,''),(2,''),(3,''),(4,''),(5,''),(6,''),(7,''),(8,''),(9,'');
 
 -- users
 INSERT INTO account (id,first_name,last_name,email,location,password,picture,type)
-values  (1,'Lucas','owner','lucas@mail.com',20,'password hash',null,0),
-        (2,'Carlos','renter','carlos@mail.com',20,'password hash',null,1);
+values  (1,'Lucas','owner','lucas@mail.com',20,'password hash',1,0),
+        (2,'Carlos','renter','carlos@mail.com',20,'password hash',2,1);
 
 -- category
-INSERT INTO category (id,description)
-values (1,'Category.Technology'),
-       (2,'Category.Camping'),
-       (3,'Category.Cars'),
-       (4,'Category.Kitchen'),
-       (5,'Category.Tools'),
-       (6,'Category.travel'),
-       (7,'Category.Sailing');
+INSERT INTO category (id,description, picture)
+values (1,'Category.Technology',3),
+       (2,'Category.Camping',4),
+       (3,'Category.Cars',5),
+       (4,'Category.Kitchen',6),
+       (5,'Category.Tools',7),
+       (6,'Category.travel',8),
+       (7,'Category.Sailing',9);
 
 -- article
 INSERT INTO article (id,title,description,price_per_day,owner_id)
