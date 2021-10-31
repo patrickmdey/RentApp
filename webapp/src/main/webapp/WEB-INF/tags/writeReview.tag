@@ -1,21 +1,29 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="control" tagdir="/WEB-INF/tags/controls" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@attribute name="article" required="true" type="ar.edu.itba.paw.models.Article" %>
+<%@attribute name="rating" required="true" type="java.lang.Integer" %>
+<%@attribute name="reviewId" required="false" %>
+<%@attribute name="isEdit" required="true" type="java.lang.Boolean" %>
 
-<c:url value="/review/${articleId}/create" var="publishReview"/>
-<c:url value="/article/${articleId}" var="goBack"/>
+<!-- TODO No funciona el pasaje de rating. Stackoverflow dice que es algo de hibernate.
+        Dejamos review/create y review/edit como esta o tratamos de usar este .tag? -->
 
-<html>
-<h:head title="title.createReview"/>
-<body class="bg-color-grey">
-<h:navbar loggedUser="${user}"/>
-<div class="main-container min-height">
-    <div class="card shadow card-style create-card mx-3">
-        <form:form modelAttribute="reviewForm" method="post" action="${publishReview}">
+<c:choose>
+    <c:when test="${isEdit}">
+        <c:url value="/review/${reviewId}/edit" var="confirmReview"/>
+    </c:when>
+    <c:otherwise>
+        <c:url value="/review/${article.id}/create" var="confirmReview"/>
+    </c:otherwise>
+</c:choose>
+
+<c:url value="/article/${article.id}" var="goBack"/>
+
+<div class="card shadow card-style create-card mx-3">
+    <form:form modelAttribute="reviewForm" method="post" action="${confirmReview}">
         <div class="form-container">
             <h3 class="h3 fw-bold my-1"><spring:message code="article.createReview.title"/></h3>
             <hr/>
@@ -60,15 +68,5 @@
                 </a>
             </div>
         </div>
-        </form:form>
-    </div>
+    </form:form>
 </div>
-<h:footer/>
-</body>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-<script src="<c:url value="/resources/js/main.js" />" defer></script>
-
-</html>
