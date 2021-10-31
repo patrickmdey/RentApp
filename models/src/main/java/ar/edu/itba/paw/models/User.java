@@ -42,6 +42,10 @@ public class User {
     @Formula("(SELECT COUNT(*) FROM rent_proposal AS r  WHERE r.state = 1 AND r.renter_id = id)")
     private Long acceptedRequestAmount = 0L;
 
+    //TODO Estaria bueno que solo te muestre las aceptadas dentro de una semana o asi porque sino va a ir acumulando
+    @Formula("(SELECT COUNT(*) FROM rent_proposal AS r  WHERE r.state = 2 AND r.renter_id = id)")
+    private Long declinedRequestAmount = 0L;
+
 
     /* package */ User() {
         // Just for Hibernate
@@ -136,6 +140,14 @@ public class User {
 
     public void setAcceptedRequestAmount(Long acceptedRequestAmount) {
         this.acceptedRequestAmount = acceptedRequestAmount;
+    }
+
+    public Long getDeclinedRequestAmount() {
+        return declinedRequestAmount;
+    }
+
+    public void setDeclinedRequestAmount(Long declinedRequestAmount) {
+        this.declinedRequestAmount = declinedRequestAmount;
     }
 
     @Override
