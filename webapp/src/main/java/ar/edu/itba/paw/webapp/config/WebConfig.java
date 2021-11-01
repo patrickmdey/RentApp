@@ -24,6 +24,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -81,7 +82,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
 
-        // Si ponen esto en prod, hay tabla!!!
+        // TODO: Si ponen esto en prod, hay tabla!!!
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("format_sql", "true");
 

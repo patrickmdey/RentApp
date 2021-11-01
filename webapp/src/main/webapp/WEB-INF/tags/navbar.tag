@@ -27,10 +27,12 @@
         <div class="collapse navbar-collapse mt-2" id="navbarNavAltMarkup">
 
             <div class="navbar-nav ms-auto">
-                <a class="nav-link active h6" href="${createArticle}"><spring:message
-                        code="navbar.publishArticle"/></a>
                 <a class="nav-link active h6" aria-current="page" href="${marketplace}"><spring:message
                         code="navbar.marketplace"/></a>
+                <c:if test="${ loggedUser == null || user.type.isOwner}">
+                    <a class="nav-link active h6" href="${createArticle}"><spring:message
+                            code="navbar.publishArticle"/></a>
+                </c:if>
                 <c:choose>
                     <c:when test="${loggedUser != null}">
                         <div class="dropdown">

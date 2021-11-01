@@ -47,6 +47,7 @@ public class ExceptionHandlerAdvice {
             MissingServletRequestParameterException.class, BindException.class,
             HttpMessageNotReadableException.class, MethodArgumentNotValidException.class,
             org.springframework.validation.BindException.class})
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ModelAndView badRequest() {
         ModelAndView mav = new ModelAndView("error/400");
         mav.addObject("user", loggedUserAdvice.loggedUser());
@@ -54,6 +55,7 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ModelAndView notFoundE(Exception e) {
         ModelAndView mav = new ModelAndView("error/404");
         mav.addObject("user", loggedUserAdvice.loggedUser());
@@ -63,6 +65,7 @@ public class ExceptionHandlerAdvice {
 
 
     @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView defaultError(Exception exception) {
         ModelAndView mav = new ModelAndView("error/500");
         mav.addObject("user", loggedUserAdvice.loggedUser());
