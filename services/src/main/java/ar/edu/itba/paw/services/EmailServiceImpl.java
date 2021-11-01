@@ -83,11 +83,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendNewUserMail(User newUser, String webPageUrl) {
+    public void sendNewUserMail(User newUser) {
         Context context = new Context();
         context.setVariable("name", newUser.getFirstName());
         context.setVariable("email", newUser.getEmail());
-        context.setVariable("callbackUrl", webPageUrl + "/user/login");
+        context.setVariable("callbackUrl", BASE_URL + "/user/login");
         String htmlBody = thymeleafTemplateEngine.process("new-user.html", context);
         sendHtmlMessage(newUser.getEmail(),
                 emailMessageSource.getMessage("email.newUser.subject", null, LocaleContextHolder.getLocale())
