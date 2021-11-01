@@ -9,6 +9,7 @@
 <c:url value="/review/${reviewId}/edit" var="updateReview"/>
 <c:url value="/article/${article.id}" var="goBack"/>
 
+<!-- TODO Este archivo es igual al review/create. MODULARIZAR -->
 <html>
 <h:head title="title.editReview"/>
 <body class="bg-color-grey">
@@ -16,42 +17,52 @@
 <div class="main-container min-height">
     <div class="card shadow card-style create-card mx-3">
         <form:form modelAttribute="reviewForm" method="post" action="${updateReview}">
-        <div class="form-container">
-            <h3 class="h3 fw-bold"><spring:message code="article.editReview.title"/></h3>
-            <hr/>
-            <div class="d-flex">
-                <h4 class="h4 me-1"><spring:message code="article.writeReview.articleName"/></h4>
-                <p class="lead"><c:out value="${article.title}"/></p>
-            </div>
-            <p class="lead mt-n3"><spring:message code="article.writeReview.rating"/></p>
-            <div class="d-flex justify-content-center align-items-center">
-                <c:forEach var="rate" items="${rating}">
-                    <div class="mx-2">
-                        <form:radiobutton path="rating" value="${rate}"/>
-                        <c:out value="${rate}"/>
+            <div class="form-container">
+                <h3 class="h3 fw-bold my-1"><spring:message code="article.editReview.title"/></h3>
+                <hr/>
+                <div class="row">
+                    <div class="col-4">
+                        <img src="<c:url value="/image/${article.images.get(0).id}"/>" class="card-image"
+                             alt="<c:out value="${article.title}"/> - image">
                     </div>
-                </c:forEach>
-                <form:errors path="rating"/>
-            </div>
+                    <div class="col-8">
+                        <div class="d-flex">
+                            <p class="lead fw-bold me-1"><spring:message code="article.writeReview.articleName"/></p>
+                            <p class="lead fw-bold"><c:out value="${article.title}"/></p>
+                        </div>
+                        <div class="justify-content-center mt-3">
+                            <p class="lead fw-bold mt-n3"><spring:message code="article.writeReview.rating"/></p>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <c:forEach var="rate" items="${rating}">
+                                    <div class="mx-2">
+                                        <form:radiobutton path="rating" value="${rate}"/>
+                                        <c:out value="${rate}"/>
+                                    </div>
+                                </c:forEach>
+                                <form:errors path="rating"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <form:label path="message"><spring:message code="article.review.review"/></form:label>
-                <spring:message code="placeholder.review.message" var="placeholder"/>
-                <form:textarea path="message" type="text" placeholder="${placeholder}"
-                               class="form-control form-control-custom"/>
-                <form:errors path="message" element="p" cssClass="error"/>
+                <div class="form-group">
+                    <form:label path="message"><spring:message code="article.review.review"/></form:label>
+                    <spring:message code="placeholder.review.message" var="placeholder"/>
+                    <form:textarea path="message" type="text" placeholder="${placeholder}"
+                                   class="form-control form-control-custom"/>
+                    <form:errors path="message" element="p" cssClass="error"/>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="rounded btn bg-color-action color-grey me-1">
+                        <spring:message code="account.form.publishButton"/>
+                    </button>
+                    <a href="${goBack}" class="rounded btn btn-link color-danger">
+                        <spring:message code="account.form.cancelButton"/>
+                    </a>
+                </div>
             </div>
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="rounded btn bg-color-action color-grey me-1">
-                    <spring:message code="account.form.publishButton"/>
-                </button>
-                <a href="${goBack}" class="rounded btn btn-link color-danger">
-                    <spring:message code="account.form.cancelButton"/>
-                </a>
-            </div>
-        </div>
+        </form:form>
     </div>
-    </form:form>
 </div>
 <h:footer/>
 </body>

@@ -13,6 +13,7 @@
 <%@ attribute name="state" required="true" %>
 <%@ attribute name="userId" required="true" %>
 <%@ attribute name="email" required="true" %>
+<%@ attribute name="imageId" required="true" %>
 <%@ attribute name="isReceived" type="java.lang.Boolean" required="true" %>
 
 
@@ -50,26 +51,34 @@
         <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
     </a>
     <hr>
-    <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestContact"
-                                         arguments="${firstName}, ${lastName}"/></p>
-    <div class="row justify-content-start">
-        <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.startDate"
-                                                                 arguments="${startDate}"/></p>
-        <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.endDate"
-                                                                 arguments="${endDate}"/></p>
-    </div>
-    <c:if test="${state == 1}">
-        <div class="d-flex">
-            <p class="lead"><spring:message code="footer.contact"/></p>
-            <a href="mailto:${email}" class="lead ms-1">
-                <c:out value="${email}"/>
-            </a>
+    <div class="row">
+        <div class="col-3">
+            <img src="<c:url value="/image/${imageId}"/>" class="card-image"
+                 alt="<c:out value="${articleName}"/> - image">
         </div>
-    </c:if>
-    <h4 class="h4">
-        <spring:message code="myAccount.ownerRequests.message"/>
-    </h4>
-    <p><c:out value="${message}"/></p>
+        <div class="col-9">
+            <p class="lead mb-2"><spring:message code="myAccount.ownerRequests.requestContact"
+                                                 arguments="${firstName}, ${lastName}"/></p>
+            <div class="row justify-content-start">
+                <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.startDate"
+                                                                         arguments="${startDate}"/></p>
+                <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.endDate"
+                                                                         arguments="${endDate}"/></p>
+            </div>
+            <c:if test="${state == 1}">
+                <div class="d-flex">
+                    <p class="lead"><spring:message code="footer.contact"/></p>
+                    <a href="mailto:${email}" class="lead ms-1">
+                        <c:out value="${email}"/>
+                    </a>
+                </div>
+            </c:if>
+            <h4 class="h4">
+                <spring:message code="myAccount.ownerRequests.message"/>
+            </h4>
+            <p><c:out value="${message}"/></p>
+        </div>
+    </div>
     <c:if test="${isReceived && state == 0}">
         <div class="d-flex justify-content-end align-items-center">
             <form:form method="post" action="${acceptRequest}">
