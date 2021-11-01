@@ -15,11 +15,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import java.time.LocalDate;
 
 @Repository
 public class RentDaoJpa implements RentDao {
@@ -106,7 +107,7 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId) {
+    public RentProposal create(String comment, Integer approved, LocalDate startDate, LocalDate endDate, Long articleId, long renterId) {
 
         Article article = em.find(Article.class, articleId);
         if (article == null)
@@ -144,7 +145,7 @@ public class RentDaoJpa implements RentDao {
 
 
     @Override
-    public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
+    public Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
         final TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM RentProposal as r " +
                 "WHERE r.renter.id = :renter AND r.article.id = :article " +
                         "AND r.startDate = :startDate AND r.endDate = :endDate", Long.class);

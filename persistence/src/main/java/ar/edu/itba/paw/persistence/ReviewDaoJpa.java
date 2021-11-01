@@ -10,6 +10,7 @@ import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,7 +81,7 @@ public class ReviewDaoJpa implements ReviewDao {
         if (renter == null)
             throw new UserNotFoundException();
 
-        Review review = new Review(rating, message, new Date(System.currentTimeMillis()));
+        Review review = new Review(rating, message, LocalDate.now());
         review.setArticle(article);
         review.setRenter(renter);
 

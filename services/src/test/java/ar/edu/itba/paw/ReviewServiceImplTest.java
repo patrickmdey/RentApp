@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
@@ -45,7 +45,7 @@ public class ReviewServiceImplTest {
         this.review = new Review(
                 786,
                 "Good product",
-                new Date(System.currentTimeMillis())
+                LocalDate.now()
         );
         this.review.setArticle(this.article);
         this.review.setRenter(this.userRenter);

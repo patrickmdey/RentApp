@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,11 +25,12 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-@Rollback(value = true)
+@Rollback()
 public class RentDaoTest {
     @Autowired
     private RentDao rentDao;
 
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Test
     public void ownerRequestsSucceed() {
@@ -95,10 +96,8 @@ public class RentDaoTest {
         // Assert
         final String comment = "";
         final Integer state = 1;
-        final Date startDate = new SimpleDateFormat("yyyy-MM-dd").
-                parse("2021-11-15");
-        final Date endDate = new SimpleDateFormat("yyyy-MM-dd")
-                .parse("2021-11-15");
+        final LocalDate startDate = LocalDate.parse("2021-11-15", DATE_FORMAT);
+        final LocalDate endDate = LocalDate.parse("2021-11-16", DATE_FORMAT);
         final long articleId = 1L;
         final long renterId = 1;
 
@@ -120,10 +119,9 @@ public class RentDaoTest {
         // Assert
         final String comment = "";
         final Integer state = 1;
-        final Date startDate = new SimpleDateFormat("yyyy-MM-dd").
-                parse("2021-10-05");
-        final Date endDate = new SimpleDateFormat("yyyy-MM-dd")
-                .parse("2021-11-01");
+
+        final LocalDate startDate = LocalDate.parse("2021-10-05", DATE_FORMAT);
+        final LocalDate endDate = LocalDate.parse("2021-11-01", DATE_FORMAT);
         final long articleId = 999;
         final long renterId = 1;
 
@@ -139,10 +137,8 @@ public class RentDaoTest {
         // Assert
         final String comment = "";
         final Integer state = 1;
-        final Date startDate = new SimpleDateFormat("yyyy-MM-dd").
-                parse("2021-10-05");
-        final Date endDate = new SimpleDateFormat("yyyy-MM-dd")
-                .parse("2021-11-01");
+        final LocalDate startDate = LocalDate.parse("2021-10-05", DATE_FORMAT);
+        final LocalDate endDate = LocalDate.parse("2021-11-01", DATE_FORMAT);
         final long articleId = 2;
         final long renterId = 9999;
 

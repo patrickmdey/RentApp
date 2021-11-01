@@ -1,13 +1,14 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GreaterDateValidator implements ConstraintValidator<GreaterDate, Object> {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private String baseField;
     private String matchField;
@@ -22,10 +23,10 @@ public class GreaterDateValidator implements ConstraintValidator<GreaterDate, Ob
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         boolean toReturn = false;
         try {
-            Date first = getFieldValue(o, baseField);
-            Date second = getFieldValue(o, matchField);
+            LocalDate first = getFieldValue(o, baseField);
+            LocalDate second = getFieldValue(o, matchField);
 
-            toReturn = first.equals(second) || second.after(first);
+            toReturn = first.equals(second) || second.isAfter(first);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,11 +38,11 @@ public class GreaterDateValidator implements ConstraintValidator<GreaterDate, Ob
         return toReturn;
     }
 
-    private Date getFieldValue(Object object, String fieldName) throws Exception {
+    private LocalDate getFieldValue(Object object, String fieldName) throws Exception {
         Class<?> clazz = object.getClass();
         Field dateField = clazz.getDeclaredField(fieldName);
         dateField.setAccessible(true);
-        return DATE_FORMAT.parse((String) dateField.get(object));
+        return LocalDate.parse((String) dateField.get(object), DATE_FORMAT);
     }
 
 }

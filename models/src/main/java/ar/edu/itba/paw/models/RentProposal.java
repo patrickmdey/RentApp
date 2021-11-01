@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "rent_proposal", uniqueConstraints = @UniqueConstraint(columnNames = {"start_date", "end_date", "article_id", "renter_id"}))
@@ -19,10 +19,10 @@ public class RentProposal {
     private Integer state;
 
     @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Date endDate;
+    private LocalDate endDate;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "renter_id", referencedColumnName = "id")
@@ -36,12 +36,12 @@ public class RentProposal {
 
     }
 
-    public RentProposal(long id, String message, Integer state, Date startDate, Date endDate) {
+    public RentProposal(long id, String message, Integer state, LocalDate startDate, LocalDate endDate) {
         this(message, state, startDate, endDate);
         this.id = id;
     }
 
-    public RentProposal(String message, Integer state, Date startDate, Date endDate) {
+    public RentProposal(String message, Integer state, LocalDate startDate, LocalDate endDate) {
         this.message = message;
         this.state = state;
         this.startDate = startDate;
@@ -68,19 +68,19 @@ public class RentProposal {
         this.state = state;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

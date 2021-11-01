@@ -5,8 +5,8 @@
 <%@ attribute name="articleName" required="true" %>
 <%@ attribute name="firstName" required="true" %>
 <%@ attribute name="lastName" required="true" %>
-<%@ attribute name="startDate" required="true" type="java.util.Date" %>
-<%@ attribute name="endDate" required="true" type="java.util.Date" %>
+<%@ attribute name="startDate" required="true" type="java.time.LocalDate" %>
+<%@ attribute name="endDate" required="true" type="java.time.LocalDate" %>
 <%@ attribute name="message" required="true" %>
 <%@ attribute name="id" required="true" %>
 <%@ attribute name="articleId" required="true" %>
@@ -54,9 +54,9 @@
                                          arguments="${firstName}, ${lastName}"/></p>
     <div class="row justify-content-start">
         <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.startDate"
-                                                                 arguments="${startDate.toLocaleString()}"/></p>
+                                                                 arguments="${startDate}"/></p>
         <p class="lead col-lg-6 col-md-6 col-12"><spring:message code="myAccount.ownerRequests.endDate"
-                                                                 arguments="${endDate.toLocaleString()}"/></p>
+                                                                 arguments="${endDate}"/></p>
     </div>
     <c:if test="${state == 1}">
         <div class="d-flex">

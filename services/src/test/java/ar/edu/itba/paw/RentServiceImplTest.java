@@ -16,6 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.mockito.Mockito.*;
 
@@ -30,6 +32,7 @@ public class RentServiceImplTest {
     @Mock
     private EmailService emailService;
 
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Before
     public void setUp() throws ParseException {
@@ -44,8 +47,8 @@ public class RentServiceImplTest {
                 565,
                 "I want to rent your bike",
                 RentState.PENDING.ordinal(),
-                new SimpleDateFormat("yyyy-MM-dd").parse("2021-11-15"),
-                new SimpleDateFormat("yyyy-MM-dd").parse("2021-12-15")
+                LocalDate.parse("2021-11-15", DATE_FORMAT),
+                LocalDate.parse("2021-12-15", DATE_FORMAT)
         );
 
         this.rentProposal.setArticle(article);

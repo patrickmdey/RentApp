@@ -2,7 +2,7 @@ package ar.edu.itba.paw.interfaces.dao;
 
 import ar.edu.itba.paw.models.RentProposal;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ public interface RentDao {
 
     boolean hasRented(long renterId, long articleId);
 
-    RentProposal create(String comment, Integer approved, Date startDate, Date endDate, Long articleId, long renterId);
+    RentProposal create(String comment, Integer approved, LocalDate startDate, LocalDate endDate, Long articleId, long renterId);
 
     Long getReceivedMaxPage(long ownerId, int state);
 
     Long getSentMaxPage(long renterId, int state);
 
-    Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate);
+    Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
 }

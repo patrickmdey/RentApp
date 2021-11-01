@@ -1,15 +1,14 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class FutureDateValidator implements ConstraintValidator<FutureDate, String> {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private static final ZoneId TIME_ZONE = ZoneId.systemDefault();
 
@@ -18,16 +17,16 @@ public class FutureDateValidator implements ConstraintValidator<FutureDate, Stri
 
     @Override
     public boolean isValid(String dateStr, ConstraintValidatorContext constraintValidatorContext) {
-        Date date;
+        LocalDate date;
 
         try {
-            date = DATE_FORMAT.parse(dateStr);
-        } catch (ParseException e) {
+            date = LocalDate.parse(dateStr, DATE_FORMAT);
+        } catch (DateTimeParseException e) {
             return false;
         }
 
-        Date today = Date.from(LocalDate.now().atStartOfDay(TIME_ZONE).toInstant());
+        LocalDate today = LocalDate.from(LocalDate.now().atStartOfDay(TIME_ZONE).toInstant());
 
-        return date.equals(today) || date.after(today);
+        return date.equals(today) || date.isAfter(today);
     }
 }

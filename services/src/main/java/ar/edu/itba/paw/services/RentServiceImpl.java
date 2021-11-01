@@ -9,10 +9,12 @@ import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.RentProposalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -61,8 +63,8 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public RentProposal create(String message, Integer approved, Date startDate,
-                                         Date endDate, Long articleId, String renterName,
+    public RentProposal create(String message, Integer approved, LocalDate startDate,
+                                         LocalDate endDate, Long articleId, String renterName,
                                          String renterEmail, long renterId) {
         RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
         emailService.sendMailRequest(proposal, proposal.getArticle().getOwner());
@@ -99,7 +101,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Boolean isPresentSameDate(long renterId, long articleId, Date startDate, Date endDate) {
+    public Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
         return rentDao.isPresentSameDate(renterId, articleId, startDate, endDate);
     }
 }

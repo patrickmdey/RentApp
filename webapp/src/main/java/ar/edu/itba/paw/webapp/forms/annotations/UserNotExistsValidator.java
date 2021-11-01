@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

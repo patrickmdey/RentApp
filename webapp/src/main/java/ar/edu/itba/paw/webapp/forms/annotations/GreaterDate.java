@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,11 +7,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = {ValidFilesValidator.class, ValidFileValidator.class})
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidFile {
-    String message() default "Input at least one valid file";
+@Constraint(validatedBy = {GreaterDateValidator.class})
+public @interface GreaterDate {
+
+    String message() default "Second date should be greater than first";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+
+    String baseField();
+
+    String matchField();
+
 }

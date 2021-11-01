@@ -11,7 +11,7 @@
     <div class="row align-items-center my-2">
         <h4 class="col-6 h4"><c:out
                 value="${review.renter.firstName} ${review.renter.lastName}"/></h4>
-        <h5 class="col-5 h5"><c:out value="${review.createdAt.toLocaleString()}"/></h5>
+        <h5 class="col-5 h5"><c:out value="${review.createdAt}"/></h5>
         <c:if test="${userId == review.renter.id}">
             <a class="col-1 fa-lg" href="${editReview}"><i class="color-action bi bi-pencil-fill"></i></a>
         </c:if>

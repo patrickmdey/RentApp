@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.webapp.forms;
 
-import ar.edu.itba.paw.webapp.forms.Annotations.FieldsEquality;
-import ar.edu.itba.paw.webapp.forms.Annotations.UserNotExists;
-import ar.edu.itba.paw.webapp.forms.Annotations.ValidFile;
+import ar.edu.itba.paw.webapp.forms.annotations.FieldsEquality;
+import ar.edu.itba.paw.webapp.forms.annotations.UserNotExists;
+import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;

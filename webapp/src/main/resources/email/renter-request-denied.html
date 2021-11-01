@@ -5,7 +5,7 @@
 </head>
 <body style="border: 12px solid #22577A; background-color: #EAEDEA">
 <div style="display: flex; justify-content: center">
-    <img th:src="${imgSrc}">
+    <img th:src="${imgSrc}" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
 </div>
 <table>
     <tbody>
@@ -26,22 +26,6 @@
         </td>
         <td></td>
         <td></td>
-        <td></td>
-    </tr>
-    </tbody>
-</table>
-</body>
-<body>
-<img th:src="${imgSrc}">
-<table>
-    <tbody>
-    <tr>
-        <td></td>
-        <td>
-            <h4 th:text="#{email.renter.details}"></h4>
-            <p th:text="#{email.deniedRequest.header}"></p>
-            <p><a th:href="${callbackUrl}" th:text="#{email.renter.deniedRequest.callBack}"></a></p>
-        </td>
         <td></td>
     </tr>
     </tbody>

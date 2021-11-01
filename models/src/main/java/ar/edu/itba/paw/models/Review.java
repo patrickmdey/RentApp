@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.models;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "review")
@@ -19,7 +19,7 @@ public class Review {
     private String message;
 
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "article_id", referencedColumnName = "id")
@@ -34,12 +34,12 @@ public class Review {
         //Just for Hibernate
     }
 
-    public Review(long id, int rating, String message, Date createdAt) {
+    public Review(long id, int rating, String message, LocalDate createdAt) {
         this(rating, message, createdAt);
         this.id = id;
     }
 
-    public Review(int rating, String message, Date createdAt) {
+    public Review(int rating, String message, LocalDate createdAt) {
         this.rating = rating;
         this.message = message;
         this.createdAt = createdAt;
@@ -81,11 +81,11 @@ public class Review {
         this.renter = renter;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 }

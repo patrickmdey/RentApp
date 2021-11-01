@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import ar.edu.itba.paw.interfaces.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,12 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class UniqueRentRequestValidator implements ConstraintValidator<UniqueRentRequest, Object> {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
     @Autowired
     private RentService rentService;
 
@@ -32,8 +29,8 @@ public class UniqueRentRequestValidator implements ConstraintValidator<UniqueRen
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         boolean toReturn = false;
         try {
-            Date start = DATE_FORMAT.parse(getFieldValue(o, startDate));
-            Date end = DATE_FORMAT.parse(getFieldValue(o, endDate));
+            LocalDate start = LocalDate.parse(getFieldValue(o, startDate));
+            LocalDate end = LocalDate.parse(getFieldValue(o, endDate));
 
             Long renter = new Long(getFieldValue(o, renterId));
             Long article = new Long(getFieldValue(o, articleId));

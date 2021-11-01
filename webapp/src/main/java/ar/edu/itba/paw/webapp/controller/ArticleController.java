@@ -21,7 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     @Autowired
     private ArticleService articleService;
 
@@ -80,9 +83,11 @@ public class ArticleController {
         articleLogger.info("creating new rent proposal with params --> message: {}, articleId: {}, renterEmail: {}",
                 rentForm.getMessage(), articleId, userAdvice.loggedUser().getEmail());
 
-        rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(), new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getStartDate()),
-                new SimpleDateFormat("yyyy-MM-dd").parse(rentForm.getEndDate()),
-                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(), userAdvice.loggedUser().getId());
+        rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(),
+                LocalDate.parse(rentForm.getStartDate(), DATE_FORMAT),
+                LocalDate.parse(rentForm.getEndDate(), DATE_FORMAT),
+                articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(),
+                userAdvice.loggedUser().getId());
 
 
         return new ModelAndView("redirect:/feedback");

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.Annotations;
+package ar.edu.itba.paw.webapp.forms.annotations;
 
 import org.springframework.web.multipart.MultipartFile;
 
