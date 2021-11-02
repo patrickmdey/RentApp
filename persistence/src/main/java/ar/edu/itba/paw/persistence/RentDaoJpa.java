@@ -77,7 +77,7 @@ public class RentDaoJpa implements RentDao {
         query.setParameter("state", state);
 
         @SuppressWarnings("unchecked")
-        List<Long> rentProposalIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> rentProposalIds = ((List<Number>) query.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
 
 
         if(rentProposalIds.isEmpty())

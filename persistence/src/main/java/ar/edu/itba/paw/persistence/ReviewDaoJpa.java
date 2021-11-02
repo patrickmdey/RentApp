@@ -37,7 +37,7 @@ public class ReviewDaoJpa implements ReviewDao {
         query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         @SuppressWarnings("unchecked")
-        List<Long> reviewIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> reviewIds = ((List<Number>) query.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
 
         if (reviewIds.isEmpty())
             return Collections.emptyList();

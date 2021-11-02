@@ -36,7 +36,7 @@ public class ArticleDaoJpa implements ArticleDao {
         query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         @SuppressWarnings("unchecked")
-        List<Long> rentedArticlesIds = ((List<Integer>) query.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> rentedArticlesIds = ((List<Number>) query.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
         if (rentedArticlesIds.isEmpty())
             return Collections.emptyList();
 
@@ -136,7 +136,7 @@ public class ArticleDaoJpa implements ArticleDao {
         idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
 
         @SuppressWarnings("unchecked")
-        List<Long> articleIds = ((List<Integer>) idQueries.getResultList()).stream().mapToLong(Integer::longValue).boxed().collect(Collectors.toList());
+        List<Long> articleIds = ((List<Number>) idQueries.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
 
         if(articleIds.isEmpty())
             return Collections.emptyList();
