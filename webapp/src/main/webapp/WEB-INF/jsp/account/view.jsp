@@ -112,7 +112,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="tab-pane fade ${!user.type.isOwner?' show active':''}" id="nav-rented" role="tabpanel"
+            <div class="tab-pane fade ${!user.type.isOwner?' show active':''} w-100" id="nav-rented" role="tabpanel"
                  aria-labelledby="nav-rented-tab">
                 <c:choose>
                     <c:when test="${rentedArticles.size() == 0}">

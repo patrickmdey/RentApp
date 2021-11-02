@@ -36,27 +36,19 @@
                                                                     arguments="${user.acceptedRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
-                            <div class="d-grid gap-2 text-center">
-                                <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
-                                        code="landing.viewRequests"/></a>
-                            </div>
                         </c:when>
                     </c:choose>
                     <c:choose>
                         <c:when test="${user.declinedRequestAmount > 0}">
                             <c:choose>
                                 <c:when test="${user.declinedRequestAmount == 1}">
-                                    <p class="lead"><spring:message code="landing.acceptedRequest.single"/></p>
+                                    <p class="lead"><spring:message code="landing.declinedRequest.single"/></p>
                                 </c:when>
                                 <c:otherwise>
-                                    <p class="lead"><spring:message code="landing.acceptedRequest.multiple"
+                                    <p class="lead"><spring:message code="landing.declinedRequest.multiple"
                                                                     arguments="${user.declinedRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
-                            <div class="d-grid gap-2 text-center">
-                                <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
-                                        code="landing.viewRequests"/></a>
-                            </div>
                         </c:when>
                         <c:otherwise>
                             <p class="lead"><spring:message code="landing.acceptedRequest.none"/></p>
@@ -94,10 +86,6 @@
                                                                     arguments="${user.declinedRequestAmount}"/></p>
                                 </c:otherwise>
                             </c:choose>
-                            <div class="d-grid gap-2 text-center">
-                                <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
-                                        code="landing.viewRequests"/></a>
-                            </div>
                         </c:when>
                         <c:otherwise>
                             <p class="lead"><spring:message code="landing.pendingRequests.none"/></p>
@@ -113,6 +101,12 @@
                     </div>
                 </c:otherwise>
             </c:choose>
+            <c:if test="${user != null && (user.pendingRequestAmount > 0|| user.acceptedRequestAmount > 0 || user.declinedRequestAmount > 0)}">
+                <div class="d-grid gap-2 text-center">
+                    <a href="${myRequestsUrl}" class="btn bg-color-action color-grey"><spring:message
+                            code="landing.viewRequests"/></a>
+                </div>
+            </c:if>
         </div>
         <div class="col-5 d-flex justify-content-center align-items-center">
             <div class="avatar-container landing-avatar">

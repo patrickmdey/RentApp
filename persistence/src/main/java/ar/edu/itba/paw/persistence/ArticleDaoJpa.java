@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class ArticleDaoJpa implements ArticleDao {
 
     private static final Long RESULTS_PER_PAGE = 9L;
+    private static final Long RECOMMENDED_AMOUNT = 4L;
 
     @PersistenceContext
     private EntityManager em;
@@ -173,8 +174,7 @@ public class ArticleDaoJpa implements ArticleDao {
                 "(SELECT acc2.id FROM account AS acc2 JOIN rent_proposal rp ON acc2.id = rp.renter_id" +
                 " WHERE rp.article_id = :article_id)" +
                 " GROUP BY a2.id " +
-                " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
-                ")");
+                " HAVING COUNT(DISTINCT rp1.renter_id) > 1) LIMIT " + RECOMMENDED_AMOUNT );
 
         idQuery.setParameter("article_id", articleId);
 
