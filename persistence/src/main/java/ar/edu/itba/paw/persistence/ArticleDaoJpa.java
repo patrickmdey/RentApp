@@ -167,7 +167,7 @@ public class ArticleDaoJpa implements ArticleDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Article> recommendedArticles(long articleId) {
-        Query query = em.createNativeQuery("SELECT * FROM article AS a1 WHERE a1.id != :article_id AND a1.id IN (SELECT a2.id " +
+        Query idQuery = em.createNativeQuery("SELECT id FROM article AS a1 WHERE a1.id != :article_id AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +
                 "JOIN account acc on acc.id = rp1.renter_id WHERE acc.id IN " +
                 "(SELECT acc2.id FROM account AS acc2 JOIN rent_proposal rp ON acc2.id = rp.renter_id" +
@@ -176,9 +176,21 @@ public class ArticleDaoJpa implements ArticleDao {
                 " HAVING COUNT(DISTINCT rp1.renter_id) > 1" +
                 ")");
 
-        query.setParameter("article_id", articleId);
+        idQuery.setParameter("article_id", articleId);
 
-        return (List<Article>) query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Long> articleIds = ((List<Number>) idQuery.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
+
+        if(articleIds.isEmpty())
+            return Collections.emptyList();
+
+        String hqlQuery = "SELECT a from Article AS a WHERE a.id IN (:articleIds)";
+
+        final TypedQuery<Article> articleQuery = em.createQuery(hqlQuery, Article.class);
+
+        articleQuery.setParameter("articleIds", articleIds);
+
+        return articleQuery.getResultList();
     }
 
     @Override

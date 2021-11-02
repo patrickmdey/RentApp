@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.models;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
