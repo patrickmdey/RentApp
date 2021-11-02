@@ -140,7 +140,7 @@ i.overflow-icon:hover {
     padding: 25px;
     border: 1px solid #eee;
     border-radius: 6px;
-    margin: 0 0 8px;
+    /*margin: 0 0 8px;*/
     width: 100%;
 }
 
@@ -151,14 +151,17 @@ a.request-pill.active {
 
 .landing-title-container {
     background-color: var(--color-white);
-    height: 40vh;
-    padding: 5px;
+    min-height: 40vh;
+    padding: 10px;
     align-items: center;
 }
 
 .landing-category-container {
     min-height: 300px;
     width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .card-style.category-card {

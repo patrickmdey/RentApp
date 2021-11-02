@@ -130,7 +130,7 @@
 
     <div class="bg-color-grey w-100">
         <div class="main-margins p-4 justify-content-center">
-            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <h3><spring:message code="landing.topRatedArticles"/></h3>
             <hr>
             <div class="row row-cols-4 justify-content-center w-100">
                 <c:forEach var="article" items="${topRatingArticles}">
@@ -147,12 +147,12 @@
     </div>
     <!--TODO arreglar toda esta parte-->
     <div class="bg-color-secondary w-100">
-        <h3 class="h3 text-bold text-center mt-2">Buscar por categorías</h3>
-        <div class="row row-cols-7 justify-content-center align-items-center landing-category-container">
+        <h3 class="h3 text-bold text-center"><spring:message code="landing.searchByCategory"/></h3>
+        <div class="row landing-category-container">
             <c:forEach items="${categories}" var="category">
-                <div class="col">
+                <div class="col mx-auto">
                     <div class="card card-style category-card">
-                        <img src="<c:url value="/image/${category.picture.id}"/>" width="100%" height="auto"
+                        <img src="<c:url value="/image/${category.picture.id}"/>" width="100%" height="160px"
                              alt="${category.description}">
                         <div class="text-center mt-2">
                             <p class="lead"><spring:message code="${category.description}"/></p>
@@ -168,7 +168,7 @@
     </div>
     <div class="bg-color-grey w-100">
         <div class="main-margins p-4 justify-content-center">
-            <h3><spring:message code="landing.articlesTitle"/></h3>
+            <h3><spring:message code="landing.topRentedArticles"/></h3>
             <hr>
             <div class="row row-cols-4 justify-content-center w-100">
                 <c:forEach var="article" items="${topRentedArticles}">
