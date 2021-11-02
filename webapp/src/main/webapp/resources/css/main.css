@@ -131,8 +131,11 @@ i.overflow-icon:hover {
 }
 
 .main-margins {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin: 0 15%;
+}
+
+.landing-margins {
+    margin: 0 10%;
 }
 
 .card-style {
@@ -157,15 +160,15 @@ a.request-pill.active {
 }
 
 .landing-category-container {
-    min-height: 300px;
+    padding: 20px;
     width: 100%;
     justify-content: center;
     align-items: center;
-    padding: 0 10px;
+    margin: 0;
 }
 
 .card-style.category-card {
-    padding: 15px;
+    margin: 0 auto;
     width: 90%;
 }
 

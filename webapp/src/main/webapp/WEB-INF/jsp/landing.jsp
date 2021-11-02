@@ -19,7 +19,7 @@
 <body>
 <h:navbar loggedUser="${user}"/>
 <div class="d-flex flex-column align-items-center">
-    <div class="row main-margins landing-title-container">
+    <div class="row landing-margins landing-title-container">
         <div class="col-1"></div>
         <div class="col-5">
             <c:choose>
@@ -129,7 +129,7 @@
     </div>
 
     <div class="bg-color-grey w-100">
-        <div class="main-margins p-4 justify-content-center">
+        <div class="landing-margins p-4 justify-content-center">
             <h3><spring:message code="landing.topRatedArticles"/></h3>
             <hr>
             <div class="row row-cols-4 justify-content-center w-100">
@@ -150,8 +150,8 @@
         <h3 class="h3 text-bold text-center"><spring:message code="landing.searchByCategory"/></h3>
         <div class="row landing-category-container">
             <c:forEach items="${categories}" var="category">
-                <div class="col mx-auto">
-                    <div class="card card-style category-card">
+                <div class="col">
+                    <div class="card card-style">
                         <img src="<c:url value="/image/${category.picture.id}"/>" width="100%" height="160px"
                              alt="${category.description}">
                         <div class="text-center mt-2">
@@ -167,7 +167,7 @@
         </div>
     </div>
     <div class="bg-color-grey w-100">
-        <div class="main-margins p-4 justify-content-center">
+        <div class="landing-margins p-4 justify-content-center">
             <h3><spring:message code="landing.topRentedArticles"/></h3>
             <hr>
             <div class="row row-cols-4 justify-content-center w-100">
