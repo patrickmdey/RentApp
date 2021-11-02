@@ -10,8 +10,6 @@ import java.time.format.DateTimeParseException;
 public class FutureDateValidator implements ConstraintValidator<FutureDate, String> {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private static final ZoneId TIME_ZONE = ZoneId.systemDefault();
-
     @Override
     public void initialize(FutureDate futureDate) {}
 
@@ -25,7 +23,7 @@ public class FutureDateValidator implements ConstraintValidator<FutureDate, Stri
             return false;
         }
 
-        LocalDate today = LocalDate.from(LocalDate.now().atStartOfDay(TIME_ZONE).toInstant());
+        LocalDate today = LocalDate.now();
 
         return date.equals(today) || date.isAfter(today);
     }
