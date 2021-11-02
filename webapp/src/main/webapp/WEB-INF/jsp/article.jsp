@@ -85,6 +85,59 @@
         </div>
     </div>
 
+    <div class="row w-100 g-0 justify-content-between">
+        <div class="col-md-8 col-12 pe-md-3 pe-0">
+            <div class="card card-style article-card">
+                <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
+                <hr/>
+                <p class="lead"><c:out value="${article.description}"/></p>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-12">
+            <div class="card card-style">
+                <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
+                <hr>
+                <div class="row align-items-center">
+                    <div class="avatar-container col-4">
+                        <img src="<c:url value="/image/${owner.picture.id}"/>"
+                             alt="<c:out value="${owner.firstName}"/> picture"/>
+                    </div>
+                    <span class="lead col-8"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
+
+                    <c:url var="userFilterUrl" value="/marketplace">
+                        <c:param name="user" value="${owner.id}"/>
+                    </c:url>
+
+                    <a class="navbar-brand" href="${userFilterUrl}"><spring:message
+                            code="article.view.viewMore"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-style">
+        <h:allReviews article="${article}" user="${user}"
+                      canReview="${canReview}"
+                      maxPage="${maxPage}" reviews="${reviews}"/>
+    </div>
+
+    <!-- RECOMMENDED ARTICLES-->
+    <c:if test="${recommended.size() > 0}">
+        <h1 class="d-block w-100"><spring:message code="article.relatedTitle"/></h1>
+        <div class="row row-cols-4 justify-content-start w-100">
+            <c:forEach var="article" items="${recommended}">
+                <div class="col">
+                    <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
+                                       id="${article.id}"
+                                       location="${article.owner.location.name}"
+                                       image_id="${article.images.get(0).id}"
+                                       rating="${article.rating}"
+                                       timesReviewed="${article.timesReviewed}"/>
+                </div>
+            </c:forEach>
+        </div>
+    </c:if>
     <!-- Modal -->
     <div class="modal fade" id="rentFormModal" tabindex="-1"
          aria-labelledby="rentFormModal"
@@ -140,59 +193,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row w-100 g-0 justify-content-between">
-        <div class="col-md-8 col-12 pe-md-3 pe-0">
-            <div class="card card-style article-card">
-                <h3 class="h3"><spring:message code="article.descriptionTitle"/></h3>
-                <hr/>
-                <p class="lead"><c:out value="${article.description}"/></p>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-12">
-            <div class="card card-style">
-                <h3 class="h3"><spring:message code="article.ownerTitle"/></h3>
-                <hr>
-                <div class="row align-items-center">
-                    <div class="avatar-container col-4">
-                        <img src="<c:url value="/image/${owner.picture.id}"/>"
-                             alt="<c:out value="${owner.firstName}"/> picture"/>
-                    </div>
-                    <span class="lead col-8"><c:out value="${owner.firstName} ${owner.lastName}"/></span>
-
-                    <c:url var="userFilterUrl" value="/marketplace">
-                        <c:param name="user" value="${owner.id}"/>
-                    </c:url>
-
-                    <a class="navbar-brand" href="${userFilterUrl}"><spring:message
-                            code="article.view.viewMore"/></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card card-style">
-        <h:allReviews article="${article}" user="${user}"
-                      canReview="${canReview}"
-                      maxPage="${maxPage}" reviews="${reviews}"/>
-    </div>
-
-    <!-- RECOMMENDED ARTICLES-->
-    <c:if test="${recommended.size() > 0}">
-        <h1 class="d-block w-100"><spring:message code="article.relatedTitle"/></h1>
-        <div class="row row-cols-4 justify-content-start w-100">
-            <c:forEach var="article" items="${recommended}">
-                <div class="col">
-                    <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
-                                       id="${article.id}"
-                                       location="${article.owner.location.name()}"
-                                       image_id="${article.images.size()==0 ? 1 : article.images.get(0)}"
-                                       rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
-                </div>
-            </c:forEach>
-        </div>
-    </c:if>
 
 </div>
 <h:footer/>
