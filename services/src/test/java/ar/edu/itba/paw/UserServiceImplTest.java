@@ -74,12 +74,12 @@ public class UserServiceImplTest {
                 eq(uploadedImage),
                 eq(user.getType())
         )).thenReturn(user);
-        doNothing().when(emailService).sendNewUserMail(eq(user));
+        doNothing().when(emailService).sendNewUserMail(eq(user), "");
 
         // Act
         User result = userService.register(user.getEmail(), password,
                 user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType()
+                (long) user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert
@@ -107,7 +107,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType()
+                (long) user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert
@@ -124,7 +124,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType()
+                (long) user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert

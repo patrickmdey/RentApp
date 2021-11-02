@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ attribute name="rating" type="java.lang.Long" required="true" %>
+<%@ attribute name="rating" type="java.lang.Integer" required="true" %>
 <%@ attribute name="timesReviewed" type="java.lang.Long" required="false" %>
 
 <c:if test="${rating > 0}">

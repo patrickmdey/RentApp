@@ -65,29 +65,29 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public RentProposal create(String message, Integer approved, LocalDate startDate,
                                          LocalDate endDate, Long articleId, String renterName,
-                                         String renterEmail, long renterId) {
+                                         String renterEmail, long renterId, String webpageUrl) {
         RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
-        emailService.sendMailRequest(proposal, proposal.getArticle().getOwner());
+        emailService.sendMailRequest(proposal, proposal.getArticle().getOwner(), webpageUrl);
 
         return proposal;
     }
 
     @Override
     @Transactional
-    public void acceptRequest(long requestId) {
+    public void acceptRequest(long requestId, String webpageUrl) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentProposal.setState(RentState.ACCEPTED.ordinal());
 
-        emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner());
+        emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
     }
 
     @Override
     @Transactional
-    public void rejectRequest(long requestId) {
+    public void rejectRequest(long requestId, String webpageUrl) {
         RentProposal request = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         request.setState(RentState.DECLINED.ordinal());
 
-        emailService.sendMailRequestDenied(request, request.getArticle().getOwner());
+        emailService.sendMailRequestDenied(request, request.getArticle().getOwner(), webpageUrl);
     }
 
     @Override

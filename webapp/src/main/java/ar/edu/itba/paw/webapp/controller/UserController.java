@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -48,6 +50,9 @@ public class UserController {
 
     private final Logger userLogger = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
+    private ServletContext servletContext;
+
     private List<Locations> getLocationsOrdered() {
         return Arrays.stream(Locations.values())
                 .sorted(Comparator.comparing(Locations::getName))
@@ -72,9 +77,10 @@ public class UserController {
         userLogger.info("Registering new user --> email: {}, location: {}, type: {}",
                 accountForm.getEmail(), accountForm.getLocation(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER);
 
+        String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userService.register(accountForm.getEmail(), accountForm.getPassword()
                 , accountForm.getFirstName(), accountForm.getLastName(), accountForm.getLocation(),
-                accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER
+                accountForm.getImg(), accountForm.getIsOwner() ? UserType.OWNER : UserType.RENTER, webpageUrl
         );
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(accountForm.getEmail(), accountForm.getPassword());
@@ -192,16 +198,18 @@ public class UserController {
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
+        String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("accepting request with id {}", requestId);
-        rentService.acceptRequest(requestId);
+        rentService.acceptRequest(requestId, webpageUrl);
         return new ModelAndView("redirect:/user/my-requests/accepted");
     }
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
     public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
+        String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("rejecting request with id {}", requestId);
-        rentService.rejectRequest(requestId);
+        rentService.rejectRequest(requestId, webpageUrl);
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 

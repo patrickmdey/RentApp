@@ -73,7 +73,7 @@ public class RentServiceImplTest {
         )).thenReturn(rentProposal);
 
         doNothing().when(emailService).sendMailRequest(
-                eq(rentProposal), eq(userOwner)
+                eq(rentProposal), eq(userOwner), ""
         );
 
         // Act
@@ -85,7 +85,7 @@ public class RentServiceImplTest {
                 rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenter().getId()
+                rentProposal.getRenter().getId(), ""
         );
 
         // Assert
@@ -118,7 +118,7 @@ public class RentServiceImplTest {
                 rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenter().getId()
+                rentProposal.getRenter().getId(), ""
         );
 
         // Assert
@@ -148,7 +148,7 @@ public class RentServiceImplTest {
                 rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenter().getId()
+                rentProposal.getRenter().getId(), ""
         );
 
         // Assert
@@ -177,7 +177,7 @@ public class RentServiceImplTest {
                 rentProposal.getArticle().getId(),
                 userRenter.getFirstName(),
                 userRenter.getEmail(),
-                rentProposal.getRenter().getId()
+                rentProposal.getRenter().getId(), ""
         );
 
         // Assert

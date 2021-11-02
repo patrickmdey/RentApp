@@ -18,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -49,6 +51,9 @@ public class ArticleController {
 
     @Autowired
     private LoggedUserAdvice userAdvice;
+
+    @Autowired
+    private ServletContext servletContext;
 
     private final Logger articleLogger = LoggerFactory.getLogger(ArticleController.class);
 
@@ -83,11 +88,12 @@ public class ArticleController {
         articleLogger.info("creating new rent proposal with params --> message: {}, articleId: {}, renterEmail: {}",
                 rentForm.getMessage(), articleId, userAdvice.loggedUser().getEmail());
 
+        String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         rentService.create(rentForm.getMessage(), RentState.PENDING.ordinal(),
                 LocalDate.parse(rentForm.getStartDate(), DATE_FORMAT),
                 LocalDate.parse(rentForm.getEndDate(), DATE_FORMAT),
                 articleId, userAdvice.loggedUser().getFirstName(), userAdvice.loggedUser().getEmail(),
-                userAdvice.loggedUser().getId());
+                userAdvice.loggedUser().getId(), webpageUrl);
 
 
         return new ModelAndView("redirect:/feedback");

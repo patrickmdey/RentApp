@@ -14,13 +14,13 @@ public interface RentService {
 
     List<RentProposal> sentRequests(long renterId, int state, long page);
 
-    void acceptRequest(long requestId);
+    void acceptRequest(long requestId, String webpageUrl);
 
-    void rejectRequest(long requestId);
+    void rejectRequest(long requestId, String webpageUrl);
 
     RentProposal create(String comment, Integer approved, LocalDate startDate,
                         LocalDate endDate, Long articleId,
-                                  String renterName, String renterEmail, long renterId);
+                                  String renterName, String renterEmail, long renterId, String webpageUrl);
 
     boolean hasRented(User renter, Long articleId);
 

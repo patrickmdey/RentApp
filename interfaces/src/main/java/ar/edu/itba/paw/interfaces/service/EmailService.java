@@ -6,13 +6,13 @@ import ar.edu.itba.paw.models.User;
 
 public interface EmailService {
 
-    void sendNewUserMail(User newUser);
+    void sendNewUserMail(User newUser, String webpageUrl);
 
-    void sendMailRequest(RentProposal rentProposal, User owner);
+    void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl);
 
 //    void sendMailRequestConfirmationToOwner(String to, Map<String, String> values, long ownerId);
 
-    void sendMailRequestConfirmation(RentProposal rentProposal, User owner);
+    void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl);
 
-    void sendMailRequestDenied(RentProposal rentProposal, User owner);
+    void sendMailRequestDenied(RentProposal rentProposal, User owner, String webpageUrl);
 }

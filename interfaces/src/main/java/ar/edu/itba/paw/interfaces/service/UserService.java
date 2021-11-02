@@ -12,7 +12,7 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
-    User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type);
+    User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type, String webpageUrl);
 
     void update(long id, String firstName, String lastName, Long location);
 

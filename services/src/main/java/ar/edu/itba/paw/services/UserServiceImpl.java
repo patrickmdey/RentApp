@@ -48,12 +48,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type) {
+    public User register(String email, String password, String firstName, String lastName, Long location, MultipartFile img, UserType type, String webpageUrl) {
         String passwordHash = passwordEncoder.encode(password);
         DBImage dbImg = imageService.create(img);
 
         User user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[Math.toIntExact(location)], dbImg, type);
-        emailService.sendNewUserMail(user);
+        emailService.sendNewUserMail(user, webpageUrl);
 
         return user;
     }

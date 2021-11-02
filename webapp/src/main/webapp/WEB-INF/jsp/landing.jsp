@@ -66,7 +66,7 @@
                 <c:when test="${user != null && user.type.isOwner}">
                     <h1 class="h1"><spring:message code="landing.title.withUser" arguments="${user.firstName}"/></h1>
                     <c:choose>
-                        <c:when test="${user.pendingRequestAmount > 0 || user.acceptedRequestAmount > 0 || user.declinedRequestAmount}">
+                        <c:when test="${user.pendingRequestAmount > 0 || user.acceptedRequestAmount > 0 || user.declinedRequestAmount>0}">
                             <c:choose>
                                 <c:when test="${user.pendingRequestAmount == 1}">
                                     <p class="lead"><spring:message code="landing.pendingRequests.single"/></p>
