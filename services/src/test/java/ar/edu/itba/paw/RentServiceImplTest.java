@@ -79,12 +79,9 @@ public class RentServiceImplTest {
         // Act
         RentProposal result = rentService.create(
                 rentProposal.getMessage(),
-                rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                userRenter.getFirstName(),
-                userRenter.getEmail(),
                 rentProposal.getRenter().getId(), ""
         );
 
@@ -112,12 +109,9 @@ public class RentServiceImplTest {
         // Act
         rentService.create(
                 rentProposal.getMessage(),
-                rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                userRenter.getFirstName(),
-                userRenter.getEmail(),
                 rentProposal.getRenter().getId(), ""
         );
 
@@ -142,12 +136,9 @@ public class RentServiceImplTest {
         // Act
         rentService.create(
                 rentProposal.getMessage(),
-                rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                userRenter.getFirstName(),
-                userRenter.getEmail(),
                 rentProposal.getRenter().getId(), ""
         );
 
@@ -171,12 +162,9 @@ public class RentServiceImplTest {
         // Act
         rentService.create(
                 rentProposal.getMessage(),
-                rentProposal.getState(),
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                userRenter.getFirstName(),
-                userRenter.getEmail(),
                 rentProposal.getRenter().getId(), ""
         );
 
