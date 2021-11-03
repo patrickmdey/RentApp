@@ -5,6 +5,7 @@ import org.springframework.util.ReflectionUtils;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class FieldsEqualityValidator implements ConstraintValidator<FieldsEquality, Object> {
 
@@ -35,7 +36,8 @@ public class FieldsEqualityValidator implements ConstraintValidator<FieldsEquali
             secondField.setAccessible(true);
             Object second = secondField.get(value);
 
-            if (first == null || !first.equals(second)) {
+
+            if (!Objects.equals(first,second)) {
 
                 ConstraintValidatorContext.ConstraintViolationBuilder cvb = context.buildConstraintViolationWithTemplate(message);
                 cvb.addNode(firstFieldName).addConstraintViolation();

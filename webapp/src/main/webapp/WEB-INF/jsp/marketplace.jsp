@@ -110,12 +110,13 @@
                 <form:label path="category" cssClass="font-weight-bold mt-3"><spring:message
                         code="search.rentRequestForm.category"/></form:label>
                 <div class="w-100">
-                    <c:forEach items="${categories}" var="category">
-                        <div class="w-100">
+                    <form:select path="category" class="form-control form-control-custom">
+                        <form:option value=""><spring:message code="filterForm.everyCategory"/></form:option>
+                        <c:forEach var="category" items="${categories}">
                             <spring:message code="${category.description}" var="label"/>
-                            <form:radiobutton path="category" value="${category.id}" label="${label}"/>
-                        </div>
-                    </c:forEach>
+                            <form:option value="${category.id}" label="${label}"/>
+                        </c:forEach>
+                    </form:select>
                 </div>
 
                 <div class="mt-3">
