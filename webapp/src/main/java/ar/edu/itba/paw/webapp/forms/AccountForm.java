@@ -29,8 +29,7 @@ public class AccountForm extends EditAccountForm {
     @ValidFile
     private MultipartFile img;
 
-    @NotNull
-    private Boolean isOwner;
+    private boolean isOwner; //TODO checkear checkbox ¿puede ser null?
 
     public MultipartFile getImg() {
         return img;

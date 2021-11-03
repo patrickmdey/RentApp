@@ -46,8 +46,7 @@ public class MarketplaceController {
 
     @RequestMapping("/marketplace")
     public ModelAndView marketplace(@Valid @ModelAttribute("searchForm") SearchForm searchForm,
-                                    @RequestParam(value = "page", required = false, defaultValue = "1") Long page
-    ) {
+                                    @RequestParam(value = "page", required = false, defaultValue = "1") long page) {
 
         final ModelAndView mav = new ModelAndView("marketplace");
 

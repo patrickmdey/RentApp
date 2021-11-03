@@ -24,13 +24,7 @@ public class CategoryDaoJpa implements CategoryDao {
     }
 
     @Override
-    public Optional<Category> findById(Long category) {
-        Category result = em.find(Category.class, category);
-
-        if (result == null)
-            throw new CategoryNotFoundException();
-
-        return Optional.of(result);
-
+    public Optional<Category> findById(long category) {
+        return Optional.ofNullable(em.find(Category.class, category));
     }
 }

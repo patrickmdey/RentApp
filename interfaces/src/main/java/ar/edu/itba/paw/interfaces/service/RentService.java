@@ -18,11 +18,10 @@ public interface RentService {
 
     void rejectRequest(long requestId, String webpageUrl);
 
-    RentProposal create(String comment, Integer approved, LocalDate startDate,
-                        LocalDate endDate, Long articleId,
-                                  String renterName, String renterEmail, long renterId, String webpageUrl);
+    RentProposal create(String comment, LocalDate startDate, LocalDate endDate, long articleId,
+                        long renterId, String webpageUrl);
 
-    boolean hasRented(User renter, Long articleId);
+    boolean hasRented(User renter, long articleId);
 
     Long getReceivedMaxPage(long ownerId, int state);
 

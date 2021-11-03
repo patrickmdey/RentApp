@@ -141,7 +141,7 @@ public class UserController {
 
     @RequestMapping("/view")
     public ModelAndView view(@ModelAttribute("accountForm") AccountForm accountForm,
-                             @RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+                             @RequestParam(value = "page", required = false, defaultValue = "1") long page) {
         final ModelAndView mav = new ModelAndView("account/view");
         mav.addObject("ownedArticles", articleService.get(null, null,
                 null, userAdvice.loggedUser().getId(), null, page));
@@ -181,23 +181,23 @@ public class UserController {
     }
 
     @RequestMapping("/my-requests/accepted")
-    public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+    public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
         return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page);
     }
 
     @RequestMapping("/my-requests/pending")
-    public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+    public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
         return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page);
     }
 
     @RequestMapping("/my-requests/declined")
-    public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") Long page) {
+    public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
         return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page);
     }
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
-    public ModelAndView acceptRequest(@PathVariable("requestId") Long requestId) {
+    public ModelAndView acceptRequest(@PathVariable("requestId") long requestId) {
         String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("accepting request with id {}", requestId);
         rentService.acceptRequest(requestId, webpageUrl);
@@ -206,14 +206,14 @@ public class UserController {
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
-    public ModelAndView rejectRequest(@PathVariable("requestId") Long requestId) {
+    public ModelAndView rejectRequest(@PathVariable("requestId") long requestId) {
         String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("rejecting request with id {}", requestId);
         rentService.rejectRequest(requestId, webpageUrl);
         return new ModelAndView("redirect:/user/my-requests/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state, Long page) {
+    private ModelAndView getRentRequests(User user, RentState state, long page) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
         List<RentProposal> receivedProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
         List<RentProposal> sentProposals = rentService.sentRequests(user.getId(), state.ordinal(), page);

@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Repository
 public class ArticleDaoJpa implements ArticleDao {
 
-    private static final Long RESULTS_PER_PAGE = 9L;
-    private static final Long RECOMMENDED_AMOUNT = 4L;
+    private static final long RESULTS_PER_PAGE = 9L;
+    private static final long RECOMMENDED_AMOUNT = 4L;
 
     @PersistenceContext
     private EntityManager em;
@@ -54,7 +54,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public Article createArticle(String title, String description, Float pricePerDay, long idOwner) {
+    public Article createArticle(String title, String description, float pricePerDay, long idOwner) {
         User owner = em.find(User.class, idOwner);
         if (owner == null)
             throw new UserNotFoundException();
@@ -153,7 +153,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public Long getRentedMaxPage(Long user) {
+    public Long getRentedMaxPage(long user) {
         Query query = em.createNativeQuery("SELECT COUNT(*) FROM article WHERE id IN (" +
                 "SELECT article_id FROM rent_proposal WHERE renter_id = :renter_id AND state = :state )");
 

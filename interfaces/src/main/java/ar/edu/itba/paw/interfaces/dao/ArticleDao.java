@@ -15,11 +15,11 @@ public interface ArticleDao {
 
     Optional<Article> findById(long id);
 
-    Article createArticle(String title, String description, Float pricePerDay, long idOwner);
+    Article createArticle(String title, String description, float pricePerDay, long idOwner);
 
     Long getMaxPage(String name, Long category, Long user, Long location);
 
-    Long getRentedMaxPage(Long user);
+    Long getRentedMaxPage(long user);
 
     List<Article> recommendedArticles(long articleId);
 

@@ -36,7 +36,7 @@ public class ReviewController {
     private final Logger reviewLogger = LoggerFactory.getLogger(ReviewController.class);
 
     @RequestMapping(value = "/{articleId}/create")
-    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, @PathVariable("articleId") Long articleId) {
+    public ModelAndView publishReview(@ModelAttribute("reviewForm") ReviewForm reviewForm, @PathVariable("articleId") long articleId) {
         ModelAndView mav = new ModelAndView("review/create");
         mav.addObject("rating", new Integer[]{1, 2, 3, 4, 5});
         mav.addObject("article", articleService.findById(articleId).orElseThrow(ArticleNotFoundException::new));
@@ -46,7 +46,7 @@ public class ReviewController {
     @RequestMapping(value = "/{articleId}/create", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkCanReview(authentication,#articleId)")
     public ModelAndView createReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                     BindingResult errors, @PathVariable("articleId") Long articleId) {
+                                     BindingResult errors, @PathVariable("articleId") long articleId) {
         if (errors.hasErrors()) {
             return publishReview(reviewForm, articleId);
         }
@@ -60,7 +60,7 @@ public class ReviewController {
     @RequestMapping(value = "/{reviewId}/edit", method = RequestMethod.GET)
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
     public ModelAndView editReview(@ModelAttribute("reviewForm") ReviewForm reviewForm,
-                                   @PathVariable("reviewId") Long reviewId) {
+                                   @PathVariable("reviewId") long reviewId) {
         final ModelAndView mav = new ModelAndView("review/edit");
         Review review = reviewService.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
 
@@ -74,7 +74,7 @@ public class ReviewController {
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication,#reviewId)")
     public ModelAndView updateReview(@Valid @ModelAttribute("reviewForm") ReviewForm reviewForm,
                                      BindingResult errors,
-                                     @PathVariable("reviewId") Long reviewId) {
+                                     @PathVariable("reviewId") long reviewId) {
 
         if (errors.hasErrors())
             return editReview(reviewForm, reviewId);

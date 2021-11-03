@@ -17,5 +17,5 @@ public interface ReviewService {
 
     Long getMaxPage(long articleId);
 
-    boolean hasReviewed(User user, Long articleId);
+    boolean hasReviewed(User user, long articleId);
 }

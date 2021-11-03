@@ -18,7 +18,7 @@ public class ImageController {
     private ImageService imageService;
 
     @RequestMapping("/{id}")
-    public @ResponseBody byte[] getImage(@PathVariable Long id) {
+    public @ResponseBody byte[] getImage(@PathVariable long id) {
         Optional<DBImage> img = imageService.findById(id);
         return img.map(DBImage::getImg).orElse(null);
     }

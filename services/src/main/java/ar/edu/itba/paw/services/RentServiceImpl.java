@@ -63,10 +63,9 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public RentProposal create(String message, Integer approved, LocalDate startDate,
-                                         LocalDate endDate, Long articleId, String renterName,
-                                         String renterEmail, long renterId, String webpageUrl) {
-        RentProposal proposal = rentDao.create(message, approved, startDate, endDate, articleId, renterId);
+    public RentProposal create(String message, LocalDate startDate, LocalDate endDate, long articleId,
+                               long renterId, String webpageUrl) {
+        RentProposal proposal = rentDao.create(message, RentState.PENDING.ordinal(), startDate, endDate, articleId, renterId);
         emailService.sendMailRequest(proposal, proposal.getArticle().getOwner(), webpageUrl);
 
         return proposal;
@@ -92,8 +91,8 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean hasRented(User renter, Long articleId) {
-        if (renter == null || articleId == null)
+    public boolean hasRented(User renter, long articleId) {
+        if (renter == null)
             return false;
 
         return rentDao.hasRented(renter.getId(), articleId);

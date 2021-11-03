@@ -37,9 +37,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean hasReviewed(User user, Long articleId) {
-        if (user == null || articleId == null)
-            throw new IllegalArgumentException();
+    public boolean hasReviewed(User user, long articleId) {
+        if (user == null)
+            return false;
 
         return reviewDao.hasReviewed(user.getId(), articleId);
     }

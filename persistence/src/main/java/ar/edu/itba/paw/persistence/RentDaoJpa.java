@@ -24,7 +24,7 @@ import java.time.LocalDate;
 
 @Repository
 public class RentDaoJpa implements RentDao {
-    private static final Long RESULTS_PER_PAGE = 4L;
+    private static final long RESULTS_PER_PAGE = 4L;
 
     private static final String OWNER_PARAM = "owner_id";
     private static final String RENTER_PARAM = "renter_id";
@@ -107,8 +107,7 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public RentProposal create(String comment, Integer approved, LocalDate startDate, LocalDate endDate, Long articleId, long renterId) {
-
+    public RentProposal create(String comment, int approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId) {
         Article article = em.find(Article.class, articleId);
         if (article == null)
             throw new ArticleNotFoundException();
@@ -145,7 +144,7 @@ public class RentDaoJpa implements RentDao {
 
 
     @Override
-    public Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
+    public boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
         final TypedQuery<Long> query = em.createQuery("SELECT count(r) FROM RentProposal as r " +
                 "WHERE r.renter.id = :renter AND r.article.id = :article " +
                         "AND r.startDate = :startDate AND r.endDate = :endDate", Long.class);

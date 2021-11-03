@@ -56,7 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Long getRentedMaxPage(Long renterId) {
+    public Long getRentedMaxPage(long renterId) {
         return articleDao.getRentedMaxPage(renterId);
     }
 
@@ -76,7 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Article createArticle(String title, String description, Float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
+    public Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
         Article article = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (categories != null) {
@@ -92,7 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Optional<Article> editArticle(long id, String title, String description, Float pricePerDay, List<Long> categories) {
+    public Optional<Article> editArticle(long id, String title, String description, float pricePerDay, List<Long> categories) {
         Article article = articleDao.findById(id).orElseThrow(ArticleNotFoundException::new);
         article.setTitle(title);
         article.setDescription(description);

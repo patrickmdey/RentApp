@@ -19,7 +19,6 @@ public class EditAccountForm {
     @NotNull
     private Long location;
 
-
     public String getFirstName() {
         return firstName;
     }
