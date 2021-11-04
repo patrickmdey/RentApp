@@ -40,10 +40,10 @@ public class ArticleDaoTest {
         final OrderOptions orderBy = OrderOptions.LOWER_ARTICLE;
         final Long idUser = null;
         final Long location = null;
-        final Long page = 1L;
+        final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -58,10 +58,10 @@ public class ArticleDaoTest {
         final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = null;
         final Long location = null;
-        final Long page = 1L;
+        final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -76,10 +76,10 @@ public class ArticleDaoTest {
         final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = 1L;
         final Long location = null;
-        final Long page = 1L;
+        final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -94,10 +94,10 @@ public class ArticleDaoTest {
         final OrderOptions orderBy = OrderOptions.LOWER_PRICE;
         final Long idUser = null;
         final Long location = 20L;
-        final Long page = 1L;
+        final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());

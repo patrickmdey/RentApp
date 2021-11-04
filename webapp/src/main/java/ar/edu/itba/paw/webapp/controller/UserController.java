@@ -144,9 +144,9 @@ public class UserController {
                              @RequestParam(value = "page", required = false, defaultValue = "1") long page) {
         final ModelAndView mav = new ModelAndView("account/view");
         mav.addObject("ownedArticles", articleService.get(null, null,
-                null, userAdvice.loggedUser().getId(), null, page));
+                null, userAdvice.loggedUser().getId(), null, null, null, page));
         mav.addObject("ownedMaxPage", articleService.getMaxPage(null,
-                null, userAdvice.loggedUser().getId(), null));
+                null, userAdvice.loggedUser().getId(), null, null, null));
 
         mav.addObject("rentedArticles", articleService.rentedArticles(userAdvice.loggedUser().getId(), page));
         mav.addObject("rentedMaxPage", articleService.getRentedMaxPage(userAdvice.loggedUser().getId()));

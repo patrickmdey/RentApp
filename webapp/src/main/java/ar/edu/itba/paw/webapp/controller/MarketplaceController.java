@@ -36,8 +36,8 @@ public class MarketplaceController {
     @RequestMapping("/")
     public ModelAndView landingPage() {
         ModelAndView mav = new ModelAndView("landing");
-        List<Article> topRatingArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_RATING.ordinal(), null, null, 1);
-        List<Article> topRentedArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_TIMES_RENTED.ordinal(), null, null, 1);
+        List<Article> topRatingArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_RATING.ordinal(), null, null, null, null, 1);
+        List<Article> topRentedArticles = articleService.get(null, null, (long) OrderOptions.HIGHER_TIMES_RENTED.ordinal(), null, null, null, null, 1);
         mav.addObject("topRatingArticles", topRatingArticles.subList(0, Math.min(4, topRatingArticles.size())));
         mav.addObject("topRentedArticles", topRentedArticles.subList(0, Math.min(4, topRentedArticles.size())));
         mav.addObject("categories", categoryService.listCategories());
@@ -51,15 +51,15 @@ public class MarketplaceController {
         final ModelAndView mav = new ModelAndView("marketplace");
 
         List<Article> articles = articleService.get(searchForm.getQuery(), searchForm.getCategory(),
-                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(), page);
-
+                searchForm.getOrderBy(), searchForm.getUser(), searchForm.getLocation(),
+                searchForm.getInitPrice(), searchForm.getEndPrice(), page);
 
         List<Category> categories = categoryService.listCategories();
 
         mav.addObject("categories", categories);
         mav.addObject("orderOptions", OrderOptions.values());
         mav.addObject("maxPage", articleService.getMaxPage(searchForm.getQuery(),
-                searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation()));
+                searchForm.getCategory(), searchForm.getUser(), searchForm.getLocation(), searchForm.getInitPrice(), searchForm.getEndPrice()));
         mav.addObject("articles", articles);
         mav.addObject("query", searchForm.getQuery());
 

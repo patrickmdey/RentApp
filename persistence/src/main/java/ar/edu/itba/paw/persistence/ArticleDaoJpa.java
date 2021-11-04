@@ -80,7 +80,7 @@ public class ArticleDaoJpa implements ArticleDao {
         return toReturn.toString();
     }
 
-    private StringBuilder queryBuilder(Map<String, Object> params, String fields, String name, Long category, Long user, Long location) {
+    private StringBuilder queryBuilder(Map<String, Object> params, String fields, String name, Long category, Long user, Long location, Float initPrice, Float endPrice) {
         StringBuilder query = new StringBuilder("SELECT " + fields + " FROM article AS a WHERE true ");
 
         if (name != null && name.length() > 0) {
@@ -104,13 +104,19 @@ public class ArticleDaoJpa implements ArticleDao {
                     "WHERE account.location = :location) ");
             params.put("location", location);
         }
+
+        if(initPrice != null && endPrice != null){
+            query.append(" AND price_per_day BETWEEN :initPrice AND :endPrice ");
+            params.put("initPrice", initPrice);
+            params.put("endPrice", endPrice);
+        }
         return query;
     }
 
     @Override
-    public Long getMaxPage(String name, Long category, Long user, Long location) {
+    public Long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice) {
         Map<String, Object> params = new HashMap<>();
-        Query query = em.createNativeQuery(queryBuilder(params, "COUNT(*)", name, category, user, location).toString());
+        Query query = em.createNativeQuery(queryBuilder(params, "COUNT(*)", name, category, user, location, initPrice, endPrice).toString());
 
         params.forEach(query::setParameter);
 
@@ -121,9 +127,9 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, long page) {
+    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, Float initPrice, Float endPrice, long page) {
         Map<String, Object> params = new HashMap<>();
-        StringBuilder idQueryBuilder = queryBuilder(params, "id", name, category, user, location);
+        StringBuilder idQueryBuilder = queryBuilder(params, "id", name, category, user, location, initPrice, endPrice);
         idQueryBuilder.append(" ORDER BY ");
 
         idQueryBuilder.append(orderBy.getNativeColumn()).append(" ").append(orderBy.getOrder());

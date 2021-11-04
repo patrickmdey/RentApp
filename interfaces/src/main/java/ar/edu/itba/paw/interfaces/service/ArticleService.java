@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleService {
-    List<Article> get(String name, Long category, Long orderBy, Long user, Long location, long page);
+    List<Article> get(String name, Long category, Long orderBy, Long user, Long location, Float initPrice,
+                      Float endPrice, long page);
 
     Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<MultipartFile> image, long idOwner);
 
@@ -18,7 +19,7 @@ public interface ArticleService {
 
     List<Article> rentedArticles(long renterId, long page);
 
-    Long getMaxPage(String name, Long category, Long user, Long location);
+    Long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice);
 
     Long getRentedMaxPage(long renterId);
 

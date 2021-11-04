@@ -11,6 +11,10 @@ public class SearchForm {
 
     private Long location;
 
+    private Float initPrice;
+
+    private Float endPrice;
+
     public String getQuery() {
         return query;
     }
@@ -49,5 +53,21 @@ public class SearchForm {
 
     public void setLocation(Long location) {
         this.location = location;
+    }
+
+    public Float getInitPrice() {
+        return initPrice;
+    }
+
+    public void setInitPrice(Float initPrice) {
+        this.initPrice = initPrice;
+    }
+
+    public Float getEndPrice() {
+        return endPrice;
+    }
+
+    public void setEndPrice(Float endPrice) {
+        this.endPrice = endPrice;
     }
 }
