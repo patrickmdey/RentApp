@@ -105,9 +105,13 @@ public class ArticleDaoJpa implements ArticleDao {
             params.put("location", location);
         }
 
-        if(initPrice != null && endPrice != null){
-            query.append(" AND price_per_day BETWEEN :initPrice AND :endPrice ");
+        if (initPrice != null) {
+            query.append(" AND price_per_day >= :initPrice ");
             params.put("initPrice", initPrice);
+        }
+
+        if (endPrice != null) {
+            query.append(" AND price_per_day <= :endPrice ");
             params.put("endPrice", endPrice);
         }
         return query;

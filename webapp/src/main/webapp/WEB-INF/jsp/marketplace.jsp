@@ -156,20 +156,20 @@
                         <i class="col-2 ms-n2 color-rentapp-black fa-lg bi bi-pin-map"></i>
                     </div>
                 </div>
-                <div> <!--TODO hacer esto bien -->
-                    <form:label path="initPrice"><spring:message code="article.createArticleForm.price"/></form:label>
+                <div>
+                    <form:label path="initPrice" cssClass="font-weight-bold"><spring:message code="filterForm.minPrice"/></form:label>
                     <div class="input-group">
                         <span class="input-group-text"><spring:message code="currency.symbol"/></span>
-                        <form:input type="number" step="0.01" placeholder="0.0" path="initPrice"
+                        <form:input type="number" step="0.01" path="initPrice"
                                     class="form-control form-control-custom"/>
                     </div>
                     <form:errors path="initPrice" element="p" cssClass="error"/>
 
 
-                    <form:label path="endPrice"><spring:message code="article.createArticleForm.price"/></form:label>
+                    <form:label path="endPrice" cssClass="font-weight-bold"><spring:message code="filterForm.maxPrice"/></form:label>
                     <div class="input-group">
                         <span class="input-group-text"><spring:message code="currency.symbol"/></span>
-                        <form:input type="number" step="0.01" placeholder="0.0" path="endPrice"
+                        <form:input type="number" step="0.01" path="endPrice"
                                     class="form-control form-control-custom"/>
                     </div>
                     <form:errors path="endPrice" element="p" cssClass="error"/>
