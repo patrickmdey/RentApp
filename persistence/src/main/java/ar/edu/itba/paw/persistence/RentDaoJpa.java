@@ -68,7 +68,7 @@ public class RentDaoJpa implements RentDao {
     private List<RentProposal> getRequests(long accountId, int state, long page,
                                            Function<String, StringBuilder> queryBuilder, String userParam) {
         StringBuilder queryBuild = queryBuilder.apply("id");
-        queryBuild.append("ORDER BY start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
+        queryBuild.append("ORDER BY seen, start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuild.toString());
         query.setParameter("limit", RESULTS_PER_PAGE);
@@ -84,7 +84,7 @@ public class RentDaoJpa implements RentDao {
             return Collections.emptyList();
 
         TypedQuery<RentProposal> rentProposalQuery = em.createQuery("FROM RentProposal WHERE" +
-                " id IN (:rentProposalIds) ORDER BY startDate DESC, endDate DESC", RentProposal.class);
+                " id IN (:rentProposalIds) ORDER BY seen, startDate DESC, endDate DESC", RentProposal.class);
 
         rentProposalQuery.setParameter("rentProposalIds", rentProposalIds);
 

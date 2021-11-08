@@ -28,17 +28,19 @@ public class RentServiceImpl implements RentService {
     private EmailService emailService;
 
     private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
-        return getter.get(accountId, state, page);
+        List<RentProposal> proposals = getter.get(accountId, state, page);
+        proposals.forEach(p -> p.setSeen(true));
+        return proposals;
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
         return getRequests(rentDao::ownerRequests, ownerId, state, page);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<RentProposal> sentRequests(long ownerId, int state, long page) {
         return getRequests(rentDao::sentRequests, ownerId, state, page);
     }

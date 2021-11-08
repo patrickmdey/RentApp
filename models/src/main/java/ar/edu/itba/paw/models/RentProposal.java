@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.models;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -23,6 +25,9 @@ public class RentProposal {
 
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
+
+    @Column(nullable = false)
+    private Boolean seen;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "renter_id", referencedColumnName = "id")
@@ -98,6 +103,14 @@ public class RentProposal {
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public Boolean getSeen(){
+        return seen;
+    }
+
+    public void setSeen(boolean seen){
+        this.seen = seen;
     }
 
     @Override
