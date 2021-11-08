@@ -45,13 +45,13 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Long getReceivedMaxPage(long ownerId, int state) {
+    public long getReceivedMaxPage(long ownerId, int state) {
         return rentDao.getReceivedMaxPage(ownerId, state);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Long getSentMaxPage(long ownerId, int state) {
+    public long getSentMaxPage(long ownerId, int state) {
         return rentDao.getSentMaxPage(ownerId, state);
     }
 

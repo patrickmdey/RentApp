@@ -13,7 +13,14 @@
 <c:url value="/user/logout" var="logout"/>
 <c:url value="/user/register" var="register"/>
 
-<c:url value="/user/my-requests/pending" var="myAccount"/>
+<c:choose>
+    <c:when test="${user != null && user.type.isOwner}">
+        <c:url value="/user/my-requests/received/pending" var="myAccount"/>
+    </c:when>
+    <c:otherwise>
+        <c:url value="/user/my-requests/sent/pending" var="myAccount"/>
+    </c:otherwise>
+</c:choose>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-color-primary mb-3">
     <div class="container">

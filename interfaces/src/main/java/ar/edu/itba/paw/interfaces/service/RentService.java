@@ -23,9 +23,9 @@ public interface RentService {
 
     boolean hasRented(User renter, long articleId);
 
-    Long getReceivedMaxPage(long ownerId, int state);
+    long getReceivedMaxPage(long ownerId, int state);
 
-    Long getSentMaxPage(long renterId, int state);
+    long getSentMaxPage(long renterId, int state);
 
     Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
 }

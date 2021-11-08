@@ -43,16 +43,16 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public Long getReceivedMaxPage(long ownerId, int state) {
+    public long getReceivedMaxPage(long ownerId, int state) {
         return getMaxPage(ownerId, state, this::receivedQueryBuilder, OWNER_PARAM);
     }
 
     @Override
-    public Long getSentMaxPage(long ownerId, int state) {
+    public long getSentMaxPage(long ownerId, int state) {
         return getMaxPage(ownerId, state, this::sentQueryBuilder, RENTER_PARAM);
     }
 
-    private Long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
+    private long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
         Query query = em.createNativeQuery(queryBuilder.apply("COUNT(*)").toString());
         query.setParameter(userParam, ownerId);
         query.setParameter("state", state);

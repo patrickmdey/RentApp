@@ -4,7 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:url value="/marketplace" var="marketplace"/>
-<c:url value="/user/my-requests/pending" var="myRequestsUrl"/>
+<c:choose>
+    <c:when test="${user != null && user.type.isOwner}">
+        <c:url value="/user/my-requests/received/pending" var="myRequestsUrl"/>
+    </c:when>
+    <c:otherwise>
+        <c:url value="/user/my-requests/sent/pending" var="myRequestsUrl"/>
+    </c:otherwise>
+</c:choose>
+
 <c:url value="/" var="currentUrl"/>
 <c:url var="landingIllustration"
        value="https://previews.123rf.com/images/emojoez/emojoez1808/emojoez180800011/112266418-illustrations-concept-small-people-creating-value-of-partner-business-via-handshake-deal-between-com.jpg"
