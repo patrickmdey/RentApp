@@ -50,13 +50,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(readOnly = true)
-    public Long getMaxPage(String name, Long category, Long userId, Long location, Float initPrice, Float endPrice) {
+    public long getMaxPage(String name, Long category, Long userId, Long location, Float initPrice, Float endPrice) {
         return articleDao.getMaxPage(name, category, userId, location, initPrice, endPrice);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Long getRentedMaxPage(long renterId) {
+    public long getRentedMaxPage(long renterId) {
         return articleDao.getRentedMaxPage(renterId);
     }
 

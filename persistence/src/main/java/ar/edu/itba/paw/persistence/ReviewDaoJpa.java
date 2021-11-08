@@ -51,7 +51,7 @@ public class ReviewDaoJpa implements ReviewDao {
     }
 
     @Override
-    public Long getMaxPage(long articleId) {
+    public long getMaxPage(long articleId) {
         Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
         query.setParameter("article_id", articleId);
         long size = Long.parseLong(query.getSingleResult().toString());

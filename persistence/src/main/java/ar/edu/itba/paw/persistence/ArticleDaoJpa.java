@@ -118,7 +118,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public Long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice) {
+    public long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice) {
         Map<String, Object> params = new HashMap<>();
         Query query = em.createNativeQuery(queryBuilder(params, "COUNT(*)", name, category, user, location, initPrice, endPrice).toString());
 
@@ -163,7 +163,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public Long getRentedMaxPage(long user) {
+    public long getRentedMaxPage(long user) {
         Query query = em.createNativeQuery("SELECT COUNT(*) FROM article WHERE id IN (" +
                 "SELECT article_id FROM rent_proposal WHERE renter_id = :renter_id AND state = :state )");
 
