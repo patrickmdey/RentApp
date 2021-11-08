@@ -42,15 +42,16 @@ public class RentProposal {
     }
 
     public RentProposal(long id, String message, Integer state, LocalDate startDate, LocalDate endDate) {
-        this(message, state, startDate, endDate);
+        this(message, state, startDate, endDate, false);
         this.id = id;
     }
 
-    public RentProposal(String message, Integer state, LocalDate startDate, LocalDate endDate) {
+    public RentProposal(String message, Integer state, LocalDate startDate, LocalDate endDate, Boolean seen) {
         this.message = message;
         this.state = state;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.seen = seen;
     }
 
     public long getId() {
