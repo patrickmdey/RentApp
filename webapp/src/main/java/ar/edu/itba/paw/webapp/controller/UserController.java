@@ -235,11 +235,11 @@ public class UserController {
         List<RentProposal> proposals;
         long maxPage;
         if (isReceived) {
-            proposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
-            maxPage = rentService.getReceivedMaxPage(user.getId(), state.ordinal());
+            proposals = rentService.ownerRequests(user.getId(), state, page);
+            maxPage = rentService.getReceivedMaxPage(user.getId(), state);
         } else {
-            proposals = rentService.sentRequests(user.getId(), state.ordinal(), page);
-            maxPage = rentService.getSentMaxPage(user.getId(), state.ordinal());
+            proposals = rentService.sentRequests(user.getId(), state, page);
+            maxPage = rentService.getSentMaxPage(user.getId(), state);
         }
 
         mav.addObject("state", state);

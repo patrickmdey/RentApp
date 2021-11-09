@@ -37,6 +37,9 @@ public class RentProposal {
     @JoinColumn(name = "article_id", referencedColumnName = "id")
     private Article article;
 
+    @Transient
+    private boolean marked;
+
     RentProposal(){
 
     }
@@ -112,6 +115,14 @@ public class RentProposal {
 
     public void setSeen(boolean seen){
         this.seen = seen;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
     }
 
     @Override

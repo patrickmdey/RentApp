@@ -15,6 +15,7 @@
 <%@ attribute name="email" required="true" %>
 <%@ attribute name="imageId" required="true" %>
 <%@ attribute name="isReceived" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="marked" required="true" %>
 
 
 <c:url value="/user/my-requests/${id}/accept" var="acceptRequest"/>
@@ -47,8 +48,11 @@
 </div>
 
 <div class="card card-style my-requests-card my-2">
-    <a href="${goToArticle}">
-        <h3 class="h3 mb-2 color-action"><c:out value="${articleName}"/></h3>
+    <a href="${goToArticle}" class="d-flex w-100 justify-content-start align-items-center mb-2">
+        <c:if test="${marked}">
+            <i class="bi bi-circle-fill color-rentapp-red me-3"></i>
+        </c:if>
+        <h3 class="h3 color-action mb-0"><c:out value="${articleName}"/></h3>
     </a>
     <hr>
     <div class="row">
