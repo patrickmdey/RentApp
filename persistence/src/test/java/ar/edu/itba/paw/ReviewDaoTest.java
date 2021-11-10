@@ -15,6 +15,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 @Sql("classpath:populateReviewTest.sql")
@@ -25,6 +27,9 @@ import java.util.Optional;
 public class ReviewDaoTest {
     @Autowired
     private ReviewDao reviewDao;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Test
     public void hasReviewedSucceed() {
@@ -74,14 +79,18 @@ public class ReviewDaoTest {
         final long userId = 2;
 
         // Act
-        Review review = reviewDao.create(rating, message, articleId, userId);
+        Review r = reviewDao.create(rating, message, articleId, userId);
 
         // Assert
+
+        Review review = em.find(Review.class, r.getId());
+
         Assert.assertEquals(rating, review.getRating());
         Assert.assertEquals(message, review.getMessage());
         Assert.assertEquals(articleId, review.getArticle().getId());
         Assert.assertEquals(userId, review.getRenter().getId());
     }
+
 
     @Test(expected = CannotCreateReviewException.class)
     public void createFailInvalidParameters() {

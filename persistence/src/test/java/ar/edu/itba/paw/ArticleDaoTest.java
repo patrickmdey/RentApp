@@ -17,6 +17,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +32,9 @@ import java.util.Set;
 public class ArticleDaoTest {
     @Autowired
     private ArticleDao articleDao;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Test
     public void filterSucceedByName() {
@@ -117,7 +122,9 @@ public class ArticleDaoTest {
 
         // Assert
         Assert.assertTrue(optionalResult.isPresent());
-        Article result = optionalResult.get();
+        Article r = optionalResult.get();
+
+        Article result = em.find(Article.class, r.getId());
 
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());
@@ -148,9 +155,11 @@ public class ArticleDaoTest {
         final long idOwner = 1;
 
         // Act
-        Article result = articleDao.createArticle(title, description, pricePerDay, idOwner);
+        Article r = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         // Assert
+
+        Article result = em.find(Article.class, r.getId());
 
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());

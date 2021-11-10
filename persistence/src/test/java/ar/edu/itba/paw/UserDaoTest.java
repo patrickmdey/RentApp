@@ -1,6 +1,5 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
@@ -18,6 +17,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 @Sql("classpath:populateUserTest.sql")
@@ -30,9 +31,8 @@ public class UserDaoTest {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private ImageDao imageDao;
-
+    @PersistenceContext
+    private EntityManager em;
 
     @Test
     public void findByIdSucceed() {
@@ -70,14 +70,14 @@ public class UserDaoTest {
         final String lastName = "last";
         final Locations locationId = Locations.CHACARITA;
         final UserType type = UserType.OWNER;
-
-        // TODO: Es la mejor forma? necesito que esta variable sea persistida por hiberate.
-        final DBImage image = imageDao.findById(3).get();
+        final DBImage image = em.find(DBImage.class, 3);
 
         // Act
-        User user = userDao.register(email, password, firstName, lastName, locationId, image, type);
+        User u = userDao.register(email, password, firstName, lastName, locationId, image, type);
 
         // Assert
+        User user = em.find(User.class, u.getId());
+
         Assert.assertEquals(email, user.getEmail());
         Assert.assertEquals(password, user.getPassword());
         Assert.assertEquals(firstName, user.getFirstName());
@@ -114,6 +114,7 @@ public class UserDaoTest {
         userDao.delete(userId);
 
         // Assert
+        Assert.assertNull(em.find(User.class, userId));
     }
 
     @Test(expected = UserNotFoundException.class)

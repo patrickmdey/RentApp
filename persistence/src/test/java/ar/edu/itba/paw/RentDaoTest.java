@@ -15,6 +15,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +31,8 @@ import java.util.Optional;
 public class RentDaoTest {
     @Autowired
     private RentDao rentDao;
+    @PersistenceContext
+    private EntityManager em;
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -102,10 +106,10 @@ public class RentDaoTest {
         final long renterId = 1;
 
         // Act
-        RentProposal result = rentDao.create(comment, state, startDate, endDate, articleId, renterId);
+        RentProposal r = rentDao.create(comment, state, startDate, endDate, articleId, renterId);
 
         // Assert
-
+        RentProposal result = em.find(RentProposal.class, r.getId());
         Assert.assertEquals(comment, result.getMessage());
         Assert.assertEquals(state, result.getState());
         Assert.assertEquals(startDate, result.getStartDate());
@@ -148,21 +152,6 @@ public class RentDaoTest {
         // Assert
         Assert.fail();
     }
-
-    /*
-    @Test(expected = Test.None.class)
-    public void updateRequestSucceed() {
-        // Arrange
-        final long requestId = 1;
-        final int state = RentState.ACCEPTED.ordinal();
-
-        // Act
-        rentDao.updateRequest(requestId,state);
-
-        // Assert
-
-    }
-     */
 
     @Test
     public void hasRentedSucceedReturnTrue() {
