@@ -37,10 +37,10 @@ INSERT INTO article_picture (picture_id, article_id)
 VALUES (10,2);
 
 -- load rent_proposal
-INSERT INTO rent_proposal (id,start_date,end_date,message,state,article_id,renter_id)
-values (1,'2021-10-05', '2021-11-01','can I rent', 0,1,2),
-       (2,'2021-10-05', '2021-11-01','can I rent', 1,2,2),
-       (3,'2021-10-05', '2021-11-01','can I rent', 1,3,2);
+INSERT INTO rent_proposal (id,start_date,end_date,message,state,article_id,renter_id,seen)
+values (1,'2021-10-05', '2021-11-01','can I rent', 0,1,2,false),
+       (2,'2021-10-05', '2021-11-01','can I rent', 1,2,2,false),
+       (3,'2021-10-05', '2021-11-01','can I rent', 1,3,2,false);
 
 -- load review
 INSERT INTO review (id, rating, message, article_id,renter_id, created_at  )

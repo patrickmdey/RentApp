@@ -34,7 +34,7 @@ VALUES (1,1),
        (1,4);
 
 -- rent_proposal
-INSERT INTO rent_proposal (id,start_date,end_date,message,state,article_id,renter_id)
-values (1,'2021-10-05', '2021-11-01','can I rent 1', 0,1,2),
-       (2,'2021-10-05', '2021-11-01','can I rent 2', 1,2,2),
-       (3,'2021-10-05', '2021-11-01','can I rent 3', 1,3,2);
+INSERT INTO rent_proposal (id,start_date,end_date,message,state,article_id,renter_id,seen)
+values (1,'2021-10-05', '2021-11-01','can I rent 1', 0,1,2,false),
+       (2,'2021-10-05', '2021-11-01','can I rent 2', 1,2,2,false),
+       (3,'2021-10-05', '2021-11-01','can I rent 3', 1,3,2,false);

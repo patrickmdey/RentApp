@@ -2,7 +2,6 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.CategoryDao;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,16 +54,15 @@ public class CategoryDaoTest {
         Assert.assertEquals(idCategory,result.getId());
     }
 
-    @Test(expected = CategoryNotFoundException.class)
     public void findByIdFailCategoryNotFound() {
         // Arrange
         final long idCategory = 2000;
 
         // Act
-        categoryDao.findById(idCategory);
+        Optional<Category> category = categoryDao.findById(idCategory);
 
         // Assert
-        Assert.fail();
+        Assert.assertFalse(category.isPresent());
 
     }
 }

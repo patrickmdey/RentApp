@@ -172,7 +172,7 @@ public class ArticleDaoTest {
         // Arrange
         final String title = null;
         final String description = null;
-        final Float pricePerDay = null;
+        final float pricePerDay = 123;
         final long idOwner = 1;
 
         // Act
@@ -202,7 +202,7 @@ public class ArticleDaoTest {
         // Arrange
         final long idRenter = 2;
         final long page = 1;
-        final long[] expectedIds = {2, 3};
+        final long[] expectedIds = {3, 2};
 
         // Act
         List<Article> result = articleDao.rentedArticles(idRenter, page);

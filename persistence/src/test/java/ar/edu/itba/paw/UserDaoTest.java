@@ -70,7 +70,7 @@ public class UserDaoTest {
         final String lastName = "last";
         final Locations locationId = Locations.CHACARITA;
         final UserType type = UserType.OWNER;
-        final DBImage image = em.find(DBImage.class, 3);
+        final DBImage image = em.find(DBImage.class, 3L);
 
         // Act
         User u = userDao.register(email, password, firstName, lastName, locationId, image, type);
