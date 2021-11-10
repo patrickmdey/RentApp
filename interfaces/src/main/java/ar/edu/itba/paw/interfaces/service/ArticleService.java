@@ -19,9 +19,9 @@ public interface ArticleService {
 
     List<Article> rentedArticles(long renterId, long page);
 
-    Long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice);
+    long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice);
 
-    Long getRentedMaxPage(long renterId);
+    long getRentedMaxPage(long renterId);
 
     List<Article> recommendedArticles(long articleId);
 

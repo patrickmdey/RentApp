@@ -180,20 +180,36 @@ public class UserController {
         accountForm.setLocation((long) user.getLocation().ordinal());
     }
 
-    @RequestMapping("/my-requests/accepted")
-    public ModelAndView acceptedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
-        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page);
+    @RequestMapping("/my-requests/received/accepted")
+    public ModelAndView acceptedReceivedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page, true);
     }
 
-    @RequestMapping("/my-requests/pending")
-    public ModelAndView pendingRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
-        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page);
+    @RequestMapping("/my-requests/received/pending")
+    public ModelAndView pendingReceivedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page, true);
     }
 
-    @RequestMapping("/my-requests/declined")
-    public ModelAndView declinedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
-        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page);
+    @RequestMapping("/my-requests/received/declined")
+    public ModelAndView declinedReceivedRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page, true);
     }
+
+    @RequestMapping("/my-requests/sent/accepted")
+    public ModelAndView acceptedSentRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.ACCEPTED, page, false);
+    }
+
+    @RequestMapping("/my-requests/sent/pending")
+    public ModelAndView pendingSentRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.PENDING, page, false);
+    }
+
+    @RequestMapping("/my-requests/sent/declined")
+    public ModelAndView declinedSentRequests(@RequestParam(value = "page", required = false, defaultValue = "1") long page) {
+        return getRentRequests(userAdvice.loggedUser(), RentState.DECLINED, page, false);
+    }
+
 
     @RequestMapping(value = "/my-requests/{requestId}/accept", method = RequestMethod.POST)
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #requestId)")
@@ -201,7 +217,7 @@ public class UserController {
         String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("accepting request with id {}", requestId);
         rentService.acceptRequest(requestId, webpageUrl);
-        return new ModelAndView("redirect:/user/my-requests/accepted");
+        return new ModelAndView("redirect:/user/my-requests/received/accepted");
     }
 
     @RequestMapping(value = "/my-requests/{requestId}/delete", method = RequestMethod.POST)
@@ -210,19 +226,26 @@ public class UserController {
         String webpageUrl = ServletUriComponentsBuilder.fromCurrentRequestUri().scheme("http").replacePath(null).build().toUriString() + servletContext.getContextPath();
         userLogger.info("rejecting request with id {}", requestId);
         rentService.rejectRequest(requestId, webpageUrl);
-        return new ModelAndView("redirect:/user/my-requests/declined");
+        return new ModelAndView("redirect:/user/my-requests/received/declined");
     }
 
-    private ModelAndView getRentRequests(User user, RentState state, long page) {
+    private ModelAndView getRentRequests(User user, RentState state, long page, boolean isReceived) {
         final ModelAndView mav = new ModelAndView("account/myRequests");
-        List<RentProposal> receivedProposals = rentService.ownerRequests(user.getId(), state.ordinal(), page);
-        List<RentProposal> sentProposals = rentService.sentRequests(user.getId(), state.ordinal(), page);
+
+        List<RentProposal> proposals;
+        long maxPage;
+        if (isReceived) {
+            proposals = rentService.ownerRequests(user.getId(), state, page);
+            maxPage = rentService.getReceivedMaxPage(user.getId(), state);
+        } else {
+            proposals = rentService.sentRequests(user.getId(), state, page);
+            maxPage = rentService.getSentMaxPage(user.getId(), state);
+        }
 
         mav.addObject("state", state);
-        mav.addObject("receivedProposals", receivedProposals);
-        mav.addObject("sentProposals", sentProposals);
-        mav.addObject("receivedMaxPage", rentService.getReceivedMaxPage(user.getId(), state.ordinal()));
-        mav.addObject("sentMaxPage", rentService.getSentMaxPage(user.getId(), state.ordinal()));
+        mav.addObject("isReceived", isReceived);
+        mav.addObject("proposals", proposals);
+        mav.addObject("maxPage", maxPage);
         return mav;
     }
 

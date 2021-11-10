@@ -57,10 +57,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         dataSource.setUrl("jdbc:postgresql://localhost:5432/paw"); //LOCAL
 
-//        dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
-
         dataSource.setUsername("postgres"); //LOCAL
         dataSource.setPassword("root"); //LOCAL
+
+//        dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
 //
 //        dataSource.setUsername("paw-2021b-3");
 //        dataSource.setPassword("hqpefZ04Y");
@@ -82,7 +82,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
 
-        // TODO: Si ponen esto en prod, hay tabla!!!
+//
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("format_sql", "true");
 

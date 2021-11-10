@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Long getMaxPage(long articleId) {
+    public long getMaxPage(long articleId) {
         return reviewDao.getMaxPage(articleId);
     }
 

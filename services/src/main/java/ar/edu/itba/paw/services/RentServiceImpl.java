@@ -32,27 +32,38 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
-        return getRequests(rentDao::ownerRequests, ownerId, state, page);
+    @Transactional
+    public List<RentProposal> ownerRequests(long ownerId, RentState state, long page) {
+        return getRequests(rentDao::ownerRequests, ownerId, state.ordinal(), page);
+    }
+
+    @Override
+    @Transactional
+    public List<RentProposal> sentRequests(long ownerId, RentState state, long page) {
+        List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state.ordinal(), page);
+        if (!state.equals(RentState.PENDING)){
+            toReturn.forEach(proposal -> {
+                if(!proposal.getSeen()) {
+                    proposal.setSeen(true);
+                    proposal.setMarked(true);
+                } else {
+                    proposal.setMarked(false);
+                }
+            });
+        }
+        return toReturn;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<RentProposal> sentRequests(long ownerId, int state, long page) {
-        return getRequests(rentDao::sentRequests, ownerId, state, page);
+    public long getReceivedMaxPage(long ownerId, RentState state) {
+        return rentDao.getReceivedMaxPage(ownerId, state.ordinal());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Long getReceivedMaxPage(long ownerId, int state) {
-        return rentDao.getReceivedMaxPage(ownerId, state);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Long getSentMaxPage(long ownerId, int state) {
-        return rentDao.getSentMaxPage(ownerId, state);
+    public long getSentMaxPage(long ownerId, RentState state) {
+        return rentDao.getSentMaxPage(ownerId, state.ordinal());
     }
 
     @Override
@@ -83,10 +94,10 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public void rejectRequest(long requestId, String webpageUrl) {
-        RentProposal request = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
-        request.setState(RentState.DECLINED.ordinal());
+        RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
+        rentProposal.setState(RentState.DECLINED.ordinal());
 
-        emailService.sendMailRequestDenied(request, request.getArticle().getOwner(), webpageUrl);
+        emailService.sendMailRequestDenied(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
     }
 
     @Override
@@ -100,7 +111,7 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
+    public boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate) {
         return rentDao.isPresentSameDate(renterId, articleId, startDate, endDate);
     }
 }

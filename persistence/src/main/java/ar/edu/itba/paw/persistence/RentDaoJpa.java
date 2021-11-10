@@ -43,16 +43,16 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public Long getReceivedMaxPage(long ownerId, int state) {
+    public long getReceivedMaxPage(long ownerId, int state) {
         return getMaxPage(ownerId, state, this::receivedQueryBuilder, OWNER_PARAM);
     }
 
     @Override
-    public Long getSentMaxPage(long ownerId, int state) {
+    public long getSentMaxPage(long ownerId, int state) {
         return getMaxPage(ownerId, state, this::sentQueryBuilder, RENTER_PARAM);
     }
 
-    private Long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
+    private long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
         Query query = em.createNativeQuery(queryBuilder.apply("COUNT(*)").toString());
         query.setParameter(userParam, ownerId);
         query.setParameter("state", state);
@@ -68,7 +68,7 @@ public class RentDaoJpa implements RentDao {
     private List<RentProposal> getRequests(long accountId, int state, long page,
                                            Function<String, StringBuilder> queryBuilder, String userParam) {
         StringBuilder queryBuild = queryBuilder.apply("id");
-        queryBuild.append("ORDER BY start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
+        queryBuild.append("ORDER BY seen, start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuild.toString());
         query.setParameter("limit", RESULTS_PER_PAGE);
@@ -84,7 +84,7 @@ public class RentDaoJpa implements RentDao {
             return Collections.emptyList();
 
         TypedQuery<RentProposal> rentProposalQuery = em.createQuery("FROM RentProposal WHERE" +
-                " id IN (:rentProposalIds) ORDER BY startDate DESC, endDate DESC", RentProposal.class);
+                " id IN (:rentProposalIds) ORDER BY seen, startDate DESC, endDate DESC", RentProposal.class);
 
         rentProposalQuery.setParameter("rentProposalIds", rentProposalIds);
 
@@ -116,7 +116,7 @@ public class RentDaoJpa implements RentDao {
         if (renter == null)
             throw new UserNotFoundException();
 
-        RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate);
+        RentProposal rentProposal = new RentProposal(comment, approved, startDate, endDate, false);
         rentProposal.setArticle(article);
         rentProposal.setRenter(renter);
 
@@ -133,7 +133,7 @@ public class RentDaoJpa implements RentDao {
     public boolean hasRented(long renterId, long articleId) {
         final TypedQuery<Long> query = em.createQuery("SELECT count(r) from RentProposal as r " +
                         "WHERE r.renter.id = :renter AND r.article.id = :article " +
-                        "AND r.state = :state", Long.class);
+                        "AND r.state = :state AND r.startDate < current_date()", Long.class);
 
         query.setParameter("renter", renterId);
         query.setParameter("article", articleId);

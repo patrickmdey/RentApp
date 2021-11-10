@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 
 import java.time.LocalDate;
@@ -10,9 +11,9 @@ import java.util.Optional;
 public interface RentService {
     Optional<RentProposal> findById(long id);
 
-    List<RentProposal> ownerRequests(long ownerId, int state, long page);
+    List<RentProposal> ownerRequests(long ownerId, RentState state, long page);
 
-    List<RentProposal> sentRequests(long renterId, int state, long page);
+    List<RentProposal> sentRequests(long renterId, RentState state, long page);
 
     void acceptRequest(long requestId, String webpageUrl);
 
@@ -23,9 +24,9 @@ public interface RentService {
 
     boolean hasRented(User renter, long articleId);
 
-    Long getReceivedMaxPage(long ownerId, int state);
+    long getReceivedMaxPage(long ownerId, RentState state);
 
-    Long getSentMaxPage(long renterId, int state);
+    long getSentMaxPage(long renterId, RentState state);
 
-    Boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
+    boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
 }

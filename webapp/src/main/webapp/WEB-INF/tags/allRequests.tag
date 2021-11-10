@@ -21,6 +21,7 @@
                            message="${request.message}" id="${request.id}" state="${request.state}"
                            userId="${userId}" email="${uInfo.email}"
                            isReceived="${isReceived}" articleId="${request.article.id}"
+                           marked="${request.marked}"
             />
         </c:forEach>
         <h:pagination currentUrl="${currentUrl}" maxPage="${maxPage}"/>

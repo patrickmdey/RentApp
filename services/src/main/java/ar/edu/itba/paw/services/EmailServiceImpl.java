@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestToOwner(Context context, String webpageUrl) {
-        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/pending");
+        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/received/pending");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
                 emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
@@ -102,7 +102,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl) {
-        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/accepted");
+        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/received/accepted");
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }

@@ -13,7 +13,7 @@ public interface ReviewDao {
 
     Review create(int rating, String message, long articleId, long renterId);
 
-    Long getMaxPage(long articleId);
+    long getMaxPage(long articleId);
 
     boolean hasReviewed(long userId, long articleId);
 }
