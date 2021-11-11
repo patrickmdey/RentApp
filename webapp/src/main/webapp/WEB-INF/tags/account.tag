@@ -24,13 +24,13 @@
         <form:form modelAttribute="accountForm" action="${actionUrl}" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-6">
-                    <controls:TextBox path="firstName" type="text"
+                    <controls:textBox path="firstName" type="text"
                                       labelCode="account.form.firstName"
                                       placeholderCode="placeholder.name"/>
 
                 </div>
                 <div class="col-6">
-                    <controls:TextBox path="lastName" type="text"
+                    <controls:textBox path="lastName" type="text"
                                       labelCode="account.form.lastName"
                                       placeholderCode="placeholder.lastName"/>
 
@@ -39,7 +39,7 @@
             <div class="row">
                 <c:if test="${!isEdit}">
                     <div class="col-6">
-                        <controls:TextBox path="email" type="text"
+                        <controls:textBox path="email" type="text"
                                           labelCode="account.form.email"
                                           placeholderCode="placeholder.email"/>
 
@@ -47,7 +47,7 @@
                 </c:if>
                 <div class="col-6">
 
-                    <controls:LocationSelect items="${locations}" path="location"
+                    <controls:locationSelect items="${locations}" path="location"
                                              labelCode="account.form.location"
                                              errorCode="errors.requiredLocation"
                     />
@@ -57,12 +57,12 @@
             <c:if test="${isCreate}">
                 <div class="row">
                     <div class="col-6">
-                        <controls:TextBox path="password" type="password"
+                        <controls:textBox path="password" type="password"
                                           labelCode="account.form.password"
                                           placeholderCode="placeholder.password"/>
                     </div>
                     <div class="col-6">
-                        <controls:TextBox path="confirmPassword" type="password"
+                        <controls:textBox path="confirmPassword" type="password"
                                           labelCode="account.form.confirmPassword"
                                           placeholderCode="placeholder.secondPassword"/>
                     </div>
@@ -71,12 +71,12 @@
             </c:if>
             <c:if test="${!isEdit}">
                 <div class="my-2">
-                    <controls:CheckBox path="isOwner" labelCode="account.form.isOwner"/>
+                    <controls:checkBox path="isOwner" labelCode="account.form.isOwner"/>
                 </div>
             </c:if>
             <c:if test="${isCreate}">
                 <div class="d-flex justify-content-center mt-2">
-                    <controls:Button col="col-4" color="bg-color-action btn-dark"
+                    <controls:button col="col-4" color="bg-color-action btn-dark"
                                      labelCode="account.form.publishButton"/>
                 </div>
             </c:if>

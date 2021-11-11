@@ -56,7 +56,7 @@
                     </label>
                 </div>
                 <div class="text-center">
-                    <control:Button color="bg-color-action btn-dark mb-2" labelCode="login.form.loginButton"/>
+                    <control:button color="bg-color-action btn-dark mb-2" labelCode="login.form.loginButton"/>
 
                     <a class="btn btn-link color-action" href="${registerUrl}">
                         <spring:message code="login.form.registerButton"/>

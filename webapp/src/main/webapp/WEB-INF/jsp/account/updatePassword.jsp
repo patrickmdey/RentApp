@@ -27,11 +27,11 @@
             <h3 class="h3 fw-bold my-1"><spring:message code="account.updatePassword.form.title"/></h3>
             <hr/>
             <form:form method="post" action="${actionUrl}" modelAttribute="passwordForm">
-            <controls:TextBox path="password" type="password"
+            <controls:textBox path="password" type="password"
                               labelCode="account.form.password"
                               placeholderCode="placeholder.password"/>
             <div class="mt-2">
-                <controls:TextBox path="confirmPassword" type="password"
+                <controls:textBox path="confirmPassword" type="password"
                                   labelCode="account.form.confirmPassword"
                                   placeholderCode="placeholder.secondPassword"
                 />

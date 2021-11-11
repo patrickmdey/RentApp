@@ -18,7 +18,7 @@
         <h3 class="col-8 h3"><spring:message code="account.reviews.title"/></h3>
         <c:if test="${canReview}">
             <div class="col-4">
-                <control:LinkButton href="${writeReview}" labelCode="article.createReview.title"
+                <control:linkButton href="${writeReview}" labelCode="article.createReview.title"
                                     color="bg-color-action color-grey"/>
             </div>
         </c:if>
