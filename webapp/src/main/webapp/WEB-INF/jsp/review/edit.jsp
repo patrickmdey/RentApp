@@ -9,7 +9,6 @@
 <c:url value="/review/${reviewId}/edit" var="updateReview"/>
 <c:url value="/article/${article.id}" var="goBack"/>
 
-<!-- TODO Este archivo es igual al review/create. MODULARIZAR -->
 <html>
 <h:head title="title.editReview"/>
 <body class="bg-color-grey">

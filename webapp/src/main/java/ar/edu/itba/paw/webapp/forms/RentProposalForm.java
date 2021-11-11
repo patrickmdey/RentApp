@@ -4,7 +4,6 @@ import ar.edu.itba.paw.webapp.forms.annotations.FutureDate;
 import ar.edu.itba.paw.webapp.forms.annotations.GreaterDate;
 import ar.edu.itba.paw.webapp.forms.annotations.UniqueRentRequest;
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

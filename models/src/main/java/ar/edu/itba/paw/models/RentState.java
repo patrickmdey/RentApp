@@ -24,6 +24,4 @@ public enum RentState {
     public boolean getIsDeclined() {
         return isDeclined;
     }
-
-
 }

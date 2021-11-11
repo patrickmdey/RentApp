@@ -147,7 +147,6 @@ i.overflow-icon:hover {
     width: 100%;
 }
 
-/*TODO: no lo esta tomanod*/
 a.request-pill.active {
     background-color: var(--color-action);
 }

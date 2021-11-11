@@ -21,7 +21,7 @@ public class DBImage {
         this.img = img;
     }
 
-    DBImage (){
+    /* package */ DBImage (){
         // For hibernate
     }
 

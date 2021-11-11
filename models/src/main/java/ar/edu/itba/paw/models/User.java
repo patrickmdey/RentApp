@@ -36,13 +36,13 @@ public class User {
     private DBImage picture;
 
     @Formula("(SELECT COUNT(*) FROM rent_proposal AS r JOIN article AS a ON (r.article_id = a.id) WHERE r.state = 0 AND NOT r.seen AND a.owner_id = id)")
-    private Long pendingRequestAmount = 0L;
+    private long pendingRequestAmount = 0;
 
     @Formula("(SELECT COUNT(*) FROM rent_proposal AS r  WHERE r.state = 1 AND NOT r.seen AND r.renter_id = id)")
-    private Long acceptedRequestAmount = 0L;
+    private long acceptedRequestAmount = 0;
 
     @Formula("(SELECT COUNT(*) FROM rent_proposal AS r  WHERE r.state = 2 AND NOT r.seen AND r.renter_id = id)")
-    private Long declinedRequestAmount = 0L;
+    private long declinedRequestAmount = 0;
 
 
     /* package */ User() {
@@ -124,27 +124,27 @@ public class User {
         this.type = type;
     }
 
-    public Long getPendingRequestAmount() {
+    public long getPendingRequestAmount() {
         return pendingRequestAmount;
     }
 
-    public void setPendingRequestAmount(Long pendingRequestAmount) {
+    public void setPendingRequestAmount(long pendingRequestAmount) {
         this.pendingRequestAmount = pendingRequestAmount;
     }
 
-    public Long getAcceptedRequestAmount() {
+    public long getAcceptedRequestAmount() {
         return acceptedRequestAmount;
     }
 
-    public void setAcceptedRequestAmount(Long acceptedRequestAmount) {
+    public void setAcceptedRequestAmount(long acceptedRequestAmount) {
         this.acceptedRequestAmount = acceptedRequestAmount;
     }
 
-    public Long getDeclinedRequestAmount() {
+    public long getDeclinedRequestAmount() {
         return declinedRequestAmount;
     }
 
-    public void setDeclinedRequestAmount(Long declinedRequestAmount) {
+    public void setDeclinedRequestAmount(long declinedRequestAmount) {
         this.declinedRequestAmount = declinedRequestAmount;
     }
 

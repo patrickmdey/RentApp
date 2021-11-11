@@ -6,8 +6,6 @@ import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @FieldsEquality(firstFieldName = "password", secondFieldName = "confirmPassword")
@@ -29,7 +27,7 @@ public class AccountForm extends EditAccountForm {
     @ValidFile
     private MultipartFile img;
 
-    private boolean isOwner; //TODO checkear checkbox ¿puede ser null?
+    private boolean isOwner;
 
     public MultipartFile getImg() {
         return img;

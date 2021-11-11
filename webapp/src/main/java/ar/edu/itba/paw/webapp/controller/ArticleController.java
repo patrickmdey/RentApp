@@ -3,7 +3,6 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.*;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
@@ -19,10 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -84,7 +81,7 @@ public class ArticleController {
     public ModelAndView createProposal(@Valid @ModelAttribute("rentForm") RentProposalForm rentForm,
                                        BindingResult errors, @PathVariable("articleId") long articleId) {
         if (errors.hasErrors()) {
-            return viewArticle(rentForm, articleId, true, 1L);
+            return viewArticle(rentForm, articleId, true, 1);
         }
 
         articleLogger.info("creating new rent proposal with params --> message: {}, articleId: {}, renterEmail: {}",

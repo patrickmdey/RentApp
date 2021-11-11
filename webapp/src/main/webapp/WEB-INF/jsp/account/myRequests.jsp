@@ -28,7 +28,7 @@
         <c:url value="${baseUrl}pending" var="currentUrl"/>
         <c:url value="/user/my-requests/received/pending" var="receivedUrl"/>
         <c:url value="/user/my-requests/sent/pending" var="sentUrl"/>
-        <c:set var="stateColor" value="${1}"/> <!-- TODO cambiar esto -->
+        <c:set var="stateColor" value="${1}"/>
     </c:when>
     <c:when test="${state.isAccepted}">
         <c:url value="${baseUrl}accepted" var="currentUrl"/>

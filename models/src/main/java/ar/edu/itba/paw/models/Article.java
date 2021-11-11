@@ -43,7 +43,7 @@ public class Article {
     private Set<Category> categories = new HashSet<>();
 
     @Formula("(SELECT COUNT(*) FROM rent_proposal AS r WHERE r.article_id = id AND r.state = 1)")
-    private long timesRented = 0L; //TODO cambiar tipo de dato
+    private long timesRented = 0;
 
     @Formula("(SELECT COALESCE(AVG(r.rating), 0) FROM review AS r WHERE r.article_id = id)")
     private int rating = 0;

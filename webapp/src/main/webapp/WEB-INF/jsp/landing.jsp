@@ -140,14 +140,13 @@
                         <h:marketplaceCard title="${article.title}" price="${article.pricePerDay}"
                                            id="${article.id}"
                                            location="${article.owner.location.name()}"
-                                           image_id="${article.images.size()==0 ? 1 : article.images.get(0).id}"
+                                           image_id="${article.images.get(0).id}"
                                            rating="${article.rating}" timesReviewed="${article.timesReviewed}"/>
                     </div>
                 </c:forEach>
             </div>
         </div>
     </div>
-    <!--TODO arreglar toda esta parte-->
     <div class="bg-color-secondary w-100">
         <h3 class="h3 text-bold text-center"><spring:message code="landing.searchByCategory"/></h3>
         <div class="row landing-category-container">
@@ -159,7 +158,7 @@
                         <div class="text-center mt-2">
                             <p class="lead"><spring:message code="${category.description}"/></p>
                         </div>
-                        <c:url value="/marketplace" var="categoryUrl"> <!--TODO pensar si poner un orderBy-->
+                        <c:url value="/marketplace" var="categoryUrl">
                             <c:param name="category" value="${category.id}"/>
                         </c:url>
                         <a href="${categoryUrl}" class="stretched-link"></a>

@@ -40,8 +40,8 @@ public class RentProposal {
     @Transient
     private boolean marked;
 
-    RentProposal(){
-
+    /* package */ RentProposal() {
+        // Just for Hibernate
     }
 
     public RentProposal(long id, String message, Integer state, LocalDate startDate, LocalDate endDate) {
@@ -109,11 +109,11 @@ public class RentProposal {
         this.article = article;
     }
 
-    public Boolean getSeen(){
+    public Boolean getSeen() {
         return seen;
     }
 
-    public void setSeen(boolean seen){
+    public void setSeen(boolean seen) {
         this.seen = seen;
     }
 
