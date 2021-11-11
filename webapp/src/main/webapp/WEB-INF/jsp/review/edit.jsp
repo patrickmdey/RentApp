@@ -26,21 +26,20 @@
                              alt="<c:out value="${article.title}"/> - image">
                     </div>
                     <div class="col-8">
-                        <div class="d-flex">
-                            <p class="lead fw-bold me-1"><spring:message code="article.writeReview.articleName"/></p>
+                        <div>
                             <p class="lead fw-bold"><c:out value="${article.title}"/></p>
                         </div>
-                        <div class="justify-content-center mt-3">
-                            <p class="lead fw-bold mt-n3"><spring:message code="article.writeReview.rating"/></p>
-                            <div class="d-flex justify-content-center align-items-center">
+                        <div class="mt-3">
+                            <p class="lead"><spring:message code="article.writeReview.rating"/></p>
+                            <div class="d-flex justify-content-between align-items-center w-100">
                                 <c:forEach var="rate" items="${rating}">
-                                    <div class="mx-2">
+                                    <div class="mx-2 mb-2">
                                         <form:radiobutton path="rating" value="${rate}"/>
                                         <c:out value="${rate}"/>
                                     </div>
                                 </c:forEach>
-                                <form:errors path="rating"/>
                             </div>
+                            <form:errors path="rating" element="p" cssClass="error"/>
                         </div>
                     </div>
                 </div>

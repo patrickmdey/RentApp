@@ -4,8 +4,6 @@ import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
-
-import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {

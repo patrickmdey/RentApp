@@ -10,8 +10,6 @@ public interface EmailService {
 
     void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl);
 
-//    void sendMailRequestConfirmationToOwner(String to, Map<String, String> values, long ownerId);
-
     void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl);
 
     void sendMailRequestDenied(RentProposal rentProposal, User owner, String webpageUrl);

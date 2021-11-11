@@ -2,7 +2,6 @@ package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.helpers.AssertionHelper;
 import ar.edu.itba.paw.interfaces.dao.ArticleDao;
-import ar.edu.itba.paw.interfaces.dao.ArticleImageDao;
 import ar.edu.itba.paw.interfaces.dao.UserDao;
 import ar.edu.itba.paw.interfaces.service.CategoryService;
 import ar.edu.itba.paw.models.*;
@@ -30,8 +29,7 @@ public class ArticleServiceImplTest {
 
     @Mock
     private ArticleDao articleDao;
-    @Mock
-    private ArticleImageDao articleImageDao;
+
     @Mock
     private UserDao userDao;
     @Mock

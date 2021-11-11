@@ -3,8 +3,6 @@ package ar.edu.itba.paw.interfaces.service;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
