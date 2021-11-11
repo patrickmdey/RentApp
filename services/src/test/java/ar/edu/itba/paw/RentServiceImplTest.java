@@ -35,7 +35,7 @@ public class RentServiceImplTest {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Before
-    public void setUp() throws ParseException {
+    public void setUp() {
         this.userOwner = new User(1, "owner@mail.com", "password",
                 "owner", "owner", Locations.values()[3], null, UserType.OWNER);
         this.userRenter = new User(2, "renter@mail.com", "password", "renter",

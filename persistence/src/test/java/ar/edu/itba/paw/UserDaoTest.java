@@ -25,7 +25,7 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-@Rollback(value = true)
+@Rollback()
 public class UserDaoTest {
 
     @Autowired

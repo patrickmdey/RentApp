@@ -2,7 +2,6 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.dao.CategoryDao;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

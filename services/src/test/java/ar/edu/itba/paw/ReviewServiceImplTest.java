@@ -1,8 +1,6 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.dao.ReviewDao;
-import ar.edu.itba.paw.interfaces.service.ArticleService;
-import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.*;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
@@ -27,11 +25,7 @@ public class ReviewServiceImplTest {
     private ReviewServiceImpl reviewService = new ReviewServiceImpl();
 
     @Mock
-    private ArticleService articleService;
-    @Mock
     private ReviewDao reviewDao;
-    @Mock
-    private UserService userService;
 
     @Before
     public void setUp() {

@@ -284,23 +284,3 @@ public class ArticleDaoTest {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

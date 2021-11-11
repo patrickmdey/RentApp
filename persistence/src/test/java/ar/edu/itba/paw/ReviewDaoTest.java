@@ -23,7 +23,7 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-@Rollback(value = true)
+@Rollback()
 public class ReviewDaoTest {
     @Autowired
     private ReviewDao reviewDao;
@@ -72,7 +72,7 @@ public class ReviewDaoTest {
 
     @Test
     public void createSucceed() {
-        // Assert
+        // Arrange
         final int rating = 2;
         final String message = "bad";
         final long articleId = 1;
@@ -94,7 +94,7 @@ public class ReviewDaoTest {
 
     @Test(expected = CannotCreateReviewException.class)
     public void createFailInvalidParameters() {
-        // Assert
+        // Arrange
         final int rating = -1;
         final String message = null;
         final long articleId = 1;
@@ -109,7 +109,7 @@ public class ReviewDaoTest {
 
     @Test(expected = ArticleNotFoundException.class)
     public void createFailArticleNotFound() {
-        // Assert
+        // Arrange
         final int rating = 2;
         final String message = "bad";
         final long articleId = 9999;
@@ -124,7 +124,7 @@ public class ReviewDaoTest {
 
     @Test(expected = UserNotFoundException.class)
     public void createFailUserNotFound() {
-        // Assert
+        // Arrange
         final int rating = 2;
         final String message = "bad";
         final long articleId = 1;
@@ -139,7 +139,7 @@ public class ReviewDaoTest {
 
     @Test
     public void findByIdSucceed() {
-        // Assert
+        // Arrange
         final long reviewId = 1;
 
         // Act
@@ -154,7 +154,7 @@ public class ReviewDaoTest {
 
     @Test
     public void findByIdFailReviewNotFound() {
-        // Assert
+        // Arrange
         final long reviewId = 9999;
 
         // Act

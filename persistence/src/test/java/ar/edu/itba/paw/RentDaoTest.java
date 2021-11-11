@@ -96,8 +96,8 @@ public class RentDaoTest {
     }
 
     @Test
-    public void createSucceed() throws ParseException {
-        // Assert
+    public void createSucceed() {
+        // Arrange
         final String comment = "";
         final Integer state = 1;
         final LocalDate startDate = LocalDate.parse("2021-11-15", DATE_FORMAT);
@@ -119,8 +119,8 @@ public class RentDaoTest {
     }
 
     @Test(expected = ArticleNotFoundException.class)
-    public void createFailArticleNotFound() throws ParseException {
-        // Assert
+    public void createFailArticleNotFound() {
+        // Arrange
         final String comment = "";
         final Integer state = 1;
 
@@ -137,8 +137,8 @@ public class RentDaoTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void createFailUserNotFound() throws ParseException {
-        // Assert
+    public void createFailUserNotFound() {
+        // Arrange
         final String comment = "";
         final Integer state = 1;
         final LocalDate startDate = LocalDate.parse("2021-10-05", DATE_FORMAT);

@@ -79,7 +79,7 @@ public class UserServiceImplTest {
         // Act
         User result = userService.register(user.getEmail(), password,
                 user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert
@@ -107,7 +107,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert
@@ -124,7 +124,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                (long) user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image, user.getType(), ""
         );
 
         // Assert
