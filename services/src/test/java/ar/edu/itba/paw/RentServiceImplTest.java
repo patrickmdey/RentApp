@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -73,7 +71,7 @@ public class RentServiceImplTest {
         )).thenReturn(rentProposal);
 
         doNothing().when(emailService).sendMailRequest(
-                eq(rentProposal), eq(userOwner), ""
+                eq(rentProposal), eq(userOwner), eq("")
         );
 
         // Act

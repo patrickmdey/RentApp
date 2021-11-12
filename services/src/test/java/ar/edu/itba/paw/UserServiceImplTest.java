@@ -74,7 +74,9 @@ public class UserServiceImplTest {
                 eq(uploadedImage),
                 eq(user.getType())
         )).thenReturn(user);
-        doNothing().when(emailService).sendNewUserMail(eq(user), "");
+        doNothing()
+                .when(emailService)
+                .sendNewUserMail(eq(user), eq(""));
 
         // Act
         User result = userService.register(user.getEmail(), password,
