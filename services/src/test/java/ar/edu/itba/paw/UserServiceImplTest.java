@@ -17,8 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.PersistenceException;
 import java.io.IOException;
 
@@ -55,7 +53,7 @@ public class UserServiceImplTest {
     }
 
     private User user;
-    private MultipartFile image;
+    private MockMultipartFile image;
 
 
     @Test
@@ -65,7 +63,7 @@ public class UserServiceImplTest {
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
-        when(imageService.create(eq(image))).thenReturn(uploadedImage);
+        when(imageService.create(eq(image.getBytes()))).thenReturn(uploadedImage);
         when(userDao.register(eq(user.getEmail()),
                 eq(user.getPassword()),
                 eq(user.getFirstName()),
@@ -81,7 +79,7 @@ public class UserServiceImplTest {
         // Act
         User result = userService.register(user.getEmail(), password,
                 user.getFirstName(), user.getLastName(),
-                user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image.getBytes(), user.getType(), ""
         );
 
         // Assert
@@ -99,7 +97,7 @@ public class UserServiceImplTest {
         final DBImage uploadedImage = new DBImage(432, image.getBytes());
 
         when(passwordEncoder.encode(eq(password))).thenReturn(user.getPassword());
-        when(imageService.create(eq(image))).thenReturn(uploadedImage);
+        when(imageService.create(eq(image.getBytes()))).thenReturn(uploadedImage);
         when(userDao.register(eq(user.getEmail()), eq(user.getPassword()),
                 eq(user.getFirstName()), eq(user.getLastName()),
                 eq(user.getLocation()), eq(uploadedImage),
@@ -109,7 +107,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image.getBytes(), user.getType(), ""
         );
 
         // Assert
@@ -121,12 +119,12 @@ public class UserServiceImplTest {
         // Arrange
         final String password = "password";
 
-        when(imageService.create(eq(image))).thenThrow(IllegalArgumentException.class);
+        when(imageService.create(eq(image.getBytes()))).thenThrow(IllegalArgumentException.class);
 
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                user.getLocation().ordinal(), image, user.getType(), ""
+                user.getLocation().ordinal(), image.getBytes(), user.getType(), ""
         );
 
         // Assert

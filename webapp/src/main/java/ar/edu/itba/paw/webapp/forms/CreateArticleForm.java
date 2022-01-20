@@ -8,13 +8,13 @@ import java.util.List;
 public class CreateArticleForm extends EditArticleForm {
 
     @ValidFile
-    private List<MultipartFile> files;
+    private List<byte[]> files;
 
-    public List<MultipartFile> getFiles() {
+    public List<byte[]> getFiles() {
         return files;
     }
 
-    public void setFiles(List<MultipartFile> files) {
+    public void setFiles(List<byte[]> files) {
         this.files = files;
     }
 

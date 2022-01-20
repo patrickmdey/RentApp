@@ -13,8 +13,6 @@ import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<MultipartFile> images, long idOwner) {
+    public Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<byte[]> images, long idOwner) {
         Article article = articleDao.createArticle(title, description, pricePerDay, idOwner);
 
         if (categories != null) {

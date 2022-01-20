@@ -12,8 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 import static org.mockito.Mockito.eq;
@@ -34,8 +32,8 @@ public class ImageServiceImplTest {
         emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
     }
 
-    private MultipartFile image;
-    private MultipartFile emptyImage;
+    private MockMultipartFile image;
+    private MockMultipartFile emptyImage;
 
     @Test
     public void createSucceed() throws IOException {
@@ -45,7 +43,7 @@ public class ImageServiceImplTest {
                 .thenReturn(dbImage);
 
         // Act
-        DBImage result = imageService.create(image);
+        DBImage result = imageService.create(image.getBytes());
 
 
         // Assert
@@ -53,12 +51,12 @@ public class ImageServiceImplTest {
     }
 
     @Test(expected = CannotCreateImageException.class)
-    public void createFailImageIsEmpty() {
+    public void createFailImageIsEmpty() throws IOException {
         // Arrange
-        MultipartFile image = emptyImage;
+        MockMultipartFile image = emptyImage;
 
         // Act
-        imageService.create(image);
+        imageService.create(image.getBytes());
 
         // Assert
         Assert.fail();

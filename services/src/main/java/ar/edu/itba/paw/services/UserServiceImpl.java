@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Optional;
 
 @Service
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User register(String email, String password, String firstName, String lastName, long location, MultipartFile img, UserType type, String webpageUrl) {
+    public User register(String email, String password, String firstName, String lastName, long location, byte[] img, UserType type, String webpageUrl) {
         String passwordHash = passwordEncoder.encode(password);
         DBImage dbImg = imageService.create(img);
 

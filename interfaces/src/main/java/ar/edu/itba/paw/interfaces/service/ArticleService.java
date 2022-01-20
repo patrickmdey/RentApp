@@ -2,8 +2,6 @@ package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Locations;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +9,7 @@ public interface ArticleService {
     List<Article> get(String name, Long category, Long orderBy, Long user, Long location, Float initPrice,
                       Float endPrice, long page);
 
-    Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<MultipartFile> image, long idOwner);
+    Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<byte[]> image, long idOwner);
 
     Optional<Article> editArticle(long id, String title, String description, float pricePerDay, List<Long> categories);
 
