@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.models;
 
 import org.hibernate.annotations.Formula;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -20,7 +19,7 @@ public class Article {
     private String description;
 
     @Column(name = "price_per_day", nullable = false)
-    private Float pricePerDay;
+    private float pricePerDay;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
@@ -55,7 +54,7 @@ public class Article {
         //Just for Hibernate
     }
 
-    public Article(String title, String description, Float pricePerDay, User owner) {
+    public Article(String title, String description, float pricePerDay, User owner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
@@ -63,7 +62,7 @@ public class Article {
     }
 
 
-    public Article(long id, String title, String description, Float pricePerDay, User owner) {
+    public Article(long id, String title, String description, float pricePerDay, User owner) {
         this.title = title;
         this.description = description;
         this.pricePerDay = pricePerDay;
@@ -99,11 +98,11 @@ public class Article {
         this.description = description;
     }
 
-    public Float getPricePerDay() {
+    public float getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(Float pricePerDay) {
+    public void setPricePerDay(float pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 

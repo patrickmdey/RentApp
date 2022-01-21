@@ -18,7 +18,7 @@ public class RentProposal {
     private String message;
 
     @Column(nullable = false)
-    private Integer state;
+    private int state;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -27,7 +27,7 @@ public class RentProposal {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private Boolean seen;
+    private boolean seen;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "renter_id", referencedColumnName = "id")
@@ -38,18 +38,18 @@ public class RentProposal {
     private Article article;
 
     @Transient
-    private boolean marked;
+    private boolean marked; //TODO ver que onda con el frontend
 
     /* package */ RentProposal() {
         // Just for Hibernate
     }
 
-    public RentProposal(long id, String message, Integer state, LocalDate startDate, LocalDate endDate) {
+    public RentProposal(long id, String message, int state, LocalDate startDate, LocalDate endDate) {
         this(message, state, startDate, endDate, false);
         this.id = id;
     }
 
-    public RentProposal(String message, Integer state, LocalDate startDate, LocalDate endDate, Boolean seen) {
+    public RentProposal(String message, int state, LocalDate startDate, LocalDate endDate, boolean seen) {
         this.message = message;
         this.state = state;
         this.startDate = startDate;
@@ -69,11 +69,11 @@ public class RentProposal {
         this.message = message;
     }
 
-    public Integer getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(Integer state) {
+    public void setState(int state) {
         this.state = state;
     }
 
@@ -109,7 +109,7 @@ public class RentProposal {
         this.article = article;
     }
 
-    public Boolean getSeen() {
+    public boolean getSeen() {
         return seen;
     }
 

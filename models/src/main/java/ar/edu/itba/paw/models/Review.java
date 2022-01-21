@@ -13,7 +13,7 @@ public class Review {
     private Long id;
 
     @Column(nullable = false)
-    private Integer rating;
+    private int rating;
 
     @Column(nullable = false, length = 310)
     private String message;

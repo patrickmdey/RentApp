@@ -114,7 +114,7 @@ public class ArticleDaoTest {
         final long idArticle = 1;
         final String title = "Moto";
         final String description = "moto para andar";
-        final Float pricePerDay = 123F;
+        final float pricePerDay = 123F;
         final long idOwner = 1;
 
         // Act
@@ -151,7 +151,7 @@ public class ArticleDaoTest {
         // Arrange
         final String title = "Moto";
         final String description = "moto para andar";
-        final Float pricePerDay = 123F;
+        final float pricePerDay = 123F;
         final long idOwner = 1;
 
         // Act

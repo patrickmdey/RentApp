@@ -99,7 +99,7 @@ public class RentDaoTest {
     public void createSucceed() {
         // Arrange
         final String comment = "";
-        final Integer state = 1;
+        final int state = 1;
         final LocalDate startDate = LocalDate.parse("2021-11-15", DATE_FORMAT);
         final LocalDate endDate = LocalDate.parse("2021-11-16", DATE_FORMAT);
         final long articleId = 1L;

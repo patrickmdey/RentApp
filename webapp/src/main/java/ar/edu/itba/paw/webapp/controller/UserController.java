@@ -42,7 +42,7 @@ public class UserController {
     public Response getById(@PathParam("id") final long id) {
         final User user = us.findById(id).orElse(null);
         if (user != null) {
-            return Response.ok(new UserDTO(uriInfo, user)).build();
+            return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
