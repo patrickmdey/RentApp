@@ -4,21 +4,26 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.UserType;
 import ar.edu.itba.paw.webapp.dto.UserDTO;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 
 @Path("users")
 @Component
 public class UserController {
+
     @Autowired
     private UserService us;
     @Context
@@ -31,27 +36,13 @@ public class UserController {
     }
 
     @POST
-    @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response createUser(final UserDTO userDto) {
-        InputStream imageStream = userDto.getImage();
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        int nRead;
-        byte[] data = new byte[512];
-        try {
-            while ((nRead = imageStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-
-            buffer.flush();
-        } catch (IOException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        byte[] imageData = buffer.toByteArray();
-
+    public Response create(FormDataMultiPart body) {
+        UserDTO userDto = UserDTO.fromMultipartData(body);
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
-                userDto.getLastName(), userDto.getLocation(), imageData, userDto.isOwner(), uriInfo.toString());
+                userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
+                uriInfo.getAbsolutePath().toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
     }
@@ -83,4 +74,5 @@ public class UserController {
         us.update(id, userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
         return Response.ok().build();
     }
+    
 }

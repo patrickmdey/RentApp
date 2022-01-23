@@ -17,8 +17,9 @@ public class RentProposalDTO {
     private URI renterUrl;
     private URI articleUrl;
 
-    private long articleId;
-    private long renterId;
+    // Post/Put only params
+    private Long articleId;
+    private Long renterId;
 
     public static RentProposalDTO fromRentProposal(RentProposal rp, UriInfo uri){
         RentProposalDTO toReturn = new RentProposalDTO();
@@ -94,19 +95,19 @@ public class RentProposalDTO {
         return url;
     }
 
-    public long getArticleId() {
+    public Long getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(long articleId) {
+    public void setArticleId(Long articleId) {
         this.articleId = articleId;
     }
 
-    public long getRenterId() {
+    public Long getRenterId() {
         return renterId;
     }
 
-    public void setRenterId(long renterId) {
+    public void setRenterId(Long renterId) {
         this.renterId = renterId;
     }
 

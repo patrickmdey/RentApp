@@ -19,11 +19,13 @@ import java.util.stream.Collectors;
 @Component
 @Path("images")
 public class PictureController {
+
     @Autowired
     private ArticleService as; //TODO cambiar, esto es una prueba
 
     @Autowired
     private ImageService is;
+
     @Context
     private UriInfo uriInfo;
 

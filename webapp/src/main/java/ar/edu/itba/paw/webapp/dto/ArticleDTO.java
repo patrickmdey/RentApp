@@ -19,10 +19,10 @@ public class ArticleDTO {
     private URI imagesUrl;
     private URI categoriesUrl;
 
-    //post only params
+    // Post/Put only params
     private List<Long> categories;
     private List<byte[]> images;
-    private long ownerId;
+    private Long ownerId;
 
     public static ArticleDTO fromArticle(Article article, UriInfo uri){
         ArticleDTO toReturn = new ArticleDTO();
@@ -35,7 +35,7 @@ public class ArticleDTO {
 
         toReturn.url = uri.getBaseUriBuilder().path("articles").path(String.valueOf(article.getId())).build();
         toReturn.ownerUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
-        //toReturn.imagesUrl = uri.getAbsolutePathBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
+        toReturn.imagesUrl = uri.getBaseUriBuilder().path("images").queryParam("fromArticle", article.getId()).build();
         //toReturn.categoriesUrl = uri.getAbsolutePathBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
 
         return toReturn;
@@ -129,11 +129,11 @@ public class ArticleDTO {
         this.images = images;
     }
 
-    public long getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(long ownerId) {
+    public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
 

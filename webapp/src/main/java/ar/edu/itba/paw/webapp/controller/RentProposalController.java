@@ -1,16 +1,11 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.RentService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
-import ar.edu.itba.paw.webapp.dto.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.RentProposalDTO;
-import ar.edu.itba.paw.webapp.dto.UserDTO;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
