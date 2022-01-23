@@ -32,6 +32,8 @@ public class ArticleController {
         final List<ArticleDTO> articles = as.get(name, category, orderBy,
                 user, location, initPrice, endPrice, page)
                 .stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
+
+        // TODO: add links to pages
         return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
     }
 
@@ -39,6 +41,7 @@ public class ArticleController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     public Response createArticle(final ArticleDTO articleDTO) {
+        // TODO: not working yet
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
                 articleDTO.getCategories(), articleDTO.getImages(), articleDTO.getOwnerId()); // TODO: obtener data de las urls
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(article.getId())).build();
@@ -60,8 +63,17 @@ public class ArticleController {
     @PUT
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
-    public Response modifyReview(@PathParam("id") long id, ArticleDTO articleDTO) {
+    public Response modify(@PathParam("id") long id, ArticleDTO articleDTO) {
         as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(), articleDTO.getCategories());
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id}/related")
+    public Response related(@PathParam("id") long id) {
+        List<ArticleDTO> articles = as.recommendedArticles(id)
+                .stream().map((Article article) -> ArticleDTO.fromArticle(article, uriInfo))
+                .collect(Collectors.toList());
+        return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
     }
 }

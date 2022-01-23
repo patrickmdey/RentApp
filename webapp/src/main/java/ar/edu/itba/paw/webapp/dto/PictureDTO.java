@@ -11,8 +11,8 @@ public class PictureDTO {
 
     public static PictureDTO fromPicture(DBImage dbImage, UriInfo uri){
         PictureDTO toReturn = new PictureDTO();
-        //toReturn.url = uri.getAbsolutePathBuilder().path("images").path(String.valueOf(user.getPicture())).build();
-        toReturn.image = dbImage.getImg();
+        toReturn.url = uri.getAbsolutePathBuilder().path("images").path(String.valueOf(dbImage.getId())).build();
+        //toReturn.image = dbImage.getImg();
         return toReturn;
     }
 

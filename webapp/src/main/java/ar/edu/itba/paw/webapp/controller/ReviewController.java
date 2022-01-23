@@ -9,7 +9,9 @@ import ar.edu.itba.paw.webapp.dto.ReviewDTO;
 import ar.edu.itba.paw.webapp.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;

@@ -8,10 +8,12 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import javax.ws.rs.core.UriInfo;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class UserDTO {
+
     private String firstName;
     private String lastName;
     private String email;
@@ -49,7 +51,7 @@ public class UserDTO {
     public static UserDTO fromMultipartData(FormDataMultiPart data){
         UserDTO toReturn = new UserDTO();
         Map<String, List<FormDataBodyPart>> map = data.getFields();
-        toReturn.firstName = map.get("firstName").get(0).getValue();
+        toReturn.firstName = map.get("firstName").get(0).getValue(); //TODO manejo de excepciones
         toReturn.lastName = map.get("lastName").get(0).getValue();
         toReturn.email = map.get("email").get(0).getValue();
         toReturn.password = map.get("password").get(0).getValue();

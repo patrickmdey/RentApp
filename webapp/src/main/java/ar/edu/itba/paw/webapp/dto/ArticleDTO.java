@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.models.Article;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class ArticleDTO {
     private String title;
+
     private String description;
     private float pricePerDay;
     private long timesRented;

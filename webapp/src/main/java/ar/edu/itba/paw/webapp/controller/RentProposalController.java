@@ -38,8 +38,6 @@ public class RentProposalController {
 
         return Response.ok(new GenericEntity<List<RentProposalDTO>>(proposals) {}).build();
     }
-    
-    // TODO: put para confirmar / rechazar
 
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})

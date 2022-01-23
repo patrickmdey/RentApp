@@ -1,12 +1,13 @@
 package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.models.Review;
+
+import javax.validation.constraints.Min;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
 public class ReviewDTO {
-
     private int rating;
     private String message;
     private LocalDate createdAt;
@@ -16,6 +17,7 @@ public class ReviewDTO {
     private URI renterUrl;
 
     // Post/Put only params
+    // TODO: preguntar que onda
     private Long articleId;
     private Long renterId;
 
