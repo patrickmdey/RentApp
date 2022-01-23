@@ -15,6 +15,8 @@ public interface RentService {
 
     List<RentProposal> sentRequests(long renterId, RentState state, long page);
 
+    void setRequestState(long requestId, int state, String webpageUrl);
+
     void acceptRequest(long requestId, String webpageUrl);
 
     void rejectRequest(long requestId, String webpageUrl);

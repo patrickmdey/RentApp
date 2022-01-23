@@ -15,6 +15,10 @@ public class ReviewDTO {
     private URI articleUrl;
     private URI renterUrl;
 
+    // Post only params
+    private long articleId;
+    private long renterId;
+
     public static ReviewDTO fromReview(Review review, UriInfo uri){
         ReviewDTO toReturn = new ReviewDTO();
         toReturn.rating = review.getRating();
@@ -63,6 +67,22 @@ public class ReviewDTO {
 
     public void setRenterUrl(URI renterUrl) {
         this.renterUrl = renterUrl;
+    }
+
+    public long getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(long articleId) {
+        this.articleId = articleId;
+    }
+
+    public long getRenterId() {
+        return renterId;
+    }
+
+    public void setRenterId(long renterId) {
+        this.renterId = renterId;
     }
 
     public URI getUrl() {

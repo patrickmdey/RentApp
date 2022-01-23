@@ -4,6 +4,7 @@ import ar.edu.itba.paw.models.Article;
 
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 
 public class ArticleDTO {
     private String title;
@@ -17,6 +18,11 @@ public class ArticleDTO {
     private URI ownerUrl;
     private URI imagesUrl;
     private URI categoriesUrl;
+
+    //post only params
+    private List<Long> categories;
+    private List<byte[]> images;
+    private long ownerId;
 
     public static ArticleDTO fromArticle(Article article, UriInfo uri){
         ArticleDTO toReturn = new ArticleDTO();
@@ -105,6 +111,30 @@ public class ArticleDTO {
 
     public void setCategoriesUrl(URI categoriesUrl) {
         this.categoriesUrl = categoriesUrl;
+    }
+
+    public List<Long> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Long> categories) {
+        this.categories = categories;
+    }
+
+    public List<byte[]> getImages() {
+        return images;
+    }
+
+    public void setImages(List<byte[]> images) {
+        this.images = images;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public URI getUrl() {

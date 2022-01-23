@@ -9,7 +9,7 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
-    User register(String email, String password, String firstName, String lastName, long location, byte[] img, UserType type, String webpageUrl);
+    User register(String email, String password, String firstName, String lastName, long location, byte[] img, boolean isOwner, String webpageUrl);
 
     void update(long id, String firstName, String lastName, long location);
 

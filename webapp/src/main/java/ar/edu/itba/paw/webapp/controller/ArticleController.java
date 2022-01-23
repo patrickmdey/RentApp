@@ -3,13 +3,13 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.webapp.dto.ArticleDTO;
+import ar.edu.itba.paw.webapp.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,25 +22,28 @@ public class ArticleController {
     @Context
     private UriInfo uriInfo;
 
+
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list() {
-        final List<ArticleDTO> articles = as.get(null, null, null,
-                null, null, null, null, 1)
+    public Response list(@QueryParam("name") String name, @QueryParam("category") Long category,  @QueryParam("orderBy") Long orderBy,
+                         @QueryParam("user") Long user, @QueryParam("location") Long location, @QueryParam("initPrice") Float initPrice,
+                         @QueryParam("endPrice") Float endPrice, @QueryParam("page") @DefaultValue("1") long page) {
+
+        final List<ArticleDTO> articles = as.get(name, category, orderBy,
+                user, location, initPrice, endPrice, page)
                 .stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
         return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
     }
 
-    /* TODO: creacion
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response createUser(final ArticleDTO userDto) {
-        final User user = us.register(userDto.getEmail(), userDto.getPassword());
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
+    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    public Response createArticle(final ArticleDTO articleDTO) {
+        final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
+                articleDTO.getCategories(), articleDTO.getImages(), articleDTO.getOwnerId()); // TODO: obtener data de las urls
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(article.getId())).build();
         return Response.created(uri).build();
     }
-
-     */
 
     @GET
     @Path("/{id}")
@@ -54,4 +57,11 @@ public class ArticleController {
         }
     }
 
+    @PUT
+    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Path("/{id}")
+    public Response modifyReview(@PathParam("id") long id, ArticleDTO articleDTO) {
+        as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(), articleDTO.getCategories());
+        return Response.ok().build();
+    }
 }

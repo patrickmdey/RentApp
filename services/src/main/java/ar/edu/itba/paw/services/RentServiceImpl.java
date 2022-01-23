@@ -83,6 +83,19 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
+    public void setRequestState(long requestId, int state, String webpageUrl) {
+        RentState rentState = RentState.values()[state];
+        if (rentState.getIsPending())
+            return; // TODO: error?
+
+        if (rentState.getIsAccepted())
+            acceptRequest(requestId, webpageUrl);
+        else
+            rejectRequest(requestId, webpageUrl);
+    }
+
+    @Override
+    @Transactional
     public void acceptRequest(long requestId, String webpageUrl) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentProposal.setState(RentState.ACCEPTED.ordinal());

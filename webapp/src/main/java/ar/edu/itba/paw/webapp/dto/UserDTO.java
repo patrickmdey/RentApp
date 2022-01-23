@@ -2,13 +2,14 @@ package ar.edu.itba.paw.webapp.dto;
 
 import ar.edu.itba.paw.models.User;
 import javax.ws.rs.core.UriInfo;
+import java.io.InputStream;
 import java.net.URI;
 
 public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+
     private boolean isOwner;
     private long pendingRequestAmount;
     private long acceptedRequestAmount;
@@ -17,6 +18,11 @@ public class UserDTO {
     private URI url;
     private URI imageUrl;
     private URI locationUrl;
+
+    // Post only params
+    private String password;
+    private Long location;
+    private InputStream image;
 
     public static UserDTO fromUser(User user, UriInfo uri){
         UserDTO toReturn = new UserDTO();
@@ -119,5 +125,21 @@ public class UserDTO {
 
     public void setUrl(URI url) {
         this.url = url;
+    }
+
+    public Long getLocation() {
+        return location;
+    }
+
+    public void setLocation(Long location) {
+        this.location = location;
+    }
+
+    public InputStream getImage() {
+        return image;
+    }
+
+    public void setImage(InputStream image) {
+        this.image = image;
     }
 }
