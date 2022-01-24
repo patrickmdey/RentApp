@@ -16,8 +16,8 @@
         <junit.version>4.12</junit.version>
         <org.hsqldb.version>2.5.1</org.hsqldb.version>
         <org.com.sun.mail.version>1.6.2</org.com.sun.mail.version>
-        <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
-        <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
+        <javax.validation-api.version>1.1.0.Final</javax.validation-api.version> <!--antes era 1.0.0.GA-->
+        <org.hibernate.validator>5.0.0.Final</org.hibernate.validator> <!--antes era 4.3.1.Final-->
         <thymeleaf.spring4.version>3.0.11.RELEASE</thymeleaf.spring4.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <spring-security.version>4.0.4.RELEASE</spring-security.version>
@@ -110,6 +110,23 @@
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-multipart</artifactId>
                 <version>${jersey.version}</version>
+            </dependency>
+
+            <!-- JERSEY VALIDATION -->
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-bean-validation</artifactId>
+                <version>2.27</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- ACA TERMINA JERSEY -->

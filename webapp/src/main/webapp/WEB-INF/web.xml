@@ -56,6 +56,14 @@
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
         </init-param>
+
+        <!--Validation-->
+        <init-param>
+            <param-name>jersey.config.beanValidation.enableOutputValidationErrorEntity.server</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

@@ -1,16 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.ReviewService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Review;
-import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.dto.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.ReviewDTO;
-import ar.edu.itba.paw.webapp.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
-
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
