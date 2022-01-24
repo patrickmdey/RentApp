@@ -53,7 +53,7 @@
                 <version>${jersey.version}</version>
                 <exclusions>
                     <exclusion>
-                        <!-- La versión incluida requiere Java 9+ -->
+                        <!-- La versi?n incluida requiere Java 9+ -->
                         <groupId>org.glassfish.hk2</groupId>
                         <artifactId>hk2</artifactId>
                     </exclusion>
@@ -315,5 +315,6 @@
         <module>services</module>
         <module>persistence</module>
         <module>models</module>
+        <module>frontend</module>
     </modules>
 </project>
