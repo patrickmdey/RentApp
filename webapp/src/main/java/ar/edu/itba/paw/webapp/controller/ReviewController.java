@@ -41,9 +41,10 @@ public class ReviewController {
 
         final long maxPage = rs.getMaxPage(articleId);
 
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("fromArticle", articleId);
+
         return PaginationProvider.generateResponseWithLinks(Response.ok
-                (new GenericEntity<List<ReviewDTO>>(reviews) {}), page, maxPage, uriInfo);
-        //return Response.ok(new GenericEntity<List<ReviewDTO>>(reviews) {}).build();
+                (new GenericEntity<List<ReviewDTO>>(reviews) {}), page, maxPage, uriBuilder);
     }
 
     @POST

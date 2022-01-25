@@ -3,9 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.RequestsGetter;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.webapp.dto.RentProposalDTO;
-import ar.edu.itba.paw.webapp.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
@@ -13,7 +11,6 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +26,7 @@ public class RentProposalController {
     @GET
     @Path("/received")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listReceived(@QueryParam("toUser") Integer userId, @QueryParam("state") int state,
+    public Response listReceived(@QueryParam("user") Integer userId, @QueryParam("state") int state,
                          @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
@@ -37,7 +34,7 @@ public class RentProposalController {
     @GET
     @Path("/sent")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listSent(@QueryParam("fromUser") Integer userId, @QueryParam("state") int state,
+    public Response listSent(@QueryParam("user") Integer userId, @QueryParam("state") int state,
                          @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
     }
@@ -48,12 +45,15 @@ public class RentProposalController {
             return Response.noContent().build();
         }
 
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("user", userId).
+                queryParam("state", state);
+
         final List<RentProposalDTO> proposals = getter.get(userId, state, page).stream().
                 map(proposal -> RentProposalDTO.fromRentProposal(proposal, uriInfo)).collect(Collectors.toList());
         final Long maxPage= maxPageGetter.apply(userId, state);
 
         return PaginationProvider.generateResponseWithLinks(Response.ok
-                (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriInfo);
+                (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }
 
     @POST

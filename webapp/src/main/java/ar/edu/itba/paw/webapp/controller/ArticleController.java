@@ -5,7 +5,6 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.webapp.dto.ArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -33,14 +32,13 @@ public class ArticleController {
 
         final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
 
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name)
+                .queryParam("category", category).queryParam("orderBy", orderBy).
+                queryParam("user", user).queryParam("location", location).
+                queryParam("initPrice", initPrice).queryParam("endPrice", endPrice);
+
         return PaginationProvider.generateResponseWithLinks
-                (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriInfo);
-        /*
-        return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {})
-                .link(uriInfo.getAbsolutePathBuilder().queryParam("page", 1).build(), "first")
-                .link(uriInfo.getAbsolutePathBuilder().queryParam("page", maxPage).build(), "last")
-                .build();
-         */
+                (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
     }
 
     @POST
