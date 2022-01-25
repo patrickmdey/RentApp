@@ -32,15 +32,15 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public List<RentProposal> ownerRequests(long ownerId, RentState state, long page) {
-        return getRequests(rentDao::ownerRequests, ownerId, state.ordinal(), page);
+    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
+        return getRequests(rentDao::ownerRequests, ownerId, state, page);
     }
 
     @Override
     @Transactional
-    public List<RentProposal> sentRequests(long ownerId, RentState state, long page) {
-        List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state.ordinal(), page);
-        if (!state.equals(RentState.PENDING)){
+    public List<RentProposal> sentRequests(long ownerId, int state, long page) {
+        List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state, page);
+        if (state != RentState.PENDING.ordinal()){
             toReturn.forEach(proposal -> {
                 if(!proposal.getSeen()) {
                     proposal.setSeen(true);
@@ -55,14 +55,14 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public long getReceivedMaxPage(long ownerId, RentState state) {
-        return rentDao.getReceivedMaxPage(ownerId, state.ordinal());
+    public long getReceivedMaxPage(long ownerId, int state) {
+        return rentDao.getReceivedMaxPage(ownerId, state);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public long getSentMaxPage(long ownerId, RentState state) {
-        return rentDao.getSentMaxPage(ownerId, state.ordinal());
+    public long getSentMaxPage(long ownerId, int state) {
+        return rentDao.getSentMaxPage(ownerId, state);
     }
 
     @Override

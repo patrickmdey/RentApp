@@ -5,7 +5,6 @@ import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.webapp.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -39,8 +38,12 @@ public class ReviewController {
     public Response list(@QueryParam("fromArticle") int articleId, @QueryParam("page") @DefaultValue("1") long page) {
         final List<ReviewDTO> reviews = rs.getPaged(articleId, page)
                 .stream().map(review -> ReviewDTO.fromReview(review, uriInfo)).collect(Collectors.toList());
-        return Response.ok(new GenericEntity<List<ReviewDTO>>(reviews) {
-        }).build();
+
+        final long maxPage = rs.getMaxPage(articleId);
+
+        return PaginationProvider.generateResponseWithLinks(Response.ok
+                (new GenericEntity<List<ReviewDTO>>(reviews) {}), page, maxPage, uriInfo);
+        //return Response.ok(new GenericEntity<List<ReviewDTO>>(reviews) {}).build();
     }
 
     @POST
