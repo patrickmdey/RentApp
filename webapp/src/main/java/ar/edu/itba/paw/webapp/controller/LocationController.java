@@ -23,8 +23,8 @@ public class LocationController {
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list() {
-        final List<LocationDTO> locations = Arrays.stream(Locations.values())
-                .map(location -> LocationDTO.fromLocation(location, uriInfo)).collect(Collectors.toList());
+        final List<LocationDTO> locations = Arrays.stream(Locations.values()).map(location ->
+                LocationDTO.fromLocation(location, uriInfo)).collect(Collectors.toList());
         return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {}).build();
     }
 }

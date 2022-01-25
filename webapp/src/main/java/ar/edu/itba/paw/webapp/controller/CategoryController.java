@@ -25,12 +25,10 @@ public class CategoryController {
 
     @GET
     public Response list() {
-        List<CategoryDTO> categories = cs.listCategories()
-                .stream()
-                .map((Category category) -> CategoryDTO.fromCategory(category, uriInfo)).collect(Collectors.toList());
+        List<CategoryDTO> categories = cs.listCategories().stream().map((Category category) ->
+                CategoryDTO.fromCategory(category, uriInfo)).collect(Collectors.toList());
 
-        return Response.ok(new GenericEntity<List<CategoryDTO>>(categories) {
-        }).build();
+        return Response.ok(new GenericEntity<List<CategoryDTO>>(categories) {}).build();
     }
 
 }
