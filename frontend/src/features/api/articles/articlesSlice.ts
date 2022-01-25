@@ -3,15 +3,15 @@ import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleP
 
 const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<Article, URL>({
+		findArticle: build.query<Article, URL>({
 			query: (url) => url.toString()
 		}),
 
-		list: build.query<Article[], ListArticleParameters>({
+		listArticles: build.query<Article[], ListArticleParameters>({
 			query: ({ url }) => (url == null ? 'articles' : url.toString())
 		}),
 
-		create: build.mutation<Article, CreateArticleParameters>({
+		createArticle: build.mutation<Article, CreateArticleParameters>({
 			query: (args) => ({
 				url: 'articles',
 				method: 'POST',
@@ -19,7 +19,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 			})
 		}),
 
-		update: build.mutation<void, UpdateArticleParameters>({
+		updateArticle: build.mutation<void, UpdateArticleParameters>({
 			query: ({ url, ...args }) => ({
 				url: url.toString(),
 				method: 'PUT',
@@ -30,8 +30,8 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 });
 
 export const {
-	useListQuery: useListArticles,
-	useFindQuery: useFindArticle,
-	useCreateMutation: useCreateArticle,
-	useUpdateMutation: useUpdateArticlex
+	useListArticlesQuery: useListArticles,
+	useFindArticleQuery: useFindArticle,
+	useCreateArticleMutation: useCreateArticle,
+	useUpdateArticleMutation: useUpdateArticle
 } = ArticlesApiSlice;

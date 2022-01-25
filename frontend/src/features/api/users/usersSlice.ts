@@ -3,7 +3,7 @@ import { User, CreateUserParameters, UpdateUserParameters } from './types';
 
 const UsersApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<User, URL>({
+		findUser: build.query<User, URL>({
 			query: (url) => url.toString()
 		}),
 
@@ -20,7 +20,7 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 			}
 		}),
 
-		update: build.mutation<void, UpdateUserParameters>({
+		updateUser: build.mutation<void, UpdateUserParameters>({
 			query: ({ url, ...args }) => {
 				return {
 					url: url.toString(),
@@ -33,7 +33,7 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 });
 
 export const {
-	useFindQuery: useFindUser,
+	useFindUserQuery: useFindUser,
 	useCreateUserMutation: useCreateUser,
-	useUpdateMutation: useUpdateUser
+	useUpdateUserMutation: useUpdateUser
 } = UsersApiSlice;

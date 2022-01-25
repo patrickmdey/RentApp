@@ -7,7 +7,7 @@ export const BaseApiSlice = createApi({
 	reducerPath: 'api',
 
 	baseQuery: fetchBaseQuery({
-		baseUrl: process.env.REACT_APP_BASE_URL,
+		baseUrl: 'api',
 		prepareHeaders(headers, { getState }) {
 			const { token, user } = (getState() as RootState).auth;
 

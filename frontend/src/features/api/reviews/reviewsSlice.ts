@@ -3,15 +3,15 @@ import { Review, ListReviewParameters, CreateReviewParameters, UpdateReviewParam
 
 const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<Review, URL>({
+		findReview: build.query<Review, URL>({
 			query: (url) => url.toString()
 		}),
 
-		list: build.query<Review[], ListReviewParameters>({
+		listReviews: build.query<Review[], ListReviewParameters>({
 			query: ({ articleId, page }) => `reviews?fromArticle=${articleId}${page != null ? `&page=${page}` : ''}`
 		}),
 
-		create: build.mutation<Review, CreateReviewParameters>({
+		createReview: build.mutation<Review, CreateReviewParameters>({
 			query: (args) => ({
 				url: 'reviews',
 				method: 'POST',
@@ -19,7 +19,7 @@ const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 			})
 		}),
 
-		update: build.mutation<void, UpdateReviewParameters>({
+		updateReview: build.mutation<void, UpdateReviewParameters>({
 			query: ({ url, ...args }) => ({
 				url: url.toString(),
 				method: 'PUT',
@@ -30,8 +30,8 @@ const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 });
 
 export const {
-	useListQuery: useListReviews,
-	useFindQuery: useFindReview,
-	useCreateMutation: useCreateReview,
-	useUpdateMutation: useUpdateReview
+	useListReviewsQuery: useListReviews,
+	useFindReviewQuery: useFindReview,
+	useCreateReviewMutation: useCreateReview,
+	useUpdateReviewMutation: useUpdateReview
 } = ReviewsApiSlice;

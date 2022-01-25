@@ -3,14 +3,14 @@ import { Location } from './types';
 
 const LocationsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<Location, URL>({
+		findLocation: build.query<Location, URL>({
 			query: (url) => url.toString()
 		}),
 
-		list: build.query<Location[], void>({
+		listLocations: build.query<Location[], void>({
 			query: () => 'locations'
 		})
 	})
 });
 
-export const { useListQuery: useListLocations, useFindQuery: useFindLocation } = LocationsApiSlice;
+export const { useListLocationsQuery: useListLocations, useFindLocationQuery: useFindLocation } = LocationsApiSlice;

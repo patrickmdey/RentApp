@@ -8,15 +8,15 @@ import {
 
 const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<RentProposal, URL>({
+		findProposal: build.query<RentProposal, URL>({
 			query: (url) => url.toString()
 		}),
 
-		list: build.query<RentProposal[], ListRentProposalsParameters>({
+		listProposals: build.query<RentProposal[], ListRentProposalsParameters>({
 			query: ({ userId, page }) => `reviews?toUser=${userId}${page != null ? `&page=${page}` : ''}`
 		}),
 
-		create: build.mutation<RentProposal, CreateRentProposalParameters>({
+		createProposal: build.mutation<RentProposal, CreateRentProposalParameters>({
 			query: (args) => ({
 				url: 'proposals',
 				method: 'POST',
@@ -24,7 +24,7 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 			})
 		}),
 
-		update: build.mutation<void, UpdateRentProposalParameters>({
+		updateProposal: build.mutation<void, UpdateRentProposalParameters>({
 			query: ({ url, ...args }) => ({
 				url: url.toString(),
 				method: 'PUT',
@@ -35,8 +35,8 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 });
 
 export const {
-	useListQuery: useListRentProposals,
-	useFindQuery: useFindRentProposal,
-	useCreateMutation: useCreateRentProposal,
-	useUpdateMutation: useUpdateRentProposal
+	useListProposalsQuery: useListRentProposals,
+	useFindProposalQuery: useFindRentProposal,
+	useCreateProposalMutation: useCreateRentProposal,
+	useUpdateProposalMutation: useUpdateRentProposal
 } = RentProposalsApiSlice;

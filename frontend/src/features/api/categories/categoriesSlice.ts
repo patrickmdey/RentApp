@@ -3,14 +3,14 @@ import { Category } from './types';
 
 const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		find: build.query<Category, URL>({
+		findCategory: build.query<Category, URL>({
 			query: (url) => url.toString()
 		}),
 
-		list: build.query<Category[], void>({
+		listCategories: build.query<Category[], void>({
 			query: () => 'categories'
 		})
 	})
 });
 
-export const { useListQuery: useListCategories, useFindQuery: useFindCategory } = CategoriesApiSlice;
+export const { useListCategoriesQuery: useListCategories, useFindCategoryQuery: useFindCategory } = CategoriesApiSlice;
