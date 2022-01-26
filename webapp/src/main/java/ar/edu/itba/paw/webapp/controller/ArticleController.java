@@ -23,24 +23,40 @@ public class ArticleController {
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list(@QueryParam("name") String name, @QueryParam("category") Long category,  @QueryParam("orderBy") Long orderBy,
-                         @QueryParam("user") Long user, @QueryParam("location") Long location, @QueryParam("initPrice") Float initPrice,
+    public Response list(@QueryParam("name") @DefaultValue("") String name,
+                         @QueryParam("category") Long category,  @QueryParam("orderBy") Long orderBy,
+                         @QueryParam("user") Long user, @QueryParam("location") Long location,
+                         @QueryParam("initPrice") Float initPrice,
                          @QueryParam("endPrice") Float endPrice, @QueryParam("page") @DefaultValue("1") long page) {
 
         final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice,
                 endPrice, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).
                 collect(Collectors.toList());
 
+        if (articles.isEmpty())
+            return Response.noContent().build();
+
         final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
 
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name);
 
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();//.queryParam("name", name);
-                /* TODO verificar si son null
-                .queryParam("category", category).queryParam("orderBy", orderBy).
-                queryParam("user", user).queryParam("location", location).
-                queryParam("initPrice", initPrice).queryParam("endPrice", endPrice);
+        if (category != null)
+            uriBuilder.queryParam("category", category);
 
-                 */
+        if (orderBy != null)
+            uriBuilder.queryParam("orderBy", orderBy);
+
+        if (user != null)
+            uriBuilder.queryParam("user", user);
+
+        if (location != null)
+            uriBuilder.queryParam("location", location);
+
+        if (initPrice != null)
+            uriBuilder.queryParam("initPrice", initPrice);
+
+        if (endPrice != null)
+            uriBuilder.queryParam("endPrice", endPrice);
 
         return PaginationProvider.generateResponseWithLinks
                 (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
@@ -79,6 +95,9 @@ public class ArticleController {
         List<ArticleDTO> articles = as.recommendedArticles(id)
                 .stream().map((Article article) -> ArticleDTO.fromArticle(article, uriInfo))
                 .collect(Collectors.toList());
+
+        if (articles.isEmpty())
+            return Response.noContent().build();
         return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
     }
 }

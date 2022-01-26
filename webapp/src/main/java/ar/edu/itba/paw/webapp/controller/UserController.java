@@ -2,10 +2,12 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.webapp.dto.UserDTO;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -44,12 +46,8 @@ public class UserController {
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response getById(@PathParam("id") final long id) {
-        final User user = us.findById(id).orElse(null);
-        if (user != null) {
-            return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        final User user = us.findById(id).orElseThrow(UserNotFoundException::new);
+        return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
     }
 
     @DELETE
@@ -67,5 +65,5 @@ public class UserController {
         us.update(id, userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
         return Response.ok().build();
     }
-    
+
 }

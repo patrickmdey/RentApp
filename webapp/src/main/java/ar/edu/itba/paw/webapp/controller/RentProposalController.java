@@ -6,6 +6,8 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.webapp.dto.RentProposalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -50,6 +52,10 @@ public class RentProposalController {
 
         final List<RentProposalDTO> proposals = getter.get(userId, state, page).stream().
                 map(proposal -> RentProposalDTO.fromRentProposal(proposal, uriInfo)).collect(Collectors.toList());
+
+        if (proposals.isEmpty())
+            return Response.noContent().build();
+
         final Long maxPage= maxPageGetter.apply(userId, state);
 
         return PaginationProvider.generateResponseWithLinks(Response.ok

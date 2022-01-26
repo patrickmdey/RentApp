@@ -28,6 +28,9 @@ public class CategoryController {
         List<CategoryDTO> categories = cs.listCategories().stream().map((Category category) ->
                 CategoryDTO.fromCategory(category, uriInfo)).collect(Collectors.toList());
 
+        if (categories.isEmpty())
+            return Response.noContent().build();
+
         return Response.ok(new GenericEntity<List<CategoryDTO>>(categories) {}).build();
     }
 

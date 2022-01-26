@@ -25,6 +25,10 @@ public class LocationController {
     public Response list() {
         final List<LocationDTO> locations = Arrays.stream(Locations.values()).map(location ->
                 LocationDTO.fromLocation(location, uriInfo)).collect(Collectors.toList());
+
+        if (locations.isEmpty())
+            return Response.noContent().build();
+
         return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {}).build();
     }
 }
