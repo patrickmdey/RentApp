@@ -3,25 +3,20 @@ import {strings} from "../i18n/i18n";
 import React from "react";
 import {useAppDispatch} from "../hooks";
 import {setLanguage} from "../features/i18n/i18nSlice"
-import {connect, ConnectedProps} from "react-redux";
-import {RootState} from "../store";
 
 const logo = require("../images/rentapp-favicon.png");
 
 
-function Footer(props: ReduxProps) {
+// function Footer(props: ReduxProps) {
+export default function Footer() {
     const dispatcher = useAppDispatch();
-
-    //const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     function updateLanguage(language: string) {
         dispatcher(setLanguage(language));
-        //strings.setLanguage(language)
-        //forceUpdate()
     }
 
     return (
-        <footer className="footer-style bg-color-primary">
+        <footer className="fixed-bottom footer-style bg-color-primary">
             <Card.Body className="row my-n4">
                 <div className="col-4 footer-image-col">
                     <Image src={logo} className="mt-n3" height="180px" width="auto" alt="RentApp"/>
@@ -77,13 +72,13 @@ function Footer(props: ReduxProps) {
     )
 }
 
-const mapStateToProps = (state: RootState) => ({
-    lang: state.i18n.lang
-})
-
-const connector = connect(mapStateToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-
-export default connector(Footer);
+// const mapStateToProps = (state: RootState) => ({
+//     lang: state.i18n.lang
+// })
+//
+// const connector = connect(mapStateToProps);
+// type ReduxProps = ConnectedProps<typeof connector>;
+//
+// export default connector(Footer);
 
 
