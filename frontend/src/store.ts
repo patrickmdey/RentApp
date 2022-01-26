@@ -24,7 +24,9 @@ const persistedReducer = persistReducer(persistConfig, baseReducers)
 
 const store = configureStore({
     reducer: persistedReducer,
-    middleware: [BaseApiSlice.middleware]
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(BaseApiSlice.middleware)
+    }
 });
 
 const persistor = persistStore(store)
