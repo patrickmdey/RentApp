@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from "../../store";
-import {strings} from "../../i18n/i18n";
 
 interface LanguageState {
     lang: string
@@ -12,7 +11,6 @@ const I18nSlice = createSlice({
     reducers: {
         setLanguage: (state, {payload: lang}: PayloadAction<string>) => {
             state.lang = lang;
-            strings.setLanguage(lang)
         }
 
     }
