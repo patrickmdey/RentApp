@@ -19,10 +19,24 @@ interface FooterStrings {
     language: string
 }
 
+interface FilterStrings {
+    title: string,
+    name: string,
+    category: string,
+    orderBy: string,
+    location: string,
+    minPrice: string,
+    maxPrice: string,
+    button: string,
+    everyLocation: string,
+    everyCategory: string
+}
+
 
 export interface StringCollection {
     header: HeaderStrings,
-    footer: FooterStrings
+    footer: FooterStrings,
+    filter: FilterStrings
 }
 
 export interface IStrings extends LocalizedStringsMethods {

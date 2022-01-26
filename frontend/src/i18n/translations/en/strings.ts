@@ -17,6 +17,18 @@ let enCollection: StringCollection = {
         english: "English",
         email: "Email",
         language: "Language"
+    },
+    filter: {
+        title: "Filters",
+        name: "Name",
+        category: "Category",
+        orderBy: "Order by",
+        location: "Location",
+        minPrice: "Min. price",
+        maxPrice: "Max. price",
+        button: "Search",
+        everyLocation: "Every location",
+        everyCategory: "Every category"
     }
 }
 
