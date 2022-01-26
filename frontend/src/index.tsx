@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./css/index.css";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./store";
-
-import Header from "./components/header";
-import RouteMapper from "./routeMapper";
+import {BrowserRouter as Router} from "react-router-dom";
+import {Provider} from "react-redux";
+import {store} from "./store";
+import Header from './components/header';
+import RouteMapper from './routeMapper'
 import Footer from "./components/footer";
 import "typeface-roboto";
 import "./scss/app.scss";

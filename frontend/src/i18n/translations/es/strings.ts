@@ -9,6 +9,14 @@ let esCollection: StringCollection = {
         signup: "Crear cuenta",
         marketplace: "Explorar",
         publishArticle: "Publicar artículo",
+    },
+    footer: {
+        team: "Equipo",
+        contact: "Contacto",
+        spanish: "Español",
+        english: "Inglés",
+        email: "Mail",
+        language: "Idioma"
     }
 }
 

@@ -9,6 +9,14 @@ let enCollection: StringCollection = {
         signup: "Register",
         marketplace: "Explore",
         publishArticle: "Publish article",
+    },
+    footer: {
+        team: "Team members",
+        contact: "Contact",
+        spanish: "Spanish",
+        english: "English",
+        email: "Email",
+        language: "Language"
     }
 }
 

@@ -1,6 +1,6 @@
 import {LocalizedStringsMethods} from 'react-localization'
 
-export interface HeaderStrings {
+interface HeaderStrings {
     requests: string,
     logout: string,
     profile: string,
@@ -10,11 +10,23 @@ export interface HeaderStrings {
     publishArticle: string,
 }
 
+interface FooterStrings {
+    team: string,
+    contact: string,
+    spanish: string,
+    english: string,
+    email: string,
+    language: string
+}
+
+
 export interface StringCollection {
-    header: HeaderStrings
+    header: HeaderStrings,
+    footer: FooterStrings
 }
 
 export interface IStrings extends LocalizedStringsMethods {
-    collection: StringCollection
+    collection: StringCollection,
+
 }
 

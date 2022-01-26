@@ -9,6 +9,8 @@ import {
 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { strings } from "../i18n/i18n";
+import {connect, ConnectedProps} from "react-redux";
+import {RootState} from "../store";
 
 const logo = require("../images/rentapp-logo.png");
 
@@ -62,8 +64,8 @@ function RenderLoggedOutNavBar() {
   );
 }
 
-function Header() {
-  const isAuthenticated = useAppSelector((state) => state.auth.token != null);
+function Header(props: ReduxProps) {
+    const isAuthenticated = useAppSelector((state) => state.auth.token != null);
 
   return (
     <Navbar
@@ -102,4 +104,11 @@ function Header() {
   );
 }
 
-export default Header;
+const mapStateToProps = (state: RootState) => ({
+    lang: state.i18n.lang
+});
+
+const connector = connect(mapStateToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+
+export default connector(Header);

@@ -8,5 +8,6 @@ const strings: IStrings = new LocalizedStrings({
     es: {collection: esCollection},
 })
 
+
 export {strings};
 
