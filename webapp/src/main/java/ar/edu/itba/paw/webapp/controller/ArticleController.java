@@ -3,10 +3,8 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.webapp.dto.ArticleDTO;
-import ar.edu.itba.paw.webapp.dto.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -22,19 +20,25 @@ public class ArticleController {
     @Context
     private UriInfo uriInfo;
 
-
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response list(@QueryParam("name") String name, @QueryParam("category") Long category,  @QueryParam("orderBy") Long orderBy,
                          @QueryParam("user") Long user, @QueryParam("location") Long location, @QueryParam("initPrice") Float initPrice,
                          @QueryParam("endPrice") Float endPrice, @QueryParam("page") @DefaultValue("1") long page) {
 
-        final List<ArticleDTO> articles = as.get(name, category, orderBy,
-                user, location, initPrice, endPrice, page)
-                .stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
+        final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice,
+                endPrice, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).
+                collect(Collectors.toList());
 
-        // TODO: add links to pages
-        return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
+        final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
+
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name)
+                .queryParam("category", category).queryParam("orderBy", orderBy).
+                queryParam("user", user).queryParam("location", location).
+                queryParam("initPrice", initPrice).queryParam("endPrice", endPrice);
+
+        return PaginationProvider.generateResponseWithLinks
+                (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
     }
 
     @POST
