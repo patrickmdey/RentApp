@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.webapp.dto.ArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,10 +33,14 @@ public class ArticleController {
 
         final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
 
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name)
+
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();//.queryParam("name", name);
+                /* TODO verificar si son null
                 .queryParam("category", category).queryParam("orderBy", orderBy).
                 queryParam("user", user).queryParam("location", location).
                 queryParam("initPrice", initPrice).queryParam("endPrice", endPrice);
+
+                 */
 
         return PaginationProvider.generateResponseWithLinks
                 (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
@@ -55,13 +60,9 @@ public class ArticleController {
     @GET
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response getById(@PathParam("id") final long id) {
-        final Article article = as.findById(id).orElse(null);
-        if (article != null) {
-            return Response.ok(ArticleDTO.fromArticle(article, uriInfo)).build();
-        } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+    public Response getById(@PathParam("id") final long id){
+        final Article article = as.findById(id).orElseThrow(ArticleNotFoundException::new);
+        return Response.ok(ArticleDTO.fromArticle(article, uriInfo)).build();
     }
 
     @PUT

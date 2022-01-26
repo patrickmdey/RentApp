@@ -17,11 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 @ComponentScan({"ar.edu.itba.paw.webapp.auth"})
 @Configuration
 @EnableWebSecurity

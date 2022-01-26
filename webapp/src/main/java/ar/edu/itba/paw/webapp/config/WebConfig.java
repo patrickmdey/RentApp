@@ -21,7 +21,8 @@ import java.util.Properties;
 
 @EnableScheduling
 @EnableTransactionManagement
-@ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.services", "ar.edu.itba.paw.persistence"})
+@ComponentScan({"ar.edu.itba.paw.webapp.controller", "ar.edu.itba.paw.services",
+        "ar.edu.itba.paw.persistence"})
 @Configuration
 public class WebConfig {
 
@@ -87,5 +88,6 @@ public class WebConfig {
         multipartResolver.setMaxUploadSize(20848820);
         return multipartResolver;
     }
+
 
 }
