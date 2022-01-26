@@ -3,7 +3,9 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
-import ar.edu.itba.paw.webapp.dto.ArticleDTO;
+import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
+import ar.edu.itba.paw.webapp.dto.post.NewArticleDTO;
+import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
@@ -65,10 +67,10 @@ public class ArticleController {
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.APPLICATION_JSON,})
-    public Response createArticle(final ArticleDTO articleDTO) {
+    public Response createArticle(final NewArticleDTO articleDTO) {
         // TODO: not working yet
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
-                articleDTO.getCategories(), articleDTO.getImages(), articleDTO.getOwnerId()); // TODO: obtener data de las urls
+                articleDTO.getCategories(), articleDTO.getImages(), articleDTO.getOwnerId()); // TODO: obtener owner de las urls
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(article.getId())).build();
         return Response.created(uri).build();
     }
@@ -84,7 +86,7 @@ public class ArticleController {
     @PUT
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
-    public Response modify(@PathParam("id") long id, ArticleDTO articleDTO) {
+    public Response modify(@PathParam("id") long id, EditArticleDTO articleDTO) {
         as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(), articleDTO.getCategories());
         return Response.ok().build();
     }

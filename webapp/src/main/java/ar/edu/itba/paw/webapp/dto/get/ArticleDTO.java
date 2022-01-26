@@ -1,13 +1,11 @@
-package ar.edu.itba.paw.webapp.dto;
+package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Article;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
 
 public class ArticleDTO {
+
     private String title;
 
     private String description;
@@ -21,11 +19,6 @@ public class ArticleDTO {
     private URI imagesUrl;
     private URI categoriesUrl;
 
-    // Post/Put only params
-    private List<Long> categories;
-    private List<byte[]> images;
-    private Long ownerId;
-
     public static ArticleDTO fromArticle(Article article, UriInfo uri){
         ArticleDTO toReturn = new ArticleDTO();
         toReturn.title = article.getTitle();
@@ -38,7 +31,7 @@ public class ArticleDTO {
         toReturn.url = uri.getBaseUriBuilder().path("articles").path(String.valueOf(article.getId())).build();
         toReturn.ownerUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
         toReturn.imagesUrl = uri.getBaseUriBuilder().path("images").queryParam("fromArticle", article.getId()).build();
-        //toReturn.categoriesUrl = uri.getAbsolutePathBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
+        toReturn.categoriesUrl = uri.getBaseUriBuilder().path("categories").queryParam("fromArticle", article.getId()).build();
 
         return toReturn;
     }
@@ -113,30 +106,6 @@ public class ArticleDTO {
 
     public void setCategoriesUrl(URI categoriesUrl) {
         this.categoriesUrl = categoriesUrl;
-    }
-
-    public List<Long> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Long> categories) {
-        this.categories = categories;
-    }
-
-    public List<byte[]> getImages() {
-        return images;
-    }
-
-    public void setImages(List<byte[]> images) {
-        this.images = images;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
     }
 
     public URI getUrl() {

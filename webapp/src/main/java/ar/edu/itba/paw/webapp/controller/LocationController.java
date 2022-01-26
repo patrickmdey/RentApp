@@ -1,8 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.models.Locations;
-import ar.edu.itba.paw.webapp.dto.ArticleDTO;
-import ar.edu.itba.paw.webapp.dto.LocationDTO;
+import ar.edu.itba.paw.webapp.dto.get.LocationDTO;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;

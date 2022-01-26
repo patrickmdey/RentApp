@@ -1,25 +1,34 @@
-package ar.edu.itba.paw.webapp.dto;
+package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.webapp.forms.annotations.FutureDate;
+import ar.edu.itba.paw.webapp.forms.annotations.GreaterDate;
+import ar.edu.itba.paw.webapp.forms.annotations.UniqueRentRequest;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
+
+
 public class RentProposalDTO {
+
     private String message;
+
     private int state;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
+
     private boolean seen;
 
     private URI url;
     private URI renterUrl;
     private URI articleUrl;
-
-    // Post/Put only params
-    private Long articleId;
-    private Long renterId;
 
     public static RentProposalDTO fromRentProposal(RentProposal rp, UriInfo uri){
         RentProposalDTO toReturn = new RentProposalDTO();
@@ -93,22 +102,6 @@ public class RentProposalDTO {
 
     public URI getUrl() {
         return url;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getRenterId() {
-        return renterId;
-    }
-
-    public void setRenterId(Long renterId) {
-        this.renterId = renterId;
     }
 
     public void setUrl(URI url) {

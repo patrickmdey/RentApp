@@ -3,7 +3,9 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.ReviewService;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
-import ar.edu.itba.paw.webapp.dto.ReviewDTO;
+import ar.edu.itba.paw.webapp.dto.get.ReviewDTO;
+import ar.edu.itba.paw.webapp.dto.post.NewReviewDTO;
+import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
@@ -50,9 +52,9 @@ public class ReviewController {
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.APPLICATION_JSON,})
-    public Response createReview(ReviewDTO reviewDTO) {
+    public Response createReview(NewReviewDTO reviewDTO) {
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
-                reviewDTO.getArticleId(), reviewDTO.getRenterId()); // TODO: obtener data de las urls
+                reviewDTO.getArticleId(), reviewDTO.getRenterId()); // TODO: obtener renter de las urls
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(review.getId())).build();
         return Response.created(uri).build();
     }
@@ -60,7 +62,7 @@ public class ReviewController {
     @PUT
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
-    public Response modifyReview(@PathParam("id") long id, ReviewDTO reviewDTO) {
+    public Response modifyReview(@PathParam("id") long id, EditReviewDTO reviewDTO) {
         rs.update(reviewDTO.getRating(), reviewDTO.getMessage(), id);
         return Response.ok().build();
     }

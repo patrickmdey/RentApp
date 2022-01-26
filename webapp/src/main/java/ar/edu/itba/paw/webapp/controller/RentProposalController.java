@@ -3,7 +3,8 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.RequestsGetter;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.webapp.dto.RentProposalDTO;
+import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
+import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +65,7 @@ public class RentProposalController {
 
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response createProposal(final RentProposalDTO rentProposalDTO) {
+    public Response createProposal(final NewRentProposalDTO rentProposalDTO) {
         // TODO: en realidad el renterId viene de la sesion
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(), rentProposalDTO.getStartDate(),
                 rentProposalDTO.getEndDate(), rentProposalDTO.getArticleId(), rentProposalDTO.getRenterId(), uriInfo.toString());
@@ -75,8 +76,8 @@ public class RentProposalController {
     @PUT
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
-    public Response modify(@PathParam("id") long id, RentProposalDTO rentProposalDTO) {
-        rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());
+    public Response modify(@PathParam("id") long id, @NotNull int state) {
+        rs.setRequestState(id, state, uriInfo.getAbsolutePath().toString());
         return Response.ok().build();
     }
 }

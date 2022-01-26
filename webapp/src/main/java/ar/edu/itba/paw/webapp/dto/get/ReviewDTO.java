@@ -1,13 +1,18 @@
-package ar.edu.itba.paw.webapp.dto;
+package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Review;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
 public class ReviewDTO {
     private int rating;
+
     private String message;
+
     private LocalDate createdAt;
 
     private URI url;
@@ -67,22 +72,6 @@ public class ReviewDTO {
 
     public void setRenterUrl(URI renterUrl) {
         this.renterUrl = renterUrl;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getRenterId() {
-        return renterId;
-    }
-
-    public void setRenterId(Long renterId) {
-        this.renterId = renterId;
     }
 
     public URI getUrl() {

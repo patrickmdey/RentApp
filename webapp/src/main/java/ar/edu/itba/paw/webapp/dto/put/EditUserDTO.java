@@ -1,13 +1,11 @@
-package ar.edu.itba.paw.webapp.forms;
+package ar.edu.itba.paw.webapp.dto.put;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class EditAccountForm {
-
+public class EditUserDTO {
     @NotEmpty
     @Size(min = 3, max = 20)
     private String firstName;
@@ -42,5 +40,4 @@ public class EditAccountForm {
     public void setLocation(Long location) {
         this.location = location;
     }
-
 }

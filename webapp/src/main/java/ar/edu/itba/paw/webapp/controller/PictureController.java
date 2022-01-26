@@ -6,7 +6,7 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.ImageNotFoundException;
-import ar.edu.itba.paw.webapp.dto.PictureDTO;
+import ar.edu.itba.paw.webapp.dto.get.PictureDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
