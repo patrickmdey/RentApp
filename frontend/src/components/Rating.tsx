@@ -8,9 +8,9 @@ function Rating(props: { rating: Number }) {
           <div>
             {[...Array(5)].map((_, idx) => {
               return idx <= props.rating ? (
-                <StarFill key={idx} />
+                <StarFill size="3vh" color="red" key={idx} />
               ) : (
-                <Star key={idx} />
+                <Star size="3vh" color="rentapp-red" key={idx} />
               );
             })}
           </div>

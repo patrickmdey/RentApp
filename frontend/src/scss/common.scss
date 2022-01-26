@@ -1,16 +1,15 @@
 :root {
-  --color-primary: #1A394E;
-  --color-action: #22577A;
-  --color-secondary: #93C4E6;
-  --color-rentapp-black: #06121A;
-  --color-rentapp-red: #FF6B4D;
-  --color-grey: #EAEDEA;
+  --color-primary: #1a394e;
+  --color-action: #22577a;
+  --color-secondary: #93c4e6;
+  --color-rentapp-black: #06121a;
+  --color-rentapp-red: #ff6b4d;
+  --color-grey: #eaedea;
   --color-danger: red;
   --color-white: white;
-  --color-light-grey: #F6F6F6;
-  --color-dark-grey: #A0A0A0;
+  --color-light-grey: #f6f6f6;
+  --color-dark-grey: #a0a0a0;
 }
-
 
 html {
   overflow-x: hidden;
@@ -20,9 +19,14 @@ body {
   overflow-y: visible;
 }
 
-
-h1, h2, h3, h4, h5, h6, p {
-  font-family: 'Noto Sans', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: "Noto Sans", sans-serif;
   color: var(--color-rentapp-black);
 }
 
@@ -227,4 +231,22 @@ a.request-pill.active {
 
 .nav-link.request-pill[aria-selected="true"] {
   background-color: var(--color-secondary) !important;
+}
+
+.marketplace-card-style {
+  padding: 7px;
+  height: 400px;
+  width: 100%;
+  margin: 0 0 5px;
+  box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
+}
+
+.marketplace-card-style:hover {
+  box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+}
+
+.marketplace-card-info-container {
+  margin-top: 3px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  height: 40%;
 }
