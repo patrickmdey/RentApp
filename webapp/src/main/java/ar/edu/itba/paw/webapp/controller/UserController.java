@@ -32,15 +32,6 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @GET
-    @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response test() {
-        return Response.ok().build();
-    }
-
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})
@@ -51,28 +42,6 @@ public class UserController {
                 uriInfo.getAbsolutePath().toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
-    }
-
-    public static class UserReq {
-        private String email;
-        private String password;
-
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 
     @GET
