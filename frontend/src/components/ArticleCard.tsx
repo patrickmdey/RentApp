@@ -4,12 +4,15 @@ import { Article } from "../features/api/articles/types";
 import { useFindLocation } from "../features/api/locations/locationsSlice";
 import { useFindUser } from "../features/api/users/usersSlice";
 import Rating from "./Rating";
-import ArticleCardLocation from "./ArticleCardLocation";
 
 function ArticleCard(article: Article) {
   const { title, pricePerDay, rating, imagesUrl, ownerUrl } = article;
 
-  const { data: owner } = useFindUser(ownerUrl);
+  const {
+    data: owner,
+    error: ownerError,
+    isSuccess: ownerIsSuccess,
+  } = useFindUser(ownerUrl);
 
   // const { data, error, isSuccess } = useListImages(imagesUrl);
   // console.log(data);
@@ -22,7 +25,10 @@ function ArticleCard(article: Article) {
       <div className="marketplace-card-info-container">
         <Card.Title as="h3">{title}</Card.Title>
         <Card.Subtitle>
-          {/* {owner && <ArticleCardLocation locationUrl={owner?.locationUrl} />} */}
+          {/* <div className="display-flex">
+            <GeoAltFill size="3vh" color="primary"></GeoAltFill>
+            {location && <p>{location.name}</p>}
+          </div> */}
           <Rating rating={rating}></Rating>
           <p>${pricePerDay}</p>
         </Card.Subtitle>

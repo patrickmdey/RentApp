@@ -1,21 +1,21 @@
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import Users from "./pages/users";
 import About from "./pages/about";
-
+import Article from "./pages/Article";
 
 // function RouteMapper(props: ReduxProps) {
 export default function RouteMapper() {
-
-    return (
-        <div>
-            <Routes>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/users" element={<Users/>}/>
-                <Route path="/" element={<Home/>}/>
-            </Routes>
-        </div>
-    );
+  return (
+    <div>
+      <Routes>
+        <Route path="/about" element={<About />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/" element={<Home />} />
+        <Route path={`/articles/:id`} element={<Article />} />
+      </Routes>
+    </div>
+  );
 }
 
 // const mapStateToProps = (state: RootState) => ({
@@ -26,4 +26,3 @@ export default function RouteMapper() {
 // type ReduxProps = ConnectedProps<typeof connector>;
 //
 // export default connector(RouteMapper);
-

@@ -4,9 +4,9 @@ export interface Review {
 	rating: Number;
 	message: String;
 	createdAt: Date;
-	url: Url;
-	articleUrl: Url;
-	renterUrl: Url;
+	url: URL;
+	articleUrl: URL;
+	renterUrl: URL;
 }
 
 export interface ListReviewParameters {

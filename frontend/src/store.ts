@@ -1,8 +1,8 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {BaseApiSlice} from './features/api/baseApiSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { BaseApiSlice } from './features/api/baseApiSlice';
 import authReducer from './features/auth/authSlice';
 import i18nReducer from './features/i18n/i18nSlice'
-import {persistReducer, persistStore} from 'redux-persist'
+import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import hardSet from "redux-persist/es/stateReconciler/hardSet";
 
@@ -36,4 +36,4 @@ export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
-export {store, persistor}
+export { store, persistor }
