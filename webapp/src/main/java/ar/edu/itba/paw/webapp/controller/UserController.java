@@ -75,30 +75,6 @@ public class UserController {
         }
     }
 
-    @POST
-    @Path("/login")
-    @Consumes({MediaType.APPLICATION_JSON})
-    public Response login(UserReq request) {
-        try {
-            Authentication authenticate = authenticationManager
-                    .authenticate(
-                            new UsernamePasswordAuthenticationToken(
-                                    request.getEmail(), request.getPassword()
-                            )
-                    );
-
-            UserDetails user = (UserDetails) authenticate.getPrincipal();
-
-            return Response.ok()
-                    .header(
-                            HttpHeaders.AUTHORIZATION,
-                            JwtTokenUtil.generateAccessToken(user)
-                    ).build();
-        } catch (BadCredentialsException ex) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-    }
-
     @GET
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
