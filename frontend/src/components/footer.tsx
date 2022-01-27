@@ -16,7 +16,7 @@ export default function Footer() {
     }
 
     return (
-        <footer className="mt-auto footer-style bg-color-primary">
+        <footer className=" footer-style bg-color-primary">
             <Card.Body className="row my-n4">
                 <div className="col-4 footer-image-col">
                     <Image src={logo} className="mt-n3" height="180px" width="auto" alt="RentApp"/>
