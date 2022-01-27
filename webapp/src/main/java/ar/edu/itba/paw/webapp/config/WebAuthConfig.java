@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.config;
 
+import ar.edu.itba.paw.webapp.auth.TokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 @ComponentScan({"ar.edu.itba.paw.webapp.auth"})
 @Configuration
@@ -24,11 +28,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    @Autowired
     private UserDetailsService pawUserDetailService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(pawUserDetailService)
+        auth.userDetailsService(username -> pawUserDetailService.loadUserByUsername(username))
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -39,12 +46,14 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .invalidSessionUrl("/")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/register").anonymous()
+                .antMatchers("/users/login", "/users/register").anonymous()
+                .antMatchers("/users/**").authenticated()
                 .antMatchers("/user/view", "/user/edit").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
                 .antMatchers("/user/my-requests/sent/**").authenticated()
@@ -53,9 +62,18 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/review/{articleId}/create").authenticated()
                 .anyRequest().permitAll()
                 .and().exceptionHandling()
-                .accessDeniedPage("/403")
-                .and().csrf()
-                .disable();
+                .authenticationEntryPoint((request, response, ex) -> {
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    ex.getMessage()
+                            );
+                        }
+                );
+
+        http.addFilterBefore(
+                tokenAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class
+        );
     }
 
     @Override

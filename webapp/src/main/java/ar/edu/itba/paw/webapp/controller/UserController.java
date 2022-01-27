@@ -3,18 +3,23 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
+import io.jsonwebtoken.Claims;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 
 @Path("users")
@@ -23,8 +28,12 @@ public class UserController {
 
     @Autowired
     private UserService us;
+
     @Context
     private UriInfo uriInfo;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
@@ -42,6 +51,52 @@ public class UserController {
                 uriInfo.getAbsolutePath().toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
+    }
+
+    public static class UserReq {
+        private String email;
+        private String password;
+
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
+    @POST
+    @Path("/login")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response login(UserReq request) {
+        try {
+            Authentication authenticate = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                    request.getEmail(), request.getPassword()
+                            )
+                    );
+
+            UserDetails user = (UserDetails) authenticate.getPrincipal();
+
+            return Response.ok()
+                    .header(
+                            HttpHeaders.AUTHORIZATION,
+                            JwtTokenUtil.generateAccessToken(user)
+                    ).build();
+        } catch (BadCredentialsException ex) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
     }
 
     @GET
