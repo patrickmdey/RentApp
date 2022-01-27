@@ -53,7 +53,7 @@
             <param-value>
                 ar.edu.itba.paw.webapp.controller,
                 ar.edu.itba.paw.webapp.exceptionMapper,
-                ar.edu.itba.paw.webapp.auth
+                ar.edu.itba.paw.webapp.filters
             </param-value>
         </init-param>
         <init-param>

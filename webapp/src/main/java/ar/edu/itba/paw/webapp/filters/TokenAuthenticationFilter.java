@@ -1,5 +1,6 @@
-package ar.edu.itba.paw.webapp.auth;
+package ar.edu.itba.paw.webapp.filters;
 
+import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import com.sun.tools.javac.util.List;
 import com.sun.xml.internal.rngom.parse.host.Base;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Base64;
 
 @Secured({})
@@ -33,10 +32,6 @@ import java.util.Base64;
 @Component
 @Priority(Priorities.AUTHENTICATION)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
-
-//    private static final String REALM = "example";
-//    private static final String AUTHENTICATION_SCHEME = "Bearer";
-//    private static final String SECRET_KEY = "secret";
 
     @Autowired
     private UserDetailsService userDetailsService;
