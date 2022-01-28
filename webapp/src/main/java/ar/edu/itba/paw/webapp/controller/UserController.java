@@ -52,7 +52,7 @@ public class UserController {
         return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
     }
 
-    @DELETE
+    @DELETE // TODO verificar que es el mismo
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response deleteById(@PathParam("id") final long id) {
@@ -60,7 +60,7 @@ public class UserController {
         return Response.noContent().build();
     }
 
-    @PUT
+    @PUT // TODO verificar que es el mismo
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     public Response modify(@PathParam("id") final long id, EditUserDTO userDTO) {

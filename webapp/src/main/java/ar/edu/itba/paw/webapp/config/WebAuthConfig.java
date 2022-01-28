@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 
-@ComponentScan({"ar.edu.itba.paw.webapp.auth", "ar.edu.itba.paw.webapp.filters"})
+@ComponentScan({"ar.edu.itba.paw.webapp.auth", "ar.edu.itba.paw.webapp.filters" })
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -46,15 +46,16 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable();
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .invalidSessionUrl("/")
                 .and()
+                .addFilterBefore(
+                        tokenAuthenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
                 .authorizeRequests()
-                .antMatchers("/users/login", "/users/register").anonymous()
-                .antMatchers("/users/**").authenticated()
-                .antMatchers("/user/view", "/user/edit").authenticated()
+                .antMatchers(HttpMethod.POST, "/users").anonymous()
                 .antMatchers(HttpMethod.POST, "/user/delete").fullyAuthenticated()
                 .antMatchers("/user/my-requests/sent/**").authenticated()
                 .antMatchers("/user/my-requests/received/**").hasAuthority("OWNER")
@@ -62,18 +63,11 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/review/{articleId}/create").authenticated()
                 .anyRequest().permitAll()
                 .and().exceptionHandling()
-                .authenticationEntryPoint((request, response, ex) -> {
-                            response.sendError(
-                                    HttpServletResponse.SC_UNAUTHORIZED,
-                                    ex.getMessage()
-                            );
-                        }
-                );
+                .authenticationEntryPoint((request, response, ex) -> response.sendError(
+                        HttpServletResponse.SC_UNAUTHORIZED,
+                        ex.getMessage()
+                )).and().csrf().disable();
 
-        http.addFilterBefore(
-                tokenAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class
-        );
     }
 
     @Override

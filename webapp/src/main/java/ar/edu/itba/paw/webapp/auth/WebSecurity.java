@@ -9,10 +9,13 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.Review;
 import ar.edu.itba.paw.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.ws.rs.ext.Provider;
 import java.util.Optional;
 
 @Component
@@ -52,7 +55,6 @@ public class WebSecurity {
     public boolean checkCanReview(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
         return loggedUser.filter(user -> rentService.hasRented(user, articleId) && !reviewService.hasReviewed(user, articleId)).isPresent();
-
     }
 
     public boolean checkIsReviewOwner(Authentication authentication, long reviewId) {
