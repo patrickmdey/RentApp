@@ -9,6 +9,7 @@ export interface Article {
 	ownerUrl: URL;
 	imagesUrl: URL;
 	categoriesUrl: URL;
+	reviewsUrl: URL;
 }
 
 export interface ListArticleParameters {

@@ -1,6 +1,7 @@
 import { Card } from "react-bootstrap";
 import { GeoAlt, GeoAltFill } from "react-bootstrap-icons";
 import { Article } from "../features/api/articles/types";
+import { useListImages } from "../features/api/images/imagesSlice";
 import { useFindLocation } from "../features/api/locations/locationsSlice";
 import { useFindUser } from "../features/api/users/usersSlice";
 import Rating from "./Rating";
@@ -14,13 +15,13 @@ function ArticleCard(article: Article) {
     isSuccess: ownerIsSuccess,
   } = useFindUser(ownerUrl);
 
-  // const { data, error, isSuccess } = useListImages(imagesUrl);
-  // console.log(data);
+  const { data, error, isSuccess } = useListImages(imagesUrl);
+  console.log(data);
   return (
     <Card className="marketplace-card-style text-dark bg-light mb-4">
-      {/* {isSuccess && data && data.length && (
+      {isSuccess && data && data.length && (
         <Card.Img variant="top" src={data[0].url.toString()} />
-      )} */}
+      )}
       <h1>{owner && owner.firstName}</h1>
       <div className="marketplace-card-info-container">
         <Card.Title as="h3">{title}</Card.Title>

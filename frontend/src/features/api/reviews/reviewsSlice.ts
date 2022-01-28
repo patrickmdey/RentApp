@@ -7,8 +7,8 @@ const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 			query: (url) => url.toString()
 		}),
 
-		listReviews: build.query<Review[], ListReviewParameters>({
-			query: ({ articleId, page }) => `reviews?fromArticle=${articleId}${page != null ? `&page=${page}` : ''}`
+		listReviews: build.query<Review[], URL>({
+			query: (url) => url.toString()
 		}),
 
 		createReview: build.mutation<Review, CreateReviewParameters>({

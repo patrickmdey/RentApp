@@ -9,8 +9,16 @@ const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 
 		listCategories: build.query<Category[], void>({
 			query: () => 'categories'
+		}),
+
+		listCategoriesFromArticle: build.query<Category[], URL>({
+			query: (url) => url.toString()
 		})
 	})
 });
 
-export const { useListCategoriesQuery: useListCategories, useFindCategoryQuery: useFindCategory } = CategoriesApiSlice;
+export const {
+	useListCategoriesQuery: useListCategories,
+	useFindCategoryQuery: useFindCategory,
+	useListCategoriesFromArticleQuery: useListCategoriesFromArticle
+} = CategoriesApiSlice;

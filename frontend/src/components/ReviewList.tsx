@@ -2,8 +2,8 @@ import { Row } from "react-bootstrap";
 import { Review as ReviewT } from "../features/api/reviews/types";
 import Review from "./Review";
 
-function ReviewList(props: { reviews: ReviewT[] }) {
-  const { reviews } = props;
+function ReviewList(reviews: ReviewT[]) {
+  // const { reviews } = props;
   console.log(reviews);
   return (
     <div>
