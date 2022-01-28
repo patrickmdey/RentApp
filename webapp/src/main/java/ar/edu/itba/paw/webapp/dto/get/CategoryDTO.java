@@ -1,9 +1,13 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Category;
+import org.glassfish.jersey.server.ContainerRequest;
+import org.springframework.context.MessageSource;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.Locale;
 
 public class CategoryDTO {
     private String description;
@@ -11,9 +15,9 @@ public class CategoryDTO {
     private URI url;
     private URI imageUrl;
 
-    public static CategoryDTO fromCategory(Category category, UriInfo uri){
+    public static CategoryDTO fromCategory(Category category, UriInfo uri, MessageSource messageSource, Locale locale){
         CategoryDTO toReturn = new CategoryDTO();
-        toReturn.description = category.getDescription();
+        toReturn.description = messageSource.getMessage(category.getDescription(), null, locale);
         toReturn.url = uri.getBaseUriBuilder().path("categories").path(String.valueOf(category.getId())).build();
         toReturn.imageUrl = uri.getBaseUriBuilder().path("images").path(String.valueOf(category.getPicture().getId())).build();
         return toReturn;

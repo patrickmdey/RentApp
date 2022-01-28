@@ -7,6 +7,7 @@ import ar.edu.itba.paw.webapp.dto.get.ReviewDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewReviewDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -52,9 +53,11 @@ public class ReviewController {
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(NewReviewDTO reviewDTO) {
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
                 reviewDTO.getArticleId(), reviewDTO.getRenterId()); // TODO: obtener renter de las urls
+
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(review.getId())).build();
         return Response.created(uri).build();
     }
@@ -62,6 +65,7 @@ public class ReviewController {
     @PUT
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
+    @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication, #id)")
     public Response modifyReview(@PathParam("id") long id, EditReviewDTO reviewDTO) {
         rs.update(reviewDTO.getRating(), reviewDTO.getMessage(), id);
         return Response.ok().build();
