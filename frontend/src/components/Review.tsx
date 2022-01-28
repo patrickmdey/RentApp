@@ -15,7 +15,7 @@ function Review(review: ReviewT) {
         </a>
       </c:if> */}
       </Row>
-      <Rating rating={rating} />
+      <Rating rating={rating} timesReviewed={-1} />
       <p className="text-muted mt-2">{message}</p>
     </>
   );

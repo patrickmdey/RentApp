@@ -250,3 +250,15 @@ a.request-pill.active {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   height: 40%;
 }
+
+.marketplace-card-img-container {
+  display: flex;
+  justify-content: center;
+  height: 60%;
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

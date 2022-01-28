@@ -1,4 +1,4 @@
-import {LocalizedStringsMethods} from 'react-localization'
+import { LocalizedStringsMethods } from 'react-localization'
 
 interface HeaderStrings {
     requests: string,
@@ -44,11 +44,25 @@ interface LogInStrings {
     error: string
 }
 
+interface ArticleStrings {
+    ownerCardTitle: string,
+    descriptionTitle: string,
+    rent: string,
+    noArticles: string
+}
+
+interface ReviewStrings {
+    noReviews: string,
+    reviews: string
+}
+
 export interface StringCollection {
     header: HeaderStrings,
     footer: FooterStrings,
     filter: FilterStrings,
-    login: LogInStrings
+    login: LogInStrings,
+    article: ArticleStrings,
+    review: ReviewStrings
 }
 
 export interface IStrings extends LocalizedStringsMethods {
