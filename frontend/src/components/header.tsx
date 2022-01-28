@@ -41,7 +41,7 @@ function RenderLoggedInNavBar() {
 function RenderLoggedOutNavBar() {
     return (
         <React.Fragment>
-            <LinkContainer to="/users">
+            <LinkContainer to="/login">
                 <Nav.Link className="active h6">
                     {strings.collection.header.login}
                 </Nav.Link>
@@ -56,7 +56,6 @@ function RenderLoggedOutNavBar() {
     );
 }
 
-// function Header(props: ReduxProps) {
 export default function Header() {
     const isAuthenticated = useAppSelector((state) => state.auth.token != null);
 
@@ -97,12 +96,4 @@ export default function Header() {
         </Navbar>
     );
 }
-
-// const mapStateToProps = (state: RootState) => ({
-//     lang: state.i18n.lang
-// });
-//
-// const connector = connect(mapStateToProps);
-// type ReduxProps = ConnectedProps<typeof connector>;
-//
-// export default connector(Header);
+;

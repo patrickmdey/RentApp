@@ -29,6 +29,17 @@ let esCollection: StringCollection = {
         button: "Buscar",
         everyLocation: "Todas las ubicaciones",
         everyCategory: "Todas las categorías"
+    },
+    login: {
+        title: "Iniciar Sesión",
+        email: "Email*",
+        emailPlaceholder: "Ingresa tu email",
+        password: "Contraseña*",
+        passwordPlaceholder: "Ingresa tu contraseña",
+        rememberMe: "Recordar mi sesión",
+        loginButton: "Iniciar Sesión",
+        signupButton: "Registrar Usuario",
+        error: "El usuario o la contraseña no son válidos"
     }
 }
 

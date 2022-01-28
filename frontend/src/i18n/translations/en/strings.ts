@@ -29,6 +29,17 @@ let enCollection: StringCollection = {
         button: "Search",
         everyLocation: "Every location",
         everyCategory: "Every category"
+    },
+    login: {
+        title: "LogIn",
+        email: "Email*",
+        emailPlaceholder: "Enter your email",
+        password: "Password*",
+        passwordPlaceholder: "Enter your password",
+        rememberMe: "Remember me",
+        loginButton: "LogIn",
+        signupButton: "Register",
+        error: "Email or password is incorrect"
     }
 }
 

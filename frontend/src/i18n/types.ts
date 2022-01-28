@@ -32,11 +32,23 @@ interface FilterStrings {
     everyCategory: string
 }
 
+interface LogInStrings {
+    title: string,
+    email: string,
+    emailPlaceholder: string,
+    password: string,
+    passwordPlaceholder: string,
+    rememberMe: string,
+    loginButton: string,
+    signupButton: string,
+    error: string
+}
 
 export interface StringCollection {
     header: HeaderStrings,
     footer: FooterStrings,
-    filter: FilterStrings
+    filter: FilterStrings,
+    login: LogInStrings
 }
 
 export interface IStrings extends LocalizedStringsMethods {
