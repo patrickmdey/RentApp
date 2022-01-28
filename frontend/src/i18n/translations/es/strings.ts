@@ -1,4 +1,4 @@
-import {StringCollection} from '../../types'
+import { StringCollection } from '../../types'
 
 let esCollection: StringCollection = {
     header: {
@@ -40,8 +40,19 @@ let esCollection: StringCollection = {
         loginButton: "Iniciar Sesión",
         signupButton: "Registrar Usuario",
         error: "El usuario o la contraseña no son válidos"
-    }
+    },
+    article: {
+        ownerCardTitle: "Dueño",
+        descriptionTitle: "Descripción",
+        rent: "Alquilar",
+        noArticles: "Todavía no hay artículos"
+    },
+    review: {
+        noReviews: "Todavía no hay reseñas",
+        reviews: "Reseñas"
+    },
+
 }
 
 
-export {esCollection}
+export { esCollection }

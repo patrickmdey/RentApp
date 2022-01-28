@@ -1,5 +1,6 @@
 import { Row } from "react-bootstrap";
 import { Review as ReviewT } from "../features/api/reviews/types";
+import { strings } from "../i18n/i18n";
 import Review from "./Review";
 
 function ReviewList(reviews: ReviewT[]) {
@@ -8,8 +9,6 @@ function ReviewList(reviews: ReviewT[]) {
   return (
     <div>
       <Row>
-        <h3 className="col-8 h3">Reviews</h3>
-
         {/* TODO: Can review
          <c:if test="${canReview}">
           <div className="col-4">
@@ -22,9 +21,8 @@ function ReviewList(reviews: ReviewT[]) {
         </c:if>
         */}
       </Row>
-      <hr></hr>
       {reviews.length === 0 ? (
-        <p className="lead">No hay reviews</p>
+        <p className="lead">{strings.collection.review.noReviews}</p>
       ) : (
         <div>
           {reviews.map((review, i) => (
