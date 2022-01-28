@@ -18,6 +18,7 @@ public class ArticleDTO {
     private URI ownerUrl;
     private URI imagesUrl;
     private URI categoriesUrl;
+    private URI reviewsUrl;
 
     public static ArticleDTO fromArticle(Article article, UriInfo uri){
         ArticleDTO toReturn = new ArticleDTO();
@@ -32,6 +33,7 @@ public class ArticleDTO {
         toReturn.ownerUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
         toReturn.imagesUrl = uri.getBaseUriBuilder().path("images").queryParam("fromArticle", article.getId()).build();
         toReturn.categoriesUrl = uri.getBaseUriBuilder().path("categories").queryParam("fromArticle", article.getId()).build();
+        toReturn.reviewsUrl = uri.getBaseUriBuilder().path("reviews").queryParam("fromArticle", article.getId()).build();
 
         return toReturn;
     }
@@ -114,5 +116,13 @@ public class ArticleDTO {
 
     public void setUrl(URI url) {
         this.url = url;
+    }
+
+    public URI getReviewsUrl() {
+        return reviewsUrl;
+    }
+
+    public void setReviewsUrl(URI reviewsUrl) {
+        this.reviewsUrl = reviewsUrl;
     }
 }
