@@ -28,6 +28,7 @@ public class JwtTokenUtil {
     }
 
     public static String generateAccessToken(UserDetails user){
+        // TODO: Add user id as well
         return Jwts.builder().setSubject(user.getUsername()).signWith(SECRET_KEY).compact();
     }
 }

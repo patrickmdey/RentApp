@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.ReviewService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Review;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ReviewDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewReviewDTO;
@@ -22,8 +24,15 @@ public class ReviewController {
     @Autowired
     private ReviewService rs;
 
+    @Autowired
+    private UserService us;
+
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private SecurityContext securityContext;
+
 
     @GET
     @Path("/{id}")
@@ -55,8 +64,9 @@ public class ReviewController {
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(NewReviewDTO reviewDTO) {
+        User user = PaginationProvider.retrieveUser(securityContext, us);
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
-                reviewDTO.getArticleId(), reviewDTO.getRenterId()); // TODO: obtener renter de las urls
+                reviewDTO.getArticleId(), user.getId()); // TODO: obtener renter de las urls
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(review.getId())).build();
         return Response.created(uri).build();

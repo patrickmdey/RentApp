@@ -32,6 +32,9 @@ public class UserController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    SecurityContext securityContext;
+
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})

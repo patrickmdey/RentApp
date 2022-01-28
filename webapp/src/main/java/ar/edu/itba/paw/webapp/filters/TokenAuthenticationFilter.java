@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.filters;
 
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -33,6 +34,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -87,9 +91,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             Authentication authenticate = authenticationManager
                     .authenticate(authentication);
-
+            
             UserDetails user = (UserDetails) authenticate.getPrincipal();
-            response.setHeader(HttpHeaders.AUTHORIZATION, JwtTokenUtil.generateAccessToken(user));
+            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + JwtTokenUtil.generateAccessToken(user));
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
