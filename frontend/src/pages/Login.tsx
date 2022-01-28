@@ -3,8 +3,8 @@ import {Container} from "react-bootstrap";
 
 export default function Login() {
     return (
-        <Container className="main-container min-height">
-            <LogInComponent/>
+        <Container style={{width:"50%"}} className=" min-height">
+            <LogInComponent  />
         </Container>
     )
 }
