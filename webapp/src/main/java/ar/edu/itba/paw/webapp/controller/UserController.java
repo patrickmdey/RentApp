@@ -3,21 +3,13 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
-import io.jsonwebtoken.Claims;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -33,7 +25,7 @@ public class UserController {
     private UriInfo uriInfo;
 
     @Context
-    SecurityContext securityContext;
+    private SecurityContext securityContext;
 
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
@@ -55,17 +47,19 @@ public class UserController {
         return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
     }
 
-    @DELETE // TODO verificar que es el mismo
+    @DELETE // TODO chequear
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response deleteById(@PathParam("id") final long id) {
         us.delete(id);
         return Response.noContent().build();
     }
 
-    @PUT // TODO verificar que es el mismo
+    @PUT // TODO chequear
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response modify(@PathParam("id") final long id, EditUserDTO userDTO) {
         us.update(id, userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
         return Response.ok().build();

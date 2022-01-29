@@ -67,11 +67,8 @@ public class CategoryController {
         return Response.ok(new GenericEntity<List<CategoryDTO>>(mappedCategories) {}).build();
     }
 
-
     private List<Category> listCategoriesFromArticle(int articleId) {
         Article article = as.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         return new ArrayList<>(article.getCategories());
     }
-
-
 }

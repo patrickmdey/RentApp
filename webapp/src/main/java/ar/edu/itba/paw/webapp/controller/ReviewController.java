@@ -11,6 +11,8 @@ import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -44,7 +46,7 @@ public class ReviewController {
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list(@QueryParam("fromArticle") int articleId, @QueryParam("page") @DefaultValue("1") long page) {
+    public Response list(@NotNull @QueryParam("fromArticle") Integer articleId, @QueryParam("page") @DefaultValue("1") long page) {
         final List<ReviewDTO> reviews = rs.getPaged(articleId, page)
                 .stream().map(review -> ReviewDTO.fromReview(review, uriInfo)).collect(Collectors.toList());
 
@@ -55,7 +57,7 @@ public class ReviewController {
 
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("fromArticle", articleId);
 
-        return PaginationProvider.generateResponseWithLinks(Response.ok
+        return ApiUtils.generateResponseWithLinks(Response.ok
                 (new GenericEntity<List<ReviewDTO>>(reviews) {}), page, maxPage, uriBuilder);
     }
 
@@ -64,7 +66,7 @@ public class ReviewController {
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(NewReviewDTO reviewDTO) {
-        User user = PaginationProvider.retrieveUser(securityContext, us);
+        User user = ApiUtils.retrieveUser(securityContext, us);
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
                 reviewDTO.getArticleId(), user.getId()); // TODO: obtener renter de las urls
 

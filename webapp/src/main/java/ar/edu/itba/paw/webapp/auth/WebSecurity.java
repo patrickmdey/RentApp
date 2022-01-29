@@ -33,23 +33,24 @@ public class WebSecurity {
     @Autowired
     private ReviewService reviewService;
 
+    public boolean checkIsSameUser(Authentication authentication, long userId){
+        Optional<User> loggedUser = getUser(authentication);
+        return loggedUser.isPresent() && loggedUser.get().getId() == userId;
+    }
+
     public boolean checkIsArticleOwner(Authentication authentication, long articleId) {
         Optional<User> loggedUser = getUser(authentication);
-
         return loggedUser.filter(user -> isArticleOwner(user, articleId)).isPresent();
-
     }
 
     public boolean checkIsRentOwner(Authentication authentication, long rentId) {
         Optional<User> loggedUser = getUser(authentication);
-
         if (!loggedUser.isPresent())
             return false;
 
         Optional<RentProposal> proposal = rentService.findById(rentId);
 
         return proposal.filter(rentProposal -> isArticleOwner(loggedUser.get(), rentProposal.getArticle().getId())).isPresent();
-
     }
 
     public boolean checkCanReview(Authentication authentication, long articleId) {

@@ -24,11 +24,12 @@ public class JwtTokenUtil {
 
     public static String getUsername(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
+        String subject = claims.getSubject();
+        return subject.split(",")[0];
     }
 
-    public static String generateAccessToken(UserDetails user){
+    public static String generateAccessToken(User user){
         // TODO: Add user id as well
-        return Jwts.builder().setSubject(user.getUsername()).signWith(SECRET_KEY).compact();
+        return Jwts.builder().setSubject(user.getEmail() + "," + user.getId()).signWith(SECRET_KEY).compact();
     }
 }

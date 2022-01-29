@@ -85,15 +85,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             String username = credentials[0].trim();
             String password = credentials[1].trim();
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    username, password
-            );
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, password);
 
-            Authentication authenticate = authenticationManager
-                    .authenticate(authentication);
+            Authentication authenticate = authenticationManager.authenticate(authentication);
             
-            UserDetails user = (UserDetails) authenticate.getPrincipal();
-            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + JwtTokenUtil.generateAccessToken(user));
+            UserDetails user = (UserDetails) authenticate.getPrincipal(); //TODO chequeos
+            response.setHeader(HttpHeaders.AUTHORIZATION, JwtTokenUtil.generateAccessToken(
+                    userService.findByEmail(user.getUsername()).orElse(null)));
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

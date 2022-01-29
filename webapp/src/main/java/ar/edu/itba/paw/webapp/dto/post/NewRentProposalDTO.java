@@ -28,9 +28,6 @@ public class NewRentProposalDTO {
     @NotNull
     private Integer articleId;
 
-    @NotNull
-    private Integer renterId;
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -61,13 +58,5 @@ public class NewRentProposalDTO {
 
     public void setArticleId(int articleId) {
         this.articleId = articleId;
-    }
-
-    public int getRenterId() {
-        return renterId;
-    }
-
-    public void setRenterId(int renterId) {
-        this.renterId = renterId;
     }
 }

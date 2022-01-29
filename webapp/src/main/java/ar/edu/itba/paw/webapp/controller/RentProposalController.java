@@ -2,10 +2,12 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.RequestsGetter;
 import ar.edu.itba.paw.interfaces.service.RentService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -23,22 +25,30 @@ public class RentProposalController {
     @Autowired
     private RentService rs;
 
+    @Autowired
+    private UserService us;
+
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private SecurityContext securityContext;
 
     @GET
     @Path("/received")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listReceived(@QueryParam("user") Integer userId, @QueryParam("state") int state,
-                         @QueryParam("page") @DefaultValue("1") int page) {
+    public Response listReceived(@NotNull @QueryParam("user") Integer userId,
+                                 @NotNull @QueryParam("state") Integer state,
+                                 @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
 
     @GET
     @Path("/sent")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listSent(@QueryParam("user") Integer userId, @QueryParam("state") int state,
-                         @QueryParam("page") @DefaultValue("1") int page) {
+    public Response listSent(@NotNull @QueryParam("user") Integer userId,
+                             @NotNull @QueryParam("state") int state,
+                             @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
@@ -59,16 +69,19 @@ public class RentProposalController {
 
         final Long maxPage= maxPageGetter.apply(userId, state);
 
-        return PaginationProvider.generateResponseWithLinks(Response.ok
+        return ApiUtils.generateResponseWithLinks(Response.ok
                 (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }
 
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
+    @PreAuthorize("isAuthenticated() && " +
+            "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)") //TODO chequeo
     public Response createProposal(final NewRentProposalDTO rentProposalDTO) {
-        // TODO: en realidad el renterId viene de la sesion
-        final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(), rentProposalDTO.getStartDate(),
-                rentProposalDTO.getEndDate(), rentProposalDTO.getArticleId(), rentProposalDTO.getRenterId(), uriInfo.toString());
+        final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
+                rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),
+                rentProposalDTO.getArticleId(), ApiUtils.retrieveUser(securityContext, us).getId(),
+                uriInfo.toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(rentProposal.getId())).build();
         return Response.created(uri).build();
     }
@@ -76,7 +89,8 @@ public class RentProposalController {
     @PUT
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
-    public Response modify(@PathParam("id") long id, @NotNull int state) {
+    @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
+    public Response modify(@PathParam("id") long id, @NotNull Integer state) {
         rs.setRequestState(id, state, uriInfo.getAbsolutePath().toString());
         return Response.ok().build();
     }

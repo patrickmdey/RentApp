@@ -1,12 +1,14 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.ArticleService;
+import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewArticleDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -20,8 +22,15 @@ public class ArticleController {
 
     @Autowired
     private ArticleService as;
+
+    @Autowired
+    private UserService us;
+
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private SecurityContext securityContext;
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
@@ -39,7 +48,6 @@ public class ArticleController {
             return Response.noContent().build();
 
         final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
-
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name);
 
         if (category != null)
@@ -60,8 +68,8 @@ public class ArticleController {
         if (endPrice != null)
             uriBuilder.queryParam("endPrice", endPrice);
 
-        return PaginationProvider.generateResponseWithLinks
-                (Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
+        return ApiUtils.generateResponseWithLinks(Response.ok(new GenericEntity<List<ArticleDTO>>
+                (articles) {}), page, maxPage, uriBuilder);
     }
 
     @POST
@@ -70,7 +78,8 @@ public class ArticleController {
     public Response createArticle(final NewArticleDTO articleDTO) {
         // TODO: not working yet
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
-                articleDTO.getCategories(), articleDTO.getImages(), articleDTO.getOwnerId()); // TODO: obtener owner de las urls
+                articleDTO.getCategories(), articleDTO.getImages(),
+                ApiUtils.retrieveUser(securityContext, us).getId());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(article.getId())).build();
         return Response.created(uri).build();
     }
@@ -86,8 +95,10 @@ public class ArticleController {
     @PUT
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
+    @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, EditArticleDTO articleDTO) {
-        as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(), articleDTO.getCategories());
+        as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(),
+                articleDTO.getPricePerDay(), articleDTO.getCategories());
         return Response.ok().build();
     }
 
