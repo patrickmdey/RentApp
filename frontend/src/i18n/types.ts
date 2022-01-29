@@ -56,13 +56,18 @@ interface ReviewStrings {
     reviews: string
 }
 
+interface CategoriesString {
+    searchByCategories: string
+}
+
 export interface StringCollection {
     header: HeaderStrings,
     footer: FooterStrings,
     filter: FilterStrings,
     login: LogInStrings,
     article: ArticleStrings,
-    review: ReviewStrings
+    review: ReviewStrings,
+    categories: CategoriesString
 }
 
 export interface IStrings extends LocalizedStringsMethods {

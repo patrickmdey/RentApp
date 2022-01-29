@@ -1,5 +1,5 @@
 export interface Category {
-	description: String;
+	description: string;
 	url: URL;
 	imageUrl: URL;
 }

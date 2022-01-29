@@ -51,6 +51,9 @@ let esCollection: StringCollection = {
         noReviews: "Todavía no hay reseñas",
         reviews: "Reseñas"
     },
+    categories: {
+        searchByCategories: "Buscar por categorías"
+    }
 
 }
 

@@ -50,6 +50,9 @@ let enCollection: StringCollection = {
     review: {
         noReviews: "There are no reviews yet",
         reviews: "Reviews"
+    },
+    categories: {
+        searchByCategories: "Search by categories"
     }
 
 }
