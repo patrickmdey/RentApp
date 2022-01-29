@@ -48,7 +48,20 @@ interface ArticleStrings {
     ownerCardTitle: string,
     descriptionTitle: string,
     rent: string,
-    noArticles: string
+    noArticles: string,
+    createArticle: {
+        title: string,
+        create: string,
+        articleName: string,
+        articleNameLabel: string,
+        articleDescription: string,
+        articleDescriptionLabel: string,
+        pricePerDay: string,
+        selectCategory: string,
+        selectImage: string,
+
+    }
+
 }
 
 interface ReviewStrings {

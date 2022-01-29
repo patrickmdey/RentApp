@@ -45,7 +45,18 @@ let esCollection: StringCollection = {
         ownerCardTitle: "Dueño",
         descriptionTitle: "Descripción",
         rent: "Alquilar",
-        noArticles: "Todavía no hay artículos"
+        noArticles: "Todavía no hay artículos",
+        createArticle: {
+            title: "Publicar artículo",
+            create: "Publicar",
+            pricePerDay: "Precio por día*",
+            articleName: "Nombre*",
+            articleNameLabel: "Ingresa el nombre del artículo",
+            articleDescription: "Descripción*",
+            articleDescriptionLabel: "Ingresa la descripción del artículo",
+            selectCategory: "Seleccioná al menos una categoría",
+            selectImage: "Seleccioná al menos una imagen"
+        }
     },
     review: {
         noReviews: "Todavía no hay reseñas",

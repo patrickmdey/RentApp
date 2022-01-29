@@ -45,7 +45,18 @@ let enCollection: StringCollection = {
         ownerCardTitle: "Owner",
         descriptionTitle: "Description",
         rent: "rent",
-        noArticles: "There are no articles yet"
+        noArticles: "There are no articles yet",
+        createArticle: {
+            title: "Publish Article",
+            create: "Publish",
+            pricePerDay: "PricePerDay*",
+            articleName: "Name*",
+            articleNameLabel: "Enter the article name",
+            articleDescription: "Description*",
+            articleDescriptionLabel: "Enter the article description",
+            selectCategory: "Select at least one category",
+            selectImage: "Upload at least one image"
+        }
     },
     review: {
         noReviews: "There are no reviews yet",
