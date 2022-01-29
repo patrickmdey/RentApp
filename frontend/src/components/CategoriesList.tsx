@@ -13,11 +13,6 @@ export default function CategoriesList(){
         description: "Kitchen",
         imageUrl: new URL("http://pawserver.it.itba.edu.ar/paw-2021b-3/image/59")
         },
-        {
-        url: new URL("http://pawserver.it.itba.edu.ar/paw-2021b-3/image/59"),
-        description: "Kitchen",
-        imageUrl: new URL("http://pawserver.it.itba.edu.ar/paw-2021b-3/image/59")
-        },
     ]
 
     return (
