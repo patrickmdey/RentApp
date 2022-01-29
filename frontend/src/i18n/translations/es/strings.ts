@@ -64,6 +64,28 @@ let esCollection: StringCollection = {
     },
     categories: {
         searchByCategories: "Buscar por categorías"
+    },
+    landing: {
+        title: "Bienvenido a RentApp",
+        explanation: "En esta aplicación podras buscar y alquilar todo tipo de artículos al alcance de un click. Seleccioná el que más te gusta, la fecha en la que lo necesitas y RentApp te pondrá en contacto con su dueño",
+        button: "Ver artículos"
+    },
+    register: {
+        title: "Registrar Usuario",
+        firstName: "Nombre*",
+        firstNamePlaceholder: "Ingresa tu nombre",
+        lastName: "Apellido*",
+        lastNamePlaceholder: "Ingresa tu apellido",
+        email: "Email*",
+        emailPlaceholder: "Ingresa tu email",
+        location: "Localización*",
+        password: "Contraseña*",
+        passwordPlaceholder: "Ingresa tu contraseña",
+        confirmPassword: "Confirmar contraseña*",
+        confirmPasswordPlaceholder: "Reingresa tu contraseña",
+        image: "Seleccioná una imagen",
+        isRenter: "¿Quieres alquilar tus cosas? ",
+        confirmButton: "Confirmar"
     }
 
 }

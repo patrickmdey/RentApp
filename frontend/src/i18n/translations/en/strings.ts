@@ -64,6 +64,28 @@ let enCollection: StringCollection = {
     },
     categories: {
         searchByCategories: "Search by categories"
+    },
+    landing: {
+        title: "Welcome to RentApp",
+        explanation: "In this app you will be able to search and rent any kind of articles just at a click of a button away. Select the one you like the most, the date you need it and Rentapp will put you in contact with the owner",
+        button: "View Articles"
+    },
+    register: {
+        title: "Register",
+        firstName: "Name*",
+        firstNamePlaceholder: "Enter your name",
+        lastName: "Last name*",
+        lastNamePlaceholder: "Enter your last name",
+        email: "Email*",
+        emailPlaceholder: "Enter your email",
+        location: "Location*",
+        password: "Password*",
+        passwordPlaceholder: "Enter your password",
+        confirmPassword: "Confirm password*",
+        confirmPasswordPlaceholder: "Reenter your password",
+        image: "Upload image",
+        isRenter: "Would you like to rent your stuff? ",
+        confirmButton: "Confirm"
     }
 
 }

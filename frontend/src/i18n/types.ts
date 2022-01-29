@@ -73,6 +73,31 @@ interface CategoriesString {
     searchByCategories: string
 }
 
+export interface LandingString {
+    title: string,
+    explanation: string,
+    button: string
+}
+
+export interface RegisterString {
+    title: string,
+    firstName: string,
+    firstNamePlaceholder: string,
+    lastName: string,
+    lastNamePlaceholder: string,
+    email: string,
+    emailPlaceholder: string,
+    location: string,
+    password: string,
+    passwordPlaceholder: string,
+    confirmPassword: string,
+    confirmPasswordPlaceholder: string,
+    image: string,
+    isRenter: string,
+    confirmButton: string
+}
+
+
 export interface StringCollection {
     header: HeaderStrings,
     footer: FooterStrings,
@@ -80,8 +105,11 @@ export interface StringCollection {
     login: LogInStrings,
     article: ArticleStrings,
     review: ReviewStrings,
-    categories: CategoriesString
+    categories: CategoriesString,
+    landing: LandingString,
+    register: RegisterString
 }
+
 
 export interface IStrings extends LocalizedStringsMethods {
     collection: StringCollection,

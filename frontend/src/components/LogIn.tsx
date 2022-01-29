@@ -45,9 +45,10 @@ export default function LogInComponent() {
 
     return (
         <Card className="shadow card-style create-card mx-3">
+            <Card.Body className="form-container">
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Container>
                     <h3 className="fw-bold my-1">{strings.collection.login.title}</h3>
+                <hr/>
                     <Row>
                         {TextBox(strings.collection.login.email, "email", strings.collection.login.emailPlaceholder, "text")}
                     </Row>
@@ -76,8 +77,8 @@ export default function LogInComponent() {
                             </button>
                         </LinkContainer>
                     </Row>
-                </Container>
             </Form>
+            </Card.Body>
         </Card>
     )
 }

@@ -5,6 +5,7 @@ import Article from "./pages/Article";
 import Login from "./pages/Login";
 import Users from "./pages/users";
 import Landing from "./pages/Landing";
+import Register from "./pages/Register";
 import CreateArticle from "./pages/CreateArticle";
 
 export default function RouteMapper() {
@@ -14,6 +15,7 @@ export default function RouteMapper() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/users" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
         <Route path="/createArticle" element={<CreateArticle />} />
         <Route path={`/articles/:id`} element={<Article />} />
