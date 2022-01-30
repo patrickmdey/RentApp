@@ -8,7 +8,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 		}),
 
 		listArticles: build.query<Article[], ListArticleParameters>({
-			query: ({ url }) => (url == null ? 'articles' : url.toString())
+			query: ({ url }) => (url ? url.toString() : 'articles')
 		}),
 
 		createArticle: build.mutation<Article, CreateArticleParameters>({
