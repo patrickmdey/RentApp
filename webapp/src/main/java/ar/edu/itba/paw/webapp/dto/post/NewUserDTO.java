@@ -36,8 +36,11 @@ public class NewUserDTO extends EditUserDTO {
         Map<String, List<FormDataBodyPart>> map = data.getFields();
         toReturn.setFirstName(map.get("firstName").get(0).getValue()); //TODO manejo de excepciones
         toReturn.setLastName(map.get("lastName").get(0).getValue());
+        toReturn.setPassword(map.get("password").get(0).getValue());
+        toReturn.setLocation(map.get("location").get(0).getValueAs(Long.class));
         toReturn.email = map.get("email").get(0).getValue();
         toReturn.isOwner = map.get("isOwner").get(0).getValueAs(Boolean.class);
+        toReturn.image = map.get("image").get(0).getValueAs(byte[].class);
         return toReturn;
     }
 
@@ -69,7 +72,7 @@ public class NewUserDTO extends EditUserDTO {
         return isOwner;
     }
 
-    public void setOwner(boolean owner) {
+    public void setIsOwner(boolean owner) {
         isOwner = owner;
     }
 

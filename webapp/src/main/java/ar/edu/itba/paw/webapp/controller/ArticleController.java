@@ -6,7 +6,9 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewArticleDTO;
+import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -74,9 +76,9 @@ public class ArticleController {
 
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
-    public Response createArticle(final NewArticleDTO articleDTO) {
-        // TODO: not working yet
+    @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
+    public Response create(FormDataMultiPart body) {
+        NewArticleDTO articleDTO = NewArticleDTO.fromMultipartData(body);
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
                 articleDTO.getCategories(), articleDTO.getImages(),
                 ApiUtils.retrieveUser(securityContext, us).getId());
