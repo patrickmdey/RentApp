@@ -5,11 +5,14 @@ import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
+import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -60,11 +63,17 @@ public class UserController {
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
-    public Response modify(@PathParam("id") final long id, EditUserDTO userDTO) {
+    public Response modify(@PathParam("id") final long id, @Valid EditUserDTO userDTO) {
         us.update(id, userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
         return Response.ok().build();
     }
 
-    // TODO: add endpoint to change password
-    // Maybe PUT /users/{id}/password
+    @PUT
+    @Path("/{id}/password")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
+    public Response changePassword(@PathParam("id") final long id, @Valid EditPasswordDTO passwordDTO) {
+        us.updatePassword(id, passwordDTO.getPassword());
+        return Response.ok().build();
+    }
 }

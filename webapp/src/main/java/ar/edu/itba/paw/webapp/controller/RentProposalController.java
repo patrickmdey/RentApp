@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -75,7 +76,7 @@ public class RentProposalController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("isAuthenticated() && " +
             "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
-    public Response createProposal(final NewRentProposalDTO rentProposalDTO) {
+    public Response createProposal(@Valid final NewRentProposalDTO rentProposalDTO) {
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
                 rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),
                 rentProposalDTO.getArticleId(), ApiUtils.retrieveUser(securityContext, us).getId(),

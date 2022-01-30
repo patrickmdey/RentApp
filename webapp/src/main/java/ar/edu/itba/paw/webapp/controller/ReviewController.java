@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -65,7 +66,7 @@ public class ReviewController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
-    public Response createReview(NewReviewDTO reviewDTO) {
+    public Response createReview(@Valid NewReviewDTO reviewDTO) {
         User user = ApiUtils.retrieveUser(securityContext, us);
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
                 reviewDTO.getArticleId(), user.getId()); // TODO: obtener renter de las urls
@@ -78,7 +79,7 @@ public class ReviewController {
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication, #id)")
-    public Response modifyReview(@PathParam("id") long id, EditReviewDTO reviewDTO) {
+    public Response modifyReview(@PathParam("id") long id, @Valid EditReviewDTO reviewDTO) {
         rs.update(reviewDTO.getRating(), reviewDTO.getMessage(), id);
         return Response.ok().build();
     }

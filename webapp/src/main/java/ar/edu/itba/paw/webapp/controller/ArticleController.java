@@ -12,6 +12,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -98,7 +100,7 @@ public class ArticleController {
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication, #id)")
-    public Response modify(@PathParam("id") long id, EditArticleDTO articleDTO) {
+    public Response modify(@PathParam("id") long id, @Valid EditArticleDTO articleDTO) {
         as.editArticle(id, articleDTO.getTitle(), articleDTO.getDescription(),
                 articleDTO.getPricePerDay(), articleDTO.getCategories());
         return Response.ok().build();
