@@ -47,7 +47,7 @@ function RenderLoggedOutNavBar() {
                 </Nav.Link>
             </LinkContainer>
 
-            <LinkContainer to="/users">
+            <LinkContainer to="/register">
                 <Nav.Link className="active h6">
                     {strings.collection.header.signup}
                 </Nav.Link>
@@ -76,14 +76,14 @@ export default function Header() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse className="mt-2" id="responsive-nav-bar">
                     <Nav className="ms-auto">
-                        <LinkContainer to="/home">
+                        <LinkContainer to="/marketplace">
                             <Nav.Link className="active h6">
                                 {strings.collection.header.marketplace}
                             </Nav.Link>
                         </LinkContainer>
 
 
-                        <LinkContainer to="/about">
+                        <LinkContainer to="/createArticle">
                             <Nav.Link className="active h6">
                                 {strings.collection.header.publishArticle}
                             </Nav.Link>
