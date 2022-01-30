@@ -14,7 +14,7 @@ export default function RouteMapper() {
       <Routes>
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/users" element={<Landing />} />
+        <Route path="/landing" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home />} />
         <Route path="/createArticle" element={<CreateArticle />} />

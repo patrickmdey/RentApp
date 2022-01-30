@@ -68,7 +68,13 @@ let enCollection: StringCollection = {
     landing: {
         title: "Welcome to RentApp",
         explanation: "In this app you will be able to search and rent any kind of articles just at a click of a button away. Select the one you like the most, the date you need it and Rentapp will put you in contact with the owner",
-        button: "View Articles"
+        button: "View Articles",
+        titleLoggedIn: "Welcome {0}",
+        textNoRequests: "You have no pending requests",
+        pendingRequests: "You have {0} pending rent request",
+        acceptedRequests: "You have {0} accepted rent requests",
+        rejectedRequests: "You have {0} rejected rent requests",
+        viewRequestsButton: "View requests"
     },
     register: {
         title: "Register",

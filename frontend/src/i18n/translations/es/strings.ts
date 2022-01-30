@@ -68,7 +68,13 @@ let esCollection: StringCollection = {
     landing: {
         title: "Bienvenido a RentApp",
         explanation: "En esta aplicación podras buscar y alquilar todo tipo de artículos al alcance de un click. Seleccioná el que más te gusta, la fecha en la que lo necesitas y RentApp te pondrá en contacto con su dueño",
-        button: "Ver artículos"
+        button: "Ver artículos",
+        titleLoggedIn: "Bienvenido {0}",
+        textNoRequests: "No tienes solicitudes pendientes",
+        pendingRequests: "Tienes {0} solicitud de alquiler pendiente",
+        acceptedRequests: "Te han aceptado {0} solicitudes de alquiler",
+        rejectedRequests: "Te han rechazado {0} solicitudes de alquiler",
+        viewRequestsButton: "Ver Solicitudes"
     },
     register: {
         title: "Registrar Usuario",

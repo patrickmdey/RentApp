@@ -76,7 +76,13 @@ interface CategoriesString {
 export interface LandingString {
     title: string,
     explanation: string,
-    button: string
+    button: string,
+    titleLoggedIn: string,
+    textNoRequests: string,
+    pendingRequests: string,
+    acceptedRequests: string,
+    rejectedRequests: string,
+    viewRequestsButton:string
 }
 
 export interface RegisterString {
