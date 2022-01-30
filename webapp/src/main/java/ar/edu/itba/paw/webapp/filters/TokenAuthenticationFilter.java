@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.filters;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
+import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -47,7 +48,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (isEmpty(header)) {
             filterChain.doFilter(request, response);
             return;
-        } else if (header.startsWith("Basic ")) {
+        }
+
+        if (header.startsWith("Basic ")) {
             tryBasicAuthentication(header, request, response);
         } else if (header.startsWith("Bearer ")) {
             tryBearerAuthentication(header, request);
@@ -91,8 +94,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             Authentication authenticate = authenticationManager.authenticate(authentication);
             
             UserDetails user = (UserDetails) authenticate.getPrincipal(); //TODO chequeos
-            response.setHeader(HttpHeaders.AUTHORIZATION, JwtTokenUtil.generateAccessToken(
-                    userService.findByEmail(user.getUsername()).orElse(null)));
+            User fullUser = userService.findByEmail(user.getUsername()).orElse(null);
+            if (fullUser == null)
+                return;
+
+            response.setHeader(HttpHeaders.AUTHORIZATION, JwtTokenUtil.generateAccessToken(fullUser));
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

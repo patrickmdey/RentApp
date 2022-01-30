@@ -33,7 +33,7 @@ public class WebSecurity {
     @Autowired
     private ReviewService reviewService;
 
-    public boolean checkIsSameUser(Authentication authentication, long userId){
+    public boolean checkIsSameUser(Authentication authentication, long userId) {
         Optional<User> loggedUser = getUser(authentication);
         return loggedUser.isPresent() && loggedUser.get().getId() == userId;
     }

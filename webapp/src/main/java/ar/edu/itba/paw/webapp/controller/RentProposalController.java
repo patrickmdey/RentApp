@@ -37,8 +37,9 @@ public class RentProposalController {
     @GET
     @Path("/received")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listReceived(@NotNull @QueryParam("user") Integer userId,
-                                 @NotNull @QueryParam("state") Integer state,
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
+    public Response listReceived(@NotNull @QueryParam("user") int userId,
+                                 @NotNull @QueryParam("state") int state,
                                  @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
@@ -46,20 +47,18 @@ public class RentProposalController {
     @GET
     @Path("/sent")
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response listSent(@NotNull @QueryParam("user") Integer userId,
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
+    public Response listSent(@NotNull @QueryParam("user") int userId,
                              @NotNull @QueryParam("state") int state,
                              @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
-    private Response listProposals(Integer userId, int state, int page,
+    private Response listProposals(int userId, int state, int page,
                                   RequestsGetter getter, BiFunction<Integer, Integer, Long> maxPageGetter) {
-        if (userId == null) { // TODO: manejo de sesion para saber que usuario esta loggeado
-            return Response.noContent().build();
-        }
-
-        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("user", userId).
-                queryParam("state", state);
+        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder()
+                .queryParam("user", userId)
+                .queryParam("state", state);
 
         final List<RentProposalDTO> proposals = getter.get(userId, state, page).stream().
                 map(proposal -> RentProposalDTO.fromRentProposal(proposal, uriInfo)).collect(Collectors.toList());
@@ -67,8 +66,7 @@ public class RentProposalController {
         if (proposals.isEmpty())
             return Response.noContent().build();
 
-        final Long maxPage= maxPageGetter.apply(userId, state);
-
+        final Long maxPage = maxPageGetter.apply(userId, state);
         return ApiUtils.generateResponseWithLinks(Response.ok
                 (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }
@@ -76,7 +74,7 @@ public class RentProposalController {
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("isAuthenticated() && " +
-            "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)") //TODO chequeo
+            "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
     public Response createProposal(final NewRentProposalDTO rentProposalDTO) {
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
                 rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),

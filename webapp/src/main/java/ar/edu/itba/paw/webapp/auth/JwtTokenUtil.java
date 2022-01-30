@@ -28,8 +28,7 @@ public class JwtTokenUtil {
         return subject.split(",")[0];
     }
 
-    public static String generateAccessToken(User user){
-        // TODO: Add user id as well
+    public static String generateAccessToken(User user) {
         return Jwts.builder().setSubject(user.getEmail() + "," + user.getId()).signWith(SECRET_KEY).compact();
     }
 }

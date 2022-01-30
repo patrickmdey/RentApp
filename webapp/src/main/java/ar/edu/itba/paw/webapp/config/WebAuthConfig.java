@@ -56,8 +56,8 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 )
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").anonymous()
-                .antMatchers(HttpMethod.POST, "/proposals/received").hasAuthority("OWNER")
-                .antMatchers(HttpMethod.POST, "/proposals/sent").authenticated()
+                .antMatchers( "/proposals/received").hasAuthority("OWNER")
+                .antMatchers("/proposals/sent").authenticated()
                 .antMatchers(HttpMethod.POST, "/articles").authenticated()
 
                 .antMatchers("/user/my-requests/sent/**").authenticated()

@@ -35,7 +35,7 @@ public class PawUserDetailService implements UserDetailsService {
         if (user.getType() == UserType.RENTER)
             authorities.add(new SimpleGrantedAuthority("RENTER"));
 
-        return new User(email,user.getPassword(),authorities);
+        return new User(email, user.getPassword(), authorities);
     }
 
 
