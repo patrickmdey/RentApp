@@ -49,6 +49,7 @@ interface ArticleStrings {
     descriptionTitle: string,
     rent: string,
     noArticles: string,
+    timesRented: string,
     createArticle: {
         title: string,
         create: string,
@@ -112,15 +113,15 @@ export interface RegisterString {
     confirmButton: string
 }
 
-export interface RequestCardString{
+export interface RequestCardString {
     rejectButton: string,
-    acceptButton:string,
-    messageTitle:string,
-    endDate:string,
-    startDate:string,
-    name:string,
-    rejectTitle:string,
-    rejectText:string
+    acceptButton: string,
+    messageTitle: string,
+    endDate: string,
+    startDate: string,
+    name: string,
+    rejectTitle: string,
+    rejectText: string
 }
 
 

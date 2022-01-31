@@ -1,4 +1,4 @@
-import { Badge, Card, Col, Row } from "react-bootstrap";
+import { Badge, Button, Card, Col, Row } from "react-bootstrap";
 import { GeoAltFill } from "react-bootstrap-icons";
 import { Category } from "../../features/api/categories/types";
 import { Article } from "../../features/api/articles/types";
@@ -6,6 +6,16 @@ import { Review } from "../../features/api/reviews/types";
 import Rating from "../Rating";
 import { strings } from "../../i18n/i18n";
 import { Location } from "../../features/api/locations/types";
+import { useListImages } from "../../features/api/images/imagesSlice";
+
+function setActiveImage(src: string) {
+  const htmlImg = document.getElementById("main-img");
+  if (htmlImg === null) {
+    console.log("NO HICE NA");
+    return;
+  }
+  htmlImg.setAttribute("src", src);
+}
 
 function MainArticleCard(props: {
   article: Article;
@@ -14,33 +24,56 @@ function MainArticleCard(props: {
   location: Location | undefined;
 }) {
   const { article, categories, reviews, location } = props;
+  const { data: articleImages, isSuccess } = useListImages(article.imagesUrl);
   return (
     <Card className="card-style">
       <Row className="g-0">
         <Col md={4} className="justify-content-center align-items-center">
-          <img
-            className="img-thumbnail rounded-start article-img"
-            src="https://www.fabricocina.com/wp-content/uploads/2018/06/image_large.png"
-            alt="articlePicture"
-          />
-          <div className="d-flex flex-wrap">{}</div>
+          {isSuccess && articleImages && articleImages.length > 0 && (
+            <div>
+              <img
+                className="img-thumbnail rounded-start article-img"
+                src={articleImages[0].url.toString()}
+                alt="articlePicture"
+                id="main-img"
+              />
+              <div className="d-flex flex-wrap justify-content-center mt-2">
+                {articleImages.map((img, i) => (
+                  <button
+                    key={i}
+                    className="btn-link mx-2"
+                    onClick={() => setActiveImage(img.url.toString())}
+                  >
+                    <img
+                      src={img.url.toString()}
+                      width="40px"
+                      height="40px"
+                      alt={"image" + i}
+                    ></img>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </Col>
         <Col md={1} />
         <Col md={7}>
-          <p className="text-muted small">1</p>
+          <p className="text-muted lead small">
+            {article.timesRented} {strings.collection.article.timesRented}
+          </p>
           <Card.Title as="h2" className="my-n2">
             {article.title}
           </Card.Title>
           <Card.Subtitle
-            className="article-location d-flex"
+            className="article-location d-flex mt-3"
             color="color-action"
           >
-            <GeoAltFill size="4%"></GeoAltFill>
+            <GeoAltFill size="5%"></GeoAltFill>
             <p className="lead">
               {location && <a href="/">{location.name}</a>}
             </p>
           </Card.Subtitle>
-          <div className="d-flex">
+          <div className="d-flex flex-wrap mt-3">
             {categories &&
               categories.map((category, i) => (
                 <h5 key={i}>
@@ -60,7 +93,9 @@ function MainArticleCard(props: {
               timesReviewed={article.timesReviewed}
             ></Rating>
           )}
-          <h3 className="mt-n1 h3 color-rentapp-red">${article.pricePerDay}</h3>
+          <h3 className="mt-n1 fw-bold h3 color-rentapp-red">
+            ${article.pricePerDay}
+          </h3>
           {/*TODO: aca va el boton para la solicitud */}
         </Col>
       </Row>

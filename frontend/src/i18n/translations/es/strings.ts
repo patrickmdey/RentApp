@@ -46,6 +46,7 @@ let esCollection: StringCollection = {
         descriptionTitle: "Descripción",
         rent: "Alquilar",
         noArticles: "Todavía no hay artículos",
+        timesRented: "alquileres",
         createArticle: {
             title: "Publicar artículo",
             create: "Publicar",
@@ -104,13 +105,13 @@ let esCollection: StringCollection = {
     },
     requestCard: {
         rejectButton: "Rechazar",
-        acceptButton:"Aceptar",
-        messageTitle:"Mensaje:",
+        acceptButton: "Aceptar",
+        messageTitle: "Mensaje:",
         endDate: "Fecha de finalización: {0}",
         startDate: "Fecha de inicio: {0}",
         name: "Nombre: {0} {1}",
-        rejectTitle:"Rechazar solicitud",
-        rejectText:"¿Estás seguro de que quieres rechazar esta solicitud?"
+        rejectTitle: "Rechazar solicitud",
+        rejectText: "¿Estás seguro de que quieres rechazar esta solicitud?"
     }
 
 }

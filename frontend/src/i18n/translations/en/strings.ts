@@ -46,6 +46,7 @@ let enCollection: StringCollection = {
         descriptionTitle: "Description",
         rent: "rent",
         noArticles: "There are no articles yet",
+        timesRented: "rents",
         createArticle: {
             title: "Publish Article",
             create: "Publish",
@@ -104,13 +105,13 @@ let enCollection: StringCollection = {
     },
     requestCard: {
         rejectButton: "Reject",
-        acceptButton:"Accept",
-        messageTitle:"Message:",
-        endDate:"End date: {0}",
+        acceptButton: "Accept",
+        messageTitle: "Message:",
+        endDate: "End date: {0}",
         startDate: "Start date: {0}",
         name: "Name: {0} {1}",
-        rejectTitle:"Reject request",
-        rejectText:"Are you sure you want to reject this request?"
+        rejectTitle: "Reject request",
+        rejectText: "Are you sure you want to reject this request?"
     }
 
 }
