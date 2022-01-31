@@ -57,6 +57,14 @@ let esCollection: StringCollection = {
             articleDescriptionLabel: "Ingresa la descripción del artículo",
             selectCategory: "Seleccioná al menos una categoría",
             selectImage: "Seleccioná al menos una imagen"
+        },
+        requestArticle: {
+            title: "Solicitar artículo",
+            startDate: "Fecha de Inicio*",
+            endDate: "Fecha de Finalización*",
+            message: "Mensaje*",
+            messagePlaceHolder: "Ingresa un mensaje para que el Dueño tenga mas en cuenta tu solicitud",
+            send: "Enviar"
         }
     },
     review: {
