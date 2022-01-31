@@ -1,16 +1,15 @@
-import { Url } from 'url';
 
 type RentProposalState = 0 | 1 | 2;
 
 export interface RentProposal {
-	message: String;
-	startDate: String;
-	endDate: String;
-	seen: Boolean;
+	message: string;
+	startDate: string;
+	endDate: string;
+	seen: boolean;
 	state: RentProposalState;
-	url: Url;
-	articleUrl: Url;
-	renterUrl: Url;
+	url: URL;
+	articleUrl: URL;
+	renterUrl: URL;
 }
 
 export interface ListRentProposalsParameters {
@@ -20,9 +19,9 @@ export interface ListRentProposalsParameters {
 }
 
 export interface CreateRentProposalParameters {
-	message: String;
-	startDate: String;
-	endDate: String;
+	message: string;
+	startDate: string;
+	endDate: string;
 	articleId: Number;
 	renterId: Number; // TODO: esto seria el token de auth en realidad
 }

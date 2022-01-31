@@ -101,6 +101,16 @@ let enCollection: StringCollection = {
         image: "Upload image",
         isRenter: "Would you like to rent your stuff? ",
         confirmButton: "Confirm"
+    },
+    requestCard: {
+        rejectButton: "Reject",
+        acceptButton:"Accept",
+        messageTitle:"Message:",
+        endDate:"End date: {0}",
+        startDate: "Start date: {0}",
+        name: "Name: {0} {1}",
+        rejectTitle:"Reject request",
+        rejectText:"Are you sure you want to reject this request?"
     }
 
 }

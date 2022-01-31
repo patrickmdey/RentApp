@@ -112,6 +112,17 @@ export interface RegisterString {
     confirmButton: string
 }
 
+export interface RequestCardString{
+    rejectButton: string,
+    acceptButton:string,
+    messageTitle:string,
+    endDate:string,
+    startDate:string,
+    name:string,
+    rejectTitle:string,
+    rejectText:string
+}
+
 
 export interface StringCollection {
     header: HeaderStrings,
@@ -122,7 +133,8 @@ export interface StringCollection {
     review: ReviewStrings,
     categories: CategoriesString,
     landing: LandingString,
-    register: RegisterString
+    register: RegisterString,
+    requestCard: RequestCardString
 }
 
 
