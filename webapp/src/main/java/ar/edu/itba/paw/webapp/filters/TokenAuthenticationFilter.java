@@ -98,7 +98,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (fullUser == null)
                 return;
 
-            response.setHeader(HttpHeaders.AUTHORIZATION, JwtTokenUtil.generateAccessToken(fullUser));
+            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + JwtTokenUtil.generateAccessToken(fullUser));
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
