@@ -262,3 +262,10 @@ a.request-pill.active {
   height: auto;
   object-fit: contain;
 }
+
+.category-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
+  column-gap: 1%;
+  row-gap: 1em;
+}

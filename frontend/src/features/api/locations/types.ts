@@ -1,4 +1,4 @@
 export interface Location {
-	name: String;
+	name: string;
 	url: URL;
 }

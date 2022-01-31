@@ -70,7 +70,16 @@ interface ReviewStrings {
 }
 
 interface CategoriesString {
-    searchByCategories: string
+    searchByCategories: string,
+    // category: {
+    //     Kitchen: string,
+    //     Travel: string,
+    //     Tools: string,
+    //     Saling: string,
+    //     Technology: string,
+    //     Cars: string,
+    //     Camping: string
+    // }
 }
 
 export interface LandingString {
@@ -82,7 +91,7 @@ export interface LandingString {
     pendingRequests: string,
     acceptedRequests: string,
     rejectedRequests: string,
-    viewRequestsButton:string
+    viewRequestsButton: string
 }
 
 export interface RegisterString {

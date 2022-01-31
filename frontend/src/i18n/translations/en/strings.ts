@@ -63,7 +63,16 @@ let enCollection: StringCollection = {
         reviews: "Reviews"
     },
     categories: {
-        searchByCategories: "Search by categories"
+        searchByCategories: "Search by categories",
+        // category: {
+        //     Kitchen: "Kitchen",
+        //     Travel: "Travel",
+        //     Tools: "Tools",
+        //     Saling: "Saling",
+        //     Technology: "Technology",
+        //     Cars: "Cars",
+        //     Camping: "Camping"
+        // }
     },
     landing: {
         title: "Welcome to RentApp",

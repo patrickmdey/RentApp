@@ -32,7 +32,6 @@ function ArticleCard(article: Article) {
   };
 
   const { data, isSuccess } = useListImages(imagesUrl);
-  console.log(data);
   return (
     <Card
       onClick={goToArticle}

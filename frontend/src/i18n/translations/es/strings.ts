@@ -63,7 +63,16 @@ let esCollection: StringCollection = {
         reviews: "Reseñas"
     },
     categories: {
-        searchByCategories: "Buscar por categorías"
+        searchByCategories: "Buscar por categorías",
+        // category: {
+        //     Kitchen: "Cocina",
+        //     Travel: "Viajes",
+        //     Tools: "Herramientas",
+        //     Saling: "Navegación",
+        //     Technology: "Tecnología",
+        //     Cars: "Autos",
+        //     Camping: "Campamento"
+        // }
     },
     landing: {
         title: "Bienvenido a RentApp",

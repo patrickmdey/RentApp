@@ -1,117 +1,106 @@
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  FormControl,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useCreateArticle } from "../features/api/articles/articlesSlice";
+import { useState } from "react";
+import { Form, Card, FormLabel, Button } from "react-bootstrap";
+import { useListCategories } from "../features/api/categories/categoriesSlice";
 import { strings } from "../i18n/i18n";
-import { useForm, Controller, Path } from "react-hook-form";
+import { Category } from "../features/api/categories/types";
 
-interface CreateArticleForm {
-  name: string;
-  description: string;
-  pricePerDay: string;
-  //categories: Category[];
-  //TODO: images: multipart ?
-}
+function CreateArticleForm() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [articleCategories, setArticleCategories] = useState([]);
+  // const [images, setImages] = useState([]);
 
-export default function CreateArticleForm() {
-  const [create, result] = useCreateArticle();
+  const handleChange = (event: any) => {
+    const { checked, value } = event.currentTarget;
 
-  function onSubmit(data: CreateArticleForm) {
-    console.log("submit");
-  }
-
-  const { control, handleSubmit } = useForm<CreateArticleForm>({
-    defaultValues: {
-      name: "",
-      description: "",
-      pricePerDay: "",
-    },
-  });
-
-  function TextBox(
-    label: string,
-    name: Path<CreateArticleForm>,
-    placeholder: string,
-    type: string,
-    prependIcon: any = null,
-    appendIcon: any = null
-  ) {
-    return (
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <Form.Group className="mt-3 ">
-            <Form.Label className="font-weight-bold">
-              {" "}
-              <b>{label}</b>{" "}
-            </Form.Label>
-            <InputGroup>
-              {prependIcon != null && (
-                <InputGroup.Text>{prependIcon}</InputGroup.Text>
-              )}
-              <FormControl placeholder={placeholder} type={type} {...field} />
-              {appendIcon != null && (
-                <InputGroup.Text>{appendIcon}</InputGroup.Text>
-              )}
-            </InputGroup>
-          </Form.Group>
-        )}
-      />
+    setArticleCategories((prev: any) =>
+      checked ? [...prev, value] : prev.filter((val: Category) => val !== value)
     );
-  }
+  };
+
+  const submitArticle = (e: any) => {
+    e.preventDefault();
+    const article = { name, description, articleCategories };
+    console.log(article); //TODO: Agregar lo de las imagenes y llamar a use createArticle()
+  };
+
+  const { data: categories, isSuccess } = useListCategories();
 
   return (
-    <>
-      <Card className="shadow card-style create-card mx-3">
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Container>
-            <h3 className="fw-bold my-1">
+    <Card className="card-style create-card">
+      {isSuccess && categories && (
+        <Card.Body className="form-container">
+          <Card.Title>
+            <h3 className="fw-bold">
               {strings.collection.article.createArticle.title}
             </h3>
-            <Row>
-              {TextBox(
-                strings.collection.article.createArticle.articleName,
-                "name",
-                strings.collection.article.createArticle.articleNameLabel,
-                "text"
-              )}
-            </Row>
-            <Row>
-              {TextBox(
-                strings.collection.article.createArticle.articleDescription,
-                "description",
-                strings.collection.article.createArticle
-                  .articleDescriptionLabel,
-                "text"
-              )}
-            </Row>
-            <Row>
-              {TextBox(
-                strings.collection.article.createArticle.pricePerDay,
-                "pricePerDay",
-                "0",
-                "number",
-                <span>$</span>
-              )}
-            </Row>
-
-            <Row className="justify-content-center">
-              <Button className=" bg-color-action btn-dark mt-3 mb-2">
+            <hr></hr>
+          </Card.Title>
+          <Form onSubmit={submitArticle}>
+            <div className="my-2">
+              <Form.Label className="lead">
+                {strings.collection.article.createArticle.articleName}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={
+                  strings.collection.article.createArticle.articleNameLabel
+                }
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              ></Form.Control>
+            </div>
+            <div className="my-2">
+              <Form.Label className="lead">
+                {strings.collection.article.createArticle.articleDescription}
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                type="text"
+                placeholder={
+                  strings.collection.article.createArticle
+                    .articleDescriptionLabel
+                }
+                required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
+            </div>
+            <div>
+              <Form.Label className="lead">
+                {strings.collection.article.createArticle.selectCategory}
+              </Form.Label>
+              <div className="category-list-container my-2 mx-1">
+                {categories.map((cat, i) => (
+                  <Form.Check
+                    key={i.toString()}
+                    id={i.toString()}
+                    value={cat.description}
+                    type="checkbox"
+                    checked={articleCategories.some(
+                      (val) => val === cat.description
+                    )}
+                    onChange={handleChange}
+                    // inline
+                    label={cat.description}
+                  ></Form.Check>
+                ))}
+              </div>
+            </div>
+            <div className="d-grid gap-2">
+              <Button
+                className="bg-color-action btn-dark mt-3 mb-2"
+                type="submit"
+              >
                 {strings.collection.article.createArticle.create}
               </Button>
-            </Row>
-          </Container>
-        </Form>
-      </Card>
-    </>
+            </div>
+          </Form>
+        </Card.Body>
+      )}
+    </Card>
   );
 }
+
+export default CreateArticleForm;
