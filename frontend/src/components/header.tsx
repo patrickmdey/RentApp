@@ -15,7 +15,7 @@ function RenderLoggedInNavBar() {
         <NavDropdown title={name} className="active color-grey h6" id="collasible-nav-dropdown">
 
             <NavDropdown.Item>
-                <Link to="/">
+                <Link to="/requests">
                     <BsFillInboxFill/>
                     {strings.collection.header.requests}
                 </Link>

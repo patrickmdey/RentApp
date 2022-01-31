@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import Register from "./pages/Register";
 import CreateArticle from "./pages/CreateArticle";
+import Requests from "./pages/Request";
 
 export default function RouteMapper() {
   return (
@@ -12,6 +13,7 @@ export default function RouteMapper() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/requests" element={<Requests/>}/>
 
         <Route path="/marketplace" element={<Home/>} />
         <Route path="/" element={<Landing />} />

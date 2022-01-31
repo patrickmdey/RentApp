@@ -92,6 +92,16 @@ let esCollection: StringCollection = {
         image: "Seleccioná una imagen",
         isRenter: "¿Quieres alquilar tus cosas? ",
         confirmButton: "Confirmar"
+    },
+    requestCard: {
+        rejectButton: "Rechazar",
+        acceptButton:"Aceptar",
+        messageTitle:"Mensaje:",
+        endDate: "Fecha de finalización: {0}",
+        startDate: "Fecha de inicio: {0}",
+        name: "Nombre: {0} {1}",
+        rejectTitle:"Rechazar solicitud",
+        rejectText:"¿Estás seguro de que quieres rechazar esta solicitud?"
     }
 
 }
