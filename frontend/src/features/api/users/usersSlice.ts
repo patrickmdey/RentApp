@@ -8,13 +8,14 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 		}),
 
 		createUser: build.mutation<User, CreateUserParameters>({
-			query: ({ imageFormData: data, ...args }) => {
-				for (let [key, val] of Object.entries(args)) data.append(key, val);
+			query: (jsonUser) => {
+				let data = new FormData();
+				for (let [key, val] of Object.entries(jsonUser)) data.append(key, val);
+
 				console.log(data);
 				return {
 					url: 'users',
 					method: 'POST',
-					headers: [['Content-Type', 'multipart/form-data']],
 					body: data
 				};
 			}

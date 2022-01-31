@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
-import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
 import ar.edu.itba.paw.webapp.forms.annotations.UserNotExists;
 import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
@@ -37,6 +36,7 @@ public class NewUserDTO extends EditUserDTO {
         toReturn.setFirstName(map.get("firstName").get(0).getValue()); //TODO manejo de excepciones
         toReturn.setLastName(map.get("lastName").get(0).getValue());
         toReturn.setPassword(map.get("password").get(0).getValue());
+        toReturn.setConfirmPassword(map.get("confirmPassword").get(0).getValue());
         toReturn.setLocation(map.get("location").get(0).getValueAs(Long.class));
         toReturn.email = map.get("email").get(0).getValue();
         toReturn.isOwner = map.get("isOwner").get(0).getValueAs(Boolean.class);

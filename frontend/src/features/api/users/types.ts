@@ -12,13 +12,14 @@ export interface User {
 }
 
 export interface CreateUserParameters {
-	firstName: String;
-	lastName: String;
-	email: String;
-	password: String;
-	isOwner: Boolean;
-	location: Number;
-	imageFormData: FormData;
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
+	isOwner: boolean;
+	location: number;
+	image: File;
 }
 
 export interface UpdateUserParameters {

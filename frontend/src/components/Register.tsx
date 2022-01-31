@@ -1,123 +1,133 @@
-import {Button, Card, Form, FormControl, InputGroup, Row} from "react-bootstrap";
-import {Controller, Path, useForm} from "react-hook-form";
-import {strings} from "../i18n/i18n";
-import {BsEyeSlash} from "react-icons/bs";
+import { Button, Card, Form, Row, Col } from 'react-bootstrap';
+import { Path, useForm } from 'react-hook-form';
+import { strings } from '../i18n/i18n';
+import { BsEyeSlash } from 'react-icons/bs';
+import { useCreateUser } from '../features/api/users/usersSlice';
+import FormInput from './Forms/FormInput';
+import FormSelect from './Forms/FormSelect';
+import FormCheckbox from './Forms/FormCheckbox';
+import { useListLocations } from '../features/api/locations/locationsSlice';
 
 interface RegisterForm {
-    firstName: string,
-    lastName: string,
-    email: string,
-    location: string,
-    password: string,
-    confirmPassword: string,
-    isRenter:string,
-    data:any, // TODO: Figure out the image thingy
-
+	firstName: string;
+	lastName: string;
+	email: string;
+	location: number;
+	password: string;
+	confirmPassword: string;
+	isOwner: boolean;
+	image: FileList;
 }
 
-export  function Register(){
+export function Register() {
+	const { register, handleSubmit } = useForm<RegisterForm>({
+		defaultValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			location: 0,
+			password: '',
+			confirmPassword: '',
+			isOwner: false,
+			image: undefined
+		}
+	});
+	const { data: locations } = useListLocations();
+	const [createUser, result] = useCreateUser();
+	console.log(result);
 
-    const {control, handleSubmit} = useForm<RegisterForm>({
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            location: "",
-            password: "",
-            confirmPassword: "",
-            isRenter:""
-        }
-    })
-    const locationItems : [string,string][]= [["a","a"],["b","b"]]
-    function onSubmit(data: RegisterForm){
-        console.log(data);
-        console.log(typeof data.data)
-    }
+	function onSubmit(data: RegisterForm) {
+		createUser({ ...data, image: data.image[0] });
+	}
 
-    function Select(label: string, name: Path<RegisterForm>, options: [string, string][], prependIcon: any = null, appendIcon: any = null) {
-        return (
-
-            <Controller defaultValue="" name={name} control={control} render={({field}) =>
-                <Form.Group className="mt-3 col-6">
-                    <Form.Label className="font-weight-bold "> <b>{label}</b> </Form.Label>
-                    <InputGroup>
-                        {prependIcon != null && <InputGroup.Text>{prependIcon}</InputGroup.Text>}
-
-                        <Form.Select {...field}>
-                            {options.map(t => <option key={t[0]} value={t[0]} label={t[1]}/>)}
-                        </Form.Select>
-                        {appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
-
-                    </InputGroup>
-
-                </Form.Group>
-            }/>
-
-        )
-    }
-
-
-    function TextBox(label: string, name: Path<RegisterForm>, placeholder: string, type: string = 'text', prependIcon: any = null, appendIcon: any = null) {
-        return (
-            <Controller name={name} control={control}
-                        render={({field}) =>
-                            <Form.Group className="mt-3 col-6">
-                                <Form.Label className="font-weight-bold"> <b>{label}</b> </Form.Label>
-                                <InputGroup>
-                                    {prependIcon != null && <InputGroup.Text>{prependIcon}</InputGroup.Text>}
-                                    <FormControl placeholder={placeholder} type={type} {...field} />
-                                    {appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
-                                </InputGroup>
-                            </Form.Group>
-                        }/>
-        )
-    }
-
-    return (
-        <Card className="shadow card-style create-card mx-3" >
-            <Card.Body className="form-container">
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <Row>
-                    <h3 className="fw-bold my-1"> Register</h3>
-                </Row>
-                <hr/>
-                <Row>
-                    {TextBox(strings.collection.register.firstName,"firstName",strings.collection.register.firstNamePlaceholder)}
-                    {TextBox(strings.collection.register.lastName,"lastName",strings.collection.register.lastNamePlaceholder)}
-                </Row>
-                <Row>
-                    {TextBox(strings.collection.register.email,"email",strings.collection.register.emailPlaceholder)}
-                    {Select(strings.collection.register.location,"location",locationItems)}
-                </Row>
-                <Row>
-                    {TextBox(strings.collection.register.password,"password",strings.collection.register.passwordPlaceholder,"password",null,<BsEyeSlash/>)}
-                    {TextBox(strings.collection.register.confirmPassword,"confirmPassword",strings.collection.register.confirmPasswordPlaceholder,"password",null,<BsEyeSlash/>)}
-                </Row>
-                    <Controller name="isRenter" control={control}
-                                render={({field}) =>
-                                    <Form.Check type="checkbox"
-                                                className="mt-3  my-2"
-
-                                                label={strings.collection.register.isRenter} {...field}/>
-                                }/>
-
-                <Row>
-                    <Controller name="data" control={control}
-                                render={({field}) =>
-                                    <Form.Group className="mt-3 mb-3 ">
-                                        <Form.Label className="font-weight-bold"> <b>{strings.collection.register.image}</b> </Form.Label>
-                                            <FormControl  onChange={(e) => console.log(e.target)}  type='file' />
-                                    </Form.Group>
-                                }/>
-                </Row>
-
-                <Row>
-                    <Button type="submit" className=" rounded btn-block bg-color-action btn-dark">
-                        {strings.collection.register.confirmButton}
-                    </Button>
-                </Row>
-            </Form>
-            </Card.Body>
-        </Card>
-    )
+	return (
+		<Card className='shadow card-style create-card mx-3'>
+			<Card.Body className='form-container'>
+				<Form onSubmit={handleSubmit(onSubmit)}>
+					<Row>
+						<h3 className='fw-bold my-1'>{strings.collection.register.title}</h3>
+					</Row>
+					<hr />
+					<Row sm={1} md={2} className='g-3'>
+						<Col>
+							<FormInput
+								register={register}
+								label={strings.collection.register.firstName}
+								name='firstName'
+								type='text'
+								placeholder={strings.collection.register.firstNamePlaceholder}
+							/>
+						</Col>
+						<Col>
+							<FormInput
+								register={register}
+								label={strings.collection.register.lastName}
+								name='lastName'
+								type='text'
+								placeholder={strings.collection.register.lastNamePlaceholder}
+							/>
+						</Col>
+						<Col md={12}>
+							<FormInput
+								register={register}
+								label={strings.collection.register.email}
+								name='email'
+								type='text'
+								placeholder={strings.collection.register.emailPlaceholder}
+							/>
+						</Col>
+						<Col>
+							<FormInput
+								register={register}
+								label={strings.collection.register.password}
+								name='password'
+								type='password'
+								placeholder={strings.collection.register.passwordPlaceholder}
+								appendIcon={<BsEyeSlash />}
+							/>
+						</Col>
+						<Col>
+							<FormInput
+								register={register}
+								label={strings.collection.register.password}
+								name='confirmPassword'
+								type='password'
+								placeholder={strings.collection.register.passwordPlaceholder}
+								appendIcon={<BsEyeSlash />}
+							/>
+						</Col>
+						<Col>
+							<FormSelect
+								register={register}
+								name='location'
+								label={strings.collection.register.location}
+								options={locations ? locations.map(({ id, name }) => [id, name]) : []}
+							/>
+						</Col>
+						<Col>
+							<FormInput
+								register={register}
+								label={strings.collection.register.image}
+								name='image'
+								type='file'
+								placeholder={strings.collection.register.image}
+							/>
+						</Col>
+						<Col md={12}>
+							<FormCheckbox
+								register={register}
+								name='isOwner'
+								label={strings.collection.register.isRenter}
+							/>
+						</Col>
+						<Col md={12}>
+							<Button type='submit' className='rounded btn-block bg-color-action btn-dark'>
+								{strings.collection.register.confirmButton}
+							</Button>
+						</Col>
+					</Row>
+				</Form>
+			</Card.Body>
+		</Card>
+	);
 }
