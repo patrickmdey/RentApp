@@ -4,6 +4,7 @@ import { Controller, Path, useForm } from "react-hook-form";
 import { BsFilterLeft, BsPinMap } from "react-icons/bs";
 import { useListCategories } from "../features/api/categories/categoriesSlice";
 import { useListLocations } from "../features/api/locations/locationsSlice";
+import { useListOrderOptions } from "../features/api/orderOptions/orderOptionsSlice";
 
 interface FilterCardForm {
   name: string;
@@ -25,6 +26,7 @@ function FilterCard(props: FilterCardProps) {
 
   const { data: categories, isSuccess: categoriesIsSucc } = useListCategories();
   const { data: locations, isSuccess: locationsIsSucc } = useListLocations();
+  const { data: orderOptions, isSuccess: orderIsSucc } = useListOrderOptions();
 
   function TextBox(
     label: string,
@@ -103,7 +105,12 @@ function FilterCard(props: FilterCardProps) {
           {strings.collection.filter.title}
         </h4>
       </Card.Header>
-      {categoriesIsSucc && categories && locationsIsSucc && locations && (
+      {categoriesIsSucc &&
+      categories &&
+      locationsIsSucc &&
+      locations &&
+      orderIsSucc &&
+      orderOptions ? (
         <Form onSubmit={handleSubmit(props.onUpdate)}>
           <Card.Body style={{ padding: "0px" }}>
             {TextBox(strings.collection.filter.name, "name", "text")}
@@ -115,12 +122,7 @@ function FilterCard(props: FilterCardProps) {
             {Select(
               strings.collection.filter.orderBy,
               "orderBy",
-              [
-                ["-1", "A-Z"],
-                ["1", "One"],
-                ["2", "Two"],
-                ["3", "Three"],
-              ],
+              orderOptions.map((o, i) => [i.toString(), o.description]),
               null,
               <BsFilterLeft />
             )}
@@ -151,6 +153,8 @@ function FilterCard(props: FilterCardProps) {
             {strings.collection.filter.button}
           </Button>
         </Form>
+      ) : (
+        <p>Ocurrio un error</p>
       )}
     </Card>
   );
