@@ -57,7 +57,16 @@ let enCollection: StringCollection = {
             articleDescriptionLabel: "Enter the article description",
             selectCategory: "Select at least one category",
             selectImage: "Upload at least one image"
+        },
+        requestArticle: {
+            title: "Request Article",
+            startDate: "Start Date*",
+            endDate: "End Date*",
+            message: "Message*",
+            messagePlaceHolder: "Enter a message so that the owner coinsider your request",
+            send: "Send"
         }
+
     },
     review: {
         noReviews: "There are no reviews yet",

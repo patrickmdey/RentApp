@@ -61,6 +61,14 @@ interface ArticleStrings {
         selectCategory: string,
         selectImage: string,
 
+    },
+    requestArticle: {
+        title: string,
+        startDate: string,
+        endDate: string,
+        message: string,
+        messagePlaceHolder: string,
+        send: string
     }
 
 }
