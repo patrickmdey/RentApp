@@ -7,11 +7,20 @@ export default function FormInput<T>(props: {
   name: Path<T>;
   type: string;
   placeholder?: string;
-  prependIcon?: JSX.Element | null;
+  prependIcon?: JSX.Element | string | null;
   appendIcon?: JSX.Element | null;
+  validation?: any | null; //TODO: como le paso un {} que tiene props variables adentro ?
 }) {
-  const { register, label, name, type, placeholder, prependIcon, appendIcon } =
-    props;
+  const {
+    register,
+    label,
+    name,
+    type,
+    placeholder,
+    prependIcon,
+    appendIcon,
+    validation,
+  } = props;
   return (
     <FormGroup>
       <FormLabel>{label}</FormLabel>
@@ -22,7 +31,7 @@ export default function FormInput<T>(props: {
         <FormControl
           type={type}
           placeholder={placeholder}
-          {...register(name)}
+          {...register(name, validation)}
         />
         {appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
       </InputGroup>

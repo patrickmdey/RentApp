@@ -56,7 +56,15 @@ let esCollection: StringCollection = {
             articleDescription: "Descripción*",
             articleDescriptionLabel: "Ingresa la descripción del artículo",
             selectCategory: "Seleccioná al menos una categoría",
-            selectImage: "Seleccioná al menos una imagen"
+            selectImage: "Seleccioná al menos una imagen",
+            errors: {
+                title: "Es obligatorio ingresar el nombre del artículo",
+                titleLength: "El nombre del artículo debe tener entre {2} y {1} caracteres",
+                description: "La descripción debe tener entre {2} y {1} caracteres",
+                categories: "Es obligatorio seleccionar al menos una categoría",
+                pricePerDay: "El monto debe ser mayor a {1}",
+                images: "You muse upload at least one image"
+            }
         },
         requestArticle: {
             title: "Solicitar artículo",

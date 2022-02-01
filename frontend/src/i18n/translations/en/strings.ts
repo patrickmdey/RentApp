@@ -56,7 +56,15 @@ let enCollection: StringCollection = {
             articleDescription: "Description*",
             articleDescriptionLabel: "Enter the article description",
             selectCategory: "Select at least one category",
-            selectImage: "Upload at least one image"
+            selectImage: "Upload at least one image",
+            errors: {
+                title: "You must enter a name for the article",
+                titleLength: "The name of the article must have between {2} and {1} characters",
+                description: "The description must have between {2} and {1} characters",
+                categories: "You must select at least one category",
+                pricePerDay: "The price must be greater than 1",
+                images: "You must upload at least one image"
+            }
         },
         requestArticle: {
             title: "Request Article",

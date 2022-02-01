@@ -18,7 +18,11 @@ interface ArticleForm {
 }
 
 function CreateArticleForm() {
-  const { register, handleSubmit } = useForm<ArticleForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ArticleForm>({
     defaultValues: {
       title: "",
       description: "",
@@ -79,7 +83,13 @@ function CreateArticleForm() {
                 placeholder={
                   strings.collection.article.createArticle.articleNameLabel
                 }
+                validation={{ required: true, maxLength: 50, minLength: 5 }}
               />
+              {errors.title && (
+                <p className="error mt-2">
+                  ⚠{strings.collection.article.createArticle.errors.title}
+                </p>
+              )}
             </div>
             <div className="my-2">
               <FormInput
@@ -93,7 +103,26 @@ function CreateArticleForm() {
                   strings.collection.article.createArticle
                     .articleDescriptionLabel
                 }
+                validation={{ required: true, maxLength: 700, minLength: 10 }}
               />
+              {errors.description && (
+                <p className="error mt-2">
+                  ⚠{strings.collection.article.createArticle.errors.description}
+                </p>
+              )}
+            </div>
+            <div className="my-2">
+              <FormInput
+                register={register}
+                label={strings.collection.article.createArticle.pricePerDay}
+                name="pricePerDay"
+                type="number"
+                prependIcon="$"
+                validation={{ min: 1 }}
+              />
+              <p className="error mt-2">
+                ⚠{strings.collection.article.createArticle.errors.pricePerDay}
+              </p>
             </div>
             <div>
               <Form.Label className="lead">

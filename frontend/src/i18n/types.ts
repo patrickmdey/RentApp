@@ -60,7 +60,14 @@ interface ArticleStrings {
         pricePerDay: string,
         selectCategory: string,
         selectImage: string,
-
+        errors: {
+            title: string,
+            titleLength: string,
+            description: string,
+            pricePerDay: string,
+            categories: string,
+            images: string
+        }
     },
     requestArticle: {
         title: string,
