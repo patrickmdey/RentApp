@@ -5,27 +5,39 @@ import { CreateRentProposalParameters } from "../../features/api/rentProposals/t
 import { strings } from "../../i18n/i18n";
 import FormInput from "../Forms/FormInput";
 
+interface RequestFormT {
+  message: string;
+  startDate: Date;
+  endDate: Date;
+  articleId: number;
+  renterId: number;
+}
+
 function RequestForm() {
-  const { register, handleSubmit } = useForm<CreateRentProposalParameters>({
+  const { register, handleSubmit } = useForm<RequestFormT>({
     defaultValues: {
       message: "",
-      startDate: "",
-      endDate: "",
-      articleId: -1,
-      renterId: -1,
+      startDate: undefined,
+      endDate: undefined,
+      articleId: undefined,
+      renterId: undefined,
     },
   });
 
-  const [createRequest, result] = useCreateRentProposal();
-  console.log(result);
+  const [createRequest] = useCreateRentProposal();
 
-  function onSubmit(data: CreateRentProposalParameters) {
-    createRequest(data);
+  function onSubmit(data: RequestFormT) {
+    // console.log(data);
+    createRequest({
+      ...data,
+      startDate: data.startDate.toString(),
+      endDate: data.endDate.toString(),
+    });
   }
 
   return (
     <div className="modal-content bg-color-grey">
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Modal.Body className="bg-color-grey">
           <Row>
             <Col md={6} lg={6} className="my-2">

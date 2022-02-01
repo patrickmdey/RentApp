@@ -3,10 +3,43 @@ import { Form, Card, FormLabel, Button } from "react-bootstrap";
 import { useListCategories } from "../features/api/categories/categoriesSlice";
 import { strings } from "../i18n/i18n";
 import { Category } from "../features/api/categories/types";
+import { useForm } from "react-hook-form";
+import { useCreateArticle } from "../features/api/articles/articlesSlice";
+import FormInput from "./Forms/FormInput";
+
+interface ArticleForm {
+  title: string;
+  description: string;
+  pricePerDay: number;
+  rating: number;
+  categories: number[];
+  ownerId: number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
+  images: FileList;
+}
 
 function CreateArticleForm() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const { register, handleSubmit } = useForm<ArticleForm>({
+    defaultValues: {
+      title: "",
+      description: "",
+      pricePerDay: 0,
+      rating: 0,
+      categories: [],
+      ownerId: 0,
+      images: undefined,
+    },
+  });
+
+  const [createArticle] = useCreateArticle();
+  // console.log(result);
+
+  function onSubimt(data: ArticleForm) {
+    console.log(data);
+    // createArticle({ ...data });
+  }
+
+  // const [name, setName] = useState("");
+  // const [description, setDescription] = useState("");
   const [articleCategories, setArticleCategories] = useState([]);
   // const [images, setImages] = useState([]);
 
@@ -18,11 +51,11 @@ function CreateArticleForm() {
     );
   };
 
-  const submitArticle = (e: any) => {
-    e.preventDefault();
-    const article = { name, description, articleCategories };
-    console.log(article); //TODO: Agregar lo de las imagenes y llamar a use createArticle()
-  };
+  // const submitArticle = (e: any) => {
+  //   e.preventDefault();
+  //   const article = { name, description, articleCategories };
+  //   console.log(article); //TODO: Agregar lo de las imagenes y llamar a use createArticle()
+  // };
 
   const { data: categories, isSuccess } = useListCategories();
 
@@ -36,36 +69,31 @@ function CreateArticleForm() {
             </h3>
             <hr></hr>
           </Card.Title>
-          <Form onSubmit={submitArticle}>
+          <Form onSubmit={handleSubmit(onSubimt)}>
             <div className="my-2">
-              <Form.Label className="lead">
-                {strings.collection.article.createArticle.articleName}
-              </Form.Label>
-              <Form.Control
+              <FormInput
+                register={register}
+                label={strings.collection.article.createArticle.articleName}
+                name="title"
                 type="text"
                 placeholder={
                   strings.collection.article.createArticle.articleNameLabel
                 }
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
+              />
             </div>
             <div className="my-2">
-              <Form.Label className="lead">
-                {strings.collection.article.createArticle.articleDescription}
-              </Form.Label>
-              <Form.Control
-                as="textarea"
+              <FormInput
+                register={register}
+                label={
+                  strings.collection.article.createArticle.articleDescription
+                }
+                name="description"
                 type="text"
                 placeholder={
                   strings.collection.article.createArticle
                     .articleDescriptionLabel
                 }
-                required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+              />
             </div>
             <div>
               <Form.Label className="lead">
@@ -82,11 +110,18 @@ function CreateArticleForm() {
                       (val) => val === cat.description
                     )}
                     onChange={handleChange}
-                    // inline
                     label={cat.description}
                   ></Form.Check>
                 ))}
               </div>
+            </div>
+            <div>
+              <FormInput
+                register={register}
+                label={strings.collection.article.createArticle.selectImage}
+                name="images"
+                type="file"
+              />
             </div>
             <div className="d-grid gap-2">
               <Button

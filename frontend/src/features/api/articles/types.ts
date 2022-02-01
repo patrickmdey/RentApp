@@ -23,7 +23,7 @@ export interface CreateArticleParameters {
 	rating: Number;
 	categories: Number[];
 	ownerId: Number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
-	images: File[];
+	images: FileList;
 }
 
 export interface UpdateArticleParameters {
