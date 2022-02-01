@@ -1,5 +1,5 @@
 import { FormGroup, FormLabel, InputGroup, FormControl } from 'react-bootstrap';
-import { Path, PathValue, UseFormRegister, Validate, ValidationRule } from 'react-hook-form';
+import { FieldError, Path, PathValue, UseFormRegister, Validate, ValidationRule } from 'react-hook-form';
 
 interface ValidationInterface<T> {
 	required: string | ValidationRule<boolean>;
@@ -17,18 +17,27 @@ export default function FormInput<T>(props: {
 	label: string;
 	name: Path<T>;
 	type: string;
+	error?: FieldError | null;
+	errorMessage?: string;
 	placeholder?: string;
 	prependIcon?: JSX.Element | string | null;
 	appendIcon?: JSX.Element | null;
 	validation?: Partial<ValidationInterface<T>>;
 }) {
-	const { register, label, name, type, placeholder, prependIcon, appendIcon, validation } = props;
+	const { register, label, name, error, errorMessage, type, placeholder, prependIcon, appendIcon, validation } =
+		props;
 	return (
 		<FormGroup>
 			<FormLabel>{label}</FormLabel>
 			<InputGroup>
 				{prependIcon != null && <InputGroup.Text>{prependIcon}</InputGroup.Text>}
-				<FormControl type={type} placeholder={placeholder} {...register(name, validation)} />
+				<FormControl
+					type={type}
+					placeholder={placeholder}
+					{...register(name, validation)}
+					isInvalid={error != null}
+				/>
+				<FormControl.Feedback type='invalid'>{errorMessage}</FormControl.Feedback>
 				{appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
 			</InputGroup>
 		</FormGroup>
