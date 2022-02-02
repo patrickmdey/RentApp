@@ -11,11 +11,13 @@ public class OrderOptionDTO {
 
     private URI url;
     private String description;
+    private long id;
 
     public static OrderOptionDTO fromOrderOption(OrderOptions option, UriInfo uri, MessageSource messageSource, Locale locale) {
         OrderOptionDTO toReturn = new OrderOptionDTO();
         toReturn.url = uri.getBaseUriBuilder().path("orderOptions").path(String.valueOf(option.ordinal())).build();
         toReturn.description = messageSource.getMessage(option.getDescription(), null, locale);
+        toReturn.id = option.ordinal();
         return toReturn;
     }
 
@@ -33,5 +35,13 @@ public class OrderOptionDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

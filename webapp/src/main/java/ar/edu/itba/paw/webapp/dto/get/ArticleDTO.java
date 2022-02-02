@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Article;
+
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
@@ -13,6 +14,7 @@ public class ArticleDTO {
     private long timesRented;
     private int rating;
     private long timesReviewed;
+    private long id;
 
     private URI url;
     private URI ownerUrl;
@@ -20,7 +22,7 @@ public class ArticleDTO {
     private URI categoriesUrl;
     private URI reviewsUrl;
 
-    public static ArticleDTO fromArticle(Article article, UriInfo uri){
+    public static ArticleDTO fromArticle(Article article, UriInfo uri) {
         ArticleDTO toReturn = new ArticleDTO();
         toReturn.title = article.getTitle();
         toReturn.description = article.getDescription();
@@ -28,6 +30,7 @@ public class ArticleDTO {
         toReturn.timesRented = article.getTimesRented();
         toReturn.rating = article.getRating();
         toReturn.timesReviewed = article.getTimesReviewed();
+        toReturn.id = article.getId();
 
         toReturn.url = uri.getBaseUriBuilder().path("articles").path(String.valueOf(article.getId())).build();
         toReturn.ownerUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(article.getOwner().getId())).build();
@@ -124,5 +127,13 @@ public class ArticleDTO {
 
     public void setReviewsUrl(URI reviewsUrl) {
         this.reviewsUrl = reviewsUrl;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

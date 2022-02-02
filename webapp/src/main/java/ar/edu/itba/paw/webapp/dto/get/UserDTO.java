@@ -18,6 +18,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private long id;
 
     private boolean isOwner;
 
@@ -29,11 +30,12 @@ public class UserDTO {
     private URI imageUrl;
     private URI locationUrl;
 
-    public static UserDTO fromUser(User user, UriInfo uri){
+    public static UserDTO fromUser(User user, UriInfo uri) {
         UserDTO toReturn = new UserDTO();
         toReturn.firstName = user.getFirstName();
         toReturn.lastName = user.getLastName();
         toReturn.email = user.getEmail();
+        toReturn.id = user.getId();
         toReturn.isOwner = user.getType().getIsOwner();
         toReturn.pendingRequestAmount = user.getPendingRequestAmount();
         toReturn.acceptedRequestAmount = user.getAcceptedRequestAmount();
@@ -66,6 +68,10 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public boolean isOwner() {

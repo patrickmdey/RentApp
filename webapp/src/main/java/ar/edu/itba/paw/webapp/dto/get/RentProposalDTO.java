@@ -13,7 +13,6 @@ import java.net.URI;
 import java.time.LocalDate;
 
 
-
 public class RentProposalDTO {
 
     private String message;
@@ -24,18 +23,21 @@ public class RentProposalDTO {
 
     private LocalDate endDate;
 
+    private long id;
+
     private boolean seen;
 
     private URI url;
     private URI renterUrl;
     private URI articleUrl;
 
-    public static RentProposalDTO fromRentProposal(RentProposal rp, UriInfo uri){
+    public static RentProposalDTO fromRentProposal(RentProposal rp, UriInfo uri) {
         RentProposalDTO toReturn = new RentProposalDTO();
         toReturn.message = rp.getMessage();
         toReturn.state = rp.getState();
         toReturn.startDate = rp.getStartDate();
         toReturn.endDate = rp.getEndDate();
+        toReturn.id = rp.getId();
 
         toReturn.url = uri.getBaseUriBuilder().path("proposals").path(String.valueOf(rp.getId())).build();
         toReturn.renterUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(rp.getRenter().getId())).build();
@@ -74,6 +76,14 @@ public class RentProposalDTO {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public boolean isSeen() {

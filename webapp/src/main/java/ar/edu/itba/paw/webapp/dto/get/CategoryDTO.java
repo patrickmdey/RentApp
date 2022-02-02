@@ -11,13 +11,15 @@ import java.util.Locale;
 
 public class CategoryDTO {
     private String description;
+    private long id;
 
     private URI url;
     private URI imageUrl;
 
-    public static CategoryDTO fromCategory(Category category, UriInfo uri, MessageSource messageSource, Locale locale){
+    public static CategoryDTO fromCategory(Category category, UriInfo uri, MessageSource messageSource, Locale locale) {
         CategoryDTO toReturn = new CategoryDTO();
         toReturn.description = messageSource.getMessage(category.getDescription(), null, locale);
+        toReturn.id = category.getId();
         toReturn.url = uri.getBaseUriBuilder().path("categories").path(String.valueOf(category.getId())).build();
         toReturn.imageUrl = uri.getBaseUriBuilder().path("images").path(String.valueOf(category.getPicture().getId())).build();
         return toReturn;
@@ -45,5 +47,13 @@ public class CategoryDTO {
 
     public void setUrl(URI url) {
         this.url = url;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

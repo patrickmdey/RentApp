@@ -15,14 +15,17 @@ public class ReviewDTO {
 
     private LocalDate createdAt;
 
+    private long id;
+
     private URI url;
     private URI articleUrl;
     private URI renterUrl;
 
-    public static ReviewDTO fromReview(Review review, UriInfo uri){
+    public static ReviewDTO fromReview(Review review, UriInfo uri) {
         ReviewDTO toReturn = new ReviewDTO();
         toReturn.rating = review.getRating();
         toReturn.message = review.getMessage();
+        toReturn.id = review.getId();
         toReturn.createdAt = review.getCreatedAt();
         toReturn.url = uri.getBaseUriBuilder().path("reviews").path(String.valueOf(review.getId())).build();
         toReturn.renterUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(review.getRenter().getId())).build();
@@ -76,5 +79,13 @@ public class ReviewDTO {
 
     public void setUrl(URI url) {
         this.url = url;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
