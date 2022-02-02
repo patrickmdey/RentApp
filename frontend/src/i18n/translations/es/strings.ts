@@ -1,4 +1,4 @@
-import { StringCollection } from '../../types'
+import {StringCollection} from '../../types'
 
 let esCollection: StringCollection = {
     header: {
@@ -39,6 +39,10 @@ let esCollection: StringCollection = {
         rememberMe: "Recordar mi sesión",
         loginButton: "Iniciar Sesión",
         signupButton: "Registrar Usuario",
+        errors: {
+            email: "Es obligatorio ingresar un email",
+            password: "Es obligatorio ingresar una contraseña"
+        },
         error: "El usuario o la contraseña no son válidos"
     },
     article: {
@@ -81,15 +85,6 @@ let esCollection: StringCollection = {
     },
     categories: {
         searchByCategories: "Buscar por categorías",
-        // category: {
-        //     Kitchen: "Cocina",
-        //     Travel: "Viajes",
-        //     Tools: "Herramientas",
-        //     Saling: "Navegación",
-        //     Technology: "Tecnología",
-        //     Cars: "Autos",
-        //     Camping: "Campamento"
-        // }
     },
     landing: {
         title: "Bienvenido a RentApp",
@@ -117,7 +112,13 @@ let esCollection: StringCollection = {
         confirmPasswordPlaceholder: "Reingresa tu contraseña",
         image: "Seleccioná una imagen",
         isRenter: "¿Quieres alquilar tus cosas? ",
-        confirmButton: "Confirmar"
+        confirmButton: "Confirmar",
+        errors: {
+            firstName: "Es obligatorio ingresar tu nombre",
+            lastName: "Es obligatorio ingresar tu apellido",
+            location: "Es obligatorio seleccionar tu ubicación",
+            image: "Es obligatorio elegir una imagen"
+        }
     },
     requestCard: {
         rejectButton: "Rechazar",
@@ -133,4 +134,4 @@ let esCollection: StringCollection = {
 }
 
 
-export { esCollection }
+export {esCollection}

@@ -1,4 +1,4 @@
-import { LocalizedStringsMethods } from 'react-localization'
+import {LocalizedStringsMethods} from 'react-localization'
 
 interface HeaderStrings {
     requests: string,
@@ -41,6 +41,10 @@ interface LogInStrings {
     rememberMe: string,
     loginButton: string,
     signupButton: string,
+    errors: {
+        email: string,
+        password: string
+    }
     error: string
 }
 
@@ -87,15 +91,6 @@ interface ReviewStrings {
 
 interface CategoriesString {
     searchByCategories: string,
-    // category: {
-    //     Kitchen: string,
-    //     Travel: string,
-    //     Tools: string,
-    //     Saling: string,
-    //     Technology: string,
-    //     Cars: string,
-    //     Camping: string
-    // }
 }
 
 export interface LandingString {
@@ -126,6 +121,12 @@ export interface RegisterString {
     image: string,
     isRenter: string,
     confirmButton: string
+    errors: {
+        firstName: string,
+        lastName: string,
+        location: string,
+        image: string
+    }
 }
 
 export interface RequestCardString {

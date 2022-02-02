@@ -1,4 +1,4 @@
-import { StringCollection } from '../../types'
+import {StringCollection} from '../../types'
 
 let enCollection: StringCollection = {
     header: {
@@ -39,6 +39,10 @@ let enCollection: StringCollection = {
         rememberMe: "Remember me",
         loginButton: "LogIn",
         signupButton: "Register",
+        errors: {
+            email: "You must enter your email",
+            password: "You must enter your passwored"
+        },
         error: "Email or password is incorrect"
     },
     article: {
@@ -82,15 +86,6 @@ let enCollection: StringCollection = {
     },
     categories: {
         searchByCategories: "Search by categories",
-        // category: {
-        //     Kitchen: "Kitchen",
-        //     Travel: "Travel",
-        //     Tools: "Tools",
-        //     Saling: "Saling",
-        //     Technology: "Technology",
-        //     Cars: "Cars",
-        //     Camping: "Camping"
-        // }
     },
     landing: {
         title: "Welcome to RentApp",
@@ -118,7 +113,13 @@ let enCollection: StringCollection = {
         confirmPasswordPlaceholder: "Reenter your password",
         image: "Upload image",
         isRenter: "Would you like to rent your stuff? ",
-        confirmButton: "Confirm"
+        confirmButton: "Confirm",
+        errors: {
+            firstName: "You must enter your first name",
+            lastName: "You must enter your last name",
+            location: "You must select your location",
+            image: "You must upload an image"
+        }
     },
     requestCard: {
         rejectButton: "Reject",
@@ -134,4 +135,4 @@ let enCollection: StringCollection = {
 }
 
 
-export { enCollection }
+export {enCollection}

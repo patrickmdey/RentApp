@@ -11,17 +11,11 @@ public class OrderOptionDTO {
 
     private URI url;
     private String description;
-    private String order;
-
-    //TODO: que se hace con estas props (del modelo) ?
-    //      private final String jpaColumn;
-    //      private final String nativeColumn;
 
     public static OrderOptionDTO fromOrderOption(OrderOptions option, UriInfo uri, MessageSource messageSource, Locale locale) {
         OrderOptionDTO toReturn = new OrderOptionDTO();
         toReturn.url = uri.getBaseUriBuilder().path("orderOptions").path(String.valueOf(option.ordinal())).build();
         toReturn.description = messageSource.getMessage(option.getDescription(), null, locale);
-        toReturn.order = option.getOrder();
         return toReturn;
     }
 
@@ -39,13 +33,5 @@ public class OrderOptionDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
     }
 }
