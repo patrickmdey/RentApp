@@ -7,6 +7,7 @@ export interface Review {
 	url: URL;
 	articleUrl: URL;
 	renterUrl: URL;
+	id: number;
 }
 
 export interface ListReviewParameters {

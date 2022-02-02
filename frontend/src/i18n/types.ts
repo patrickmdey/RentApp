@@ -79,7 +79,12 @@ interface ArticleStrings {
         endDate: string,
         message: string,
         messagePlaceHolder: string,
-        send: string
+        send: string,
+        errors: {
+            startDate: string,
+            endDate: string,
+            message: string,
+        }
     }
 
 }

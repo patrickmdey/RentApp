@@ -10,6 +10,7 @@ export interface RentProposal {
 	url: URL;
 	articleUrl: URL;
 	renterUrl: URL;
+	id: number;
 }
 
 export interface ListRentProposalsParameters {
