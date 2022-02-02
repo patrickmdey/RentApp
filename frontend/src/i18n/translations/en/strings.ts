@@ -76,7 +76,12 @@ let enCollection: StringCollection = {
             endDate: "End Date*",
             message: "Message*",
             messagePlaceHolder: "Enter a message so that the owner coinsider your request",
-            send: "Send"
+            send: "Send",
+            errors: {
+                startDate: "You must enter the start date",
+                endDate: "You must enter the end date",
+                message: "You must enter a message for the owner",
+            }
         }
 
     },

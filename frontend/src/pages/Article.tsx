@@ -1,15 +1,15 @@
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import MainArticleCard from "../components/Article.tsx/MainArticleCard";
+import MainArticleCard from "../components/Article/MainArticleCard";
 import ReviewList from "../components/ReviewList";
 import { useFindArticle } from "../features/api/articles/articlesSlice";
 import { useListCategoriesFromArticle } from "../features/api/categories/categoriesSlice";
 import { useFindLocation } from "../features/api/locations/locationsSlice";
 import { useListReviews } from "../features/api/reviews/reviewsSlice";
 import { useFindUser } from "../features/api/users/usersSlice";
-import ArticleDescriptionCard from "../components/Article.tsx/ArticleDescriptionCard";
-import OwnerCard from "../components/Article.tsx/OwnerCard";
+import ArticleDescriptionCard from "../components/Article/ArticleDescriptionCard";
+import OwnerCard from "../components/Article/OwnerCard";
 import { strings } from "../i18n/i18n";
 
 // TODO: subdivide into components

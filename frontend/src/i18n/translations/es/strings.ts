@@ -67,7 +67,7 @@ let esCollection: StringCollection = {
                 description: "La descripción debe tener entre {2} y {1} caracteres",
                 categories: "Es obligatorio seleccionar al menos una categoría",
                 pricePerDay: "El monto debe ser mayor a {1}",
-                images: "You muse upload at least one image"
+                images: "Es obligatorio subir al menos una imagen"
             }
         },
         requestArticle: {
@@ -76,7 +76,12 @@ let esCollection: StringCollection = {
             endDate: "Fecha de Finalización*",
             message: "Mensaje*",
             messagePlaceHolder: "Ingresa un mensaje para que el Dueño tenga mas en cuenta tu solicitud",
-            send: "Enviar"
+            send: "Enviar",
+            errors: {
+                startDate: "Es obligatorio ingresar la fecha de inicio",
+                endDate: "Es obligatorio ingresar la fecha de finalización",
+                message: "Es obligatorio ingresar un mensaje para el dueño",
+            }
         }
     },
     review: {
