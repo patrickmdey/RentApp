@@ -13,6 +13,8 @@ interface RequestFormT {
   renterId: number;
 }
 
+const isValidDate = (startDate: Date, endDate: Date) => startDate < endDate;
+
 function RequestForm() {
   const { register, handleSubmit } = useForm<RequestFormT>({
     defaultValues: {
