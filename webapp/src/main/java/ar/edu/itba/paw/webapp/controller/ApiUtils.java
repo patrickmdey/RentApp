@@ -2,10 +2,16 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
+import org.springframework.context.i18n.LocaleContextHolder;
 
+import javax.validation.*;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
+import java.util.*;
 
 public class ApiUtils {
 
@@ -30,5 +36,14 @@ public class ApiUtils {
 
     public static User retrieveUser(SecurityContext context, UserService userService){
         return userService.findByEmail(context.getUserPrincipal().getName()).orElse(null);
+    }
+
+    public static <T> void validateBean(T toValidate){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<T>> violations = validator.validate(toValidate);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
     }
 }

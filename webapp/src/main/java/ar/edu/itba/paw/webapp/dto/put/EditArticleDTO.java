@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.dto.put;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,7 +9,7 @@ import java.util.List;
 public class EditArticleDTO {
 
     @NotEmpty
-    @Size(min = 5, max = 50)
+    @Size(min = 5, max = 50, message = "Size.createArticleForm.name")
     private String title;
 
     @NotEmpty

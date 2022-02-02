@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -88,6 +89,4 @@ public class WebConfig {
         multipartResolver.setMaxUploadSize(20848820);
         return multipartResolver;
     }
-
-
 }

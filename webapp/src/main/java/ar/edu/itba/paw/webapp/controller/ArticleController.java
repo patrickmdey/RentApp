@@ -12,6 +12,7 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -81,6 +82,7 @@ public class ArticleController {
     @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
     public Response create(FormDataMultiPart body) {
         NewArticleDTO articleDTO = NewArticleDTO.fromMultipartData(body);
+        ApiUtils.validateBean(articleDTO);
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
                 articleDTO.getCategories(), articleDTO.getImages(),
                 ApiUtils.retrieveUser(securityContext, us).getId());
