@@ -11,6 +11,7 @@
 
 # production
 /build
+node
 
 # misc
 .vscode
