@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,8 @@ public class PictureController {
     @Produces("image/*")
     public Response getById(@PathParam("id") long id) {
         DBImage img = is.findById(id).orElseThrow(ImageNotFoundException::new);
-        return Response.ok(img.getImg()).build();
+        return Response.ok(img.getImg()).cacheControl(CacheControl.valueOf("public, max-age=" +
+                ApiUtils.CACHE_MAX_AGE + ", immutable")).expires(Date.from(LocalDate.now().plusYears(1)
+                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())).build();
     }
 }

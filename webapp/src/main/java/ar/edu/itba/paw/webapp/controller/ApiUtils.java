@@ -2,8 +2,6 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
-import org.springframework.context.i18n.LocaleContextHolder;
-
 import javax.validation.*;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -15,8 +13,9 @@ import java.util.*;
 
 public class ApiUtils {
 
-    private ApiUtils(){
-    }
+    public static final int CACHE_MAX_AGE = 31536000;
+
+    private ApiUtils(){}
 
     public static Response generateResponseWithLinks(Response.ResponseBuilder response,
                                                      long currentPage, long maxPage, UriBuilder uri){

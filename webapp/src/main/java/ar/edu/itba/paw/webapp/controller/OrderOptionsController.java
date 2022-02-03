@@ -34,7 +34,6 @@ public class OrderOptionsController {
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list() {
-
         List<Locale> languages = requestProvider.get().getAcceptableLanguages();
         Locale lang = languages.isEmpty() ? LocaleContextHolder.getLocale() : languages.get(0);
 
@@ -44,7 +43,6 @@ public class OrderOptionsController {
         if (orderOptions.isEmpty())
             return Response.noContent().build();
 
-        return Response.ok(new GenericEntity<List<OrderOptionDTO>>(orderOptions) {
-        }).build();
+        return Response.ok(new GenericEntity<List<OrderOptionDTO>>(orderOptions) {}).build();
     }
 }
