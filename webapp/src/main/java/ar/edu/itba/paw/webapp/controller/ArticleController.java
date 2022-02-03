@@ -6,15 +6,15 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewArticleDTO;
-import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.Valid;
+import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -30,6 +30,9 @@ public class ArticleController {
 
     @Autowired
     private UserService us;
+
+    @Autowired
+    private ValidatorFactory validatorFactory;
 
     @Context
     private UriInfo uriInfo;
@@ -81,7 +84,7 @@ public class ArticleController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
     public Response create(FormDataMultiPart body) {
-        NewArticleDTO articleDTO = ApiUtils.validateBean(NewArticleDTO.fromMultipartData(body));
+        NewArticleDTO articleDTO = ApiUtils.validateBean(NewArticleDTO.fromMultipartData(body), validatorFactory);
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
                 articleDTO.getCategories(), articleDTO.getImages(),
                 ApiUtils.retrieveUser(securityContext, us).getId());

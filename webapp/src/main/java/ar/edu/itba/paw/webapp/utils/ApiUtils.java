@@ -1,7 +1,10 @@
-package ar.edu.itba.paw.webapp.controller;
+package ar.edu.itba.paw.webapp.utils;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
+import org.hibernate.validator.HibernateValidator;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
+
 import javax.validation.*;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -37,9 +40,8 @@ public class ApiUtils {
         return userService.findByEmail(context.getUserPrincipal().getName()).orElse(null);
     }
 
-    public static <T> T validateBean(T toValidate){
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
+    public static <T> T validateBean(T toValidate, ValidatorFactory validatorFactory){
+        Validator validator = validatorFactory.getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(toValidate);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);

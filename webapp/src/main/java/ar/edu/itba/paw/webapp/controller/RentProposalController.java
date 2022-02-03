@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;

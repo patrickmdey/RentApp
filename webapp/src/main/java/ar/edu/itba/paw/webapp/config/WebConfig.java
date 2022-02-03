@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.webapp.config;
 
+import org.hibernate.validator.HibernateValidator;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,9 +16,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -46,6 +51,12 @@ public class WebConfig {
         return dataSource;
     }
 
+    @Bean //https://stackoverflow.com/questions/37958145/autowired-gives-null-value-in-custom-constraint-validator
+    public ValidatorFactory validatorFactory(final AutowireCapableBeanFactory autowireCapableBeanFactory){
+        return Validation.byProvider(HibernateValidator.class).configure()
+                .constraintValidatorFactory(new SpringConstraintValidatorFactory(autowireCapableBeanFactory))
+                .buildValidatorFactory();
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

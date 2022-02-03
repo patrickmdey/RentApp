@@ -8,6 +8,7 @@ import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ReviewDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewReviewDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.forms.annotations;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 public class UserNotExistsValidator implements ConstraintValidator<UserNotExists, String> {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     public void initialize(UserNotExists userNotExists) {}

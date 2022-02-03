@@ -7,12 +7,14 @@ import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
+import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -24,6 +26,9 @@ public class UserController {
     @Autowired
     private UserService us;
 
+    @Autowired
+    private ValidatorFactory validatorFactory;
+
     @Context
     private UriInfo uriInfo;
 
@@ -34,7 +39,7 @@ public class UserController {
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response create(FormDataMultiPart body) {
-        NewUserDTO userDto = ApiUtils.validateBean(NewUserDTO.fromMultipartData(body));
+        NewUserDTO userDto = ApiUtils.validateBean(NewUserDTO.fromMultipartData(body), validatorFactory);
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
                 userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
                 uriInfo.getAbsolutePath().toString());
