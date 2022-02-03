@@ -48,7 +48,7 @@ public class CategoryController {
     // TODO: delegar la logica del articleId al servicio
     @GET
     public Response list(@QueryParam("fromArticle") Integer articleId) {
-        List<Category> categories;
+        List<Category> categories; //TODO probar con collection
         if (articleId == null) {
             categories = cs.listCategories();
         } else {
@@ -60,7 +60,6 @@ public class CategoryController {
 
         List<Locale> languages = requestProvider.get().getAcceptableLanguages();
         Locale lang = languages.isEmpty() ? LocaleContextHolder.getLocale() : languages.get(0);
-        categories = cs.listCategories();
         List<CategoryDTO> mappedCategories = categories.stream().map((Category category) ->
                 CategoryDTO.fromCategory(category, uriInfo, messageSource, lang)).collect(Collectors.toList());
 

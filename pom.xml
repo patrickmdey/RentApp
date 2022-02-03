@@ -330,12 +330,12 @@
         </dependencies>
     </dependencyManagement>
     <modules>
+        <module>frontend</module>
         <module>webapp</module>
         <module>interfaces</module>
         <module>services</module>
         <module>persistence</module>
         <module>models</module>
-        <module>frontend</module>
     </modules>
     <build>
         <pluginManagement>
