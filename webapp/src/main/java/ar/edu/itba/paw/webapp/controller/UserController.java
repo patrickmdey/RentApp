@@ -34,7 +34,7 @@ public class UserController {
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response create(FormDataMultiPart body) {
-        NewUserDTO userDto = NewUserDTO.fromMultipartData(body);
+        NewUserDTO userDto = ApiUtils.validateBean(NewUserDTO.fromMultipartData(body));
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
                 userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
                 uriInfo.getAbsolutePath().toString());
@@ -50,7 +50,7 @@ public class UserController {
         return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
     }
 
-    @DELETE // TODO chequear
+    @DELETE
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
@@ -59,7 +59,7 @@ public class UserController {
         return Response.noContent().build();
     }
 
-    @PUT // TODO chequear
+    @PUT
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")

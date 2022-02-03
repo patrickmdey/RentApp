@@ -1,17 +1,14 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
 import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class NewReviewDTO extends EditReviewDTO {
-    private int renterId;
-    private int articleId;
+    @NotNull(message = "NotNull.reviewForm.renterId")
+    private Integer renterId;
 
+    @NotNull(message = "NotNull.reviewForm.articleId")
+    private Integer articleId;
 
     public int getArticleId() {
         return articleId;

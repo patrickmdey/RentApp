@@ -8,24 +8,27 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-@GreaterDate(baseField = "startDate", matchField = "endDate")
-@UniqueRentRequest(startDate = "startDate", endDate = "endDate", articleId = "articleId", renterId = "renterId")
+@GreaterDate(baseField = "startDate", matchField = "endDate", message = "GreaterDate.rentForm.startDate")
+@UniqueRentRequest(startDate = "startDate", endDate = "endDate", articleId = "articleId",
+        renterId = "renterId", message = "UniqueRentRequest.rentForm.articleId")
 public class NewRentProposalDTO {
 
     @NotNull
-    @NotEmpty
-    @FutureDate
-    private LocalDate startDate;
+    @NotEmpty(message = "NotEmpty.rentForm.startDate")
+    @FutureDate(message = "FutureDate.rentForm.startDate")
+    private LocalDate startDate; //TODO chequeo que así funciona, podemos usar:
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //@JsonFormat(pattern = "MM/dd/yyyy")
 
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "NotEmpty.rentForm.endDate")
     private LocalDate endDate;
 
-    @NotEmpty
-    @Size(min=10, max=310)
+    @NotEmpty(message = "NotEmpty.rentForm.message")
+    @Size(min=10, max=310, message = "Size.rentForm.message")
     private String message;
 
-    @NotNull
+    @NotNull(message = "NotNull.rentForm.articleId")
     private Integer articleId;
 
     public LocalDate getStartDate() {

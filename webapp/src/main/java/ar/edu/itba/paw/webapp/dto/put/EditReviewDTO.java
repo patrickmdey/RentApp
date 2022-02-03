@@ -1,21 +1,20 @@
 package ar.edu.itba.paw.webapp.dto.put;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class EditReviewDTO {
-    @NotEmpty
-    @Size(min = 10, max = 310)
+    @NotEmpty(message = "NotEmpty.reviewForm.message")
+    @Size(min = 10, max = 310, message = "Size.reviewForm.message")
     private String message;
 
-    @NotNull
-    @Min(1)
-    @Max(5)
-    private int rating;
+    @NotNull(message = "NotNull.reviewForm.rating")
+    @Min(value = 1, message = "Min.reviewForm.rating")
+    @Max(value = 5, message = "Max.reviewForm.rating")
+    private Integer rating;
 
     public String getMessage() {
         return message;

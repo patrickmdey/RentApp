@@ -81,8 +81,7 @@ public class ArticleController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
     public Response create(FormDataMultiPart body) {
-        NewArticleDTO articleDTO = NewArticleDTO.fromMultipartData(body);
-        ApiUtils.validateBean(articleDTO);
+        NewArticleDTO articleDTO = ApiUtils.validateBean(NewArticleDTO.fromMultipartData(body));
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
                 articleDTO.getCategories(), articleDTO.getImages(),
                 ApiUtils.retrieveUser(securityContext, us).getId());

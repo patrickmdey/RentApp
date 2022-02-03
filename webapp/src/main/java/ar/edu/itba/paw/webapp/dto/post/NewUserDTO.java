@@ -1,34 +1,39 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
+import ar.edu.itba.paw.webapp.forms.annotations.FieldsEquality;
 import ar.edu.itba.paw.webapp.forms.annotations.UserNotExists;
 import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
 
+@FieldsEquality(firstFieldName = "password", secondFieldName = "confirmPassword",
+        message = "FieldsEquality.accountForm.password")
 public class NewUserDTO extends EditUserDTO {
-    @NotEmpty
-    @Size(min = 8, max = 20)
+    @NotEmpty(message = "NotEmpty.accountForm.password")
+    @Size(min = 8, max = 20, message = "Size.accountForm.password")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "NotEmpty.accountForm.confirmPassword")
     private String confirmPassword;
 
-    @NotEmpty
-    @Email
-    @UserNotExists
-    @Size(min = 3, max = 320)
+    @NotEmpty(message = "NotEmpty.accountForm.email")
+    @Email(message = "Email.accountForm.email")
+    @UserNotExists(message = "UserNotExists.accountForm.email")
+    @Size(min = 3, max = 320, message = "Size.accountForm.email")
     private String email;
 
-    @ValidFile
+    @ValidFile(message = "ValidFile.accountForm.img")
     private byte[] image;
 
-    private boolean isOwner;
+    @NotNull(message = "NotNull.accountForm.isOwner")
+    private Boolean isOwner;
 
     public static NewUserDTO fromMultipartData(FormDataMultiPart data) {
         NewUserDTO toReturn = new NewUserDTO();

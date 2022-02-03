@@ -4,18 +4,17 @@ import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
 import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NewArticleDTO extends EditArticleDTO {
 
-    @ValidFile
+    @ValidFile(message = "ValidFile.createArticleForm.files")
     private List<byte[]> images;
 
     public static NewArticleDTO fromMultipartData(FormDataMultiPart data) {
-        // TODO: exception handling
+        // TODO: check empty list
         NewArticleDTO toReturn = new NewArticleDTO();
         Map<String, List<FormDataBodyPart>> map = data.getFields();
         toReturn.setDescription(map.get("description").get(0).getValue());

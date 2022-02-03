@@ -8,19 +8,19 @@ import java.util.List;
 
 public class EditArticleDTO {
 
-    @NotEmpty
+    @NotEmpty(message = "NotEmpty.createArticleForm.name")
     @Size(min = 5, max = 50, message = "Size.createArticleForm.name")
     private String title;
 
-    @NotEmpty
-    @Size(min = 10, max = 700)
+    @NotEmpty(message = "NotEmpty.createArticleForm.description")
+    @Size(min = 10, max = 700, message = "Size.createArticleForm.description")
     private String description;
 
-    @NotNull
-    @Min(1)
+    @NotNull(message = "NotNull.createArticleForm.pricePerDay")
+    @Min(value = 1, message = "Min.createArticleForm.pricePerDay")
     private Float pricePerDay;
 
-    @NotEmpty
+    @NotEmpty(message = "NotEmpty.createArticleForm.categories")
     private List<Long> categories;
 
     public String getTitle() {

@@ -47,7 +47,9 @@ public class ReviewController {
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list(@NotNull @QueryParam("fromArticle") Integer articleId, @QueryParam("page") @DefaultValue("1") long page) {
+    public Response list(@NotNull(message = "NotNull.getReviews.articleId") @QueryParam("fromArticle")
+                                     Integer articleId,
+                         @QueryParam("page") @DefaultValue("1") long page) {
         final List<ReviewDTO> reviews = rs.getPaged(articleId, page)
                 .stream().map(review -> ReviewDTO.fromReview(review, uriInfo)).collect(Collectors.toList());
 
@@ -69,7 +71,7 @@ public class ReviewController {
     public Response createReview(@Valid NewReviewDTO reviewDTO) {
         User user = ApiUtils.retrieveUser(securityContext, us);
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
-                reviewDTO.getArticleId(), user.getId()); // TODO: obtener renter de las urls
+                reviewDTO.getArticleId(), user.getId());
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(review.getId())).build();
         return Response.created(uri).build();

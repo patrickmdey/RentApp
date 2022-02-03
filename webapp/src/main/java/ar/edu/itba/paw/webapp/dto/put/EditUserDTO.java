@@ -1,20 +1,19 @@
 package ar.edu.itba.paw.webapp.dto.put;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class EditUserDTO {
-    @NotEmpty
-    @Size(min = 3, max = 20)
+    @NotEmpty(message = "NotEmpty.accountForm.firstName")
+    @Size(min = 3, max = 20, message = "Size.accountForm.firstName")
     private String firstName;
 
-    @NotEmpty
-    @Size(min = 3, max = 20)
+    @NotEmpty(message = "NotEmpty.accountForm.lastName")
+    @Size(min = 3, max = 20, message = "Size.accountForm.lastName")
     private String lastName;
 
-    @NotNull
+    @NotNull(message = "NotNull.accountForm.location")
     private Long location;
 
     public String getFirstName() {

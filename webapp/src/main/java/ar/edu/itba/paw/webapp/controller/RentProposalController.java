@@ -39,8 +39,10 @@ public class RentProposalController {
     @Path("/received")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
-    public Response listReceived(@NotNull @QueryParam("user") int userId,
-                                 @NotNull @QueryParam("state") int state,
+    public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
+                                             Integer userId,
+                                 @NotNull(message = "NotNull.listProposals.state") @QueryParam("state")
+                                         Integer state,
                                  @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
@@ -49,14 +51,16 @@ public class RentProposalController {
     @Path("/sent")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
-    public Response listSent(@NotNull @QueryParam("user") int userId,
-                             @NotNull @QueryParam("state") int state,
+    public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
+                                         Integer userId,
+                             @NotNull(message = "NotNull.listProposals.state") @QueryParam("state")
+                                     Integer state,
                              @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
-    private Response listProposals(int userId, int state, int page,
-                                  RequestsGetter getter, BiFunction<Integer, Integer, Long> maxPageGetter) {
+    private Response listProposals(int userId, int state, int page, RequestsGetter getter,
+                                   BiFunction<Integer, Integer, Long> maxPageGetter) {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder()
                 .queryParam("user", userId)
                 .queryParam("state", state);
@@ -89,7 +93,8 @@ public class RentProposalController {
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
-    public Response modify(@PathParam("id") long id, @NotNull Integer state) {
+    public Response modify(@PathParam("id") long id, @NotNull(message = "NotNull.listProposals.state") //TODO cambiar nombre
+            Integer state) {
         rs.setRequestState(id, state, uriInfo.getAbsolutePath().toString());
         return Response.ok().build();
     }

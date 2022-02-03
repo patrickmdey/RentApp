@@ -38,12 +38,13 @@ public class ApiUtils {
         return userService.findByEmail(context.getUserPrincipal().getName()).orElse(null);
     }
 
-    public static <T> void validateBean(T toValidate){
+    public static <T> T validateBean(T toValidate){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(toValidate);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+        return toValidate;
     }
 }
