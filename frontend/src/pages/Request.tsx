@@ -14,101 +14,127 @@ import { strings } from "../i18n/i18n";
 import { useListRentProposals } from "../features/api/rentProposals/rentProposalsSlice";
 import RequestCardList from "../components/Requests/RequestCardList";
 
+const RECEIVED_STRING = "received";
+const SENT_STRING = "sent";
+
+enum states {
+  pending = 0,
+  accepted,
+  declined,
+}
+
 export default function Requests() {
   const [requestsReceived, setRequestReceived] = useState(1);
   const [requestsSent, setRequestSent] = useState(1);
 
-  function onSelectReceived() {}
+  const [key, setKey] = useState("pending");
 
-  function onSelectSent() {}
+  let state = states.pending;
+  let type = RECEIVED_STRING;
 
-  function onSelectedRejected() {}
+  const { data: pendingR, isSuccess: pendingRSucc } = useListRentProposals({
+    userId: 26,
+    type: RECEIVED_STRING,
+    state: states.pending,
+  });
 
-  function onSelectedAccepted() {}
-  function onSelectedPending() {}
+  const { data: acceptedR, isSuccess: acceptedRSucc } = useListRentProposals({
+    userId: 26,
+    type: RECEIVED_STRING,
+    state: states.accepted,
+  });
 
-  let {
-    data: requests,
-    isLoading,
-    isSuccess,
-  } = useListRentProposals({ userId: 26, type: "received", state: 1 });
+  const { data: declinedR, isSuccess: declinedRSucc } = useListRentProposals({
+    userId: 26,
+    type: RECEIVED_STRING,
+    state: states.declined,
+  });
+
+  function onSelectReceived() {
+    type = RECEIVED_STRING;
+  }
+
+  function onSelectSent() {
+    type = SENT_STRING;
+  }
+
+  //   function onSelectedDeclined() {
+  //     state = states.declined;
+  //   }
+
+  //   function onSelectedAccepted() {
+  //     state = states.accepted;
+  //   }
+  //   function onSelectedPending() {
+  //     state = states.pending;
+  //   }
 
   return (
-    <>
-      {isSuccess && requests && (
-        <Container className="min-height">
-          <div className="row align-items-start justify-content-center mb-2 g-2">
-            <div className="col-md-3 col-lg-3 col-12 ">
-              <Card className="card-style ">
-                <Card.Body>
-                  <h4>{strings.collection.requests.title}</h4>
-                  <hr />
-                  <Tab.Container
-                    id="left-tabs-example"
-                    defaultActiveKey="first"
-                  >
-                    <Nav variant="pills" className="flex-column">
-                      <Nav.Item>
-                        <Nav.Link
-                          className="request-pill w-100 text-start"
-                          eventKey="first"
-                          onClick={onSelectReceived}
-                        >
-                          <p className="my-1">
-                            {strings.collection.requests.sentTitle}
-                          </p>
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="second"
-                          className="request-pill w-100 text-start"
-                          onClick={onSelectSent}
-                        >
-                          <p className="my-1">
-                            {strings.collection.requests.receivedTitle}
-                          </p>
-                        </Nav.Link>
-                      </Nav.Item>
-                    </Nav>
-                  </Tab.Container>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col-md-9 col-lg-9 col-12 ">
-              <Card className="card-style min-height">
-                <Row className="cols-3 g-1 justify-content-between mb-1">
-                  <Col>
-                    <button
-                      className="w-100 btn bg-color-secondary btn-dark  color-grey"
-                      onClick={onSelectedPending}
+    <Container className="min-height">
+      <div className="row align-items-start justify-content-center mb-2 g-2">
+        <div className="col-md-3 col-lg-3 col-12 ">
+          <Card className="card-style ">
+            <Card.Body>
+              <h4>{strings.collection.requests.title}</h4>
+              <hr />
+              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Nav variant="pills" className="flex-column">
+                  <Nav.Item>
+                    <Nav.Link
+                      className="request-pill w-100 text-start"
+                      eventKey="first"
+                      onClick={onSelectReceived}
                     >
-                      {strings.collection.requests.pendingTitle}
-                    </button>
-                  </Col>
-                  <Col>
-                    <button
-                      className="w-100 btn bg-color-action color-grey"
-                      onClick={onSelectedAccepted}
+                      <p className="my-1">
+                        {strings.collection.requests.sentTitle}
+                      </p>
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link
+                      eventKey="second"
+                      className="request-pill w-100 text-start"
+                      onClick={onSelectSent}
                     >
-                      {strings.collection.requests.acceptedTitle}
-                    </button>
-                  </Col>
-                  <Col>
-                    <button
-                      className="w-100 btn bg-color-action color-grey"
-                      onClick={onSelectedRejected}
-                    >
-                      {strings.collection.requests.declinedTitle}
-                    </button>
-                  </Col>
-                </Row>
-                <RequestCardList {...requests} />
-              </Card>
-            </div>
-          </div>
-        </Container>
-      )}
-    </>
+                      <p className="my-1">
+                        {strings.collection.requests.receivedTitle}
+                      </p>
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              </Tab.Container>
+            </Card.Body>
+          </Card>
+        </div>
+        <div className="col-md-9 col-lg-9 col-12 ">
+          <Card className="card-style min-height">
+            <Tabs activeKey={key} onSelect={(k) => k != null && setKey(k)}>
+              <Tab
+                eventKey="pending"
+                title={strings.collection.requests.sentTitle}
+              >
+                {pendingRSucc && pendingR && <RequestCardList {...pendingR} />}
+              </Tab>
+              <Tab
+                eventKey="accepted"
+                title={strings.collection.requests.acceptedTitle}
+              >
+                {acceptedRSucc && acceptedR && (
+                  <RequestCardList {...acceptedR} />
+                )}
+              </Tab>
+              <Tab
+                eventKey="declined"
+                title={strings.collection.requests.declinedTitle}
+              >
+                {declinedRSucc && declinedR && (
+                  <RequestCardList {...declinedR} />
+                )}
+              </Tab>
+            </Tabs>
+          </Card>
+        </div>
+      </div>
+    </Container>
   );
 }
