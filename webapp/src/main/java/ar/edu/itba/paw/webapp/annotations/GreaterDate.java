@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
+package ar.edu.itba.paw.webapp.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,15 +7,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = {FutureDateValidator.class})
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FutureDate {
+@Constraint(validatedBy = {GreaterDateValidator.class})
+public @interface GreaterDate {
 
-    String message() default "Date must be after today";
-
+    String message() default "Second date should be greater than first";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
+
+    String baseField();
+
+    String matchField();
 
 }

@@ -1,9 +1,10 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
+import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
-import ar.edu.itba.paw.webapp.forms.annotations.FieldsEquality;
-import ar.edu.itba.paw.webapp.forms.annotations.UserNotExists;
-import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
+import ar.edu.itba.paw.webapp.annotations.FieldsEquality;
+import ar.edu.itba.paw.webapp.annotations.UserNotExists;
+import ar.edu.itba.paw.webapp.annotations.ValidFile;
 import ar.edu.itba.paw.webapp.utils.DtoUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -46,7 +47,7 @@ public class NewUserDTO extends EditUserDTO {
         toReturn.setEmail(DtoUtils.getFromMap(map, "email"));
 
         toReturn.setLocation(DtoUtils.getFromMap(map, "location", list ->
-                list.get(0).getValueAs(Long.class)));
+                Locations.valueOf(list.get(0).getValue())));
 
         toReturn.setIsOwner(DtoUtils.getFromMap(map, "isOwner", (list) ->
                 list.get(0).getValueAs(Boolean.class)));

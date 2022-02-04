@@ -1,9 +1,8 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
+package ar.edu.itba.paw.webapp.annotations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 

@@ -1,8 +1,7 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
+package ar.edu.itba.paw.webapp.annotations;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

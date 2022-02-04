@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
-import ar.edu.itba.paw.webapp.forms.annotations.FutureDate;
-import ar.edu.itba.paw.webapp.forms.annotations.GreaterDate;
-import ar.edu.itba.paw.webapp.forms.annotations.UniqueRentRequest;
+import ar.edu.itba.paw.webapp.annotations.FutureDate;
+import ar.edu.itba.paw.webapp.annotations.GreaterDate;
+import ar.edu.itba.paw.webapp.annotations.UniqueRentRequest;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

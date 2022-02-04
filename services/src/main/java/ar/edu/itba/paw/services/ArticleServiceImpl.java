@@ -32,12 +32,12 @@ public class ArticleServiceImpl implements ArticleService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<Article> get(String name, Long category, Long orderBy, Long user, Long location, Float initPrice, Float endPrice, long page) {
+    public List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice, Float endPrice, long page) {
         OrderOptions orderOp = OrderOptions.LOWER_ARTICLE;
-        if (orderBy != null && orderBy > 0 && orderBy < OrderOptions.values().length)
-            orderOp = OrderOptions.values()[orderBy.intValue()];
+        if (orderBy != null)
+            orderOp = orderBy;
 
-        return this.articleDao.filter(name, category, orderOp, user, location, initPrice, endPrice, page);
+        return this.articleDao.filter(name, category, orderOp, user, location == null ? null : (long) location.ordinal(), initPrice, endPrice, page);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(readOnly = true)
-    public long getMaxPage(String name, Long category, Long userId, Long location, Float initPrice, Float endPrice) {
-        return articleDao.getMaxPage(name, category, userId, location, initPrice, endPrice);
+    public long getMaxPage(String name, Long category, Long userId, Locations location, Float initPrice, Float endPrice) {
+        return articleDao.getMaxPage(name, category, userId, location == null ? null : (long) location.ordinal(), initPrice, endPrice);
     }
 
     @Override

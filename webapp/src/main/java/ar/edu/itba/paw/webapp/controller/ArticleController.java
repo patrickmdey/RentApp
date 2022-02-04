@@ -3,6 +3,8 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.Article;
+import ar.edu.itba.paw.models.Locations;
+import ar.edu.itba.paw.models.OrderOptions;
 import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewArticleDTO;
@@ -42,8 +44,8 @@ public class ArticleController {
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
     public Response list(@QueryParam("name") @DefaultValue("") String name,
-                         @QueryParam("category") Long category,  @QueryParam("orderBy") Long orderBy,
-                         @QueryParam("user") Long user, @QueryParam("location") Long location,
+                         @QueryParam("category") Long category,  @QueryParam("orderBy") OrderOptions orderBy,
+                         @QueryParam("user") Long user, @QueryParam("location") Locations location,
                          @QueryParam("initPrice") Float initPrice,
                          @QueryParam("endPrice") Float endPrice, @QueryParam("page") @DefaultValue("1") long page) {
 

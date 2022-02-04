@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.RequestsGetter;
 import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
@@ -39,10 +40,8 @@ public class RentProposalController {
     @Path("/received")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
-    public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
-                                             Integer userId,
-                                 @NotNull(message = "NotNull.proposals.state") @QueryParam("state")
-                                         Integer state,
+    public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
+                                 @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                                  @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
@@ -51,27 +50,25 @@ public class RentProposalController {
     @Path("/sent")
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
-    public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
-                                         Integer userId,
-                             @NotNull(message = "NotNull.proposals.state") @QueryParam("state")
-                                     Integer state,
+    public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
+                             @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                              @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
-    private Response listProposals(int userId, int state, int page, RequestsGetter getter,
+    private Response listProposals(int userId, RentState state, int page, RequestsGetter getter,
                                    BiFunction<Integer, Integer, Long> maxPageGetter) {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder()
                 .queryParam("user", userId)
                 .queryParam("state", state);
 
-        final List<RentProposalDTO> proposals = getter.get(userId, state, page).stream().
+        final List<RentProposalDTO> proposals = getter.get(userId, state.ordinal(), page).stream().
                 map(proposal -> RentProposalDTO.fromRentProposal(proposal, uriInfo)).collect(Collectors.toList());
 
         if (proposals.isEmpty())
             return Response.noContent().build();
 
-        final Long maxPage = maxPageGetter.apply(userId, state);
+        final Long maxPage = maxPageGetter.apply(userId, state.ordinal());
         return ApiUtils.generateResponseWithLinks(Response.ok
                 (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }

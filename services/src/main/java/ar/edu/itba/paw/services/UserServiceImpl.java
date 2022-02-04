@@ -46,13 +46,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User register(String email, String password, String firstName, String lastName, long location, byte[] img, boolean isOwner, String webpageUrl) {
+    public User register(String email, String password, String firstName, String lastName, Locations location, byte[] img, boolean isOwner, String webpageUrl) {
         String passwordHash = passwordEncoder.encode(password);
         DBImage dbImg = imageService.create(img);
 
         UserType type = isOwner ? UserType.OWNER : UserType.RENTER;
 
-        User user = userDao.register(email, passwordHash, firstName, lastName, Locations.values()[(int) location], dbImg, type);
+        User user = userDao.register(email, passwordHash, firstName, lastName, location, dbImg, type);
         emailService.sendNewUserMail(user, webpageUrl);
 
         return user;
@@ -60,11 +60,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(long id, String firstName, String lastName, long location) {
+    public void update(long id, String firstName, String lastName, Locations location) {
         User user = findById(id).orElseThrow(UserNotFoundException::new);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setLocation(Locations.values()[(int) location]);
+        user.setLocation(location);
     }
 
     @Override

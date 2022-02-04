@@ -10,13 +10,13 @@ public class OrderOptionDTO {
 
     private URI url;
     private String description;
-    private long id;
+    private String id;
 
     public static OrderOptionDTO fromOrderOption(OrderOptions option, UriInfo uri, MessageSource messageSource, Locale locale) {
         OrderOptionDTO toReturn = new OrderOptionDTO();
         toReturn.url = uri.getBaseUriBuilder().path("orderOptions").path(String.valueOf(option.ordinal())).build();
         toReturn.description = messageSource.getMessage(option.getDescription(), null, locale);
-        toReturn.id = option.ordinal();
+        toReturn.id = option.name();
         return toReturn;
     }
 
@@ -36,11 +36,11 @@ public class OrderOptionDTO {
         this.description = description;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
