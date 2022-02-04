@@ -1,15 +1,15 @@
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import React from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { strings } from '../i18n/i18n';
+import { setCredentials } from '../features/auth/authSlice';
 
 const logo = require('../images/rentapp-logo.png');
 
-function RenderLoggedInNavBar() {
-	// const name = useAppSelector((state) => "Lucas")
+function RenderLoggedInNavBar(dispatch: Function) {
 	const name = 'lucas';
 
 	return (
@@ -28,11 +28,9 @@ function RenderLoggedInNavBar() {
 				</Link>
 			</NavDropdown.Item>
 
-			<NavDropdown.Item>
-				<Link to='/ASDASDSAD'>
-					<BsBoxArrowInLeft />
-					{strings.collection.header.logout}
-				</Link>
+			<NavDropdown.Item onClick={() => dispatch(setCredentials({ token: null }))}>
+				<BsBoxArrowInLeft />
+				{strings.collection.header.logout}
 			</NavDropdown.Item>
 		</NavDropdown>
 	);
@@ -54,6 +52,7 @@ function RenderLoggedOutNavBar() {
 
 export default function Header() {
 	const isAuthenticated = useAppSelector((state) => state.auth.token != null);
+	const dispatch = useAppDispatch();
 
 	return (
 		<Navbar collapseOnSelect expand='lg' bg='primary' className='mb-2' variant='dark'>
@@ -74,7 +73,7 @@ export default function Header() {
 							<Nav.Link className='active h6'>{strings.collection.header.publishArticle}</Nav.Link>
 						</LinkContainer>
 
-						{isAuthenticated ? RenderLoggedInNavBar() : RenderLoggedOutNavBar()}
+						{isAuthenticated ? RenderLoggedInNavBar(dispatch) : RenderLoggedOutNavBar()}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

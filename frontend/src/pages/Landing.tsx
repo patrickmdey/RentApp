@@ -6,8 +6,8 @@ import { useListArticles } from '../features/api/articles/articlesSlice';
 
 export default function Landing() {
 	// TODO: paremetrize listArticles method, add limit param
-	const { data: bestRated, isSuccess: ratedIsSuccess } = useListArticles({ orderBy: 5 });
-	const { data: mostRented, isSuccess: rentedIsSuccess } = useListArticles({ orderBy: 7 });
+	const { data: bestRated, isSuccess: ratedIsSuccess } = useListArticles({ orderBy: 'HIGHER_RATING' });
+	const { data: mostRented, isSuccess: rentedIsSuccess } = useListArticles({ orderBy: 'HIGHER_TIMES_RENTED' });
 	return (
 		<Container className='d-flex flex-column align-items-center'>
 			<div style={{ width: '100%' }} className='row g-0'>

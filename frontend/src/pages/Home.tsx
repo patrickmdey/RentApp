@@ -9,8 +9,6 @@ import useUserId from '../hooks/useUserId';
 
 function Home() {
 	const [page, setPage] = useState(1);
-	const id = useUserId();
-	console.log(id);
 
 	const { data, pages, error, isLoading } = usePaginatedResponse(
 		useListArticles({
