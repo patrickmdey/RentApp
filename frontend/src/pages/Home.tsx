@@ -5,8 +5,13 @@ import { Col, Container, Row } from 'react-bootstrap';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import PagesList from '../components/PagesList';
 import { useState } from 'react';
+import useUserId from '../hooks/useUserId';
+
 function Home() {
 	const [page, setPage] = useState(1);
+	const id = useUserId();
+	console.log(id);
+
 	const { data, pages, error, isLoading } = usePaginatedResponse(
 		useListArticles({
 			page: page
