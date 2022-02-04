@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.dto.put;
 
-import ar.edu.itba.paw.webapp.forms.annotations.FieldsEquality;
+import ar.edu.itba.paw.webapp.annotations.FieldsEquality;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
