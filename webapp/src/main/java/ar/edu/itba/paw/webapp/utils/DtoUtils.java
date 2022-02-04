@@ -21,7 +21,11 @@ public class DtoUtils {
             return null;
         }
 
-        return getter.apply(list);
+        try {
+            return getter.apply(list);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static String stringGetter(List<FormDataBodyPart> list) {
