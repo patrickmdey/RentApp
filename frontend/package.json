@@ -1,63 +1,66 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
-    "@reduxjs/toolkit": "^1.7.1",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/react-redux": "^7.1.22",
-    "bootstrap": "^5.1.3",
-    "bootstrap-icons": "^1.7.2",
-    "buffer": "^6.0.3",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.1.1",
-    "react-bootstrap-icons": "^1.7.2",
-    "react-dom": "^17.0.2",
-    "react-hook-form": "^7.25.1",
-    "react-icons": "^4.3.1",
-    "react-localization": "^1.0.17",
-    "react-redux": "^7.2.6",
-    "react-router-bootstrap": "^0.26.0",
-    "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.0",
-    "redux-persist": "^6.0.0",
-    "sass": "^1.49.0",
-    "typeface-roboto": "^1.1.13",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@types/react-dom": "^17.0.11",
-    "@types/react-router-bootstrap": "^0.24.5",
-    "i": "^0.3.7",
-    "npm": "^8.3.2"
-  }
+	"name": "frontend",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^1.2.36",
+		"@fortawesome/free-solid-svg-icons": "^5.15.4",
+		"@fortawesome/react-fontawesome": "^0.1.16",
+		"@reduxjs/toolkit": "^1.7.1",
+		"@testing-library/jest-dom": "^5.16.1",
+		"@testing-library/react": "^12.1.2",
+		"@testing-library/user-event": "^13.5.0",
+		"@types/parse-link-header": "^1.0.1",
+		"@types/react-redux": "^7.1.22",
+		"bootstrap": "^5.1.3",
+		"bootstrap-icons": "^1.7.2",
+		"buffer": "^6.0.3",
+		"parse-link-header": "^1.0.0",
+		"react": "^17.0.2",
+		"react-bootstrap": "^2.1.1",
+		"react-bootstrap-icons": "^1.7.2",
+		"react-dom": "^17.0.2",
+		"react-hook-form": "^7.25.1",
+		"react-icons": "^4.3.1",
+		"react-localization": "^1.0.17",
+		"react-redux": "^7.2.6",
+		"react-router-bootstrap": "^0.26.0",
+		"react-router-dom": "^6.2.1",
+		"react-scripts": "5.0.0",
+		"redux-persist": "^6.0.0",
+		"sass": "^1.49.0",
+		"typeface-roboto": "^1.1.13",
+		"url": "^0.11.0",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@types/react-dom": "^17.0.11",
+		"@types/react-router-bootstrap": "^0.24.5",
+		"i": "^0.3.7",
+		"npm": "^8.3.2"
+	}
 }

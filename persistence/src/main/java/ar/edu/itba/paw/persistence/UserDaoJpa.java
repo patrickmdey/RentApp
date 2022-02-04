@@ -9,7 +9,6 @@ import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import ar.edu.itba.paw.models.exceptions.CannotEditUserException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;

@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.utils;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,11 @@ public class DtoUtils {
             return null;
         }
 
-        return getter.apply(list);
+        try {
+            return getter.apply(list);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static String stringGetter(List<FormDataBodyPart> list) {

@@ -12,7 +12,6 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 				let data = new FormData();
 				for (let [key, val] of Object.entries(jsonUser)) data.append(key, val);
 
-				console.log(data);
 				return {
 					url: 'users',
 					method: 'POST',

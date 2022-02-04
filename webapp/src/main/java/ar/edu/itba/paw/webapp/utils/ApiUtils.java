@@ -2,17 +2,14 @@ package ar.edu.itba.paw.webapp.utils;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
-import org.hibernate.validator.HibernateValidator;
-import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
-
-import javax.validation.*;
-import javax.validation.Validation;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
-import java.util.*;
+import java.util.Set;
 
 public class ApiUtils {
 

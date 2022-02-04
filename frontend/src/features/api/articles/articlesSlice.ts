@@ -1,3 +1,4 @@
+import paginatedResponse, { PaginatedData } from '../paginatedResponse';
 import { BaseApiSlice } from '../baseApiSlice';
 import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleParameters } from './types';
 
@@ -7,8 +8,9 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 			query: (url) => url.toString()
 		}),
 
-		listArticles: build.query<Article[], ListArticleParameters>({
-			query: ({ url }) => (url ? url.toString() : 'articles')
+		listArticles: build.query<PaginatedData<Article[]>, ListArticleParameters>({
+			query: ({ page = 1, orderBy = 1 }) => `articles?page=${page}&orderBy=${orderBy}`,
+			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta)
 		}),
 
 		createArticle: build.mutation<Article, CreateArticleParameters>({

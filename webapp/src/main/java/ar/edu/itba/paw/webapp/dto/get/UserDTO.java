@@ -1,25 +1,14 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.User;
-import ar.edu.itba.paw.webapp.forms.annotations.FieldsEquality;
-import ar.edu.itba.paw.webapp.forms.annotations.UserNotExists;
-import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 
 public class UserDTO {
-
     private String firstName;
     private String lastName;
     private String email;
     private long id;
-
     private boolean isOwner;
 
     private Long pendingRequestAmount;

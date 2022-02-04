@@ -3,7 +3,6 @@ package ar.edu.itba.paw.interfaces.dao;
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.OrderOptions;
-
 import java.util.List;
 import java.util.Optional;
 

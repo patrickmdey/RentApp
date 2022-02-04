@@ -12,7 +12,6 @@ import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -36,7 +35,6 @@ public class ReviewController {
 
     @Context
     private SecurityContext securityContext;
-
 
     @GET
     @Path("/{id}")
