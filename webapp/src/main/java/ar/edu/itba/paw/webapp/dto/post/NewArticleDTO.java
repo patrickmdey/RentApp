@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.webapp.dto.post;
 
 import ar.edu.itba.paw.webapp.dto.put.EditArticleDTO;
-import ar.edu.itba.paw.webapp.forms.annotations.ValidFile;
+import ar.edu.itba.paw.webapp.annotations.ValidFile;
 import ar.edu.itba.paw.webapp.utils.DtoUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;

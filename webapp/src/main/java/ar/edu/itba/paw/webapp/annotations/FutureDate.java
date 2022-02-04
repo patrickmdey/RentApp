@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
+package ar.edu.itba.paw.webapp.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,11 +7,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = {UserNotExistsValidator.class})
+@Constraint(validatedBy = {FutureDateValidator.class})
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UserNotExists {
-    String message() default "An user with that email already exists";
+public @interface FutureDate {
+
+    String message() default "Date must be after today";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
 }

@@ -1,6 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
-
-import org.springframework.web.multipart.MultipartFile;
+package ar.edu.itba.paw.webapp.annotations;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.forms.annotations;
+package ar.edu.itba.paw.webapp.annotations;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,15 +9,19 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {GreaterDateValidator.class})
-public @interface GreaterDate {
+@Constraint(validatedBy = {UniqueRentRequestValidator.class})
+public @interface UniqueRentRequest {
 
-    String message() default "Second date should be greater than first";
+    String message() default "Cant send two requests for the same article and time period";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
-    String baseField();
+    String startDate();
 
-    String matchField();
+    String endDate();
+
+    String articleId();
+
+    String renterId();
 
 }
