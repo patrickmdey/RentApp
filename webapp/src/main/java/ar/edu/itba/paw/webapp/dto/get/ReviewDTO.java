@@ -1,20 +1,14 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Review;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.Size;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
 public class ReviewDTO {
     private int rating;
-
     private String message;
-
     private LocalDate createdAt;
-
     private long id;
 
     private URI url;

@@ -1,7 +1,5 @@
 package ar.edu.itba.paw.models;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 

@@ -1,30 +1,16 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.RentProposal;
-import ar.edu.itba.paw.webapp.forms.annotations.FutureDate;
-import ar.edu.itba.paw.webapp.forms.annotations.GreaterDate;
-import ar.edu.itba.paw.webapp.forms.annotations.UniqueRentRequest;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
-
 public class RentProposalDTO {
-
     private String message;
-
     private int state;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
     private long id;
-
     private boolean seen;
 
     private URI url;
@@ -117,6 +103,4 @@ public class RentProposalDTO {
     public void setUrl(URI url) {
         this.url = url;
     }
-
-
 }

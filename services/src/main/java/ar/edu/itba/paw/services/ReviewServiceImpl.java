@@ -8,12 +8,12 @@ import ar.edu.itba.paw.models.exceptions.ReviewNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
+
     @Autowired
     private ReviewDao reviewDao;
 
@@ -57,5 +57,4 @@ public class ReviewServiceImpl implements ReviewService {
         review.setRating(rating);
         review.setMessage(message);
     }
-
 }

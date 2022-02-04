@@ -1,4 +1,4 @@
-import {LocalizedStringsMethods} from 'react-localization'
+import { LocalizedStringsMethods } from 'react-localization'
 
 interface HeaderStrings {
     requests: string,
@@ -145,6 +145,39 @@ export interface RequestCardString {
     rejectText: string
 }
 
+export interface RequestsString {
+    title: string,
+    sentTitle: string,
+    receivedTitle: string,
+    pendingTitle: string,
+    acceptedTitle: string,
+    declinedTitle: string,
+    accept: string,
+    decline: string,
+    message: string,
+    startDate: string,
+    endDate: string,
+    name: string,
+    declineTitle: string,
+    declineWarning: string,
+    received: {
+        noPendingTitle: string,
+        noPendingSubtitle: string,
+        noAcceptedTitle: string,
+        noAcceptedSubtitle: string,
+        noDeclinedTitle: string,
+        noDeclinedSubtitle: string,
+    },
+    sent: {
+        noPendingTitle: string,
+        noPendingSubtitle: string,
+        noAcceptedTitle: string,
+        noAcceptedSubtitle: string,
+        noDeclinedTitle: string,
+        noDeclinedSubtitle: string,
+    }
+}
+
 
 export interface StringCollection {
     header: HeaderStrings,
@@ -156,7 +189,8 @@ export interface StringCollection {
     categories: CategoriesString,
     landing: LandingString,
     register: RegisterString,
-    requestCard: RequestCardString
+    requestCard: RequestCardString,
+    requests: RequestsString
 }
 
 

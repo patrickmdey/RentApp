@@ -16,9 +16,7 @@ public class NewRentProposalDTO {
     @NotNull
     @NotEmpty(message = "NotEmpty.rentForm.startDate")
     @FutureDate(message = "FutureDate.rentForm.startDate")
-    private LocalDate startDate; //TODO chequeo que así funciona, podemos usar:
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    //@JsonFormat(pattern = "MM/dd/yyyy")
+    private LocalDate startDate;
 
     @NotNull
     @NotEmpty(message = "NotEmpty.rentForm.endDate")

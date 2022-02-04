@@ -93,7 +93,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             Authentication authenticate = authenticationManager.authenticate(authentication);
             
-            UserDetails user = (UserDetails) authenticate.getPrincipal(); //TODO chequeos
+            UserDetails user = (UserDetails) authenticate.getPrincipal();
             User fullUser = userService.findByEmail(user.getUsername()).orElse(null);
             if (fullUser == null)
                 return;

@@ -1,4 +1,4 @@
-import {StringCollection} from '../../types'
+import { StringCollection } from '../../types'
 
 let esCollection: StringCollection = {
     header: {
@@ -134,9 +134,42 @@ let esCollection: StringCollection = {
         name: "Nombre: {0} {1}",
         rejectTitle: "Rechazar solicitud",
         rejectText: "¿Estás seguro de que quieres rechazar esta solicitud?"
+    },
+
+    requests: {
+        title: "Mis Solicitudes",
+        sentTitle: "Enviadas",
+        receivedTitle: "Recibidas",
+        pendingTitle: "Pendientes",
+        acceptedTitle: "Aceptadas",
+        declinedTitle: "Rechazadas",
+        accept: "Aceptar",
+        decline: "Rechazar",
+        message: "Mensaje",
+        startDate: "Fecha de inicio",
+        endDate: "Fecha de finalización",
+        name: "Nombre",
+        declineTitle: "Rechazar solicitud",
+        declineWarning: "¿Estás seguro de que quieres rechazar esta solicitud?",
+        received: {
+            noPendingTitle: "No tienes solicitudes pendientes",
+            noPendingSubtitle: "¿Ya intentaste publicar un artículo?",
+            noAcceptedTitle: "No has aceptado ninguna solicitud",
+            noAcceptedSubtitle: "Aquí aparecerán las solicitudes que aceptaste",
+            noDeclinedTitle: "No has rechazado ninguna solicitud",
+            noDeclinedSubtitle: "Aquí aparecerán las solicitudes que rechazaste"
+        },
+        sent: {
+            noPendingTitle: "No has enviado ninguna solicitud",
+            noPendingSubtitle: "¿Ya intentaste alquilar un artículo?",
+            noAcceptedTitle: "No han aceptado ninguna de tus solicitudes",
+            noAcceptedSubtitle: "Aquí aparecerán las solicitudes que te aceptaron",
+            noDeclinedTitle: "No han rechazado ninguna de tus solicitudes",
+            noDeclinedSubtitle: "Aquí aparecerán las solicitudes que te rechazaron"
+        }
     }
 
 }
 
 
-export {esCollection}
+export { esCollection }

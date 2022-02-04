@@ -15,7 +15,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import javax.persistence.EntityManagerFactory;
@@ -85,9 +84,7 @@ public class WebConfig {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
         messageSource.setBasename("classpath:i18n/messages");
-
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
-
         messageSource.setCacheSeconds(5);
 
         return messageSource;

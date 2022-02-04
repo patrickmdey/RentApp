@@ -8,7 +8,6 @@ import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CannotCreateReviewException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;

@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Category;
-import org.glassfish.jersey.server.ContainerRequest;
 import org.springframework.context.MessageSource;
-
-import javax.inject.Inject;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.Locale;

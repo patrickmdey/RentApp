@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -28,7 +27,6 @@ public class PawUserDetailService implements UserDetailsService {
 
         final Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-
         if (user.getType() == UserType.OWNER)
             authorities.add(new SimpleGrantedAuthority("OWNER"));
 
@@ -37,6 +35,4 @@ public class PawUserDetailService implements UserDetailsService {
 
         return new User(email, user.getPassword(), authorities);
     }
-
-
 }

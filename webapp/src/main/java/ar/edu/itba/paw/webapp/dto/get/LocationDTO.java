@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Locations;
-
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 

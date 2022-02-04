@@ -1,11 +1,11 @@
 export interface User {
-    firstName: String;
-    lastName: String;
-    email: String;
+    firstName: string;
+    lastName: string;
+    email: string;
     isOwner: Boolean;
-    pendingRequestAmount: Number;
-    acceptedRequestAmount: Number;
-    declinedRequestAmount: Number;
+    pendingRequestAmount: number;
+    acceptedRequestAmount: number;
+    declinedRequestAmount: number;
     url: URL;
     imageUrl: URL;
     locationUrl: URL;
@@ -24,8 +24,8 @@ export interface CreateUserParameters {
 }
 
 export interface UpdateUserParameters {
-    firstName: String;
-    lastName: String;
-    location: Number;
+    firstName: string;
+    lastName: string;
+    location: number;
     url: URL;
 }

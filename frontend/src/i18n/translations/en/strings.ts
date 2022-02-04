@@ -1,4 +1,4 @@
-import {StringCollection} from '../../types'
+import { StringCollection } from '../../types'
 
 let enCollection: StringCollection = {
     header: {
@@ -135,9 +135,42 @@ let enCollection: StringCollection = {
         name: "Name: {0} {1}",
         rejectTitle: "Reject request",
         rejectText: "Are you sure you want to reject this request?"
+    },
+
+    requests: {
+        title: "My Requests",
+        sentTitle: "Sent",
+        receivedTitle: "Received",
+        pendingTitle: "Pending",
+        acceptedTitle: "Accepted",
+        declinedTitle: "Declined",
+        accept: "Accept",
+        decline: "Decline",
+        message: "Message",
+        startDate: "Start Date",
+        endDate: "End Date",
+        name: "Name",
+        declineTitle: "Decline Request",
+        declineWarning: "Are you sure you want to reject this request?",
+        received: {
+            noPendingTitle: "You don't have pending requests",
+            noPendingSubtitle: "Have you tried publishing an article?",
+            noAcceptedTitle: "Here you'll see the requests that you have accepted",
+            noAcceptedSubtitle: "You haven't accepted any requests yet",
+            noDeclinedTitle: "You haven't rejected any requests yet",
+            noDeclinedSubtitle: "Here you'll see the requests that you have rejected"
+        },
+        sent: {
+            noPendingTitle: "You haven't sent any request yet",
+            noPendingSubtitle: "Have you tried renting an article ?",
+            noAcceptedTitle: "None of your requests has been accepted",
+            noAcceptedSubtitle: "Here you'll see the requests that you have got accepted",
+            noDeclinedTitle: "None of your requests has been declined",
+            noDeclinedSubtitle: "Here you'll see the requests that you have got rejected"
+        }
     }
 
 }
 
 
-export {enCollection}
+export { enCollection }

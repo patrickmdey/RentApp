@@ -1,14 +1,12 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Article;
-
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 public class ArticleDTO {
 
     private String title;
-
     private String description;
     private float pricePerDay;
     private long timesRented;
