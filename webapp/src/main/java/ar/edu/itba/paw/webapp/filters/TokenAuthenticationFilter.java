@@ -78,6 +78,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    // TODO: maybe separate into different filter
     private void tryBasicAuthentication(String header, HttpServletRequest request, HttpServletResponse response) {
         String encodedCredentials = header.split(" ")[1];
         try {
