@@ -1,18 +1,9 @@
-import PendingRequests from "../components/Requests/PendingRequests";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Nav,
-  Row,
-  Tab,
-  Tabs,
-} from "react-bootstrap";
+import { Card, Container, Nav, Tab, Tabs } from "react-bootstrap";
 import { useState } from "react";
 import { strings } from "../i18n/i18n";
 import { useListRentProposals } from "../features/api/rentProposals/rentProposalsSlice";
 import RequestCardList from "../components/Requests/RequestCardList";
+import useUserId from "../hooks/useUserId";
 
 const RECEIVED_STRING = "received";
 const SENT_STRING = "sent";
@@ -27,47 +18,31 @@ export default function Requests() {
   const [requestsReceived, setRequestReceived] = useState(1);
   const [requestsSent, setRequestSent] = useState(1);
 
+  const id = useUserId();
+
   const [key, setKey] = useState("pending");
 
-  let state = states.pending;
-  let type = RECEIVED_STRING;
-
   const { data: pendingR, isSuccess: pendingRSucc } = useListRentProposals({
-    userId: 26,
+    userId: id,
     type: RECEIVED_STRING,
     state: states.pending,
   });
 
   const { data: acceptedR, isSuccess: acceptedRSucc } = useListRentProposals({
-    userId: 26,
+    userId: id,
     type: RECEIVED_STRING,
     state: states.accepted,
   });
 
   const { data: declinedR, isSuccess: declinedRSucc } = useListRentProposals({
-    userId: 26,
+    userId: id,
     type: RECEIVED_STRING,
     state: states.declined,
   });
 
-  function onSelectReceived() {
-    type = RECEIVED_STRING;
-  }
+  function onSelectReceived() {}
 
-  function onSelectSent() {
-    type = SENT_STRING;
-  }
-
-  //   function onSelectedDeclined() {
-  //     state = states.declined;
-  //   }
-
-  //   function onSelectedAccepted() {
-  //     state = states.accepted;
-  //   }
-  //   function onSelectedPending() {
-  //     state = states.pending;
-  //   }
+  function onSelectSent() {}
 
   return (
     <Container className="min-height">

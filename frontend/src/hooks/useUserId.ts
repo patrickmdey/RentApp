@@ -6,13 +6,13 @@ export default function useUserId() {
 	if (token == null) return null;
 
 	const info = token.split('.');
-	if (info.length != 3) return null;
+	if (info.length !== 3) return null;
 
 	const json = JSON.parse(Buffer.from(info[1], 'base64').toString());
 	if (json == null || json.sub == null) return null;
 
 	const parts = json.sub.split(',');
-	if (parts.length != 2) return null;
+	if (parts.length !== 2) return null;
 
 	return parts[1];
 }
