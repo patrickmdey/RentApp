@@ -13,7 +13,7 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 		}),
 
 		listProposals: build.query<RentProposal[], ListRentProposalsParameters>({
-			query: ({ userId, page }) => `reviews?toUser=${userId}${page != null ? `&page=${page}` : ''}`
+			query: ({ userId, page, type, state }) => `proposals/${type}?user=${userId}&state=${state}${page != null ? `&page=${page}` : ''}`
 		}),
 
 		createProposal: build.mutation<RentProposal, CreateRentProposalParameters>({

@@ -15,8 +15,10 @@ export interface RentProposal {
 
 export interface ListRentProposalsParameters {
 	// TODO: ver como se divide en enviadas y recibidas
-	userId: Number; // TODO: esto tambien seria parte del token
-	page?: Number;
+	userId: number; // TODO: esto tambien seria parte del token
+	page?: number;
+	type?: string;
+	state?: number;
 }
 
 export interface CreateRentProposalParameters {
