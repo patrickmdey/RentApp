@@ -10,7 +10,6 @@ import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -42,7 +41,7 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
                                              Integer userId,
-                                 @NotNull(message = "NotNull.listProposals.state") @QueryParam("state")
+                                 @NotNull(message = "NotNull.proposals.state") @QueryParam("state")
                                          Integer state,
                                  @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
@@ -54,7 +53,7 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user")
                                          Integer userId,
-                             @NotNull(message = "NotNull.listProposals.state") @QueryParam("state")
+                             @NotNull(message = "NotNull.proposals.state") @QueryParam("state")
                                      Integer state,
                              @QueryParam("page") @DefaultValue("1") int page) {
         return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
@@ -94,7 +93,7 @@ public class RentProposalController {
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
-    public Response modify(@PathParam("id") long id, @NotNull(message = "NotNull.listProposals.state") //TODO cambiar nombre
+    public Response modify(@PathParam("id") long id, @NotNull(message = "NotNull.proposals.state")
             Integer state) {
         rs.setRequestState(id, state, uriInfo.getAbsolutePath().toString());
         return Response.ok().build();

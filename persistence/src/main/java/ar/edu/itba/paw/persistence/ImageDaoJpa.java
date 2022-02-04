@@ -4,7 +4,6 @@ import ar.edu.itba.paw.interfaces.dao.ImageDao;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.exceptions.CannotCreateImageException;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import java.util.Optional;
 public class ImageDaoJpa implements ImageDao {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Override
     public Optional<DBImage> findById(long id) {

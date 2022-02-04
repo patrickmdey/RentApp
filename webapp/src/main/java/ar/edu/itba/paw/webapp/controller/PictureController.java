@@ -1,10 +1,7 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.ImageService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.DBImage;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.ImageNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.PictureDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
@@ -23,9 +20,6 @@ import java.util.stream.Collectors;
 public class PictureController {
 
     @Autowired
-    private ArticleService as; //TODO cambiar, esto es una prueba
-
-    @Autowired
     private ImageService is;
 
     @Context
@@ -34,10 +28,7 @@ public class PictureController {
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@QueryParam("fromArticle") int articleId) {
-        // is.findFromArticle(articleId)
-        Article article = as.findById(articleId).orElseThrow(ArticleNotFoundException::new);
-
-        final List<PictureDTO> pictures = article.getImages().stream().
+        final List<PictureDTO> pictures = is.listFromArticle(articleId).stream().
                 map(image -> PictureDTO.fromPicture(image, uriInfo)).collect(Collectors.toList());
 
         if (pictures.isEmpty())

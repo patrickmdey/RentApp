@@ -7,13 +7,12 @@ import ar.edu.itba.paw.interfaces.service.RentService;
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.CannotEditRequestException;
 import ar.edu.itba.paw.models.exceptions.RentProposalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +85,7 @@ public class RentServiceImpl implements RentService {
     public void setRequestState(long requestId, int state, String webpageUrl) {
         RentState rentState = RentState.values()[state];
         if (rentState.getIsPending())
-            return; // TODO: error?
+            throw new CannotEditRequestException();
 
         if (rentState.getIsAccepted())
             acceptRequest(requestId, webpageUrl);

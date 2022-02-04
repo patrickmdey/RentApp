@@ -12,7 +12,6 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
