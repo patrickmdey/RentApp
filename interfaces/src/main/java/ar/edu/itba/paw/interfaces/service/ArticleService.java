@@ -2,11 +2,13 @@ package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Locations;
+import ar.edu.itba.paw.models.OrderOptions;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface ArticleService {
-    List<Article> get(String name, Long category, Long orderBy, Long user, Long location, Float initPrice,
+    List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice,
                       Float endPrice, long page);
 
     Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<byte[]> image, long idOwner);
@@ -17,7 +19,7 @@ public interface ArticleService {
 
     List<Article> rentedArticles(long renterId, long page);
 
-    long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice);
+    long getMaxPage(String name, Long category, Long user, Locations location, Float initPrice, Float endPrice);
 
     long getRentedMaxPage(long renterId);
 

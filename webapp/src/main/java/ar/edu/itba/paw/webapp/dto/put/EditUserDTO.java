@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.webapp.dto.put;
 
+import ar.edu.itba.paw.models.Locations;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,7 +15,7 @@ public class EditUserDTO {
     private String lastName;
 
     @NotNull(message = "NotNull.accountForm.location")
-    private Long location;
+    private Locations location;
 
     public String getFirstName() {
         return firstName;
@@ -32,11 +33,11 @@ public class EditUserDTO {
         this.lastName = lastName;
     }
 
-    public Long getLocation() {
+    public Locations getLocation() {
         return location;
     }
 
-    public void setLocation(Long location) {
+    public void setLocation(Locations location) {
         this.location = location;
     }
 }
