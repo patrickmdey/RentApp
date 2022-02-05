@@ -2,6 +2,7 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.LocationService;
 import ar.edu.itba.paw.models.Locations;
+import ar.edu.itba.paw.models.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,16 @@ public class LocationController {
         if (locations.isEmpty())
             return Response.noContent().build();
 
-        return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {}).build();
+        return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {
+        }).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    public Response findById(@PathParam("id") final int id) {
+        if (id > Locations.values().length - 1)
+            throw new LocationNotFoundException();
+        return Response.ok(LocationDTO.fromLocation(Locations.values()[id], uriInfo)).build();
     }
 }
