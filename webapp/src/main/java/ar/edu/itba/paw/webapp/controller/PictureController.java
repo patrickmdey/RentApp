@@ -40,10 +40,24 @@ public class PictureController {
     @GET
     @Path("/{id}")
     @Produces("image/*")
-    public Response getById(@PathParam("id") long id) {
+    public Response getById(@PathParam("id") long id, @Context Request request) {
         DBImage img = is.findById(id).orElseThrow(ImageNotFoundException::new);
-        return Response.ok(img.getImg()).cacheControl(CacheControl.valueOf("public, max-age=" +
-                ApiUtils.CACHE_MAX_AGE + ", immutable")).expires(Date.from(LocalDate.now().plusYears(1)
-                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())).build();
+
+        // TODO: check if etag is actually correct
+        EntityTag tag = new EntityTag(String.valueOf(id));
+        CacheControl cacheControl = new CacheControl();
+
+        // TODO: set cache control correctly
+
+        Response.ResponseBuilder response = request.evaluatePreconditions(tag);
+        if (response == null)
+            response = Response.ok(img.getImg()).tag(tag.toString());
+
+        return response.cacheControl(cacheControl).build();
+
+        // TODO: maybe change to conditional cache
+//        return Response.ok(img.getImg()).cacheControl(CacheControl.valueOf("public, max-age=" +
+//                ApiUtils.CACHE_MAX_AGE + ", immutable")).expires(Date.from(LocalDate.now().plusYears(1)
+//                .atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())).build();
     }
 }

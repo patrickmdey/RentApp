@@ -38,6 +38,13 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    // TODO: preguntar si armamos esto o si esta bien lo que tenemos
+    // bean UsernamePasswordAuthFilter
+    // create with authenticationManager
+    // setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/authenticate", "POST"))
+
+//    private static readKey() {...
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -48,6 +55,8 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .invalidSessionUrl("/")
+                .and()
+                .headers().cacheControl().disable()
                 .and()
                 .addFilterBefore(
                         tokenAuthenticationFilter,
@@ -69,7 +78,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                         HttpServletResponse.SC_UNAUTHORIZED,
                         ex.getMessage()
                 )).and().csrf().disable();
-
     }
 
     @Override

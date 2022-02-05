@@ -15,7 +15,7 @@ export interface Article {
 
 export interface ListArticleParameters {
 	page?: number;
-	orderBy?: number;
+	orderBy?: string;
 }
 
 export interface CreateArticleParameters {

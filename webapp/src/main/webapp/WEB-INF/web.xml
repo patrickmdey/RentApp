@@ -94,10 +94,19 @@
         <filter-name>openEntityManagerInViewFilter</filter-name>
         <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>openEntityManagerInViewFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>cacheFilter</filter-name>
+        <filter-class>ar.edu.itba.paw.webapp.filters.CacheFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cacheFilter</filter-name>
+        <!-- TODO : set to correct path -->
+        <url-pattern>/resources/*</url-pattern>
     </filter-mapping>
 
     <servlet-mapping>

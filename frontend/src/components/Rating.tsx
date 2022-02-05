@@ -5,18 +5,17 @@ function Rating(props: { rating: Number; timesReviewed: Number }) {
   return (
     <div>
       {rating > 0 && (
-        <div className="d-flex align-items-start mt-2 mb-2">
+        <div className="d-flex align-items-start mb-2">
           <div>
             {[...Array(5)].map((_, idx) => {
               return idx <= rating ? (
-                <StarFill className="mr-1" size="7%" color="red" key={idx} />
-              ) : (
-                <Star
-                  className="mr-1"
-                  size="7%"
-                  color="rentapp-red"
+                <StarFill
+                  className="mr-1 color-rentapp-red"
+                  size="20px"
                   key={idx}
                 />
+              ) : (
+                <Star className="mr-1" size="20px" key={idx} />
               );
             })}
           </div>

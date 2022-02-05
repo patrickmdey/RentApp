@@ -1,7 +1,7 @@
 import { Button, Card, Form, Row, Stack } from 'react-bootstrap';
 import { strings } from '../i18n/i18n';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLogin } from '../features/api/authentication/authenticationSlice';
 import FormInput from './Forms/FormInput';
@@ -21,9 +21,11 @@ export default function LogInComponent() {
 
 	const dispatch = useAppDispatch();
 
-	if (result && result.data) {
-		dispatch(setCredentials({ token: result.data }));
-	}
+	useEffect(() => {
+		if (result && result.data) {
+			dispatch(setCredentials({ token: result.data }));
+		}
+	}, [result]);
 
 	function updatePasswordType() {
 		state.showPassword = !state.showPassword;
@@ -38,7 +40,7 @@ export default function LogInComponent() {
 	});
 
 	function onSubmit(data: LogInForm) {
-		const d = login(data);
+		login(data);
 	}
 
 	return (

@@ -43,6 +43,8 @@ public class UserController {
                 userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
                 uriInfo.getAbsolutePath().toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
+
+        // TODO: Generate token and add Authentication header
         return Response.created(uri).build();
     }
 
@@ -78,6 +80,8 @@ public class UserController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response changePassword(@PathParam("id") final long id, @Valid EditPasswordDTO passwordDTO) {
         us.updatePassword(id, passwordDTO.getPassword());
+
+        // TODO: Generate token and add Authentication header
         return Response.ok().build();
     }
 }
