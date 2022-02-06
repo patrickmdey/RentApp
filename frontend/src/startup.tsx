@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import RouteMapper from "./routeMapper";
 import Footer from "./components/footer";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -10,7 +10,7 @@ export default function Startup() {
   const lang = useAppSelector((state) => state.i18n.lang);
   const token = useAppSelector((state) => state.auth.token);
 
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     strings.setLanguage(lang);

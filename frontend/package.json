@@ -20,6 +20,7 @@
 		"react-bootstrap": "^2.1.1",
 		"react-bootstrap-icons": "^1.7.2",
 		"react-dom": "^17.0.2",
+		"react-helmet": "^6.1.0",
 		"react-hook-form": "^7.25.1",
 		"react-icons": "^4.3.1",
 		"react-localization": "^1.0.17",
@@ -59,6 +60,7 @@
 	},
 	"devDependencies": {
 		"@types/react-dom": "^17.0.11",
+		"@types/react-helmet": "^6.1.5",
 		"@types/react-router-bootstrap": "^0.24.5",
 		"i": "^0.3.7",
 		"npm": "^8.3.2"
