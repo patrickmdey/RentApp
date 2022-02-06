@@ -7,7 +7,7 @@ import PagesList from '../components/PagesList';
 import { useState } from 'react';
 import useUserId from '../hooks/useUserId';
 
-function Home() {
+function Marketplace() {
 	const [page, setPage] = useState(1);
 
 	const { data, pages, error, isLoading } = usePaginatedResponse(
@@ -48,4 +48,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default Marketplace;

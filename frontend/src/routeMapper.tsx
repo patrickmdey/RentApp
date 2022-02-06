@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import Marketplace from "./pages/Marketplace";
 import Article from "./pages/Article";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
@@ -15,7 +15,7 @@ export default function RouteMapper() {
         <Route path="/register" element={<Register />} />
         <Route path="/proposals" element={<Requests />} />
 
-        <Route path="/marketplace" element={<Home />} />
+        <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/" element={<Landing />} />
 
         <Route path="/createArticle" element={<CreateArticle />} />
