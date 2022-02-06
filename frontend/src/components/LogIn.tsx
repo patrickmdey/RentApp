@@ -8,6 +8,7 @@ import FormInput from './Forms/FormInput';
 import FormCheckbox from './Forms/FormCheckbox';
 import { useAppDispatch } from '../hooks';
 import { setCredentials } from '../features/auth/authSlice';
+import { useNavigate } from 'react-router';
 
 interface LogInForm {
 	email: string;
@@ -17,15 +18,11 @@ interface LogInForm {
 
 export default function LogInComponent() {
 	const [state, setState] = useState({ showPassword: false });
-	const [login, result] = useLogin();
+	const [isLoginError, setIsLoginError] = useState(false);
 
+	const [login] = useLogin();
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		if (result && result.data) {
-			dispatch(setCredentials({ token: result.data }));
-		}
-	}, [result]);
 
 	function updatePasswordType() {
 		state.showPassword = !state.showPassword;
@@ -39,14 +36,27 @@ export default function LogInComponent() {
 		defaultValues: { email: '', password: '' }
 	});
 
-	function onSubmit(data: LogInForm) {
-		login(data);
+	function useOnSubmit(data: LogInForm) {
+		const rememberMe = data.rememberMe;
+		login({
+			...data,
+			callback: (token: string | null) => {
+				if (token == null) {
+					setIsLoginError(true);
+					return;
+				}
+
+				setIsLoginError(false);
+				navigate(-1);
+				dispatch(setCredentials({ token, rememberMe }));
+			}
+		});
 	}
 
 	return (
 		<Card className='shadow card-style create-card mx-3'>
 			<Card.Body className='form-container'>
-				<Form onSubmit={handleSubmit(onSubmit)}>
+				<Form onSubmit={handleSubmit(useOnSubmit)}>
 					<h3 className='fw-bold my-1'>{strings.collection.login.title}</h3>
 					<hr />
 					<Row xs={1} className='g-2'>
@@ -75,6 +85,7 @@ export default function LogInComponent() {
 							label={strings.collection.login.rememberMe}
 							name='rememberMe'
 						/>
+						{isLoginError && <p className='text-danger'>{strings.collection.login.errors.loginFail}</p>}
 						<Stack direction='vertical'>
 							<Button type='submit' className='btn-block bg-color-action btn-dark mt-3 mb-2'>
 								{strings.collection.login.loginButton}
