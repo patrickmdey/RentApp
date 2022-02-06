@@ -59,7 +59,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void tryBearerAuthentication(String header, HttpServletRequest request) {
+    private void tryBearerAuthentication(String header, HttpServletRequest request) throws IOException {
+        //TODO manejo de excepcion
         // Get jwt token and validate
         final String token = header.split(" ")[1].trim();
         if (!JwtTokenUtil.validate(token))
@@ -105,9 +106,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (BadCredentialsException | IllegalArgumentException ignored) {
+        } catch (BadCredentialsException | IllegalArgumentException | IOException ignored) {
 
         } // TODO ver de informar que no se mandó bien el token base64
+
 
     }
 
