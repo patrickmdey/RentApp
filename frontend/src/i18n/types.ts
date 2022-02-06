@@ -19,6 +19,17 @@ interface FooterStrings {
     language: string
 }
 
+interface PageTitlesString {
+    login: string,
+    marketplace: string,
+    editProfile: string,
+    createArticle: string,
+    editArticle: string,
+    myProfile: string,
+    register: string,
+    rentapp: string,
+}
+
 interface FilterStrings {
     title: string,
     name: string,
@@ -190,7 +201,8 @@ export interface StringCollection {
     landing: LandingString,
     register: RegisterString,
     requestCard: RequestCardString,
-    requests: RequestsString
+    requests: RequestsString,
+    pageTitles: PageTitlesString,
 }
 
 

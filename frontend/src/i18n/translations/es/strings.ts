@@ -10,6 +10,16 @@ let esCollection: StringCollection = {
         marketplace: "Explorar",
         publishArticle: "Publicar artículo",
     },
+    pageTitles: {
+        login: "Iniciar sesión",
+        marketplace: "Marketplace",
+        editProfile: "Editar Perfil",
+        createArticle: "Publicar Artículo",
+        editArticle: "Editar Publicación",
+        myProfile: "Mi perfil",
+        register: "Registro",
+        rentapp: "RentApp",
+    },
     footer: {
         team: "Equipo",
         contact: "Contacto",
