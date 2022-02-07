@@ -5,10 +5,10 @@ import { useListRentProposals } from "../features/api/rentProposals/rentProposal
 import RequestCardList from "../components/Requests/RequestCardList";
 import useUserId from "../hooks/useUserId";
 
-const RECEIVED_STRING = "received";
-const SENT_STRING = "sent";
+export const RECEIVED_STRING = "received";
+export const SENT_STRING = "sent";
 
-enum states {
+export enum states {
   pending = 0,
   accepted,
   declined,
