@@ -14,5 +14,5 @@ export default function useUserId() {
 	const parts = json.sub.split(',');
 	if (parts.length !== 2) return null;
 
-	return parts[1];
+	return parseInt(parts[1]);
 }

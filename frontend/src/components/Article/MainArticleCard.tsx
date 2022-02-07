@@ -13,7 +13,6 @@ import { useState } from "react";
 function setActiveImage(src: string) {
   const htmlImg = document.getElementById("main-img");
   if (htmlImg === null) {
-    console.log("NO HICE NA");
     return;
   }
   htmlImg.setAttribute("src", src);
@@ -24,8 +23,9 @@ function MainArticleCard(props: {
   categories: Category[] | undefined;
   reviews: Review[] | undefined;
   location: Location | undefined;
+  isOwner: boolean | undefined;
 }) {
-  const { article, categories, reviews, location } = props;
+  const { article, categories, reviews, location, isOwner } = props;
   const { data: articleImages, isSuccess } = useListImages(article.imagesUrl);
 
   const [show, setShow] = useState(false);
@@ -109,10 +109,15 @@ function MainArticleCard(props: {
             <h3 className="mt-n1 fw-bold h3 color-rentapp-red">
               ${article.pricePerDay}
             </h3>
+            {}
             <Row className="my-3">
-              <Button onClick={handleShow}>
-                {strings.collection.article.rent}
-              </Button>
+              {isOwner ? (
+                <Button>{strings.collection.article.edit}</Button>
+              ) : (
+                <Button onClick={handleShow}>
+                  {strings.collection.article.rent}
+                </Button>
+              )}
             </Row>
           </Col>
           <Col md={1} lg={1} />

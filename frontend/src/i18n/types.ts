@@ -63,6 +63,7 @@ interface ArticleStrings {
 	ownerCardTitle: string;
 	descriptionTitle: string;
 	rent: string;
+	edit: string;
 	noArticles: string;
 	timesRented: string;
 	createArticle: {
