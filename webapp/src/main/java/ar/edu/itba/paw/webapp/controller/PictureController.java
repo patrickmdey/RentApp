@@ -46,15 +46,14 @@ public class PictureController {
         // TODO: check if etag is actually correct
         EntityTag tag = new EntityTag(String.valueOf(id));
         CacheControl cacheControl = new CacheControl();
-
-        // TODO: set cache control correctly
+        cacheControl.setNoTransform(true);
+        cacheControl.setMustRevalidate(true);
 
         Response.ResponseBuilder response = request.evaluatePreconditions(tag);
         if (response == null)
-            response = Response.ok(img.getImg()).tag(tag.toString());
+            response = Response.ok(img.getImg()).tag(tag);
 
         return response.cacheControl(cacheControl).build();
-
         // TODO: maybe change to conditional cache
 //        return Response.ok(img.getImg()).cacheControl(CacheControl.valueOf("public, max-age=" +
 //                ApiUtils.CACHE_MAX_AGE + ", immutable")).expires(Date.from(LocalDate.now().plusYears(1)
