@@ -96,15 +96,28 @@ function Article() {
     [reviewsData, articleData, loggedUserUrl]
   );
 
+  const [isOwner, setIsOwner] = useState(false);
+  useEffect(
+    () =>
+      setIsOwner(
+        ownerIsSuccess &&
+          ownerData !== undefined &&
+          ownerData.id === loggedUserId
+      ),
+    [ownerData, ownerIsSuccess, loggedUserId]
+  );
+
   return (
     <>
-      {articleIsSuccess && articleData && (
+      {articleIsSuccess && articleData && ownerIsSuccess && ownerData && (
         <>
           <Helmet>
             <title>{articleData.title}</title>
           </Helmet>
           <Container className="min-height">
-            <h3>{loggedUserUrl}</h3>
+            <h3>
+              {ownerIsSuccess.toString()} {ownerData.id} {loggedUserId}
+            </h3>
             <h3 color="orange">hasRented: {hasRented.toString()}</h3>
             <h3 color="blue">hasReviewed: {hasReviewed.toString()}</h3>
 
@@ -113,6 +126,7 @@ function Article() {
               categories={categoriesData}
               reviews={reviewsData}
               location={locationData}
+              isOwner={isOwner}
             />
             <Row className="w-100 g-0 justify-content-between">
               <Col md={8} className="pe-md-3 pe-0">
