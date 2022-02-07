@@ -6,45 +6,43 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
-
 import java.io.IOException;
-import java.security.Key;
-import java.time.LocalDate;
+import java.util.Date;
 
+@Component
 public class JwtTokenUtil {
-//    TODO: use this instead
-//    @Value("classpath:secret")
-//    private Resource key;
+    private static final Resource secretKey = new ClassPathResource("secret");
 
+    private static final int EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
 
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);;
-
-    private static byte[] readKey(Resource resource) throws IOException {
-        return StreamUtils.copyToByteArray(resource.getInputStream());
+    private static byte[] readKey() throws IOException {
+        return StreamUtils.copyToByteArray(secretKey.getInputStream());
     }
 
     public static boolean validate(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(readKey())).build().parseClaimsJws(token);
             return true;
-        } catch (JwtException e) {
+        } catch (JwtException | IOException e) {
             return false;
         }
     }
 
-    public static String getUsername(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+    public static String getUsername(String token) throws IOException {
+        Claims claims = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(readKey())).build()
+                .parseClaimsJws(token).getBody();
         String subject = claims.getSubject();
         return subject.split(",")[0];
     }
 
-    public static String generateAccessToken(User user) {
-        // TODO: add duration
-        // new LocalDate().plusDays(7)
-        // signWith(SignatureAlgorithm.HS512, readKey(key))
-        return Jwts.builder().setSubject(user.getEmail() + "," + user.getId()).signWith(SECRET_KEY).compact();
+    public static String generateAccessToken(User user) throws IOException {
+        return Jwts.builder().setSubject(user.getEmail() + "," + user.getId())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(Keys.hmacShaKeyFor(readKey()), SignatureAlgorithm.HS256)
+                .compact();
     }
 }

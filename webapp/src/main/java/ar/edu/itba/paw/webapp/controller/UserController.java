@@ -2,7 +2,9 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.models.exceptions.CannotCreateUserException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
+import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.io.IOException;
 import java.net.URI;
 
 @Path("users")
@@ -44,8 +47,9 @@ public class UserController {
                 uriInfo.getAbsolutePath().toString());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
 
-        // TODO: Generate token and add Authentication header
-        return Response.created(uri).build();
+        Response.ResponseBuilder responseBuilder = Response.created(uri);
+        addJwtToken(responseBuilder, user);
+        return responseBuilder.build();
     }
 
     @GET
@@ -81,7 +85,18 @@ public class UserController {
     public Response changePassword(@PathParam("id") final long id, @Valid EditPasswordDTO passwordDTO) {
         us.updatePassword(id, passwordDTO.getPassword());
 
-        // TODO: Generate token and add Authentication header
-        return Response.ok().build();
+        User user = us.findById(id).orElseThrow(UserNotFoundException::new);
+        Response.ResponseBuilder responseBuilder = Response.ok();
+        addJwtToken(responseBuilder, user);
+
+        return responseBuilder.build();
+    }
+
+    private void addJwtToken(Response.ResponseBuilder builder, User user){
+        try {
+            builder.header("Authorization", "Bearer "
+                    + JwtTokenUtil.generateAccessToken(user));
+        } catch (IOException ignored){ //TODO capaz pasar el JWTUtil a un bean
+        }
     }
 }
