@@ -59,6 +59,7 @@ let esCollection: StringCollection = {
 		ownerCardTitle: "Dueño",
 		descriptionTitle: "Descripción",
 		rent: "Alquilar",
+		edit: "Editar",
 		noArticles: "Todavía no hay artículos",
 		timesRented: "alquileres",
 		createArticle: {
