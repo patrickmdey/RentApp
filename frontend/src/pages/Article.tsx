@@ -46,13 +46,13 @@ function Article() {
     ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken
   );
 
-  console.log("PASE POR ACA");
-
   const { data: aProp, isSuccess: aPropSuccess } = useListRentProposals({
     userId: loggedUserId,
     type: SENT_STRING,
     state: states.accepted,
   });
+
+  //TODO: ver si esta funcionando bien la api para buscar las proposals
 
   const [loggedUserUrl, setLoggedUserUrl] = useState("");
   useEffect(
