@@ -12,6 +12,7 @@ import ar.edu.itba.paw.models.exceptions.RentProposalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +40,9 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public List<RentProposal> sentRequests(long ownerId, int state, long page) {
         List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state, page);
-        if (state != RentState.PENDING.ordinal()){
+        if (state != RentState.PENDING.ordinal()) {
             toReturn.forEach(proposal -> {
-                if(!proposal.getSeen()) {
+                if (!proposal.getSeen()) {
                     proposal.setSeen(true);
                     proposal.setMarked(true);
                 } else {
@@ -74,7 +75,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public RentProposal create(String message, LocalDate startDate, LocalDate endDate, long articleId,
                                long renterId, String webpageUrl) {
-        RentProposal proposal = rentDao.create(message, RentState.PENDING.ordinal(), startDate, endDate, articleId, renterId);
+        RentProposal proposal = rentDao.create(message, RentState.PENDING, startDate, endDate, articleId, renterId);
         emailService.sendMailRequest(proposal, proposal.getArticle().getOwner(), webpageUrl);
 
         return proposal;
@@ -97,7 +98,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public void acceptRequest(long requestId, String webpageUrl) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
-        rentProposal.setState(RentState.ACCEPTED.ordinal());
+        rentProposal.setState(RentState.ACCEPTED);
 
         emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
     }
@@ -106,7 +107,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public void rejectRequest(long requestId, String webpageUrl) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
-        rentProposal.setState(RentState.DECLINED.ordinal());
+        rentProposal.setState(RentState.DECLINED);
 
         emailService.sendMailRequestDenied(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
     }

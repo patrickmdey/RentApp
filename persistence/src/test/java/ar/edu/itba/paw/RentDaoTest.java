@@ -45,10 +45,10 @@ public class RentDaoTest {
         final long[] expectedIds = {2, 3};
 
         // Act
-        List<RentProposal> result = rentDao.ownerRequests(idOwner,state,page);
+        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(RentProposal::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(RentProposal::getId).toArray());
     }
 
     @Test
@@ -57,13 +57,13 @@ public class RentDaoTest {
         final long idOwner = 1;
         final int state = RentState.PENDING.ordinal();
         final long page = 1;
-        final long[] expectedIds  = {1};
+        final long[] expectedIds = {1};
 
         // Act
-        List<RentProposal> result = rentDao.ownerRequests(idOwner,state,page);
+        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, page);
 
         // Assert
-        Assert.assertArrayEquals(expectedIds,result.stream().mapToLong(RentProposal::getId).toArray());
+        Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(RentProposal::getId).toArray());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class RentDaoTest {
     public void createSucceed() {
         // Arrange
         final String comment = "";
-        final int state = 1;
+        final RentState state = RentState.ACCEPTED;
         final LocalDate startDate = LocalDate.parse("2021-11-15", DATE_FORMAT);
         final LocalDate endDate = LocalDate.parse("2021-11-16", DATE_FORMAT);
         final long articleId = 1L;
@@ -122,7 +122,7 @@ public class RentDaoTest {
     public void createFailArticleNotFound() {
         // Arrange
         final String comment = "";
-        final Integer state = 1;
+        final RentState state = RentState.ACCEPTED;
 
         final LocalDate startDate = LocalDate.parse("2021-10-05", DATE_FORMAT);
         final LocalDate endDate = LocalDate.parse("2021-11-01", DATE_FORMAT);
@@ -130,7 +130,7 @@ public class RentDaoTest {
         final long renterId = 1;
 
         // Act
-        rentDao.create(comment, state, startDate,endDate, articleId,renterId);
+        rentDao.create(comment, state, startDate, endDate, articleId, renterId);
 
         // Assert
         Assert.fail();
@@ -140,14 +140,14 @@ public class RentDaoTest {
     public void createFailUserNotFound() {
         // Arrange
         final String comment = "";
-        final Integer state = 1;
+        final RentState state = RentState.ACCEPTED;
         final LocalDate startDate = LocalDate.parse("2021-10-05", DATE_FORMAT);
         final LocalDate endDate = LocalDate.parse("2021-11-01", DATE_FORMAT);
         final long articleId = 2;
         final long renterId = 9999;
 
         // Act
-        rentDao.create(comment, state, startDate,endDate, articleId,renterId);
+        rentDao.create(comment, state, startDate, endDate, articleId, renterId);
 
         // Assert
         Assert.fail();
@@ -157,10 +157,10 @@ public class RentDaoTest {
     public void hasRentedSucceedReturnTrue() {
         // Arrange
         final long renterId = 2;
-        final long articleId  = 2;
+        final long articleId = 2;
 
         // Act
-        boolean result = rentDao.hasRented(renterId,articleId);
+        boolean result = rentDao.hasRented(renterId, articleId);
 
         // Assert
         Assert.assertTrue(result);
@@ -170,10 +170,10 @@ public class RentDaoTest {
     public void hasRentedSucceedReturnFalse() {
         // Arrange
         final long renterId = 2;
-        final long articleId  = 1;
+        final long articleId = 1;
 
         // Act
-        boolean result = rentDao.hasRented(renterId,articleId);
+        boolean result = rentDao.hasRented(renterId, articleId);
 
         // Assert
         Assert.assertFalse(result);

@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.interfaces.dao;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,7 @@ public interface RentDao {
 
     boolean hasRented(long renterId, long articleId);
 
-    RentProposal create(String comment, int approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId);
+    RentProposal create(String comment, RentState approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId);
 
     long getReceivedMaxPage(long ownerId, int state);
 

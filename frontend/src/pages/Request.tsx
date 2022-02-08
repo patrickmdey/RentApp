@@ -94,7 +94,7 @@ export default function Requests() {
 				<div className='col-md-9 col-lg-9 col-12 '>
 					<Card className='card-style min-height'>
 						<Tabs activeKey={key} onSelect={(k) => k != null && setKey(k)}>
-							<Tab eventKey='pending' title={strings.collection.requests.sentTitle}>
+							<Tab eventKey='pending' title={strings.collection.requests.pendingTitle}>
 								{pendingRSucc && pendingR && pendingR.length > 0 ? (
 									<RequestCardList {...pendingR} />
 								) : (

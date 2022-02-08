@@ -106,7 +106,7 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public RentProposal create(String comment, int approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId) {
+    public RentProposal create(String comment, RentState approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId) {
         Article article = em.find(Article.class, articleId);
         if (article == null)
             throw new ArticleNotFoundException();
