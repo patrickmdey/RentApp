@@ -96,7 +96,6 @@ let esCollection: StringCollection = {
 		}
 	},
 	review: {
-		noReviews: "Todavía no hay reseñas",
 		reviews: "Reseñas"
 	},
 	categories: {
@@ -178,6 +177,15 @@ let esCollection: StringCollection = {
 			noDeclinedTitle: 'No han rechazado ninguna de tus solicitudes',
 			noDeclinedSubtitle: 'Aquí aparecerán las solicitudes que te rechazaron'
 		}
+	},
+
+	noData: {
+		articleNotFoundTitle: "No hay artículos que coincidan con tu búsqueda",
+		articleNotFoundSubtitle: "Prueba utilizar palabras mas genéricas",
+		noReviews: "Todavía no hay reseñas",
+		noMyProfileArticlesTitle: "Todavía no publicaste ningún artículo",
+		noMyProfileSubtitle: "Puedes hacerlo haciendo click aquí",
+		noMyProfileRentedArticlesTitle: "Todavía no alquilaste ningún artículo"
 	}
 };
 

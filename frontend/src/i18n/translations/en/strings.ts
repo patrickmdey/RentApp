@@ -97,7 +97,6 @@ let enCollection: StringCollection = {
 	},
 
 	review: {
-		noReviews: 'There are no reviews yet',
 		reviews: 'Reviews'
 	},
 	categories: {
@@ -178,8 +177,17 @@ let enCollection: StringCollection = {
 			noAcceptedTitle: 'None of your requests has been accepted',
 			noAcceptedSubtitle: "Here you'll see the requests that you have got accepted",
 			noDeclinedTitle: 'None of your requests has been declined',
-			noDeclinedSubtitle: "Here you'll see the requests that you have got rejected"
+			noDeclinedSubtitle: "Here you'll see the requests that you have got rejected",
 		}
+	},
+
+	noData: {
+		articleNotFoundTitle: "No articles match your search",
+		articleNotFoundSubtitle: "Try using generic words",
+		noReviews: 'There are no reviews yet',
+		noMyProfileArticlesTitle: "You haven't published any article yet",
+		noMyProfileRentedArticlesTitle: "You haven't rented any article yet",
+		noMyProfileSubtitle: "You can do so by clicking here",
 	}
 };
 
