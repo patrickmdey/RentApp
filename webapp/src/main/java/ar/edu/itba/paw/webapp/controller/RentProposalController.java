@@ -11,6 +11,7 @@ import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -70,12 +71,13 @@ public class RentProposalController {
 
         final Long maxPage = maxPageGetter.apply(userId, state.ordinal());
         return ApiUtils.generateResponseWithLinks(Response.ok
-                (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
+                (new GenericEntity<List<RentProposalDTO>>(proposals) {
+                }), page, maxPage, uriBuilder);
     }
 
     @POST
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    @PreAuthorize("isAuthenticated() && " +
+    @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #rentProposalDTO.renterId) && " +
             "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
     public Response createProposal(@Valid final NewRentProposalDTO rentProposalDTO) {
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
