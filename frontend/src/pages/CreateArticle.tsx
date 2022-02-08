@@ -9,7 +9,7 @@ export default function CreateArticle() {
         <title>{strings.collection.pageTitles.createArticle}</title>
       </Helmet>
       <Container style={{ width: "50%" }} className=" min-height">
-        <CreateArticleForm></CreateArticleForm>
+        <CreateArticleForm/>
       </Container>
     </>
   );

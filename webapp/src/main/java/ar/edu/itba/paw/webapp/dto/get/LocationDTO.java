@@ -1,16 +1,16 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.Locations;
+
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 public class LocationDTO {
     private URI url;
-
     private String id;
     private String name;
 
-    public static LocationDTO fromLocation(Locations location, UriInfo uri){
+    public static LocationDTO fromLocation(Locations location, UriInfo uri) {
         LocationDTO toReturn = new LocationDTO();
         toReturn.id = location.name();
         toReturn.url = uri.getBaseUriBuilder().path("locations").path(String.valueOf(toReturn.id)).build();
