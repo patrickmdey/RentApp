@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.webapp.controller;
 
-import ar.edu.itba.paw.interfaces.service.ArticleService;
 import ar.edu.itba.paw.interfaces.service.CategoryService;
 import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.webapp.dto.get.CategoryDTO;
@@ -27,9 +26,6 @@ public class CategoryController {
 
     @Autowired
     private CategoryService cs;
-
-    @Autowired
-    private ArticleService as;
 
     @Autowired
     private MessageSource messageSource;
