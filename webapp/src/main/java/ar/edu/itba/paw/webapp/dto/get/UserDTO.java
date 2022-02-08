@@ -30,7 +30,7 @@ public class UserDTO {
         toReturn.acceptedRequestAmount = user.getAcceptedRequestAmount();
         toReturn.declinedRequestAmount = user.getDeclinedRequestAmount();
         toReturn.imageUrl = uri.getBaseUriBuilder().path("images").path(String.valueOf(user.getPicture().getId())).build();
-        toReturn.locationUrl = uri.getBaseUriBuilder().path("locations").path(String.valueOf(user.getLocation().ordinal())).build();
+        toReturn.locationUrl = uri.getBaseUriBuilder().path("locations").path(user.getLocation().name()).build();
         toReturn.url = uri.getBaseUriBuilder().path("users").path(String.valueOf(user.getId())).build();
         return toReturn;
     }
