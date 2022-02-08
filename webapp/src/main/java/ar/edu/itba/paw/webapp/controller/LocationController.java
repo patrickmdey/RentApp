@@ -7,6 +7,7 @@ import ar.edu.itba.paw.webapp.dto.get.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Max;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.Arrays;
@@ -39,9 +40,17 @@ public class LocationController {
     @GET
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON})
-    public Response findById(@PathParam("id") final int id) {
-        if (id > Locations.values().length - 1)
-            throw new LocationNotFoundException();
-        return Response.ok(LocationDTO.fromLocation(Locations.values()[id], uriInfo)).build();
+    public Response findById(@PathParam("id") final Locations id, @Context Request request) {
+        // TODO: check if etag is actually correct
+        EntityTag tag = new EntityTag(id.toString());
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setNoTransform(true);
+        cacheControl.setMustRevalidate(true);
+
+        Response.ResponseBuilder response = request.evaluatePreconditions(tag);
+        if (response == null)
+            response = Response.ok(LocationDTO.fromLocation(id, uriInfo)).tag(tag);
+
+        return response.cacheControl(cacheControl).build();
     }
 }
