@@ -14,19 +14,18 @@ export interface RentProposal {
 }
 
 export interface ListRentProposalsParameters {
-	// TODO: ver como se divide en enviadas y recibidas
 	userId: number; // TODO: esto tambien seria parte del token
 	page?: number;
 	type?: string;
-	state?: number;
+	state?: string;
 }
 
 export interface CreateRentProposalParameters {
 	message: string;
 	startDate: string;
 	endDate: string;
-	articleId: Number;
-	renterId: Number; // TODO: esto seria el token de auth en realidad
+	articleId: number;
+	renterId: number | null; // TODO: esto seria el token de auth en realidad
 }
 
 export interface UpdateRentProposalParameters {

@@ -29,11 +29,11 @@ public class UniqueRentRequestValidator implements ConstraintValidator<UniqueRen
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         boolean toReturn = false;
         try {
-            LocalDate start = LocalDate.parse(getFieldValue(o, startDate));
-            LocalDate end = LocalDate.parse(getFieldValue(o, endDate));
+            LocalDate start = (LocalDate) getFieldValue(o, startDate);
+            LocalDate end = (LocalDate) getFieldValue(o, endDate);
 
-            Long renter = new Long(getFieldValue(o, renterId));
-            Long article = new Long(getFieldValue(o, articleId));
+            Long renter = (Long) getFieldValue(o, renterId);
+            Long article = Long.valueOf((Integer) getFieldValue(o, articleId));
 
             toReturn = !rentService.isPresentSameDate(renter, article, start, end);
         } catch (Exception e) {
@@ -47,11 +47,11 @@ public class UniqueRentRequestValidator implements ConstraintValidator<UniqueRen
         return toReturn;
     }
 
-    private String getFieldValue(Object object, String fieldName) throws Exception {
+    private Object getFieldValue(Object object, String fieldName) throws Exception {
         Class<?> clazz = object.getClass();
         Field field = clazz.getDeclaredField(fieldName);
         field.setAccessible(true);
-        return (String) field.get(object);
+        return field.get(object);
     }
 
 }

@@ -41,7 +41,7 @@ public class GreaterDateValidator implements ConstraintValidator<GreaterDate, Ob
         Class<?> clazz = object.getClass();
         Field dateField = clazz.getDeclaredField(fieldName);
         dateField.setAccessible(true);
-        return LocalDate.parse((String) dateField.get(object), DATE_FORMAT);
+        return (LocalDate) dateField.get(object);
     }
 
 }

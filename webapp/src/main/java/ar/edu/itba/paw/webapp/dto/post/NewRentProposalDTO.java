@@ -4,6 +4,7 @@ import ar.edu.itba.paw.webapp.annotations.FutureDate;
 import ar.edu.itba.paw.webapp.annotations.GreaterDate;
 import ar.edu.itba.paw.webapp.annotations.UniqueRentRequest;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -17,9 +18,11 @@ public class NewRentProposalDTO {
 
     @NotNull(message = "NotNull.rentForm.startDate")
     @FutureDate(message = "FutureDate.rentForm.startDate")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDate startDate;
 
     @NotNull(message = "NotNull.rentForm.endDate")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalDate endDate;
 
     @NotEmpty(message = "NotEmpty.rentForm.message")
@@ -28,6 +31,9 @@ public class NewRentProposalDTO {
 
     @NotNull(message = "NotNull.rentForm.articleId")
     private Integer articleId;
+
+    @NotNull(message = "NotNull.rentForm.articleId")
+    private long renterId;
 
     public LocalDate getStartDate() {
         return startDate;
@@ -59,5 +65,13 @@ public class NewRentProposalDTO {
 
     public void setArticleId(int articleId) {
         this.articleId = articleId;
+    }
+
+    public long getRenterId() {
+        return renterId;
+    }
+
+    public void setRenterId(long renterId) {
+        this.renterId = renterId;
     }
 }

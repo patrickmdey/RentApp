@@ -10,11 +10,11 @@ import NoDataCard from '../components/NoData/NoDataCard';
 export const RECEIVED_STRING = 'received';
 export const SENT_STRING = 'sent';
 
-export enum states {
-	pending = 0,
-	accepted,
-	declined
-}
+export const states = {
+	pending: 'PENDING',
+	accepted: 'ACCEPTED',
+	declined: 'DECLINED'
+};
 
 export default function Requests() {
 	const [requestsReceived, setRequestReceived] = useState(1);
@@ -96,7 +96,7 @@ export default function Requests() {
 						<Tabs activeKey={key} onSelect={(k) => k != null && setKey(k)}>
 							<Tab eventKey='pending' title={strings.collection.requests.pendingTitle}>
 								{pendingRSucc && pendingR && pendingR.length > 0 ? (
-									<RequestCardList {...pendingR} />
+									<RequestCardList requests={pendingR} />
 								) : (
 									<NoDataCard
 										title={strings.collection.requests.sent.noPendingTitle}
@@ -106,7 +106,7 @@ export default function Requests() {
 							</Tab>
 							<Tab eventKey='accepted' title={strings.collection.requests.acceptedTitle}>
 								{acceptedRSucc && acceptedR && acceptedR.length > 0 ? (
-									<RequestCardList {...acceptedR} />
+									<RequestCardList requests={acceptedR} />
 								) : (
 									<NoDataCard
 										title={strings.collection.requests.sent.noAcceptedTitle}
@@ -116,7 +116,7 @@ export default function Requests() {
 							</Tab>
 							<Tab eventKey='declined' title={strings.collection.requests.declinedTitle}>
 								{declinedRSucc && declinedR && declinedR.length > 0 ? (
-									<RequestCardList {...declinedR} />
+									<RequestCardList requests={declinedR} />
 								) : (
 									<NoDataCard
 										title={strings.collection.requests.sent.noDeclinedTitle}
