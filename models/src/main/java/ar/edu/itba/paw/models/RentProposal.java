@@ -15,8 +15,8 @@ public class RentProposal {
     @Column(nullable = false, length = 310)
     private String message;
 
-    @Column(nullable = false)
-    private int state;
+    @Enumerated(EnumType.ORDINAL)
+    private RentState state;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -42,12 +42,12 @@ public class RentProposal {
         // Just for Hibernate
     }
 
-    public RentProposal(long id, String message, int state, LocalDate startDate, LocalDate endDate) {
+    public RentProposal(long id, String message, RentState state, LocalDate startDate, LocalDate endDate) {
         this(message, state, startDate, endDate, false);
         this.id = id;
     }
 
-    public RentProposal(String message, int state, LocalDate startDate, LocalDate endDate, boolean seen) {
+    public RentProposal(String message, RentState state, LocalDate startDate, LocalDate endDate, boolean seen) {
         this.message = message;
         this.state = state;
         this.startDate = startDate;
@@ -67,11 +67,11 @@ public class RentProposal {
         this.message = message;
     }
 
-    public int getState() {
+    public RentState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(RentState state) {
         this.state = state;
     }
 

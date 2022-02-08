@@ -6,9 +6,9 @@ import { Col, Container, Row } from 'react-bootstrap';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import PagesList from '../components/PagesList';
 import { useState } from 'react';
-import useUserId from '../hooks/useUserId';
 import { Helmet } from 'react-helmet';
 import { strings } from '../i18n/i18n';
+import NoDataCard from '../components/NoData/NoDataCard';
 
 function Marketplace() {
 	const [page, setPage] = useState(1);
@@ -35,16 +35,18 @@ function Marketplace() {
 							<>Oh no, there was an error</>
 						) : isLoading ? (
 							<>Loading</>
+						) : data === null || (data && data.length === 0) ? (
+							<NoDataCard
+								title={strings.collection.noData.articleNotFoundTitle}
+								subtitle={strings.collection.noData.articleNotFoundSubtitle}
+							/>
 						) : (
-							data &&
-							(data.length === 0 ? (
-								<h1>No hay articulos</h1>
-							) : (
+							data && (
 								<>
 									<ArticleCardList articles={data} articlesPerRow={3}></ArticleCardList>
 									<PagesList pages={pages} page={page} setPage={setPage} />
 								</>
-							))
+							)
 						)}
 					</Col>
 				</Row>

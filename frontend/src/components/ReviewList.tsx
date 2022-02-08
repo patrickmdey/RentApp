@@ -21,7 +21,7 @@ function ReviewList(props: { reviews: ReviewT[] }) {
         */}
 			</Row>
 			{reviews.length === 0 ? (
-				<p className='lead'>{strings.collection.review.noReviews}</p>
+				<p className='lead'>{strings.collection.noData.noReviews}</p>
 			) : (
 				<div>
 					{reviews.map((review, i) => (

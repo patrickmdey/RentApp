@@ -1,13 +1,15 @@
 package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
+
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;
 
 public class RentProposalDTO {
     private String message;
-    private int state;
+    private RentState state;
     private LocalDate startDate;
     private LocalDate endDate;
     private long id;
@@ -40,11 +42,11 @@ public class RentProposalDTO {
         this.message = message;
     }
 
-    public int getState() {
+    public RentState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(RentState state) {
         this.state = state;
     }
 

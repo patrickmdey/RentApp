@@ -4,6 +4,8 @@ import ar.edu.itba.paw.webapp.annotations.FutureDate;
 import ar.edu.itba.paw.webapp.annotations.GreaterDate;
 import ar.edu.itba.paw.webapp.annotations.UniqueRentRequest;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -13,13 +15,11 @@ import java.time.LocalDate;
         renterId = "renterId", message = "UniqueRentRequest.rentForm.articleId")
 public class NewRentProposalDTO {
 
-    @NotNull
-    @NotEmpty(message = "NotEmpty.rentForm.startDate")
+    @NotNull(message = "NotNull.rentForm.startDate")
     @FutureDate(message = "FutureDate.rentForm.startDate")
     private LocalDate startDate;
 
-    @NotNull
-    @NotEmpty(message = "NotEmpty.rentForm.endDate")
+    @NotNull(message = "NotNull.rentForm.endDate")
     private LocalDate endDate;
 
     @NotEmpty(message = "NotEmpty.rentForm.message")

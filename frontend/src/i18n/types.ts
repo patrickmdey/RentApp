@@ -101,7 +101,6 @@ interface ArticleStrings {
 }
 
 interface ReviewStrings {
-	noReviews: string;
 	reviews: string;
 }
 
@@ -156,6 +155,15 @@ export interface RequestCardString {
 	rejectText: string;
 }
 
+export interface NoDataString {
+	articleNotFoundTitle: string,
+	articleNotFoundSubtitle: string,
+	noReviews: string,
+	noMyProfileArticlesTitle: string,
+	noMyProfileSubtitle: string,
+	noMyProfileRentedArticlesTitle: string
+}
+
 export interface RequestsString {
 	title: string;
 	sentTitle: string;
@@ -202,6 +210,7 @@ export interface StringCollection {
 	requestCard: RequestCardString,
 	requests: RequestsString,
 	pageTitles: PageTitlesString,
+	noData: NoDataString
 }
 
 export interface IStrings extends LocalizedStringsMethods {

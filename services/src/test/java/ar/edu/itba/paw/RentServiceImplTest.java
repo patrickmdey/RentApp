@@ -44,7 +44,7 @@ public class RentServiceImplTest {
         this.rentProposal = new RentProposal(
                 565,
                 "I want to rent your bike",
-                RentState.PENDING.ordinal(),
+                RentState.PENDING,
                 LocalDate.parse("2021-11-15", DATE_FORMAT),
                 LocalDate.parse("2021-12-15", DATE_FORMAT)
         );
@@ -87,7 +87,7 @@ public class RentServiceImplTest {
         Assert.assertEquals(rentProposal.getMessage(), result.getMessage());
         Assert.assertEquals(rentProposal.getStartDate(), result.getStartDate());
         Assert.assertEquals(rentProposal.getEndDate(), result.getEndDate());
-        Assert.assertEquals(RentState.PENDING.ordinal(), (long) result.getState());
+        Assert.assertEquals(RentState.PENDING.ordinal(), result.getState());
 
     }
 
