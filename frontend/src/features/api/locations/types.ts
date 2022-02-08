@@ -1,5 +1,5 @@
 export interface Location {
 	name: string;
-	id: number;
+	id: string;
 	url: URL;
 }
