@@ -33,8 +33,7 @@ public class LocationController {
         if (locations.isEmpty())
             return Response.noContent().build();
 
-        return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {
-        }).build();
+        return Response.ok(new GenericEntity<List<LocationDTO>>(locations) {}).build();
     }
 
     @GET
