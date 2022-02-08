@@ -1,38 +1,38 @@
 export interface Article {
-	title: String;
-	description: String;
-	pricePerDay: Number;
-	timesRented: Number;
-	timesReviewed: Number;
-	rating: Number;
-	url: URL;
-	ownerUrl: URL;
-	imagesUrl: URL;
-	categoriesUrl: URL;
-	reviewsUrl: URL;
-	id: number;
+    title: string;
+    description: string;
+    pricePerDay: number;
+    timesRented: number;
+    timesReviewed: number;
+    rating: number;
+    url: URL;
+    ownerUrl: URL;
+    imagesUrl: URL;
+    categoriesUrl: URL;
+    reviewsUrl: URL;
+    id: number;
 }
 
 export interface ListArticleParameters {
-	page?: number;
-	orderBy?: string;
+    page?: number;
+    orderBy?: string;
 }
 
 export interface CreateArticleParameters {
-	title: String;
-	description: String;
-	pricePerDay: Number;
-	rating: Number;
-	categories: Number[];
-	ownerId: Number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
-	images: FileList;
+    title: string;
+    description: string;
+    pricePerDay: number;
+    rating: number;
+    categories: number[];
+    ownerId: number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
+    images: FileList;
 }
 
 export interface UpdateArticleParameters {
-	url: URL;
-	title: String;
-	description: String;
-	pricePerDay: Number;
-	rating: Number;
-	categories: Number[];
+    url: URL;
+    title: string;
+    description: string;
+    pricePerDay: number;
+    rating: number;
+    categories: number[];
 }

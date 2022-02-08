@@ -5,7 +5,6 @@ import { Col, Container, Row } from "react-bootstrap";
 import usePaginatedResponse from "../hooks/usePaginatedResponse";
 import PagesList from "../components/PagesList";
 import { useState } from "react";
-import useUserId from "../hooks/useUserId";
 import { Helmet } from "react-helmet";
 import { strings } from "../i18n/i18n";
 

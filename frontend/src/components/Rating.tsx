@@ -1,24 +1,17 @@
 import { Star, StarFill } from "react-bootstrap-icons";
-
-function Rating(props: { rating: Number; timesReviewed: Number }) {
+import { Rating as SimpleStarRating } from "react-simple-star-rating";
+function Rating(props: { rating: number; timesReviewed: number }) {
   const { rating, timesReviewed } = props;
   return (
     <div>
       {rating > 0 && (
-        <div className="d-flex align-items-start mb-2">
-          <div>
-            {[...Array(5)].map((_, idx) => {
-              return idx <= rating ? (
-                <StarFill
-                  className="mr-1 color-rentapp-red"
-                  size="20px"
-                  key={idx}
-                />
-              ) : (
-                <Star className="mr-1" size="20px" key={idx} />
-              );
-            })}
-          </div>
+        <div className="d-flex align-items-center mb-2">
+          <SimpleStarRating
+            readonly={true}
+            ratingValue={rating * 20}
+            size={30}
+            fillColor="#ff0000"
+          />
           <span>
             {timesReviewed !== null && (
               <span className="small text-muted ms-1">({timesReviewed})</span>
