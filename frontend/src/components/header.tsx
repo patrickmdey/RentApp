@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { strings } from '../i18n/i18n';
 import { setCredentials } from '../features/auth/authSlice';
 
-const logo = require('../images/rentapp-logo.png');
+import logo from '../images/rentapp-logo.png';
 
 function RenderLoggedInNavBar(dispatch: Function) {
 	const name = 'lucas';
@@ -22,7 +22,7 @@ function RenderLoggedInNavBar(dispatch: Function) {
 			</NavDropdown.Item>
 
 			<NavDropdown.Item>
-				<Link to='/saDASD'>
+				<Link to='/profile'>
 					<BsPersonFill />
 					{strings.collection.header.profile}
 				</Link>

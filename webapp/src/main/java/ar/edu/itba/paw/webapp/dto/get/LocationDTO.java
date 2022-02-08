@@ -13,7 +13,7 @@ public class LocationDTO {
     public static LocationDTO fromLocation(Locations location, UriInfo uri) {
         LocationDTO toReturn = new LocationDTO();
         toReturn.id = location.name();
-        toReturn.url = uri.getBaseUriBuilder().path("locations").path(String.valueOf(toReturn.id)).build();
+        toReturn.url = uri.getBaseUriBuilder().path("locations").path(toReturn.id).build();
         toReturn.name = location.getName();
         return toReturn;
     }
