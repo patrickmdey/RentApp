@@ -15,7 +15,14 @@ export interface Article {
 
 export interface ListArticleParameters {
 	page?: number;
+	limit?: number;
 	orderBy?: string;
+	user?: number;
+	name?: string;
+	initPrice?: number;
+	endPrice?: number;
+	category?: number;
+	location?: string;
 }
 
 export interface CreateArticleParameters {

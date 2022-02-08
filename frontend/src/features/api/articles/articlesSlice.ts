@@ -9,7 +9,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 		}),
 
 		listArticles: build.query<PaginatedData<Article[]>, ListArticleParameters>({
-			query: ({ page = 1, orderBy = 'HIGHER_RATING' }) => `articles?page=${page}&orderBy=${orderBy}`,
+			query: (params) => `articles?${new URLSearchParams(Object.entries(params)).toString()}`,
 			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta)
 		}),
 
