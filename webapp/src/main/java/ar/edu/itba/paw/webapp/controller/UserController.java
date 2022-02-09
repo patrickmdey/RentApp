@@ -31,6 +31,9 @@ public class UserController {
     @Autowired
     private ValidatorFactory validatorFactory;
 
+    @Autowired
+    private JwtTokenUtil jwtUtil;
+
     @Context
     private UriInfo uriInfo;
 
@@ -92,11 +95,7 @@ public class UserController {
         return responseBuilder.build();
     }
 
-    private void addJwtToken(Response.ResponseBuilder builder, User user){
-        try {
-            builder.header("Authorization", "Bearer "
-                    + JwtTokenUtil.generateAccessToken(user));
-        } catch (IOException ignored){ //TODO capaz pasar el JWTUtil a un bean
-        }
+    private void addJwtToken(Response.ResponseBuilder builder, User user) {
+            builder.header("Authorization", "Bearer " + jwtUtil.generateAccessToken(user));
     }
 }
