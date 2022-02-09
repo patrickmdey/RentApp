@@ -7,9 +7,9 @@ function ArticleCardList(props: { articles: Article[]; articlesPerRow: Number })
 	return (
 		<div className='justify-content-center w-100'>
 			<Row md={articlesPerRow as number} className='w-100 justify-content-start'>
-				{articles.map((article, i) => (
-					<Col>
-						<ArticleCard key={i} {...article}></ArticleCard>
+				{articles.map((article) => (
+					<Col key={article.url}>
+						<ArticleCard {...article}></ArticleCard>
 					</Col>
 				))}
 			</Row>

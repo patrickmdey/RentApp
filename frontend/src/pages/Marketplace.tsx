@@ -6,7 +6,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import PagesList from '../components/PagesList';
 import { useState } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
 import NoDataCard from '../components/NoData/NoDataCard';
 

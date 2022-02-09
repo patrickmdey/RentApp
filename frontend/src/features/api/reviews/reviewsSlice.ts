@@ -3,11 +3,11 @@ import { Review, ListReviewParameters, CreateReviewParameters, UpdateReviewParam
 
 const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		findReview: build.query<Review, URL>({
+		findReview: build.query<Review, string>({
 			query: (url) => url.toString()
 		}),
 
-		listReviews: build.query<Review[], URL>({
+		listReviews: build.query<Review[], string>({
 			query: (url) => url.toString()
 		}),
 

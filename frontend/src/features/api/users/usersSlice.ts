@@ -3,7 +3,7 @@ import { User, CreateUserParameters, UpdateUserParameters, UpdatePasswordParamet
 
 const UsersApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		findUser: build.query<User, URL>({
+		findUser: build.query<User, string>({
 			query: (url) => url.toString()
 		}),
 
@@ -40,7 +40,7 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 			}
 		}),
 
-		deleteUser: build.mutation<void, URL>({
+		deleteUser: build.mutation<void, string>({
 			query: (url) => {
 				return {
 					url: url.toString(),

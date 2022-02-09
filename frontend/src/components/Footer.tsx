@@ -8,10 +8,10 @@ const logo = require('../images/rentapp-favicon.png');
 
 // function Footer(props: ReduxProps) {
 export default function Footer() {
-	const dispatcher = useAppDispatch();
+	const dispatch = useAppDispatch();
 
 	function updateLanguage(language: string) {
-		dispatcher(setLanguage(language));
+		dispatch(setLanguage(language));
 	}
 
 	return (

@@ -30,7 +30,7 @@ export default function PasswordForm(props: { user: User; onDone: Function }) {
 
 	function onSubmit(data: ModifyPasswordData) {
 		if (data.password != data.confirmPassword) return setPasswordsMatch(false);
-		modifyPassword({ ...data, url: new URL('password', user.url + '/') });
+		modifyPassword({ ...data, url: new URL('password', user.url + '/').toString() });
 	}
 
 	return (

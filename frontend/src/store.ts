@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { BaseApiSlice } from './features/api/baseApiSlice';
 import authReducer from './features/auth/authSlice';
 import i18nReducer from './features/i18n/i18nSlice';
-import { persistReducer, persistStore } from 'redux-persist';
+import { PERSIST, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import hardSet from 'redux-persist/es/stateReconciler/hardSet';
 
@@ -25,7 +25,11 @@ const persistedReducer = persistReducer(persistConfig, baseReducers);
 const store = configureStore({
 	reducer: persistedReducer,
 	middleware: (getDefaultMiddleware) => {
-		return getDefaultMiddleware().concat(BaseApiSlice.middleware);
+		return getDefaultMiddleware({
+			serializableCheck: {
+				ignoredActions: [PERSIST]
+			}
+		}).concat(BaseApiSlice.middleware);
 	}
 });
 

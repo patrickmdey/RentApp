@@ -15,7 +15,7 @@ interface EditUserForm {
 }
 
 export default function ProfileForm(props: {
-	url: URL;
+	url: string;
 	firstName: string;
 	lastName: string;
 	location: string;

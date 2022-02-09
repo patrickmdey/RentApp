@@ -3,7 +3,7 @@ import { Container, Row } from 'react-bootstrap';
 import LandingTitle from '../components/LandingTitle';
 import ArticleCardList from '../components/ArticleCardList';
 import { useListArticles } from '../features/api/articles/articlesSlice';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
 
 export default function Landing() {

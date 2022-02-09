@@ -33,7 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice, Float endPrice, Long renterId, long page) {
-        validateRequest(name, category, orderBy, user, location, initPrice, endPrice, renterId);
+        validateRequest(category, orderBy, user, location, initPrice, endPrice, renterId);
         if (renterId != null)
             return rentedArticles(renterId, page);
 
@@ -53,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional(readOnly = true)
     public long getMaxPage(String name, Long category, Long userId, Locations location, Float initPrice, Float endPrice, Long renterId) {
-        validateRequest(name, category, null, userId, location, initPrice, endPrice, renterId);
+        validateRequest(category, null, userId, location, initPrice, endPrice, renterId);
 
         if (renterId != null)
             return getRentedMaxPage(renterId);
@@ -105,12 +105,10 @@ public class ArticleServiceImpl implements ArticleService {
         return Optional.of(article);
     }
 
-    private void validateRequest(String name, Long category, OrderOptions orderBy, Long userId, Locations location, Float initPrice, Float endPrice, Long renterId) {
-        boolean isNormalRequest = !(name == null && category == null && orderBy == null && userId == null &&
-                location == null && initPrice == null && endPrice == null);
-
-        if ((isNormalRequest && renterId != null) || (renterId == null && !isNormalRequest))
-            throw new IllegalArgumentException("IllegalArguments.articles.list");
+    private void validateRequest(Long category, OrderOptions orderBy, Long userId, Locations location, Float initPrice, Float endPrice, Long renterId) {
+        if ((category != null || orderBy != null || userId != null ||
+                location != null || initPrice != null || endPrice != null) && renterId != null)
+                    throw new IllegalArgumentException("IllegalArguments.articles.list");
     }
 
     private List<Article> rentedArticles(long renterId, long page) {

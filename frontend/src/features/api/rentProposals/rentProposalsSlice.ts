@@ -8,12 +8,13 @@ import {
 
 const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		findProposal: build.query<RentProposal, URL>({
+		findProposal: build.query<RentProposal, string>({
 			query: (url) => url.toString()
 		}),
 
 		listProposals: build.query<RentProposal[], ListRentProposalsParameters>({
-			query: ({ userId, page, type, state }) => `proposals/${type}?user=${userId}&state=${state}${page != null ? `&page=${page}` : ''}`
+			query: ({ userId, page, type, state }) =>
+				`proposals/${type}?user=${userId}&state=${state}${page != null ? `&page=${page}` : ''}`
 		}),
 
 		createProposal: build.mutation<RentProposal, CreateRentProposalParameters>({

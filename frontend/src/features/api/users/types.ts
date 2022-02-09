@@ -6,9 +6,9 @@ export interface User {
 	pendingRequestAmount: number;
 	acceptedRequestAmount: number;
 	declinedRequestAmount: number;
-	url: URL;
-	imageUrl: URL;
-	locationUrl: URL;
+	url: string;
+	imageUrl: string;
+	locationUrl: string;
 	id: number;
 }
 
@@ -27,11 +27,11 @@ export interface UpdateUserParameters {
 	firstName: string;
 	lastName: string;
 	location: string;
-	url: URL;
+	url: string;
 }
 
 export interface UpdatePasswordParameters {
 	password: string;
 	confirmPassword: string;
-	url: URL;
+	url: string;
 }

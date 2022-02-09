@@ -15,7 +15,7 @@ export default function Profile() {
 		data: user,
 		isLoading: userIsLoading,
 		isSuccess: userIsSuccess
-	} = useFindUser(new URL(`users/${id}`, process.env.REACT_APP_BASE_URL));
+	} = useFindUser(new URL(`users/${id}`, process.env.REACT_APP_BASE_URL).toString());
 
 	const { data: location } = useFindLocation(userIsLoading || user == null ? skipToken : user.locationUrl);
 	const [disabled, setDisabled] = useState(true);

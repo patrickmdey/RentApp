@@ -4,7 +4,7 @@ import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleP
 
 const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		findArticle: build.query<Article, URL>({
+		findArticle: build.query<Article, string>({
 			query: (url) => url.toString()
 		}),
 

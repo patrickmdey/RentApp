@@ -3,7 +3,7 @@ import { Image } from './types';
 
 const ImagesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		listImages: build.query<Image[], URL>({
+		listImages: build.query<Image[], string>({
 			query: (url) => url.toString()
 		})
 	})

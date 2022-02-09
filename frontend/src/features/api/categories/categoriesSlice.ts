@@ -3,7 +3,7 @@ import { Category } from './types';
 
 const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
-		findCategory: build.query<Category, URL>({
+		findCategory: build.query<Category, string>({
 			query: (url) => url.toString()
 		}),
 
@@ -11,7 +11,7 @@ const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 			query: () => 'categories'
 		}),
 
-		listCategoriesFromArticle: build.query<Category[], URL>({
+		listCategoriesFromArticle: build.query<Category[], string>({
 			query: (url) => url.toString()
 		})
 	})

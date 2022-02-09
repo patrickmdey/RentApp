@@ -5,11 +5,11 @@ export interface Article {
 	timesRented: number;
 	timesReviewed: number;
 	rating: number;
-	url: URL;
-	ownerUrl: URL;
-	imagesUrl: URL;
-	categoriesUrl: URL;
-	reviewsUrl: URL;
+	url: string;
+	ownerUrl: string;
+	imagesUrl: string;
+	categoriesUrl: string;
+	reviewsUrl: string;
 	id: number;
 }
 
@@ -37,7 +37,7 @@ export interface CreateArticleParameters {
 }
 
 export interface UpdateArticleParameters {
-	url: URL;
+	url: string;
 	title: string;
 	description: string;
 	pricePerDay: number;
