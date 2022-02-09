@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.RentProposal;
+import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface RentService {
 
     List<RentProposal> sentRequests(long renterId, int state, long page);
 
-    void setRequestState(long requestId, int state, String webpageUrl);
+    void setRequestState(long requestId, RentState state, String webpageUrl);
 
     void acceptRequest(long requestId, String webpageUrl);
 
