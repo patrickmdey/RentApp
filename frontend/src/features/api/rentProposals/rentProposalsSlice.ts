@@ -5,6 +5,8 @@ import {
 	CreateRentProposalParameters,
 	UpdateRentProposalParameters
 } from './types';
+import {Article} from "../articles/types";
+import paginatedResponse, {PaginatedData} from "../paginatedResponse";
 
 const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
@@ -12,8 +14,10 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 			query: (url) => url.toString()
 		}),
 
-		listProposals: build.query<RentProposal[], ListRentProposalsParameters>({
-			query: ({ userId, page, type, state }) => `proposals/${type}?user=${userId}&state=${state}${page != null ? `&page=${page}` : ''}`
+		listProposals: build.query<PaginatedData<RentProposal[]>, ListRentProposalsParameters>({
+			query: ({ userId, page, type, state }) => `proposals/${type}?user=${userId}&state=${state}${page != null ? `&page=${page}` : ''}`,
+			transformResponse: (response: RentProposal[], meta
+			) => paginatedResponse(response, meta)
 		}),
 
 		createProposal: build.mutation<RentProposal, CreateRentProposalParameters>({
