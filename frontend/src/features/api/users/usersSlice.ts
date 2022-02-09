@@ -38,6 +38,15 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 					body: args
 				};
 			}
+		}),
+
+		deleteUser: build.mutation<void, URL>({
+			query: (url) => {
+				return {
+					url: url.toString(),
+					method: 'DELETE'
+				};
+			}
 		})
 	})
 });
@@ -45,6 +54,7 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 export const {
 	useFindUserQuery: useFindUser,
 	useCreateUserMutation: useCreateUser,
+	useDeleteUserMutation: useDeleteUser,
 	useUpdateUserMutation: useUpdateUser,
 	useUpdatePasswordMutation: useUpdatePassword
 } = UsersApiSlice;

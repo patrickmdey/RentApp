@@ -72,8 +72,7 @@ public class RentProposalController {
 
         final Long maxPage = maxPageGetter.apply(userId, state.ordinal());
         return ApiUtils.generateResponseWithLinks(Response.ok
-                (new GenericEntity<List<RentProposalDTO>>(proposals) {
-                }), page, maxPage, uriBuilder);
+                (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }
 
     @POST
@@ -93,8 +92,7 @@ public class RentProposalController {
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
-    public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO
-    ) {
+    public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO) {
         rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());
         return Response.ok().build();
     }

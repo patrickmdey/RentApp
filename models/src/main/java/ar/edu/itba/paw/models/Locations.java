@@ -1,9 +1,5 @@
 package ar.edu.itba.paw.models;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlRootElement;
-
-
 public enum Locations {
     RETIRO("Retiro"), SAN_NICOLAS("San Nicolas"), PUERTO_MADERO("Puerto Madero"),
     SAN_TELMO("San Telmo"), MONTSERRAT("Montserrat"), CONSTITUCION("Constitucion"),
