@@ -8,7 +8,7 @@ import FormInput from './Forms/FormInput';
 import FormCheckbox from './Forms/FormCheckbox';
 import { useAppDispatch } from '../hooks';
 import { setCredentials } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 interface LogInForm {
 	email: string;
@@ -17,16 +17,18 @@ interface LogInForm {
 }
 
 export default function LogInComponent() {
-	const [state, setState] = useState({ showPassword: false });
+	// const [state, setState] = useState({ showPassword: false });
 	const [isLoginError, setIsLoginError] = useState(false);
+	const { state } = useLocation() as { state?: { path?: string } };
+	console.log(state);
 
 	const [login] = useLogin();
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	function updatePasswordType() {
-		state.showPassword = !state.showPassword;
-	}
+	// function updatePasswordType() {
+	// 	state.showPassword = !state.showPassword;
+	// }
 
 	const {
 		register,
@@ -47,8 +49,8 @@ export default function LogInComponent() {
 				}
 
 				setIsLoginError(false);
-				navigate(-1);
 				dispatch(setCredentials({ token, rememberMe }));
+				state?.path ? navigate(state?.path) : navigate(-1);
 			}
 		});
 	}
