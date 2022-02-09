@@ -2,13 +2,17 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
 import { Button, Card, Container, Stack } from 'react-bootstrap';
 import { Pencil, Lock, Trash } from 'react-bootstrap-icons';
-import ProfileForm from '../components/ProfileForm';
+import { useNavigate } from 'react-router-dom';
+import Articles from '../components/Profile/Articles';
+import ProfileForm from '../components/Profile/ProfileForm';
 import { useFindLocation } from '../features/api/locations/locationsSlice';
 import { useFindUser } from '../features/api/users/usersSlice';
 import useUserId from '../hooks/useUserId';
 
 export default function Profile() {
 	const id = useUserId();
+	if (id == null) throw new Error('Unauthorized');
+
 	const {
 		data: user,
 		isLoading: userIsLoading,
@@ -51,6 +55,9 @@ export default function Profile() {
 					)}
 					{userIsLoading && <h1>Loading...</h1>}
 				</Card.Body>
+			</Card>
+			<Card className='w-100 p-4'>
+				<Articles userId={id} />
 			</Card>
 		</Container>
 	);
