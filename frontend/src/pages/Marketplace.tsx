@@ -43,7 +43,7 @@ function Marketplace() {
 						) : (
 							data && (
 								<>
-									<ArticleCardList articles={data} articlesPerRow={3}></ArticleCardList>
+									<ArticleCardList articles={data} articlesPerRow={3}/>
 									<PagesList pages={pages} page={page} setPage={setPage} />
 								</>
 							)
