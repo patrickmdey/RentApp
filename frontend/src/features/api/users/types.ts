@@ -29,3 +29,9 @@ export interface UpdateUserParameters {
 	location: string;
 	url: URL;
 }
+
+export interface UpdatePasswordParameters {
+	password: string;
+	confirmPassword: string;
+	url: URL;
+}

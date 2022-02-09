@@ -20,15 +20,13 @@ export default function ProfileForm(props: {
 	lastName: string;
 	location: string;
 	email: string;
-	onCancel: Function;
+	onDone: Function;
 	disabled: boolean;
 }) {
-	const { url, email, firstName, lastName, location, onCancel, disabled } = props;
+	const { url, email, firstName, lastName, location, onDone, disabled } = props;
 	const [modifyUser, result] = useUpdateUser();
 	useEffect(() => {
-		if (result.isSuccess) {
-			onCancel();
-		}
+		if (result.isSuccess) onDone();
 	}, [result]);
 
 	const {
@@ -98,7 +96,7 @@ export default function ProfileForm(props: {
 					</Row>
 					{!disabled && (
 						<Stack direction='horizontal'>
-							<Button className='ms-auto' variant='outline-danger' onClick={(_) => onCancel()}>
+							<Button className='ms-auto' variant='outline-danger' onClick={(_) => onDone()}>
 								Cancelar
 							</Button>
 							<Button type='submit' className='ms-2' variant='primary'>
