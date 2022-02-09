@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useListLocations } from '../features/api/locations/locationsSlice';
-import { useUpdateUser } from '../features/api/users/usersSlice';
-import { strings } from '../i18n/i18n';
-import FormInput from './Forms/FormInput';
-import FormSelect from './Forms/FormSelect';
+import { useListLocations } from '../../features/api/locations/locationsSlice';
+import { useUpdateUser } from '../../features/api/users/usersSlice';
+import { strings } from '../../i18n/i18n';
+import FormInput from '../Forms/FormInput';
+import FormSelect from '../Forms/FormSelect';
 
 interface EditUserForm {
 	firstName: string;
@@ -20,15 +20,13 @@ export default function ProfileForm(props: {
 	lastName: string;
 	location: string;
 	email: string;
-	onCancel: Function;
+	onDone: Function;
 	disabled: boolean;
 }) {
-	const { url, email, firstName, lastName, location, onCancel, disabled } = props;
+	const { url, email, firstName, lastName, location, onDone, disabled } = props;
 	const [modifyUser, result] = useUpdateUser();
 	useEffect(() => {
-		if (result.isSuccess) {
-			onCancel();
-		}
+		if (result.isSuccess) onDone();
 	}, [result]);
 
 	const {
@@ -98,7 +96,7 @@ export default function ProfileForm(props: {
 					</Row>
 					{!disabled && (
 						<Stack direction='horizontal'>
-							<Button className='ms-auto' variant='outline-danger' onClick={(_) => onCancel()}>
+							<Button className='ms-auto' variant='outline-danger' onClick={(_) => onDone()}>
 								Cancelar
 							</Button>
 							<Button type='submit' className='ms-2' variant='primary'>

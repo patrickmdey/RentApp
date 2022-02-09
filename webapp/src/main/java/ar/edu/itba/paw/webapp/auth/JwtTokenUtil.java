@@ -8,41 +8,39 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.util.Date;
 
-@Component
 public class JwtTokenUtil {
-    private static final Resource secretKey = new ClassPathResource("secret");
+    private byte[] key;
+
+    public JwtTokenUtil(Resource resource) throws IOException {
+        this.key = StreamUtils.copyToByteArray(resource.getInputStream());
+    }
 
     private static final int EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
 
-    private static byte[] readKey() throws IOException {
-        return StreamUtils.copyToByteArray(secretKey.getInputStream());
-    }
-
-    public static boolean validate(String token) {
+    public boolean validate(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(readKey())).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(key)).build().parseClaimsJws(token);
             return true;
-        } catch (JwtException | IOException e) {
+        } catch (JwtException e) {
             return false;
         }
     }
 
-    public static String getUsername(String token) throws IOException {
-        Claims claims = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(readKey())).build()
+    public String getUsername(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(key)).build()
                 .parseClaimsJws(token).getBody();
         String subject = claims.getSubject();
         return subject.split(",")[0];
     }
 
-    public static String generateAccessToken(User user) throws IOException {
+    public String generateAccessToken(User user) {
         return Jwts.builder().setSubject(user.getEmail() + "," + user.getId())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(Keys.hmacShaKeyFor(readKey()), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(key), SignatureAlgorithm.HS256)
                 .compact();
     }
 }

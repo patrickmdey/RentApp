@@ -1,5 +1,5 @@
 import { BaseApiSlice } from '../baseApiSlice';
-import { User, CreateUserParameters, UpdateUserParameters } from './types';
+import { User, CreateUserParameters, UpdateUserParameters, UpdatePasswordParameters } from './types';
 
 const UsersApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
@@ -28,6 +28,16 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 					body: args
 				};
 			}
+		}),
+
+		updatePassword: build.mutation<void, UpdatePasswordParameters>({
+			query: ({ url, ...args }) => {
+				return {
+					url: url.toString(),
+					method: 'PUT',
+					body: args
+				};
+			}
 		})
 	})
 });
@@ -35,5 +45,6 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 export const {
 	useFindUserQuery: useFindUser,
 	useCreateUserMutation: useCreateUser,
-	useUpdateUserMutation: useUpdateUser
+	useUpdateUserMutation: useUpdateUser,
+	useUpdatePasswordMutation: useUpdatePassword
 } = UsersApiSlice;

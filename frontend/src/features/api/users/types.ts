@@ -2,7 +2,7 @@ export interface User {
 	firstName: string;
 	lastName: string;
 	email: string;
-	isOwner: Boolean;
+	owner: boolean;
 	pendingRequestAmount: number;
 	acceptedRequestAmount: number;
 	declinedRequestAmount: number;
@@ -27,5 +27,11 @@ export interface UpdateUserParameters {
 	firstName: string;
 	lastName: string;
 	location: string;
+	url: URL;
+}
+
+export interface UpdatePasswordParameters {
+	password: string;
+	confirmPassword: string;
 	url: URL;
 }

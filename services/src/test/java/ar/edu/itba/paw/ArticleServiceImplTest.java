@@ -134,7 +134,7 @@ public class ArticleServiceImplTest {
                 .thenReturn(articles);
 
         // Act
-        List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
+        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), 1);
 
         // Assert
         Assert.assertEquals(articles.size(), results.size());
@@ -155,7 +155,7 @@ public class ArticleServiceImplTest {
                 .thenThrow(RuntimeException.class);
 
         // Act
-        List<Article> results = articleService.rentedArticles(userRenter.getId(), 1);
+        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), 1);
 
         // Assert
         Assert.fail();

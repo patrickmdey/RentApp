@@ -42,6 +42,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtTokenUtil jwtUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -63,11 +66,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         //TODO manejo de excepcion
         // Get jwt token and validate
         final String token = header.split(" ")[1].trim();
-        if (!JwtTokenUtil.validate(token))
+        if (!jwtUtil.validate(token))
             return;
 
         // Get user identity and set it on the spring security context
-        UserDetails userDetails = userDetailsService.loadUserByUsername(JwtTokenUtil.getUsername(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtUtil.getUsername(token));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null,
@@ -100,13 +103,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (fullUser == null)
                 return;
 
-            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + JwtTokenUtil.generateAccessToken(fullUser));
+            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwtUtil.generateAccessToken(fullUser));
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (BadCredentialsException | IllegalArgumentException | IOException ignored) {
+        } catch (BadCredentialsException | IllegalArgumentException ignored) {
 
         } // TODO ver de informar que no se mandó bien el token base64
 

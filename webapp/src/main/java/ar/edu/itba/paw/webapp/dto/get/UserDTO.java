@@ -59,14 +59,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public boolean isOwner() {
-        return isOwner;
-    }
-
-    public void setOwner(boolean owner) {
-        isOwner = owner;
-    }
-
     public long getPendingRequestAmount() {
         return pendingRequestAmount;
     }
@@ -133,5 +125,13 @@ public class UserDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isOwner() {
+        return isOwner;
+    }
+
+    public void setOwner(boolean owner) {
+        isOwner = owner;
     }
 }
