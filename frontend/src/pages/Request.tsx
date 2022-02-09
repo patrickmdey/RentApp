@@ -1,11 +1,7 @@
 import { Card, Container, Nav, Tab, Tabs } from 'react-bootstrap';
-import { useState } from 'react';
 import { strings } from '../i18n/i18n';
-import { useListRentProposals } from '../features/api/rentProposals/rentProposalsSlice';
-import RequestCardList from '../components/Requests/RequestCardList';
-import useUserId from '../hooks/useUserId';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-import NoDataCard from '../components/NoData/NoDataCard';
+import SentRequestList from '../components/Requests/SentRequestList';
+import ReceivedRequestList from '../components/Requests/ReceivedRequestList';
 
 export const RECEIVED_STRING = 'received';
 export const SENT_STRING = 'sent';
@@ -17,117 +13,42 @@ export const states = {
 };
 
 export default function Requests() {
-	const [requestsReceived, setRequestReceived] = useState(1);
-	const [requestsSent, setRequestSent] = useState(1);
-
-	const id = useUserId();
-
-	const [key, setKey] = useState('pending');
-
-	const { data: pendingR, isSuccess: pendingRSucc } = useListRentProposals(
-		id !== null
-			? {
-					userId: id,
-					type: RECEIVED_STRING,
-					state: states.pending
-			  }
-			: skipToken
-	);
-
-	const { data: acceptedR, isSuccess: acceptedRSucc } = useListRentProposals(
-		id !== null
-			? {
-					userId: id,
-					type: RECEIVED_STRING,
-					state: states.accepted
-			  }
-			: skipToken
-	);
-
-	const { data: declinedR, isSuccess: declinedRSucc } = useListRentProposals(
-		id !== null
-			? {
-					userId: id,
-					type: RECEIVED_STRING,
-					state: states.declined
-			  }
-			: skipToken
-	);
-
-	function onSelectReceived() {}
-
-	function onSelectSent() {}
-
 	return (
 		<Container className='min-height'>
-			<div className='row align-items-start justify-content-center mb-2 g-2'>
-				<div className='col-md-3 col-lg-3 col-12 '>
-					<Card className='card-style '>
-						<Card.Body>
-							<h4>{strings.collection.requests.title}</h4>
-							<hr />
-							<Tab.Container id='left-tabs-example' defaultActiveKey='first'>
+			<Tab.Container id='left-tabs-example' defaultActiveKey='first'>
+				<div className='row align-items-start justify-content-center mb-2 g-2'>
+					<div className='col-md-3 col-lg-3 col-12 '>
+						<Card className='card-style '>
+							<Card.Body>
+								<h4>{strings.collection.requests.title}</h4>
+								<hr />
 								<Nav variant='pills' className='flex-column'>
 									<Nav.Item>
-										<Nav.Link
-											className='request-pill w-100 text-start'
-											eventKey='first'
-											onClick={onSelectReceived}
-										>
+										<Nav.Link className='request-pill w-100 text-start' eventKey='first'>
 											<p className='my-1'>{strings.collection.requests.sentTitle}</p>
 										</Nav.Link>
 									</Nav.Item>
 									<Nav.Item>
-										<Nav.Link
-											eventKey='second'
-											className='request-pill w-100 text-start'
-											onClick={onSelectSent}
-										>
+										<Nav.Link eventKey='second' className='request-pill w-100 text-start'>
 											<p className='my-1'>{strings.collection.requests.receivedTitle}</p>
 										</Nav.Link>
 									</Nav.Item>
 								</Nav>
-							</Tab.Container>
-						</Card.Body>
-					</Card>
+							</Card.Body>
+						</Card>
+					</div>
+					<div className='col-md-9 col-lg-9 col-12 '>
+						<Tab.Content>
+							<Tab.Pane eventKey='first'>
+								<SentRequestList />
+							</Tab.Pane>
+							<Tab.Pane eventKey='second'>
+								<ReceivedRequestList />
+							</Tab.Pane>
+						</Tab.Content>
+					</div>
 				</div>
-				<div className='col-md-9 col-lg-9 col-12 '>
-					<Card className='card-style min-height'>
-						<Tabs activeKey={key} onSelect={(k) => k != null && setKey(k)}>
-							<Tab eventKey='pending' title={strings.collection.requests.pendingTitle}>
-								{pendingRSucc && pendingR && pendingR.length > 0 ? (
-									<RequestCardList requests={pendingR} />
-								) : (
-									<NoDataCard
-										title={strings.collection.requests.sent.noPendingTitle}
-										subtitle={strings.collection.requests.sent.noPendingSubtitle}
-									/>
-								)}
-							</Tab>
-							<Tab eventKey='accepted' title={strings.collection.requests.acceptedTitle}>
-								{acceptedRSucc && acceptedR && acceptedR.length > 0 ? (
-									<RequestCardList requests={acceptedR} />
-								) : (
-									<NoDataCard
-										title={strings.collection.requests.sent.noAcceptedTitle}
-										subtitle={strings.collection.requests.sent.noAcceptedSubtitle}
-									/>
-								)}
-							</Tab>
-							<Tab eventKey='declined' title={strings.collection.requests.declinedTitle}>
-								{declinedRSucc && declinedR && declinedR.length > 0 ? (
-									<RequestCardList requests={declinedR} />
-								) : (
-									<NoDataCard
-										title={strings.collection.requests.sent.noDeclinedTitle}
-										subtitle={strings.collection.requests.sent.noDeclinedSubtitle}
-									/>
-								)}
-							</Tab>
-						</Tabs>
-					</Card>
-				</div>
-			</div>
+			</Tab.Container>
 		</Container>
 	);
 }

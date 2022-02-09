@@ -1,5 +1,5 @@
 
-type RentProposalState = 0 | 1 | 2;
+export type RentProposalState = "PENDING" | "ACCEPTED" | "DECLINED";
 
 export interface RentProposal {
 	message: string;
@@ -29,6 +29,6 @@ export interface CreateRentProposalParameters {
 }
 
 export interface UpdateRentProposalParameters {
-	state: RentProposalState;
+	state: string;
 	url: URL;
 }
