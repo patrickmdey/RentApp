@@ -1,25 +1,22 @@
-import {skipToken} from "@reduxjs/toolkit/dist/query";
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
-import {useParams} from "react-router-dom";
-import MainArticleCard from "../components/Article/MainArticleCard";
-import ReviewList from "../components/ReviewList";
-import {useFindArticle} from "../features/api/articles/articlesSlice";
-import {useListCategoriesFromArticle} from "../features/api/categories/categoriesSlice";
-import {useFindLocation} from "../features/api/locations/locationsSlice";
-import {useListReviews} from "../features/api/reviews/reviewsSlice";
-import {useFindUser} from "../features/api/users/usersSlice";
-import ArticleDescriptionCard from "../components/Article/ArticleDescriptionCard";
-import OwnerCard from "../components/Article/OwnerCard";
-import {strings} from "../i18n/i18n";
-import {Helmet} from "react-helmet";
-import {
-    useFindRentProposal,
-    useListRentProposals,
-} from "../features/api/rentProposals/rentProposalsSlice";
-import {SENT_STRING, states} from "./Request";
-import {useEffect, useState} from "react";
-import useUserId from "../hooks/useUserId";
-import usePaginatedResponse from "../hooks/usePaginatedResponse";
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import MainArticleCard from '../components/Article/MainArticleCard';
+import ReviewList from '../components/ReviewList';
+import { useFindArticle } from '../features/api/articles/articlesSlice';
+import { useListCategoriesFromArticle } from '../features/api/categories/categoriesSlice';
+import { useFindLocation } from '../features/api/locations/locationsSlice';
+import { useListReviews } from '../features/api/reviews/reviewsSlice';
+import { useFindUser } from '../features/api/users/usersSlice';
+import ArticleDescriptionCard from '../components/Article/ArticleDescriptionCard';
+import OwnerCard from '../components/Article/OwnerCard';
+import { strings } from '../i18n/i18n';
+import { Helmet } from 'react-helmet-async';
+import { useListRentProposals } from '../features/api/rentProposals/rentProposalsSlice';
+import { SENT_STRING, states } from './Request';
+import { useEffect, useState } from 'react';
+import useUserId from '../hooks/useUserId';
+import usePaginatedResponse from '../hooks/usePaginatedResponse';
 
 // TODO: subdivide into components
 function Article() {
@@ -43,12 +40,18 @@ function Article() {
 
 	const { data: locationData } = useFindLocation(ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken);
 
-    const {data: aProp, isSuccess: aPropSuccess} = usePaginatedResponse(useListRentProposals(loggedUserId !== null ? {
-        userId: loggedUserId,
-        type: SENT_STRING,
-        state: states.accepted,
-        page: 1
-    } : skipToken));
+	const { data: aProp, isSuccess: aPropSuccess } = usePaginatedResponse(
+		useListRentProposals(
+			loggedUserId !== null
+				? {
+						userId: loggedUserId,
+						type: SENT_STRING,
+						state: states.accepted,
+						page: 1
+				  }
+				: skipToken
+		)
+	);
 
 	//TODO: ver si esta funcionando bien la api para buscar las proposals
 
