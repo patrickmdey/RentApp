@@ -18,11 +18,11 @@ public class NewRentProposalDTO {
 
     @NotNull(message = "NotNull.rentForm.startDate")
     @FutureDate(message = "FutureDate.rentForm.startDate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
 
     @NotNull(message = "NotNull.rentForm.endDate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
 
     @NotEmpty(message = "NotEmpty.rentForm.message")
