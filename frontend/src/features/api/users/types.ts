@@ -2,7 +2,7 @@ export interface User {
 	firstName: string;
 	lastName: string;
 	email: string;
-	isOwner: Boolean;
+	owner: boolean;
 	pendingRequestAmount: number;
 	acceptedRequestAmount: number;
 	declinedRequestAmount: number;

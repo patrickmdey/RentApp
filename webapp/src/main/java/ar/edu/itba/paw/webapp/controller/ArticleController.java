@@ -47,16 +47,18 @@ public class ArticleController {
                          @QueryParam("category") Long category,  @QueryParam("orderBy") OrderOptions orderBy,
                          @QueryParam("user") Long user, @QueryParam("location") Locations location,
                          @QueryParam("initPrice") Float initPrice,
-                         @QueryParam("endPrice") Float endPrice, @QueryParam("page") @DefaultValue("1") long page) {
+                         @QueryParam("endPrice") Float endPrice,
+                         @QueryParam("renter") Long renter,
+                         @QueryParam("page") @DefaultValue("1") long page) {
 
         final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice,
-                endPrice, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).
+                endPrice, renter, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).
                 collect(Collectors.toList());
 
         if (articles.isEmpty())
             return Response.noContent().build();
 
-        final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice);
+        final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice, renter);
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name);
 
         if (category != null)
@@ -76,6 +78,9 @@ public class ArticleController {
 
         if (endPrice != null)
             uriBuilder.queryParam("endPrice", endPrice);
+
+        if (renter != null)
+            uriBuilder.queryParam("renter", renter);
 
         return ApiUtils.generateResponseWithLinks(Response.ok(new GenericEntity<List<ArticleDTO>>
                 (articles) {}), page, maxPage, uriBuilder);

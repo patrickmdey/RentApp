@@ -22,7 +22,7 @@ export default function Profile() {
 	const { data: location } = useFindLocation(userIsLoading || user == null ? skipToken : user.locationUrl);
 	const [disabled, setDisabled] = useState(true);
 
-	// TODO: edit password form, delete user, published / rented articles
+	// TODO: edit password form, delete user
 	return (
 		<Container>
 			<Card className='w-100'>
@@ -56,9 +56,7 @@ export default function Profile() {
 					{userIsLoading && <h1>Loading...</h1>}
 				</Card.Body>
 			</Card>
-			<Card className='w-100 p-4'>
-				<Articles userId={id} />
-			</Card>
+			<Card className='w-100 p-3 mt-3'>{user && <Articles user={user} />}</Card>
 		</Container>
 	);
 }
