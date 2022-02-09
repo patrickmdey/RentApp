@@ -83,12 +83,11 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public void setRequestState(long requestId, int state, String webpageUrl) {
-        RentState rentState = RentState.values()[state];
-        if (rentState.getIsPending())
+    public void setRequestState(long requestId, RentState state, String webpageUrl) {
+        if (state.getIsPending())
             throw new CannotEditRequestException();
 
-        if (rentState.getIsAccepted())
+        if (state.getIsAccepted())
             acceptRequest(requestId, webpageUrl);
         else
             rejectRequest(requestId, webpageUrl);

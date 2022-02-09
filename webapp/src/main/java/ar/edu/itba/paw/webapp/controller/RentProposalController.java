@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
+import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,9 +93,9 @@ public class RentProposalController {
     @Path("/{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
-    public Response modify(@PathParam("id") long id, @NotNull(message = "NotNull.proposals.state")
-            Integer state) {
-        rs.setRequestState(id, state, uriInfo.getAbsolutePath().toString());
+    public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO
+    ) {
+        rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());
         return Response.ok().build();
     }
 }
