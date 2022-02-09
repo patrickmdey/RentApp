@@ -106,7 +106,7 @@
     <filter-mapping>
         <filter-name>cacheFilter</filter-name>
         <!-- TODO : set to correct path -->
-        <url-pattern>/resources/*</url-pattern>
+        <url-pattern>/build/*</url-pattern>
     </filter-mapping>
 
     <servlet-mapping>
