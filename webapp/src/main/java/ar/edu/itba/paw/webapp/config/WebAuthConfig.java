@@ -48,8 +48,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     // create with authenticationManager
     // setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/authenticate", "POST"))
 
-//    private static readKey() {...
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -57,44 +55,26 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .invalidSessionUrl("/")
                 .and()
                 .headers().cacheControl().disable()
                 .and()
-                .addFilterBefore(
-                        tokenAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permit all preflight requests
                 .antMatchers(HttpMethod.POST, "/users").anonymous()
+                .antMatchers(HttpMethod.POST, "/proposals").hasAuthority("OWNER")
+                .antMatchers(HttpMethod.PUT, "/proposals").hasAuthority("OWNER")
                 .antMatchers( "/proposals/received").hasAuthority("OWNER")
                 .antMatchers("/proposals/sent").authenticated()
-                .antMatchers(HttpMethod.POST, "/articles").authenticated()
-
-                .antMatchers("/user/my-requests/sent/**").authenticated()
-                .antMatchers("/user/my-requests/received/**").hasAuthority("OWNER")
-                .antMatchers("/article/create").hasAuthority("OWNER")
-                .antMatchers("/review/{articleId}/create").authenticated()
+                .antMatchers(HttpMethod.POST, "/articles").hasAuthority("OWNER")
                 .anyRequest().permitAll()
                 .and().exceptionHandling()
                 .authenticationEntryPoint((request, response, ex) -> response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.getMessage()
-                )).and().csrf().disable();
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+                        HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage()))
+                .and().csrf().disable();
     }
 
     @Override
