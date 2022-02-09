@@ -19,6 +19,7 @@ import {
 import {SENT_STRING, states} from "./Request";
 import {useEffect, useState} from "react";
 import useUserId from "../hooks/useUserId";
+import usePaginatedResponse from "../hooks/usePaginatedResponse";
 
 // TODO: subdivide into components
 function Article() {
@@ -46,11 +47,12 @@ function Article() {
         ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken
     );
 
-    const {data: aProp, isSuccess: aPropSuccess} = useListRentProposals(loggedUserId !== null ? {
+    const {data: aProp, isSuccess: aPropSuccess} = usePaginatedResponse(useListRentProposals(loggedUserId !== null ? {
         userId: loggedUserId,
         type: SENT_STRING,
         state: states.accepted,
-    } : skipToken);
+        page: 1
+    } : skipToken));
 
     //TODO: ver si esta funcionando bien la api para buscar las proposals
 
