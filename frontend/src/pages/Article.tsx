@@ -17,6 +17,7 @@ import { SENT_STRING, states } from './Request';
 import { useEffect, useState } from 'react';
 import useUserId from '../hooks/useUserId';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
+import LoadingComponent from '../components/LoadingComponent';
 
 // TODO: subdivide into components
 function Article() {
@@ -24,23 +25,35 @@ function Article() {
 	const loggedUserId = useUserId();
 	// if (id == null) return <>Error</>;
 
-	const { data: articleData, isSuccess: articleIsSuccess } = useFindArticle(
-		new URL(`articles/${id}`, process.env.REACT_APP_BASE_URL).toString()
-	);
+	const {
+		data: articleData,
+		isSuccess: articleIsSuccess,
+		isLoading: articleLoad
+	} = useFindArticle(new URL(`articles/${id}`, process.env.REACT_APP_BASE_URL).toString());
 
-	const { data: categoriesData } = useListCategoriesFromArticle(
+	const { data: categoriesData, isLoading: categoriesLoad } = useListCategoriesFromArticle(
 		articleIsSuccess && articleData ? articleData.categoriesUrl : skipToken
 	);
 
-	const { data: reviewsData } = useListReviews(articleIsSuccess && articleData ? articleData.reviewsUrl : skipToken);
-
-	const { data: ownerData, isSuccess: ownerIsSuccess } = useFindUser(
-		articleIsSuccess && articleData ? articleData.ownerUrl : skipToken
+	const { data: reviewsData, isLoading: reviewsLoad } = useListReviews(
+		articleIsSuccess && articleData ? articleData.reviewsUrl : skipToken
 	);
 
-	const { data: locationData } = useFindLocation(ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken);
+	const {
+		data: ownerData,
+		isSuccess: ownerIsSuccess,
+		isLoading: ownerLoad
+	} = useFindUser(articleIsSuccess && articleData ? articleData.ownerUrl : skipToken);
 
-	const { data: aProp, isSuccess: aPropSuccess } = usePaginatedResponse(
+	const { data: locationData, isLoading: locationLoad } = useFindLocation(
+		ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken
+	);
+
+	const {
+		data: aProp,
+		isSuccess: aPropSuccess,
+		isLoading: aPropLoad
+	} = usePaginatedResponse(
 		useListRentProposals(
 			loggedUserId !== null
 				? {
@@ -95,6 +108,8 @@ function Article() {
 		[ownerData, ownerIsSuccess, loggedUserId]
 	);
 
+	if (articleLoad || categoriesLoad || reviewsLoad || ownerLoad || locationLoad || aPropLoad)
+		return <LoadingComponent />;
 	return (
 		<>
 			{articleIsSuccess && articleData && ownerIsSuccess && ownerData && (

@@ -10,7 +10,7 @@ import {CircleFill} from 'react-bootstrap-icons';
 import {useUpdateRentProposal} from '../../features/api/rentProposals/rentProposalsSlice';
 
 export default function RequestCard(props: { request: RentProposal; isSent: boolean }) {
-    const {message, startDate, endDate, seen, state, url, articleUrl, renterUrl, id} = props.request;
+    const {message, startDate, endDate, marked, state, url, articleUrl, renterUrl, id} = props.request;
 
     const {data: article, isSuccess: articleSuccess} = useFindArticle(articleUrl);
 
@@ -38,7 +38,7 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                     <Card className='card-style my-requests-card my-2'>
                         <div className='d-flex align-items-center'>
                             {/*// TODO: Duda, esto va a funcionar con el routing que tenemos?*/}
-                            {!seen && !props.isSent && <CircleFill className='color-rentapp-red me-3'/>}
+                            {marked && !props.isSent && <CircleFill className='color-rentapp-red me-3'/>}
                             <LinkContainer to={new URL(`/articles/${id}`, process.env.REACT_APP_BASE_URL).toString()}>
                                 <h3 className='color-action mb-0'> {article.title} </h3>
                             </LinkContainer>
@@ -70,12 +70,12 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                         </Row>
                         {state === states.pending && !props.isSent && (
                             <div className='d-flex justify-content-end my-2'>
-                                <Button onClick={handleAccept} className='bg-color-action color-grey me-1'>
-                                    {strings.collection.requestCard.acceptButton}
-                                </Button>
                                 <button onClick={handleShow} className='btn btn-link color-danger'>
                                     {strings.collection.requestCard.rejectButton}
                                 </button>
+                                <Button onClick={handleAccept} className='bg-color-action color-grey me-1'>
+                                    {strings.collection.requestCard.acceptButton}
+                                </Button>
                             </div>
                         )}
                     </Card>
