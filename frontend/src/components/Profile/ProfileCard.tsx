@@ -10,6 +10,7 @@ import { setCredentials } from '../../features/auth/authSlice';
 import { useAppDispatch } from '../../hooks';
 import PasswordForm from './PasswordForm';
 import ProfileForm from './ProfileForm';
+import { strings } from '../../i18n/i18n';
 
 export default function ProfileCard(props: {
 	disabled: boolean;
@@ -36,7 +37,7 @@ export default function ProfileCard(props: {
 			<Card className='w-100'>
 				<Card.Header>
 					<Stack direction='horizontal'>
-						<Card.Title className='mb-0'>My Profile</Card.Title>
+						<Card.Title className='mb-0'>{strings.collection.profile.profile}</Card.Title>
 						{disabled && (
 							<div className='ms-auto'>
 								<Button variant='link' onClick={() => setDisabled(false)}>
@@ -78,16 +79,16 @@ export default function ProfileCard(props: {
 				</Card.Body>
 			</Card>
 			<Modal show={showModal}>
-				<ModalHeader>Eliminar usuario</ModalHeader>
+				<ModalHeader>{strings.collection.profile.deleteForm.message}</ModalHeader>
 				<ModalBody>
-					<p>Esta seguro que desea eliminar el usuario?</p>
+					<p>{strings.collection.profile.deleteForm.confirmation}</p>
 				</ModalBody>
 				<ModalFooter>
 					<Button variant='outline-primary' onClick={() => setShowModal(false)}>
-						Cancelar
+						{strings.collection.profile.deleteForm.cancel}
 					</Button>
 					<Button variant='outline-danger' onClick={() => deleteUser(user.url)}>
-						Eliminar
+						{strings.collection.profile.deleteForm.confirm}
 					</Button>
 				</ModalFooter>
 			</Modal>

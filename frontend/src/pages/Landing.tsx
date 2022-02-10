@@ -39,7 +39,7 @@ export default function Landing() {
 					<LandingTitle />
 				</div>
 				<div className='py-2'>
-					<h1>Top rated articles</h1>
+					<h1>{strings.collection.landing.topRated}</h1>
 					{ratedIsSuccess && bestRated && (
 						<ArticleCardList articlesPerRow={4} articles={bestRated.data.slice(0, 4)} />
 					)}
@@ -48,7 +48,7 @@ export default function Landing() {
 					<CategoriesList />
 				</div>
 				<div className='py-2'>
-					<h1>Most rented articles</h1>
+					<h1>{strings.collection.landing.mostRented}</h1>
 					{rentedIsSuccess && mostRented && (
 						<ArticleCardList articlesPerRow={4} articles={mostRented.data.slice(0, 4)} />
 					)}

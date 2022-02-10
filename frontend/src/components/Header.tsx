@@ -1,34 +1,40 @@
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Button, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { strings } from '../i18n/i18n';
 import { setCredentials } from '../features/auth/authSlice';
 
 import logo from '../images/rentapp-logo.png';
+import { useFindUser } from '../features/api/users/usersSlice';
+import useUserId from '../hooks/useUserId';
 
-function RenderLoggedInNavBar(dispatch: Function) {
-	const name = 'lucas';
+function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
+	const { userId, dispatch } = props;
+	const [name, setName] = useState('');
+	const { data: user } = useFindUser(`users/${userId}`);
+
+	useEffect(() => setName(user ? user.firstName : ''), [user]);
 
 	return (
 		<NavDropdown title={name} className='active color-grey h6' id='collasible-nav-dropdown'>
-			<NavDropdown.Item>
+			<NavDropdown.Item as='div'>
 				<Link to='/proposals'>
 					<BsFillInboxFill />
 					{strings.collection.header.requests}
 				</Link>
 			</NavDropdown.Item>
 
-			<NavDropdown.Item>
+			<NavDropdown.Item as='div'>
 				<Link to='/profile'>
 					<BsPersonFill />
 					{strings.collection.header.profile}
 				</Link>
 			</NavDropdown.Item>
 
-			<NavDropdown.Item onClick={() => dispatch(setCredentials({ token: null, rememberMe: false }))}>
+			<NavDropdown.Item onClick={() => dispatch(setCredentials({ token: null, rememberMe: false }))} as='div'>
 				<BsBoxArrowInLeft />
 				{strings.collection.header.logout}
 			</NavDropdown.Item>
@@ -36,7 +42,7 @@ function RenderLoggedInNavBar(dispatch: Function) {
 	);
 }
 
-function RenderLoggedOutNavBar() {
+function LoggedOutNavBar() {
 	return (
 		<React.Fragment>
 			<LinkContainer to='/login'>
@@ -51,7 +57,7 @@ function RenderLoggedOutNavBar() {
 }
 
 export default function Header() {
-	const isAuthenticated = useAppSelector((state) => state.auth.token != null);
+	const userId = useUserId();
 	const dispatch = useAppDispatch();
 
 	return (
@@ -73,7 +79,7 @@ export default function Header() {
 							<Nav.Link className='active h6'>{strings.collection.header.publishArticle}</Nav.Link>
 						</LinkContainer>
 
-						{isAuthenticated ? RenderLoggedInNavBar(dispatch) : RenderLoggedOutNavBar()}
+						{userId != null ? <LoggedInNavBar dispatch={dispatch} userId={userId} /> : <LoggedOutNavBar />}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

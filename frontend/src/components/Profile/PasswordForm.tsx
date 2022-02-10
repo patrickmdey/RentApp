@@ -41,7 +41,7 @@ export default function PasswordForm(props: { user: User; onDone: Function }) {
 						register={register}
 						type='password'
 						name='password'
-						label='Password'
+						label={strings.collection.profile.passwordForm.password}
 						validation={{ required: true, minLength: 8, maxLength: 16 }}
 						error={errors.password}
 						errorMessage={strings.collection.login.errors.password}
@@ -52,20 +52,22 @@ export default function PasswordForm(props: { user: User; onDone: Function }) {
 						register={register}
 						type='password'
 						name='confirmPassword'
-						label='Confirm Password'
+						label={strings.collection.profile.passwordForm.confirmPassword}
 						validation={{ required: true, minLength: 8, maxLength: 16 }}
 						error={errors.confirmPassword}
 						errorMessage={strings.collection.login.errors.password}
 					/>
 				</Col>
-				{!passwordsMatch && <p className='text-danger'>Passwords must match</p>}
+				{!passwordsMatch && (
+					<p className='text-danger'>{strings.collection.profile.passwordForm.errors.fieldsMatch});</p>
+				)}
 			</Row>
 			<Stack direction='horizontal' className='mt-3'>
 				<Button onClick={(e) => onDone()} variant='outline-danger' className='ms-auto'>
-					Cancelar
+					{strings.collection.profile.passwordForm.cancel}
 				</Button>
 				<Button type='submit' className='ms-2'>
-					Guardar
+					{strings.collection.profile.passwordForm.save}
 				</Button>
 			</Stack>
 		</Form>

@@ -97,10 +97,10 @@ export default function ProfileForm(props: {
 					{!disabled && (
 						<Stack direction='horizontal'>
 							<Button className='ms-auto' variant='outline-danger' onClick={(_) => onDone()}>
-								Cancelar
+								{strings.collection.forms.cancel}
 							</Button>
 							<Button type='submit' className='ms-2' variant='primary'>
-								Guardar
+								{strings.collection.forms.save}
 							</Button>
 						</Stack>
 					)}
