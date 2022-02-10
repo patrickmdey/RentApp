@@ -4,7 +4,7 @@ export interface RentProposal {
 	message: string;
 	startDate: string;
 	endDate: string;
-	seen: boolean;
+	marked: boolean;
 	state: RentProposalState;
 	url: string;
 	articleUrl: string;
