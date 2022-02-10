@@ -27,7 +27,6 @@ const UNSELECTED_DEFAULT = {
 
 interface FilterCardProps {
     onSubmit: (data: FilterCardForm) => void;
-    isLoading: boolean;
 }
 
 function FilterCard(props: FilterCardProps) {
@@ -38,12 +37,12 @@ function FilterCard(props: FilterCardProps) {
     const {data: orderOptions, isSuccess: orderIsSucc} = useListOrderOptions();
 
     return (
-        <Card className='card-style filters-card col-md-3 col-lg-3 col-12'>
-            <Card.Header className=' d-flex align-items-center '>
-                <h4 className='color-rentapp-black col-9'>{strings.collection.filter.title}</h4>
-            </Card.Header>
-            {props.isLoading ?
-                <LoadingComponent/> : categoriesIsSucc && categories && locationsIsSucc && locations && orderIsSucc && orderOptions && (
+        <>{categoriesIsSucc && categories && locationsIsSucc && locations && orderIsSucc && orderOptions &&
+            <Card className='card-style filters-card col-md-3 col-lg-3 col-12'>
+                <Card.Header className=' d-flex align-items-center '>
+                    <h4 className='color-rentapp-black col-9'>{strings.collection.filter.title}</h4>
+                </Card.Header>
+
                 <Form onSubmit={handleSubmit(props.onSubmit)}>
                     <Card.Body style={{padding: '0px'}}>
                         <FormInput register={register} type='text' label={strings.collection.filter.name}
@@ -94,8 +93,8 @@ function FilterCard(props: FilterCardProps) {
                         {strings.collection.filter.button}
                     </Button>
                 </Form>
-            )}
-        </Card>
+            </Card>}
+        </>
     );
 }
 
