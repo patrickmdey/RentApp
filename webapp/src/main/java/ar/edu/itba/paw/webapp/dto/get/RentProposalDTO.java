@@ -13,7 +13,7 @@ public class RentProposalDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private long id;
-    private boolean seen;
+    private boolean marked;
 
     private URI url;
     private URI renterUrl;
@@ -26,6 +26,7 @@ public class RentProposalDTO {
         toReturn.startDate = rp.getStartDate();
         toReturn.endDate = rp.getEndDate();
         toReturn.id = rp.getId();
+        toReturn.marked = rp.isMarked();
 
         toReturn.url = uri.getBaseUriBuilder().path("proposals").path(String.valueOf(rp.getId())).build();
         toReturn.renterUrl = uri.getBaseUriBuilder().path("users").path(String.valueOf(rp.getRenter().getId())).build();
@@ -74,12 +75,12 @@ public class RentProposalDTO {
         this.id = id;
     }
 
-    public boolean isSeen() {
-        return seen;
+    public boolean isMarked() {
+        return marked;
     }
 
-    public void setSeen(boolean seen) {
-        this.seen = seen;
+    public void setMarked(boolean marked) {
+        this.marked = marked;
     }
 
     public URI getRenterUrl() {
