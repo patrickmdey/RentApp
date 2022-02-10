@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
 import NoDataCard from '../components/NoData/NoDataCard';
+import LoadingComponent from '../components/LoadingComponent';
+import ErrorComponent from '../components/Errors/ErrorComponent';
 
 function Marketplace() {
 	const [page, setPage] = useState(1);
@@ -20,6 +22,8 @@ function Marketplace() {
 		})
 	);
 
+	if (error) return <ErrorComponent error={1} message='message' />;
+
 	return (
 		<>
 			<Helmet>
@@ -28,13 +32,13 @@ function Marketplace() {
 			<Container>
 				<Row className='align-items-start justify-content-center'>
 					<Col md={3} lg={3}>
-						<FilterCard onSubmit={(data) => setFilters(data)} />
+						<FilterCard isLoading={isLoading} onSubmit={(data) => setFilters(data)} />
 					</Col>
 					<Col md={9} lg={9}>
 						{error ? (
 							<>Oh no, there was an error</>
 						) : isLoading ? (
-							<>Loading</>
+							<LoadingComponent />
 						) : data === null || (data && data.length === 0) ? (
 							<NoDataCard
 								title={strings.collection.noData.articleNotFoundTitle}
@@ -43,7 +47,7 @@ function Marketplace() {
 						) : (
 							data && (
 								<>
-									<ArticleCardList articles={data} articlesPerRow={3}/>
+									<ArticleCardList articles={data} articlesPerRow={3} />
 									<PagesList pages={pages} page={page} setPage={setPage} />
 								</>
 							)

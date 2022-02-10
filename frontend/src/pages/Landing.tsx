@@ -5,15 +5,29 @@ import ArticleCardList from '../components/ArticleCardList';
 import { useListArticles } from '../features/api/articles/articlesSlice';
 import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
+import LoadingComponent from '../components/LoadingComponent';
 
 export default function Landing() {
 	// TODO: paremetrize listArticles method, add limit param
-	const { data: bestRated, isSuccess: ratedIsSuccess } = useListArticles({
+	const {
+		data: bestRated,
+		isSuccess: ratedIsSuccess,
+		isLoading: bestRatedLoad
+	} = useListArticles({
 		orderBy: 'HIGHER_RATING'
 	});
-	const { data: mostRented, isSuccess: rentedIsSuccess } = useListArticles({
+	const {
+		data: mostRented,
+		isSuccess: rentedIsSuccess,
+		isLoading: mostRentedLoad
+	} = useListArticles({
 		orderBy: 'HIGHER_TIMES_RENTED'
 	});
+
+	if (bestRatedLoad || mostRentedLoad) {
+		return <LoadingComponent />;
+	}
+
 	return (
 		<>
 			<Helmet>

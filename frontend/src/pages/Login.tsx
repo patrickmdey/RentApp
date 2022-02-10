@@ -2,6 +2,7 @@ import LogInComponent from '../components/LogIn';
 import { Container } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
+import LoadingComponent from '../components/LoadingComponent';
 
 export default function Login() {
 	return (
