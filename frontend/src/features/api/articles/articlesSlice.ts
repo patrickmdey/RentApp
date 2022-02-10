@@ -13,12 +13,24 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta)
 		}),
 
-		createArticle: build.mutation<Article, CreateArticleParameters>({
-			query: (args) => ({
-				url: 'articles',
-				method: 'POST',
-				body: args
-			})
+		createArticle: build.mutation<string | null, CreateArticleParameters>({
+			query: (jsonArticle) => {
+				let data = new FormData();
+				for (let [key, val] of Object.entries(jsonArticle)) {
+					if (Array.isArray(val)) for (let i = 0; i < val.length; i++) data.append(key, val[i]);
+					else data.append(key, val);
+				}
+				return {
+					url: 'articles',
+					method: 'POST',
+					body: data
+				};
+			},
+			transformResponse: (_, meta) => {
+				const headers = meta?.response?.headers.get('Location')?.split('/');
+				if (headers == null) return null;
+				return headers[headers.length - 1];
+			}
 		}),
 
 		updateArticle: build.mutation<void, UpdateArticleParameters>({

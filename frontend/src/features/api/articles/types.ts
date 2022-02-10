@@ -30,10 +30,8 @@ export interface CreateArticleParameters {
 	title: string;
 	description: string;
 	pricePerDay: number;
-	rating: number;
 	categories: number[];
-	ownerId: number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
-	images: FileList;
+	images: File[];
 }
 
 export interface UpdateArticleParameters {

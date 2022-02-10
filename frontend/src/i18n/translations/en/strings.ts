@@ -2,43 +2,43 @@ import { StringCollection } from '../../types';
 
 let enCollection: StringCollection = {
 	header: {
-		requests: "My requests",
-		logout: "Log out",
-		profile: "My profile",
-		login: "Log in",
-		signup: "Register",
-		marketplace: "Explore",
-		publishArticle: "Publish article",
+		requests: 'My requests',
+		logout: 'Log out',
+		profile: 'My profile',
+		login: 'Log in',
+		signup: 'Register',
+		marketplace: 'Explore',
+		publishArticle: 'Publish article'
 	},
 	pageTitles: {
-		login: "Login",
-		marketplace: "Marketplace",
-		editProfile: "Edit Profile",
-		createArticle: "Publish Article",
-		editArticle: "Edit Article",
-		myProfile: "My Profile",
-		register: "Register",
-		rentapp: "RentApp",
+		login: 'Login',
+		marketplace: 'Marketplace',
+		editProfile: 'Edit Profile',
+		createArticle: 'Publish Article',
+		editArticle: 'Edit Article',
+		myProfile: 'My Profile',
+		register: 'Register',
+		rentapp: 'RentApp'
 	},
 	footer: {
-		team: "Team members",
-		contact: "Contact",
-		spanish: "Spanish",
-		english: "English",
-		email: "Email",
-		language: "Language"
+		team: 'Team members',
+		contact: 'Contact',
+		spanish: 'Spanish',
+		english: 'English',
+		email: 'Email',
+		language: 'Language'
 	},
 	filter: {
-		title: "Filters",
-		name: "Name",
-		category: "Category",
-		orderBy: "Order by",
-		location: "Location",
-		minPrice: "Min. price",
-		maxPrice: "Max. price",
-		button: "Search",
-		everyLocation: "Every location",
-		everyCategory: "Every category"
+		title: 'Filters',
+		name: 'Name',
+		category: 'Category',
+		orderBy: 'Order by',
+		location: 'Location',
+		minPrice: 'Min. price',
+		maxPrice: 'Max. price',
+		button: 'Search',
+		everyLocation: 'Every location',
+		everyCategory: 'Every category'
 	},
 	login: {
 		title: 'LogIn',
@@ -55,49 +55,70 @@ let enCollection: StringCollection = {
 			loginFail: 'Email or password is incorrect'
 		}
 	},
-	article: {
-		ownerCardTitle: "Owner",
-		descriptionTitle: "Description",
-		rent: "Rent",
-		edit: "Edit",
-		noArticles: "There are no articles yet",
-		timesRented: "rents",
-		createArticle: {
-			title: "Publish Article",
-			create: "Publish",
-			pricePerDay: "PricePerDay*",
-			articleName: "Name*",
-			articleNameLabel: "Enter the article name",
-			articleDescription: "Description*",
-			articleDescriptionLabel: "Enter the article description",
-			selectCategory: "Select at least one category",
-			selectImage: "Upload at least one image",
+	profile: {
+		profile: 'Profile',
+		passwordForm: {
+			password: 'Password',
+			confirmPassword: 'Confirm password',
 			errors: {
-				title: "You must enter a name for the article",
-				titleLength: "The name of the article must have between {2} and {1} characters",
-				description: "The description must have between {2} and {1} characters",
-				categories: "You must select at least one category",
-				pricePerDay: "The price must be greater than 1",
-				images: "You must upload at least one image"
+				fieldsMatch: 'Passwords must match'
+			},
+			cancel: 'Cancel',
+			save: 'Save'
+		},
+		deleteForm: {
+			message: 'Delete user',
+			confirmation: 'Are you sure you want to delete your account?',
+			cancel: 'Cancel',
+			confirm: 'Delete'
+		},
+		createdArticles: 'Published Articles',
+		rentedArticles: 'Rented Articles'
+	},
+	article: {
+		ownerCardTitle: 'Owner',
+		descriptionTitle: 'Description',
+		rent: 'Rent',
+		edit: 'Edit',
+		noArticles: 'There are no articles yet',
+		timesRented: 'rents',
+		createArticle: {
+			title: 'Publish Article',
+			create: 'Publish',
+			pricePerDay: 'PricePerDay*',
+			articleName: 'Name*',
+			articleNameLabel: 'Enter the article name',
+			articleDescription: 'Description*',
+			articleDescriptionLabel: 'Enter the article description',
+			selectCategory: 'Select at least one category',
+			selectImage: 'Upload at least one image',
+			errors: {
+				title: 'You must enter a name for the article',
+				titleLength: 'The name of the article must have between {2} and {1} characters',
+				description: 'The description must have between {2} and {1} characters',
+				categories: 'You must select at least one category',
+				pricePerDay: 'The price must be greater than 1',
+				images: 'You must upload at least one image'
 			}
 		},
 		requestArticle: {
-			title: "Request Article",
-			startDate: "Start Date*",
-			endDate: "End Date*",
-			message: "Message*",
-			messagePlaceHolder: "Enter a message so that the owner coinsider your request",
-			send: "Send",
+			title: 'Request Article',
+			startDate: 'Start Date*',
+			endDate: 'End Date*',
+			message: 'Message*',
+			messagePlaceHolder: 'Enter a message so that the owner coinsider your request',
+			send: 'Send',
 			errors: {
-				startDate: "You must enter the start date",
-				endDate: "You must enter the end date",
-				message: "You must enter a message for the owner",
+				startDate: 'You must enter the start date',
+				endDate: 'You must enter the end date',
+				message: 'You must enter a message for the owner'
 			}
-		},
+		}
 	},
 
 	review: {
-		reviews: 'Reviews'
+		reviews: 'Reviews',
+		create: 'Create review'
 	},
 	categories: {
 		searchByCategories: 'Search by categories'
@@ -112,7 +133,9 @@ let enCollection: StringCollection = {
 		pendingRequests: 'You have {0} pending rent request',
 		acceptedRequests: 'You have {0} accepted rent requests',
 		rejectedRequests: 'You have {0} rejected rent requests',
-		viewRequestsButton: 'View requests'
+		viewRequestsButton: 'View requests',
+		topRated: 'Top rated articles',
+		mostRented: 'Most rented articles'
 	},
 	register: {
 		title: 'Register',
@@ -177,17 +200,43 @@ let enCollection: StringCollection = {
 			noAcceptedTitle: 'None of your requests has been accepted',
 			noAcceptedSubtitle: "Here you'll see the requests that you have got accepted",
 			noDeclinedTitle: 'None of your requests has been declined',
-			noDeclinedSubtitle: "Here you'll see the requests that you have got rejected",
+			noDeclinedSubtitle: "Here you'll see the requests that you have got rejected"
 		}
 	},
 
 	noData: {
-		articleNotFoundTitle: "No articles match your search",
-		articleNotFoundSubtitle: "Try using generic words",
+		articleNotFoundTitle: 'No articles match your search',
+		articleNotFoundSubtitle: 'Try using generic words',
 		noReviews: 'There are no reviews yet',
 		noMyProfileArticlesTitle: "You haven't published any article yet",
 		noMyProfileRentedArticlesTitle: "You haven't rented any article yet",
-		noMyProfileSubtitle: "You can do so by clicking here",
+		noMyProfileSubtitle: 'You can do so by clicking here'
+	},
+
+	forms: {
+		cancel: 'Cancel',
+		save: 'Save'
+	},
+	errors: {
+		articleNotFound: 'Article not found',
+		userNotFound: 'User not found',
+		locationNotFound: 'Location not found',
+		categoryNotFound: 'Category not found',
+		rentProposalNotFound: 'Rent proposal not found',
+		reviewNotFound: 'Review not found',
+		cannotCreateArticle: 'Cannot create article',
+		cannotCreateProposal: 'Cannot create proposal',
+		unableToSendEmail: 'Unable to send email',
+		cannotCreateUser: 'Cannot create user',
+		cannotCreateReview: 'Cannot create review',
+		cannotCreateImage: 'Cannot create image',
+		cannotEditArticle: 'Cannot edit article',
+		cannotEditArticleCategory: 'Cannot edit article category',
+		cannotEditRequest: 'Cannot edit request',
+		cannotEditReview: 'Cannot edit review',
+		cannotEditUser: 'Cannot edit user',
+		unexpected: 'Unexpected error',
+		imageNotFound: 'Image not found'
 	}
 };
 

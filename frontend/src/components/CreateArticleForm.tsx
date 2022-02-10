@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Card, Button, FormControl } from 'react-bootstrap';
 import { useListCategories } from '../features/api/categories/categoriesSlice';
 import { strings } from '../i18n/i18n';
@@ -6,50 +6,44 @@ import { Category } from '../features/api/categories/types';
 import { useForm } from 'react-hook-form';
 import { useCreateArticle } from '../features/api/articles/articlesSlice';
 import FormInput from './Forms/FormInput';
+import FormCheckbox from './Forms/FormCheckbox';
+import { useNavigate } from 'react-router-dom';
+import MultipleImageInput from './Forms/MultipleImageInput';
 
 interface ArticleForm {
 	title: string;
 	description: string;
 	pricePerDay: number;
-	rating: number;
 	categories: number[];
-	ownerId: number; // TODO: esto en realidad no va aca creo, se maneja con el token del usuario
-	images: FileList;
+	images: File[];
 }
 
 function CreateArticleForm() {
 	const {
 		register,
 		handleSubmit,
+		setValue,
 		formState: { errors }
 	} = useForm<ArticleForm>({
 		defaultValues: {
 			title: '',
 			description: '',
 			pricePerDay: 0,
-			rating: 0,
 			categories: [],
-			ownerId: 0,
-			images: undefined
+			images: []
 		}
 	});
 
-	const [createArticle] = useCreateArticle();
+	const navigate = useNavigate();
+	const [createArticle, result] = useCreateArticle();
+	useEffect(() => {
+		if (result.isSuccess) navigate(`/articles/${result.data}`);
+	}, [result]);
 
 	function onSubimt(data: ArticleForm) {
 		console.log(data);
-		createArticle({ ...data });
+		createArticle(data);
 	}
-
-	const [articleCategories, setArticleCategories] = useState([]);
-
-	const handleChange = (event: any) => {
-		const { checked, value } = event.currentTarget;
-
-		setArticleCategories((prev: any) =>
-			checked ? [...prev, value] : prev.filter((val: Category) => val !== value)
-		);
-	};
 
 	const { data: categories, isSuccess } = useListCategories();
 
@@ -97,23 +91,19 @@ function CreateArticleForm() {
 								prependIcon='$'
 								validation={{ min: 1 }}
 							/>
-							{/* <p className='error mt-2'>⚠{strings.collection.article.createArticle.errors.pricePerDay}</p> */}
 						</div>
 						<div>
 							<Form.Label className='lead'>
 								{strings.collection.article.createArticle.selectCategory}
 							</Form.Label>
 							<div className='category-list-container my-2 mx-1'>
-								{categories.map((cat, i) => (
-									<Form.Check
-										key={i.toString()}
-										id={i.toString()}
-										value={cat.description}
-										type='checkbox'
-										checked={articleCategories.some((val) => val === cat.description)}
-										onChange={handleChange}
+								{categories.map((cat) => (
+									<FormCheckbox
+										key={cat.id}
+										register={register}
+										name='categories'
 										label={cat.description}
-										isInvalid={errors.categories != null}
+										value={cat.id}
 									/>
 								))}
 								<FormControl.Feedback type='invalid'>
@@ -122,14 +112,20 @@ function CreateArticleForm() {
 							</div>
 						</div>
 						<div>
-							<FormInput
+							<MultipleImageInput
+								register={register}
+								name='images'
+								setValue={(v: File[]) => setValue('images', v)}
+								label={strings.collection.article.createArticle.selectImage}
+							/>
+							{/* <FormInput
 								register={register}
 								label={strings.collection.article.createArticle.selectImage}
 								error={errors.images}
 								errorMessage={strings.collection.article.createArticle.errors.images}
 								name='images'
 								type='file'
-							/>
+							/> */}
 						</div>
 						<div className='d-grid gap-2'>
 							<Button className='bg-color-action btn-dark mt-3 mb-2' type='submit'>

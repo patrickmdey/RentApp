@@ -20,8 +20,8 @@ interface FilterCardForm {
 
 const UNSELECTED_DEFAULT = {
 	id: '',
-	description: 'Seleccionar',
-	name: 'Seleccionar'
+	description: strings.collection.filter.everyCategory,
+	name: strings.collection.filter.everyLocation
 };
 interface FilterCardProps {
 	onSubmit: (data: FilterCardForm) => void;
@@ -90,7 +90,7 @@ function FilterCard(props: FilterCardProps) {
 					</Button>
 				</Form>
 			) : (
-				<p>Ocurrio un error</p>
+				<p>Ocurrio un error</p> // TODO: cambiar
 			)}
 		</Card>
 	);

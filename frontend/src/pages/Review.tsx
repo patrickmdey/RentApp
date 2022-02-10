@@ -2,6 +2,8 @@ import { Helmet } from 'react-helmet-async';
 import { useFindArticle } from '../features/api/articles/articlesSlice';
 import { Container } from 'react-bootstrap';
 import ReviewForm from '../components/Review/ReviewForm';
+import { strings } from '../i18n/i18n';
+
 function Review() {
 	//TODO: getSearchParams() pero ver como es con router .v6
 
@@ -12,7 +14,7 @@ function Review() {
 	return (
 		<>
 			<Helmet>
-				<title>Create Review</title>
+				<title>{strings.collection.review.create}</title>
 			</Helmet>
 			{isSuccess && article && (
 				<Container style={{ margin: 20 % 0 }} className='mx-auto min-height'>

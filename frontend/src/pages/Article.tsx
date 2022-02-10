@@ -126,7 +126,7 @@ function Article() {
 										<ReviewList reviews={reviewsData} />
 									) : (
 										<div className='d-flex justify-content-center my-auto'>
-											<p className='lead my-auto'>No hay reseñas</p>
+											<p className='lead my-auto'>{strings.collection.noData.noReviews}</p>
 										</div>
 									)}
 								</Card>

@@ -1,4 +1,4 @@
-import CreateArticleForm from '../components/CreateArticleFrom';
+import CreateArticleForm from '../components/CreateArticleForm';
 import { Container } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';

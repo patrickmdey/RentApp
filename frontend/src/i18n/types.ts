@@ -18,16 +18,15 @@ interface FooterStrings {
 	email: string;
 	language: string;
 }
-
 interface PageTitlesString {
-	login: string,
-	marketplace: string,
-	editProfile: string,
-	createArticle: string,
-	editArticle: string,
-	myProfile: string,
-	register: string,
-	rentapp: string,
+	login: string;
+	marketplace: string;
+	editProfile: string;
+	createArticle: string;
+	editArticle: string;
+	myProfile: string;
+	register: string;
+	rentapp: string;
 }
 
 interface FilterStrings {
@@ -57,6 +56,27 @@ interface LogInStrings {
 		password: string;
 		loginFail: string;
 	};
+}
+
+export interface ProfileString {
+	profile: string;
+	passwordForm: {
+		password: string;
+		confirmPassword: string;
+		errors: {
+			fieldsMatch: string;
+		};
+		cancel: string;
+		save: string;
+	};
+	deleteForm: {
+		message: string;
+		confirmation: string;
+		cancel: string;
+		confirm: string;
+	};
+	createdArticles: string;
+	rentedArticles: string;
 }
 
 interface ArticleStrings {
@@ -102,6 +122,7 @@ interface ArticleStrings {
 
 interface ReviewStrings {
 	reviews: string;
+	create: string;
 }
 
 interface CategoriesString {
@@ -118,6 +139,8 @@ export interface LandingString {
 	acceptedRequests: string;
 	rejectedRequests: string;
 	viewRequestsButton: string;
+	topRated: string;
+	mostRented: string;
 }
 
 export interface RegisterString {
@@ -156,12 +179,12 @@ export interface RequestCardString {
 }
 
 export interface NoDataString {
-	articleNotFoundTitle: string,
-	articleNotFoundSubtitle: string,
-	noReviews: string,
-	noMyProfileArticlesTitle: string,
-	noMyProfileSubtitle: string,
-	noMyProfileRentedArticlesTitle: string
+	articleNotFoundTitle: string;
+	articleNotFoundSubtitle: string;
+	noReviews: string;
+	noMyProfileArticlesTitle: string;
+	noMyProfileSubtitle: string;
+	noMyProfileRentedArticlesTitle: string;
 }
 
 export interface RequestsString {
@@ -197,20 +220,49 @@ export interface RequestsString {
 	};
 }
 
+export interface FormsString {
+	cancel: string;
+	save: string;
+}
+
+export interface ErrorsString {
+	articleNotFound: string;
+	userNotFound: string;
+	locationNotFound: string;
+	categoryNotFound: string;
+	rentProposalNotFound: string;
+	reviewNotFound: string;
+	cannotCreateArticle: string;
+	cannotCreateProposal: string;
+	unableToSendEmail: string;
+	cannotCreateUser: string;
+	cannotCreateReview: string;
+	cannotCreateImage: string;
+	cannotEditArticle: string;
+	cannotEditArticleCategory: string;
+	cannotEditRequest: string;
+	cannotEditReview: string;
+	cannotEditUser: string;
+	unexpected: string;
+	imageNotFound: string;
+}
 export interface StringCollection {
-	header: HeaderStrings,
-	footer: FooterStrings,
-	filter: FilterStrings,
-	login: LogInStrings,
-	article: ArticleStrings,
-	review: ReviewStrings,
-	categories: CategoriesString,
-	landing: LandingString,
-	register: RegisterString,
-	requestCard: RequestCardString,
-	requests: RequestsString,
-	pageTitles: PageTitlesString,
-	noData: NoDataString
+	header: HeaderStrings;
+	footer: FooterStrings;
+	filter: FilterStrings;
+	login: LogInStrings;
+	profile: ProfileString;
+	article: ArticleStrings;
+	review: ReviewStrings;
+	categories: CategoriesString;
+	landing: LandingString;
+	register: RegisterString;
+	requestCard: RequestCardString;
+	requests: RequestsString;
+	pageTitles: PageTitlesString;
+	noData: NoDataString;
+	forms: FormsString;
+	errors: ErrorsString;
 }
 
 export interface IStrings extends LocalizedStringsMethods {
