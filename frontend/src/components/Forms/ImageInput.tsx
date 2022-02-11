@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { Button, FormGroup, FormLabel, InputGroup } from 'react-bootstrap';
 
-export default function ImageInput<T>(props: { label?: string; onSelect: Function }) {
-	const { label, onSelect } = props;
+export default function ImageInput<T>(props: { label?: string; onSelect: Function; accept?: string }) {
+	const { label, onSelect, accept } = props;
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	return (
@@ -19,6 +19,7 @@ export default function ImageInput<T>(props: { label?: string; onSelect: Functio
 				<input
 					type='file'
 					className='d-none'
+					accept={accept}
 					ref={inputRef}
 					onChange={(_) => {
 						if (inputRef?.current?.files && inputRef?.current?.files.length) {

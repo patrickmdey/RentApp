@@ -4,6 +4,8 @@ import { UseFormRegister, Path } from 'react-hook-form';
 import ImageInput from './ImageInput';
 import ImagePreview from './ImagePreview';
 
+const reader = new FileReader();
+
 export default function MultipleImageInput<T>(props: {
 	register: UseFormRegister<T>;
 	label: string;
@@ -11,10 +13,10 @@ export default function MultipleImageInput<T>(props: {
 	hasError: boolean;
 	max: number;
 	errorMessage: string;
+	accept?: string;
 	setValue: Function;
 }) {
-	const [reader] = useState(new FileReader());
-	const { label, setValue, hasError, errorMessage, max } = props;
+	const { label, setValue, hasError, errorMessage, max, accept } = props;
 	const [addInput, setAddInput] = useState(true);
 	const [files, setFiles] = useState<File[]>([]);
 	const [removedIdx, setRemovedIdx] = useState(-1);
@@ -50,7 +52,7 @@ export default function MultipleImageInput<T>(props: {
 
 	return (
 		<FormGroup>
-			{label && <FormLabel>{label}</FormLabel>}
+			<FormLabel>{label}</FormLabel>
 			<InputGroup>
 				<Row>
 					{previews.map((img, idx) => (
@@ -69,7 +71,12 @@ export default function MultipleImageInput<T>(props: {
 						</Col>
 					))}
 					<Col key={-1}>
-						{addInput && <ImageInput onSelect={(file: File) => setFiles((prev) => [...prev, file])} />}
+						{addInput && (
+							<ImageInput
+								accept={accept}
+								onSelect={(file: File) => setFiles((prev) => [...prev, file])}
+							/>
+						)}
 					</Col>
 				</Row>
 			</InputGroup>

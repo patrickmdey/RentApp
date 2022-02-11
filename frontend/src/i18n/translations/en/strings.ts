@@ -50,8 +50,8 @@ let enCollection: StringCollection = {
 		loginButton: 'LogIn',
 		signupButton: 'Register',
 		errors: {
-			email: 'You must enter your email',
-			password: 'You must enter your password',
+			email: { required: 'You must enter your email' },
+			password: { required: 'You must enter your password' },
 			loginFail: 'Email or password is incorrect'
 		}
 	},
@@ -93,11 +93,17 @@ let enCollection: StringCollection = {
 			selectCategory: 'Select at least one category',
 			selectImage: 'Upload at least one image',
 			errors: {
-				title: 'You must enter a name for the article',
-				titleLength: 'The name of the article must have between {2} and {1} characters',
-				description: 'The description must have between {2} and {1} characters',
-				categories: 'You must select at least one category',
-				pricePerDay: 'The price must be greater than 1',
+				title: {
+					required: 'You must enter a name for the article',
+					minLength: 'The name of the article must have between {2} and {1} characters'
+				},
+				description: {
+					required: 'You must enter a decription for the article',
+					minLength: 'The description must have between {2} and {1} characters',
+					maxLength: 'The description must have between {2} and {1} characters'
+				},
+				categories: { required: 'You must select at least one category' },
+				pricePerDay: { min: 'The price must be greater than 1' },
 				images: 'You must upload at least one image'
 			}
 		},
@@ -109,13 +115,19 @@ let enCollection: StringCollection = {
 			messagePlaceHolder: 'Enter a message so that the owner coinsider your request',
 			send: 'Send',
 			errors: {
-				startDate: 'You must enter the start date',
-				endDate: 'You must enter the end date',
-				message: 'You must enter a message for the owner'
+				startDate: {
+					required: 'You must enter the start date'
+				},
+				endDate: {
+					required: 'You must enter an end date'
+				},
+				message: {
+					required: 'You must enter a message for the owner',
+					minLength: 'The message must have more than {1} characters'
+				}
 			}
 		}
 	},
-
 	review: {
 		reviews: 'Reviews',
 		create: 'Create review'
@@ -149,15 +161,21 @@ let enCollection: StringCollection = {
 		password: 'Password*',
 		passwordPlaceholder: 'Enter your password',
 		confirmPassword: 'Confirm password*',
-		confirmPasswordPlaceholder: 'Reenter your password',
+		confirmPasswordPlaceholder: 'Confirm your password',
 		image: 'Upload image',
 		isRenter: 'Would you like to rent your stuff? ',
 		confirmButton: 'Confirm',
 		errors: {
-			firstName: 'You must enter your first name',
-			lastName: 'You must enter your last name',
-			location: 'You must select your location',
-			image: 'You must upload an image'
+			firstName: {
+				required: 'You must enter your first name',
+				minLength: 'First name must have between {1} and {2} characters'
+			},
+			lastName: {
+				required: 'You must enter your last name',
+				minLength: 'Last name must have between {1} and {2} characters'
+			},
+			location: { required: 'You must select your location' },
+			image: { required: 'You must upload an image' }
 		}
 	},
 	requestCard: {

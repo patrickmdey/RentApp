@@ -50,9 +50,15 @@ let esCollection: StringCollection = {
 		loginButton: 'Iniciar Sesión',
 		signupButton: 'Registrar Usuario',
 		errors: {
-			email: 'Es obligatorio ingresar un email',
-			password: 'Es obligatorio ingresar una contraseña',
-			loginFail: 'El usuario o la contraseña no son válidos'
+			email: {
+				required: 'Es obligatorio ingresar un email',
+				minLength: 'El mail debe tener entre {1} y {2} caracteres'
+			},
+			password: {
+				required: 'Es obligatorio ingresar una contraseña',
+				minLength: 'La contraseña debe tener entre {1} y {2} caracteres'
+			},
+			loginFail: 'El usuario o la contraseña ingresada son incorrectos'
 		}
 	},
 	profile: {
@@ -93,12 +99,18 @@ let esCollection: StringCollection = {
 			selectCategory: 'Seleccioná al menos una categoría',
 			selectImage: 'Seleccioná al menos una imagen',
 			errors: {
-				title: 'Es obligatorio ingresar el nombre del artículo',
-				titleLength: 'El nombre del artículo debe tener entre {2} y {1} caracteres',
-				description: 'La descripción debe tener entre {2} y {1} caracteres',
-				categories: 'Es obligatorio seleccionar al menos una categoría',
-				pricePerDay: 'El monto debe ser mayor a {1}',
-				images: 'Es obligatorio subir al menos una imagen'
+				title: {
+					required: 'Es obligatorio ingresar el nombre del artículo',
+					minLength: 'El nombre del artículo debe tener entre {2} y {1} caracteres'
+				},
+				description: {
+					required: 'Es obligatorio ingresar una descripcion para el articulo',
+					minLength: 'La descripción debe tener entre {2} y {1} caractere',
+					maxLength: 'La descripción debe tener entre {2} y {1} caracteres'
+				},
+				categories: { required: 'Debes seleccionar al menos una categoria' },
+				pricePerDay: { min: 'El monto debe ser mayot a {1}' },
+				images: 'You must upload at least one image'
 			}
 		},
 		requestArticle: {
@@ -109,9 +121,9 @@ let esCollection: StringCollection = {
 			messagePlaceHolder: 'Ingresa un mensaje para que el Dueño tenga mas en cuenta tu solicitud',
 			send: 'Enviar',
 			errors: {
-				startDate: 'Es obligatorio ingresar la fecha de inicio',
-				endDate: 'Es obligatorio ingresar la fecha de finalización',
-				message: 'Es obligatorio ingresar un mensaje para el dueño'
+				startDate: { required: 'Es obligatorio ingresar la fecha de inicio' },
+				endDate: { required: 'Es obligatorio ingresar la fecha de finalización' },
+				message: { required: 'Es obligatorio ingresar un mensaje para el dueño' }
 			}
 		}
 	},
@@ -153,10 +165,16 @@ let esCollection: StringCollection = {
 		isRenter: '¿Quieres alquilar tus cosas? ',
 		confirmButton: 'Confirmar',
 		errors: {
-			firstName: 'Es obligatorio ingresar tu nombre',
-			lastName: 'Es obligatorio ingresar tu apellido',
-			location: 'Es obligatorio seleccionar tu ubicación',
-			image: 'Es obligatorio elegir una imagen'
+			firstName: {
+				required: 'Es obligatorio ingresar tu nombre',
+				minLength: 'El nombre debe tener entre {1} y {2} caracteres'
+			},
+			lastName: {
+				required: 'Es obligatorio ingresar tu apellido',
+				minLength: 'El apellido debe tener entre {1} y {2} caracteres'
+			},
+			location: { required: 'Es obligatorio seleccionar tu ubicación' },
+			image: { required: 'Es obligatorio elegir una imagen' }
 		}
 	},
 	requestCard: {

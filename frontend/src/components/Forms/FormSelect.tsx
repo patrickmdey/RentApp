@@ -1,5 +1,6 @@
 import { FormGroup, FormLabel, InputGroup, FormControl, Form } from 'react-bootstrap';
 import { UseFormRegister, Path, FieldError } from 'react-hook-form';
+import { ErrorMessageInterface } from '../../i18n/types';
 import ValidationInterface from './ValidationInterface';
 
 export default function FormSelect<T>(props: {
@@ -14,7 +15,7 @@ export default function FormSelect<T>(props: {
 	appendIcon?: JSX.Element | null;
 	validation?: Partial<ValidationInterface<T>>;
 	error?: FieldError | null;
-	errorMessage?: string;
+	errorMessage?: ErrorMessageInterface;
 }) {
 	const {
 		register,
@@ -47,7 +48,11 @@ export default function FormSelect<T>(props: {
 					))}
 				</Form.Select>
 				{appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
-				<FormControl.Feedback type='invalid'>{errorMessage}</FormControl.Feedback>
+				{errorMessage && error && (
+					<FormControl.Feedback type='invalid'>
+						{errorMessage[error.type as keyof ErrorMessageInterface]}
+					</FormControl.Feedback>
+				)}
 			</InputGroup>
 		</FormGroup>
 	);

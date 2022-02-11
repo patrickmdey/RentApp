@@ -99,27 +99,29 @@ function CreateArticleForm() {
 							/>
 						</div>
 						<div>
-							<Form.Label className='lead'>
-								{strings.collection.article.createArticle.selectCategory}
-							</Form.Label>
+							<Form.Label>{strings.collection.article.createArticle.selectCategory}</Form.Label>
 							<div className='category-list-container my-2 mx-1'>
 								{categories.map((cat) => (
 									<FormCheckbox
 										key={cat.id}
 										register={register}
 										name='categories'
+										validation={{ required: true }}
 										label={cat.description}
 										value={cat.id}
 									/>
 								))}
-								<FormControl.Feedback type='invalid'>
-									{strings.collection.article.createArticle.errors.categories}
-								</FormControl.Feedback>
 							</div>
+							{errors.categories && submited && (
+								<p className='text-danger fs-7 fw-light'>
+									{strings.collection.article.createArticle.errors.categories.required}
+								</p>
+							)}
 						</div>
 						<div>
 							<MultipleImageInput
 								register={register}
+								accept='image/*'
 								name='images'
 								max={5}
 								setValue={(v: File[]) => setValue('images', v, { shouldValidate: true })}
