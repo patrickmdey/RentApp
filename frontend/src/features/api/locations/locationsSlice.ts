@@ -9,8 +9,14 @@ const LocationsApiSlice = BaseApiSlice.injectEndpoints({
 
 		listLocations: build.query<Location[], void>({
 			query: () => 'locations'
+		}),
+
+		listUsedLocations: build.query<Location[], void>({
+			query: () => 'locations?used=true'
 		})
+
 	})
 });
 
-export const { useListLocationsQuery: useListLocations, useFindLocationQuery: useFindLocation } = LocationsApiSlice;
+export const { useListLocationsQuery: useListLocations, useFindLocationQuery: useFindLocation,
+	useListUsedLocationsQuery: useListUsedLocations } = LocationsApiSlice;
