@@ -34,13 +34,19 @@ function CreateArticleForm() {
 		}
 	});
 
+	const [submited, setSubmited] = useState(false);
+
+	useEffect(() => {
+		register('images', { required: true, min: 1, max: 5 });
+	}, []);
+
 	const navigate = useNavigate();
 	const [createArticle, result] = useCreateArticle();
 	useEffect(() => {
 		if (result.isSuccess) navigate(`/articles/${result.data}`);
 	}, [result]);
 
-	function onSubimt(data: ArticleForm) {
+	function onSubmit(data: ArticleForm) {
 		console.log(data);
 		createArticle(data);
 	}
@@ -55,7 +61,7 @@ function CreateArticleForm() {
 						<h3 className='fw-bold'>{strings.collection.article.createArticle.title}</h3>
 						<hr />
 					</Card.Title>
-					<Form onSubmit={handleSubmit(onSubimt)}>
+					<Form onSubmit={handleSubmit(onSubmit, () => setSubmited(true))}>
 						<div className='my-2'>
 							<FormInput
 								register={register}
@@ -93,39 +99,36 @@ function CreateArticleForm() {
 							/>
 						</div>
 						<div>
-							<Form.Label className='lead'>
-								{strings.collection.article.createArticle.selectCategory}
-							</Form.Label>
+							<Form.Label>{strings.collection.article.createArticle.selectCategory}</Form.Label>
 							<div className='category-list-container my-2 mx-1'>
 								{categories.map((cat) => (
 									<FormCheckbox
 										key={cat.id}
 										register={register}
 										name='categories'
+										validation={{ required: true }}
 										label={cat.description}
 										value={cat.id}
 									/>
 								))}
-								<FormControl.Feedback type='invalid'>
-									{strings.collection.article.createArticle.errors.categories}
-								</FormControl.Feedback>
 							</div>
+							{errors.categories && submited && (
+								<p className='text-danger fs-7 fw-light'>
+									{strings.collection.article.createArticle.errors.categories.required}
+								</p>
+							)}
 						</div>
 						<div>
 							<MultipleImageInput
 								register={register}
+								accept='image/*'
 								name='images'
-								setValue={(v: File[]) => setValue('images', v)}
+								max={5}
+								setValue={(v: File[]) => setValue('images', v, { shouldValidate: true })}
 								label={strings.collection.article.createArticle.selectImage}
+								hasError={errors.images != null && submited}
+								errorMessage={strings.collection.article.createArticle.selectImage}
 							/>
-							{/* <FormInput
-								register={register}
-								label={strings.collection.article.createArticle.selectImage}
-								error={errors.images}
-								errorMessage={strings.collection.article.createArticle.errors.images}
-								name='images'
-								type='file'
-							/> */}
 						</div>
 						<div className='d-grid gap-2'>
 							<Button className='bg-color-action btn-dark mt-3 mb-2' type='submit'>

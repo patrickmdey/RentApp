@@ -1,4 +1,22 @@
 import { LocalizedStringsMethods } from 'react-localization';
+export interface ErrorMessageInterface {
+	max?: string;
+	min?: string;
+	maxLength?: string;
+	minLength?: string;
+	required?: string;
+	pattern?: string;
+	onBlur?: string;
+	disabled?: string;
+	value?: string;
+	onChange?: undefined;
+	validate?: undefined;
+	valueAsNumber?: undefined;
+	valueAsDate?: undefined;
+	setValueAs?: undefined;
+	shouldUnregister?: undefined;
+	deps?: undefined;
+}
 
 interface HeaderStrings {
 	requests: string;
@@ -52,8 +70,8 @@ interface LogInStrings {
 	loginButton: string;
 	signupButton: string;
 	errors: {
-		email: string;
-		password: string;
+		email: ErrorMessageInterface;
+		password: ErrorMessageInterface;
 		loginFail: string;
 	};
 }
@@ -97,11 +115,10 @@ interface ArticleStrings {
 		selectCategory: string;
 		selectImage: string;
 		errors: {
-			title: string;
-			titleLength: string;
-			description: string;
-			pricePerDay: string;
-			categories: string;
+			title: ErrorMessageInterface;
+			description: ErrorMessageInterface;
+			pricePerDay: ErrorMessageInterface;
+			categories: ErrorMessageInterface;
 			images: string;
 		};
 	};
@@ -113,9 +130,9 @@ interface ArticleStrings {
 		messagePlaceHolder: string;
 		send: string;
 		errors: {
-			startDate: string;
-			endDate: string;
-			message: string;
+			startDate: ErrorMessageInterface;
+			endDate: ErrorMessageInterface;
+			message: ErrorMessageInterface;
 		};
 	};
 }
@@ -160,10 +177,10 @@ export interface RegisterString {
 	isRenter: string;
 	confirmButton: string;
 	errors: {
-		firstName: string;
-		lastName: string;
-		location: string;
-		image: string;
+		firstName: ErrorMessageInterface;
+		lastName: ErrorMessageInterface;
+		location: ErrorMessageInterface;
+		image: ErrorMessageInterface;
 	};
 }
 
