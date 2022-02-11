@@ -130,7 +130,8 @@ let enCollection: StringCollection = {
 	},
 	review: {
 		reviews: 'Reviews',
-		create: 'Create review'
+		create: 'Create review',
+		edit: "Edit review"
 	},
 	categories: {
 		searchByCategories: 'Search by categories'

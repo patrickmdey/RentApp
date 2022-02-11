@@ -7,7 +7,7 @@ export const BaseApiSlice = createApi({
 		baseUrl: process.env.REACT_APP_BASE_URL || 'api',
 		prepareHeaders(headers, { getState }) {
 			const state = getState() as RootState;
-			console.log('token', state);
+			// console.log('token', state);
 			if (state && state.auth.token) headers.set('Authorization', 'Bearer ' + state.auth.token);
 
 			return headers;

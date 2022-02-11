@@ -129,7 +129,8 @@ let esCollection: StringCollection = {
 	},
 	review: {
 		reviews: 'Reseñas',
-		create: 'Crear reseña'
+		create: 'Crear reseña',
+		edit: 'Editar reseña'
 	},
 	categories: {
 		searchByCategories: 'Buscar por categorías'

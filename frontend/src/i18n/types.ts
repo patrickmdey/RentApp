@@ -140,6 +140,7 @@ interface ArticleStrings {
 interface ReviewStrings {
 	reviews: string;
 	create: string;
+	edit: string;
 }
 
 interface CategoriesString {

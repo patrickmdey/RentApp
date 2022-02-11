@@ -8,7 +8,7 @@ function Review() {
 	//TODO: getSearchParams() pero ver como es con router .v6
 
 	const { data: article, isSuccess } = useFindArticle(
-		new URL('articles/44', process.env.REACT_APP_BASE_URL).toString()
+		new URL('articles/74', process.env.REACT_APP_BASE_URL).toString()
 	);
 
 	return (
@@ -17,7 +17,7 @@ function Review() {
 				<title>{strings.collection.review.create}</title>
 			</Helmet>
 			{isSuccess && article && (
-				<Container style={{ margin: 20 % 0 }} className='mx-auto min-height'>
+				<Container className='mx-auto min-height'>
 					<ReviewForm article={article} />
 				</Container>
 			)}
