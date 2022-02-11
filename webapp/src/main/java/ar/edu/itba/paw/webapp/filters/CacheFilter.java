@@ -2,7 +2,6 @@ package ar.edu.itba.paw.webapp.filters;
 
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -23,7 +23,7 @@ public class PawUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         final ar.edu.itba.paw.models.User user = userService.findByEmail(email)
-                                                    .orElseThrow(()-> new UsernameNotFoundException("No user for" + email));
+                .orElseThrow(()-> new UsernameNotFoundException("No user for" + email));
 
         final Collection<GrantedAuthority> authorities = new ArrayList<>();
 
