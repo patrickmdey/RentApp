@@ -11,6 +11,7 @@ import usePaginatedResponse from '../../hooks/usePaginatedResponse';
 import PagesList from '../PagesList';
 import { RentProposal } from '../../features/api/rentProposals/types';
 import LoadingComponent from '../LoadingComponent';
+import ErrorComponent from '../Errors/ErrorComponent';
 
 function SentRequestList() {
 	const id = useUserId();
@@ -25,7 +26,8 @@ function SentRequestList() {
 		data: pendingS,
 		isSuccess: pendingSSucc,
 		pages: pendingPages,
-		isLoading: pSLoad
+		isLoading: pSLoad,
+		error: pendingSError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -43,7 +45,8 @@ function SentRequestList() {
 		data: acceptedS,
 		isSuccess: acceptedSSucc,
 		pages: acceptedPages,
-		isLoading: aSLoad
+		isLoading: aSLoad,
+		error: acceptedSError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -61,7 +64,8 @@ function SentRequestList() {
 		data: declinedS,
 		isSuccess: declinedSSucc,
 		pages: declinedPages,
-		isLoading: dSLoad
+		isLoading: dSLoad,
+		error: declinedSError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -74,6 +78,15 @@ function SentRequestList() {
 				: skipToken
 		)
 	);
+
+	const anyError = pendingSError || acceptedSError || declinedSError;
+	if (anyError && 'status' in anyError)
+		return (
+			<ErrorComponent
+				error={anyError.status}
+				message={typeof anyError.data === 'string' ? anyError.data : undefined}
+			/>
+		);
 
 	return (
 		<Card className='card-style min-height' color='red'>

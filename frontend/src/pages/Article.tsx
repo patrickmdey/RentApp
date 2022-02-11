@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import useUserId from '../hooks/useUserId';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import LoadingComponent from '../components/LoadingComponent';
+import ErrorComponent from '../components/Errors/ErrorComponent';
 
 // TODO: subdivide into components
 function Article() {
@@ -28,31 +29,40 @@ function Article() {
 	const {
 		data: articleData,
 		isSuccess: articleIsSuccess,
-		isLoading: articleLoad
+		isLoading: articleLoad,
+		error: articleError
 	} = useFindArticle(new URL(`articles/${id}`, process.env.REACT_APP_BASE_URL).toString());
 
-	const { data: categoriesData, isLoading: categoriesLoad } = useListCategoriesFromArticle(
-		articleIsSuccess && articleData ? articleData.categoriesUrl : skipToken
-	);
+	const {
+		data: categoriesData,
+		isLoading: categoriesLoad,
+		error: categoriesError
+	} = useListCategoriesFromArticle(articleIsSuccess && articleData ? articleData.categoriesUrl : skipToken);
 
-	const { data: reviewsData, isLoading: reviewsLoad } = useListReviews(
-		articleIsSuccess && articleData ? articleData.reviewsUrl : skipToken
-	);
+	const {
+		data: reviewsData,
+		isLoading: reviewsLoad,
+		error: reviewError
+	} = useListReviews(articleIsSuccess && articleData ? articleData.reviewsUrl : skipToken);
 
 	const {
 		data: ownerData,
 		isSuccess: ownerIsSuccess,
-		isLoading: ownerLoad
+		isLoading: ownerLoad,
+		error: ownerError
 	} = useFindUser(articleIsSuccess && articleData ? articleData.ownerUrl : skipToken);
 
-	const { data: locationData, isLoading: locationLoad } = useFindLocation(
-		ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken
-	);
+	const {
+		data: locationData,
+		isLoading: locationLoad,
+		error: locationError
+	} = useFindLocation(ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken);
 
 	const {
 		data: aProp,
 		isSuccess: aPropSuccess,
-		isLoading: aPropLoad
+		isLoading: aPropLoad,
+		error: aPropError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			loggedUserId !== null
@@ -110,6 +120,15 @@ function Article() {
 
 	if (articleLoad || categoriesLoad || reviewsLoad || ownerLoad || locationLoad || aPropLoad)
 		return <LoadingComponent />;
+
+	const anyError = articleError || categoriesError || reviewError || ownerError || locationError || aPropError;
+	if (anyError && 'status' in anyError)
+		return (
+			<ErrorComponent
+				error={anyError.status}
+				message={typeof anyError.data === 'string' ? anyError.data : undefined}
+			/>
+		);
 	return (
 		<>
 			{articleIsSuccess && articleData && ownerIsSuccess && ownerData && (

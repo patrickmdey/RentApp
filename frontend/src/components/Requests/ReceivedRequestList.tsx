@@ -10,6 +10,7 @@ import RequestCardList from './RequestCardList';
 import usePaginatedResponse from '../../hooks/usePaginatedResponse';
 import PagesList from '../PagesList';
 import LoadingComponent from '../LoadingComponent';
+import ErrorComponent from '../Errors/ErrorComponent';
 
 function ReceivedRequestList() {
 	const id = useUserId();
@@ -24,7 +25,8 @@ function ReceivedRequestList() {
 		data: pendingR,
 		isSuccess: pendingRSucc,
 		pages: pendingPages,
-		isLoading: pRLoad
+		isLoading: pRLoad,
+		error: pendingRError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -42,7 +44,8 @@ function ReceivedRequestList() {
 		data: acceptedR,
 		isSuccess: acceptedRSucc,
 		pages: acceptedPages,
-		isLoading: aRLoad
+		isLoading: aRLoad,
+		error: acceptedRError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -60,7 +63,8 @@ function ReceivedRequestList() {
 		data: declinedR,
 		isSuccess: declinedRSucc,
 		pages: declinedPages,
-		isLoading: dRLoad
+		isLoading: dRLoad,
+		error: declinedRError
 	} = usePaginatedResponse(
 		useListRentProposals(
 			id !== null
@@ -73,6 +77,15 @@ function ReceivedRequestList() {
 				: skipToken
 		)
 	);
+
+	const anyError = pendingRError || acceptedRError || declinedRError;
+	if (anyError && 'status' in anyError)
+		return (
+			<ErrorComponent
+				error={anyError.status}
+				message={typeof anyError.data === 'string' ? anyError.data : undefined}
+			/>
+		);
 
 	return (
 		<Card className='card-style min-height'>

@@ -6,20 +6,23 @@ import { useListArticles } from '../features/api/articles/articlesSlice';
 import { Helmet } from 'react-helmet-async';
 import { strings } from '../i18n/i18n';
 import LoadingComponent from '../components/LoadingComponent';
+import ErrorComponent from '../components/Errors/ErrorComponent';
 
 export default function Landing() {
 	// TODO: paremetrize listArticles method, add limit param
 	const {
 		data: bestRated,
 		isSuccess: ratedIsSuccess,
-		isLoading: bestRatedLoad
+		isLoading: bestRatedLoad,
+		error: bestRatedError
 	} = useListArticles({
 		orderBy: 'HIGHER_RATING'
 	});
 	const {
 		data: mostRented,
 		isSuccess: rentedIsSuccess,
-		isLoading: mostRentedLoad
+		isLoading: mostRentedLoad,
+		error: mostRentedError
 	} = useListArticles({
 		orderBy: 'HIGHER_TIMES_RENTED'
 	});
@@ -27,6 +30,15 @@ export default function Landing() {
 	if (bestRatedLoad || mostRentedLoad) {
 		return <LoadingComponent />;
 	}
+
+	const anyError = bestRatedError || mostRentedError;
+	if (anyError && 'status' in anyError)
+		return (
+			<ErrorComponent
+				error={anyError.status}
+				message={typeof anyError.data === 'string' ? anyError.data : undefined}
+			/>
+		);
 
 	return (
 		<>
