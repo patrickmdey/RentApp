@@ -95,15 +95,16 @@ let enCollection: StringCollection = {
 			errors: {
 				title: {
 					required: 'You must enter a name for the article',
-					minLength: 'The name of the article must have between {2} and {1} characters'
+					minLength: 'The name of the article must have between {minLength} and {maxLength} characters',
+					maxLength: 'The name of the article must have between {minLength} and {maxLength} characters'
 				},
 				description: {
 					required: 'You must enter a decription for the article',
-					minLength: 'The description must have between {2} and {1} characters',
-					maxLength: 'The description must have between {2} and {1} characters'
+					minLength: 'The description must have between {minLength} and {maxLength} characters',
+					maxLength: 'The description must have between {minLength} and {maxLength} characters'
 				},
 				categories: { required: 'You must select at least one category' },
-				pricePerDay: { min: 'The price must be greater than 1' },
+				pricePerDay: { min: 'The price must be greater than {min}' },
 				images: 'You must upload at least one image'
 			}
 		},
@@ -123,7 +124,7 @@ let enCollection: StringCollection = {
 				},
 				message: {
 					required: 'You must enter a message for the owner',
-					minLength: 'The message must have more than {1} characters'
+					minLength: 'The message must have more than {minLength} characters'
 				}
 			}
 		}
@@ -131,7 +132,7 @@ let enCollection: StringCollection = {
 	review: {
 		reviews: 'Reviews',
 		create: 'Create review',
-		edit: "Edit review"
+		edit: 'Edit review'
 	},
 	categories: {
 		searchByCategories: 'Search by categories'
@@ -169,11 +170,13 @@ let enCollection: StringCollection = {
 		errors: {
 			firstName: {
 				required: 'You must enter your first name',
-				minLength: 'First name must have between {1} and {2} characters'
+				minLength: 'First name must have between {minLength} and {maxLength} characters',
+				maxLength: 'First name must have between {minLength} and {maxLength} characters'
 			},
 			lastName: {
 				required: 'You must enter your last name',
-				minLength: 'Last name must have between {1} and {2} characters'
+				minLength: 'Last name must have between {minLength} and {maxLength} characters',
+				maxLength: 'Last name must have between {minLength} and {maxLength} characters'
 			},
 			location: { required: 'You must select your location' },
 			image: { required: 'You must upload an image' }

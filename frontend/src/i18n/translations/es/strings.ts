@@ -52,11 +52,13 @@ let esCollection: StringCollection = {
 		errors: {
 			email: {
 				required: 'Es obligatorio ingresar un email',
-				minLength: 'El mail debe tener entre {1} y {2} caracteres'
+				minLength: 'El mail debe tener entre {minLength} y {maxLength} caracteres',
+				maxLength: 'El mail debe tener entre {minLength} y {maxLength} caracteres'
 			},
 			password: {
 				required: 'Es obligatorio ingresar una contraseña',
-				minLength: 'La contraseña debe tener entre {1} y {2} caracteres'
+				minLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres',
+				maxLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres'
 			},
 			loginFail: 'El usuario o la contraseña ingresada son incorrectos'
 		}
@@ -101,15 +103,16 @@ let esCollection: StringCollection = {
 			errors: {
 				title: {
 					required: 'Es obligatorio ingresar el nombre del artículo',
-					minLength: 'El nombre del artículo debe tener entre {2} y {1} caracteres'
+					minLength: 'El nombre del artículo debe tener entre {minLength} y {maxLength} caracteres',
+					maxLength: 'El nombre del artículo debe tener entre {minLength} y {maxLength} caracteres'
 				},
 				description: {
 					required: 'Es obligatorio ingresar una descripcion para el articulo',
-					minLength: 'La descripción debe tener entre {2} y {1} caractere',
-					maxLength: 'La descripción debe tener entre {2} y {1} caracteres'
+					minLength: 'La descripción debe tener entre {minLength} y {maxLength} caracteres',
+					maxLength: 'La descripción debe tener entre {minLength} y {maxLength} caracteres'
 				},
 				categories: { required: 'Debes seleccionar al menos una categoria' },
-				pricePerDay: { min: 'El monto debe ser mayot a {1}' },
+				pricePerDay: { min: 'El monto debe ser mayor a {min}' },
 				images: 'You must upload at least one image'
 			}
 		},
@@ -168,11 +171,11 @@ let esCollection: StringCollection = {
 		errors: {
 			firstName: {
 				required: 'Es obligatorio ingresar tu nombre',
-				minLength: 'El nombre debe tener entre {1} y {2} caracteres'
+				minLength: 'El nombre debe tener entre {minLength} y {maxLength} caracteres'
 			},
 			lastName: {
 				required: 'Es obligatorio ingresar tu apellido',
-				minLength: 'El apellido debe tener entre {1} y {2} caracteres'
+				minLength: 'El apellido debe tener entre {minLength} y {maxLength} caracteres'
 			},
 			location: { required: 'Es obligatorio seleccionar tu ubicación' },
 			image: { required: 'Es obligatorio elegir una imagen' }
