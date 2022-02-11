@@ -2,7 +2,6 @@ package ar.edu.itba.paw.webapp.dto.get;
 
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
-
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.time.LocalDate;

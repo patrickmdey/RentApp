@@ -2,15 +2,11 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.LocationService;
 import ar.edu.itba.paw.models.Locations;
-import ar.edu.itba.paw.models.exceptions.LocationNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.validation.constraints.Max;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

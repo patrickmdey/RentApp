@@ -6,14 +6,13 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.util.Date;
 
 public class JwtTokenUtil {
-    private byte[] key;
+    private final byte[] key;
 
     public JwtTokenUtil(Resource resource) throws IOException {
         this.key = StreamUtils.copyToByteArray(resource.getInputStream());

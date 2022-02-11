@@ -2,7 +2,6 @@ package ar.edu.itba.paw.interfaces.dao;
 
 import ar.edu.itba.paw.models.RentProposal;
 import ar.edu.itba.paw.models.RentState;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

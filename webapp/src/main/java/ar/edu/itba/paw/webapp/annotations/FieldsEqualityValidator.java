@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.webapp.annotations;
 
 import org.springframework.util.ReflectionUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;

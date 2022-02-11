@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.webapp.annotations;
 
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
