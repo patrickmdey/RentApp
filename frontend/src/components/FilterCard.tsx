@@ -2,13 +2,10 @@ import { Button, Card, Form, InputGroup } from 'react-bootstrap';
 import { strings } from '../i18n/i18n';
 import { useForm } from 'react-hook-form';
 import { useListCategories } from '../features/api/categories/categoriesSlice';
-import { useListLocations, useListUsedLocations } from '../features/api/locations/locationsSlice';
+import { useListUsedLocations } from '../features/api/locations/locationsSlice';
 import { useListOrderOptions } from '../features/api/orderOptions/orderOptionsSlice';
 import FormInput from './Forms/FormInput';
 import FormSelect from './Forms/FormSelect';
-import { Category } from '../features/api/categories/types';
-import LoadingComponent from './LoadingComponent';
-import ErrorComponent from './Errors/ErrorComponent';
 
 interface FilterCardForm {
 	name: string;
