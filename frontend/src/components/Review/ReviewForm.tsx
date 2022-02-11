@@ -9,6 +9,7 @@ import { useListImages } from '../../features/api/images/imagesSlice';
 import { Rating as SimpleStarRating } from 'react-simple-star-rating';
 import { useEffect, useState } from 'react';
 import { Review } from '../../features/api/reviews/types';
+import { useNavigate } from 'react-router-dom';
 
 interface ReviewForm {
 	rating: number;
@@ -47,13 +48,10 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	const [updateReview, updateResult] = useUpdateReview();
 
 	//TODO: cambiar a la pantalla correspondiente
+	const navigate = useNavigate();
 	useEffect(() => {
-		if (review === undefined) {
-			if (createResult.isSuccess) console.log(createResult);
-		} else {
-			if (updateResult.isSuccess) {
-				console.log(updateResult);
-			}
+		if (createResult.isSuccess || updateResult.isSuccess) {
+			navigate(`/articles/${article.id}`);
 		}
 	}, [createResult, updateResult]);
 

@@ -16,7 +16,7 @@ function Review(review: ReviewT) {
 	let navigate = useNavigate();
 	const goToEditReview = () => {
 		let path = new URL(`/editReview/${id}`, process.env.REACT_APP_BASE_URL);
-		navigate(path);
+		navigate(path); //TODO: checkear que creo que el tema de authorize en front no esta funcando para esto
 	};
 
 	return (
