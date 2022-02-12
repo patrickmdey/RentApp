@@ -20,7 +20,7 @@ export default function LogInComponent() {
 	// const [state, setState] = useState({ showPassword: false });
 	const [isLoginError, setIsLoginError] = useState(false);
 	const { state } = useLocation() as { state?: { path?: string } };
-	console.log(state);
+	// console.log(state);
 
 	const [login] = useLogin();
 	const navigate = useNavigate();

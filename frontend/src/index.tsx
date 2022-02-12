@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import 'typeface-roboto';
 import './scss/app.scss';
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import Startup from './startup';
 import { HelmetProvider } from 'react-helmet-async';
 
