@@ -19,12 +19,14 @@ import useUserId from '../hooks/useUserId';
 import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import LoadingComponent from '../components/LoadingComponent';
 import ErrorComponent from '../components/Errors/ErrorComponent';
+import { useNavigate } from 'react-router';
 
 // TODO: subdivide into components
 function Article() {
 	const { id } = useParams();
 	const loggedUserId = useUserId();
 	// if (id == null) return <>Error</>;
+	const navigate = useNavigate();
 
 	const {
 		data: articleData,
@@ -76,8 +78,6 @@ function Article() {
 		)
 	);
 
-	//TODO: ver si esta funcionando bien la api para buscar las proposals
-
 	const [loggedUserUrl, setLoggedUserUrl] = useState('');
 	useEffect(
 		() => setLoggedUserUrl(new URL(`users/${loggedUserId}`, process.env.REACT_APP_BASE_URL).toString()),
@@ -85,18 +85,17 @@ function Article() {
 	);
 
 	const [hasRented, setHasRented] = useState(false);
-	useEffect(
-		() =>
-			setHasRented(
-				aPropSuccess && aProp && articleData
-					? aProp.find(
-							(proposal) =>
-								Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === articleData.url
-					  ) !== null
-					: false
-			),
-		[aPropSuccess, aProp, articleData]
-	);
+
+	useEffect(() => {
+		let acceptedRentProposal =
+			aPropSuccess &&
+			aProp &&
+			articleData &&
+			aProp.find(
+				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === articleData.url
+			);
+		setHasRented(acceptedRentProposal !== null && acceptedRentProposal !== undefined);
+	}, [aPropSuccess, aProp, articleData]);
 
 	const [hasReviewed, setHasReviewed] = useState(false);
 	useEffect(
@@ -147,28 +146,32 @@ function Article() {
 						<Row className='w-100 g-0 justify-content-between'>
 							<Col md={8} className='pe-md-3 pe-0'>
 								<ArticleDescriptionCard articleDescription={articleData.description} />
-
-								<Card className='card-style'>
-									<div className='d-flex align-items-center justify-content-between'>
-										<Card.Title as='h3'>{strings.collection.review.reviews}</Card.Title>
-										{hasRented && !hasReviewed && (
-											<Button>{strings.collection.article.rent}</Button>
-										)}
-									</div>
-									<hr></hr>
-									{reviewsData ? (
-										<ReviewList reviews={reviewsData} />
-									) : (
-										<div className='d-flex justify-content-center my-auto'>
-											<p className='lead my-auto'>{strings.collection.noData.noReviews}</p>
-										</div>
-									)}
-								</Card>
 							</Col>
 							<Col md={4}>
 								<OwnerCard owner={ownerData} />
 							</Col>
 						</Row>
+						<Row className='w-100 g-0 justify-content-between'>
+							<Card className='card-style'>
+								<div className='d-flex align-items-center justify-content-between'>
+									<Card.Title as='h3'>{strings.collection.review.reviews}</Card.Title>
+									{hasRented && !hasReviewed && (
+										<Button onClick={() => navigate(`/createReview?forArticle=${articleData.id}`)}>
+											{strings.collection.article.createReview}
+										</Button>
+									)}
+								</div>
+								<hr></hr>
+								{reviewsData ? (
+									<ReviewList reviews={reviewsData} />
+								) : (
+									<div className='d-flex justify-content-center my-auto'>
+										<p className='lead my-auto'>{strings.collection.noData.noReviews}</p>
+									</div>
+								)}
+							</Card>
+						</Row>
+						{/* TODO: Agrergar artículos similares */}
 					</Container>
 				</>
 			)}

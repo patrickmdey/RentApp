@@ -7,19 +7,6 @@ function ReviewList(props: { reviews: ReviewT[] }) {
 	const { reviews } = props;
 	return (
 		<div>
-			<Row>
-				{/* TODO: Can review
-         <c:if test="${canReview}">
-          <div className="col-4">
-            <control:linkButton
-              href="${writeReview}"
-              labelCode="article.createReview.title"
-              color="bg-color-action color-grey"
-            /> 
-          </div>
-        </c:if>
-        */}
-			</Row>
 			{reviews.length === 0 ? (
 				<p className='lead'>{strings.collection.noData.noReviews}</p>
 			) : (

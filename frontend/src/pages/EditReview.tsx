@@ -10,8 +10,6 @@ import ErrorComponent from '../components/Errors/ErrorComponent';
 import { useParams } from 'react-router-dom';
 
 function EditReview() {
-	//TODO: getSearchParams() pero ver como es con router .v6
-
 	const { id } = useParams();
 
 	const {

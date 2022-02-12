@@ -80,6 +80,7 @@ let enCollection: StringCollection = {
 		descriptionTitle: 'Description',
 		rent: 'Rent',
 		edit: 'Edit',
+		createReview: 'Review',
 		noArticles: 'There are no articles yet',
 		timesRented: 'rents',
 		createArticle: {
