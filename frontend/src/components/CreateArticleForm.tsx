@@ -40,8 +40,8 @@ function CreateArticleForm() {
 		register('images', { required: true, min: 1, max: 5 });
 	}, []);
 
-	const navigate = useNavigate();
 	const [createArticle, result] = useCreateArticle();
+	const navigate = useNavigate();
 	useEffect(() => {
 		if (result.isSuccess) navigate(`/articles/${result.data}`);
 	}, [result]);

@@ -32,13 +32,12 @@ function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 			title={
 				<div style={{ display: 'inline-block' }}>
 					<div className='d-flex justify-content-center align-items-center'>
+						<p className='color-grey'>{name}</p>
 						{requestAmount > 0 && (
-							<p className='me-1'>
+							<p className='ms-1'>
 								<Badge className='bg-rentapp-red'>{requestAmount}</Badge>
 							</p>
 						)}
-
-						<p className='color-grey'>{name}</p>
 					</div>
 				</div>
 			}

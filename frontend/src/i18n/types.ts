@@ -134,6 +134,8 @@ interface ArticleStrings {
 			endDate: ErrorMessageInterface;
 			message: ErrorMessageInterface;
 		};
+		successTitle: string;
+		successSubtitle: string;
 	};
 }
 
