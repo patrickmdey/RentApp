@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { Button, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Badge, Button, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';
@@ -14,12 +14,37 @@ import useUserId from '../hooks/useUserId';
 function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 	const { userId, dispatch } = props;
 	const [name, setName] = useState('');
+	const [requestAmount, setRequestAmount] = useState(0);
 	const { data: user } = useFindUser(`users/${userId}`);
 
 	useEffect(() => setName(user ? user.firstName : ''), [user]);
 
+	useEffect(
+		() =>
+			setRequestAmount(
+				user ? user.acceptedRequestAmount + user.declinedRequestAmount + user.pendingRequestAmount : 0
+			),
+		[user]
+	);
+
 	return (
-		<NavDropdown title={name} className='active color-grey h6' id='collasible-nav-dropdown'>
+		<NavDropdown
+			title={
+				<div style={{ display: 'inline-block' }}>
+					<div className='d-flex justify-content-center align-items-center'>
+						{requestAmount > 0 && (
+							<p className='me-1'>
+								<Badge className='bg-rentapp-red'>{requestAmount}</Badge>
+							</p>
+						)}
+
+						<p className='color-grey'>{name}</p>
+					</div>
+				</div>
+			}
+			className='active color-grey h6'
+			id='collasible-nav-dropdown'
+		>
 			<NavDropdown.Item as='div'>
 				<Link to='/proposals'>
 					<BsFillInboxFill />
