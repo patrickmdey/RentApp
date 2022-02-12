@@ -5,6 +5,9 @@ import { CreateRentProposalParameters } from '../../features/api/rentProposals/t
 import { strings } from '../../i18n/i18n';
 import FormInput from '../Forms/FormInput';
 import useUserId from '../../hooks/useUserId';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import LoadingComponent from '../LoadingComponent';
 
 interface RequestFormT {
 	message: string;
@@ -34,10 +37,15 @@ function RequestForm(props: { articleId: number }) {
 
 	const loggedUser = useUserId();
 
-	const [createRequest] = useCreateRentProposal();
+	const navigate = useNavigate();
+
+	const [createRequest, result] = useCreateRentProposal();
+
+	useEffect(() => {
+		if (result.isSuccess) navigate('/success');
+	}, [result]);
 
 	function onSubmit(data: RequestFormT) {
-		// console.log(data);
 		createRequest({
 			...data,
 			startDate: data.startDate.toString(),
@@ -49,47 +57,55 @@ function RequestForm(props: { articleId: number }) {
 	return (
 		<div className='modal-content bg-color-grey'>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<Modal.Body className='bg-color-grey'>
-					<Row>
-						<Col md={6} lg={6} className='my-2'>
+				{result.isLoading ? (
+					<div className='mb-5'>
+						<LoadingComponent />
+					</div>
+				) : (
+					<>
+						<Modal.Body className='bg-color-grey'>
+							<Row>
+								<Col md={6} lg={6} className='my-2'>
+									<FormInput
+										register={register}
+										label={strings.collection.article.requestArticle.startDate}
+										name='startDate'
+										type='date'
+										validation={{ required: true }}
+										error={errors.startDate}
+										errorMessage={strings.collection.article.requestArticle.errors.startDate}
+									/>
+								</Col>
+								<Col md={6} lg={6} className='my-2'>
+									<FormInput
+										register={register}
+										label={strings.collection.article.requestArticle.endDate}
+										name='endDate'
+										type='date'
+										validation={{ required: true }} //TODO: aca validate: isValidDate
+										error={errors.startDate}
+										errorMessage={strings.collection.article.requestArticle.errors.endDate}
+									/>
+								</Col>
+							</Row>
 							<FormInput
 								register={register}
-								label={strings.collection.article.requestArticle.startDate}
-								name='startDate'
-								type='date'
-								validation={{ required: true }}
-								error={errors.startDate}
-								errorMessage={strings.collection.article.requestArticle.errors.startDate}
+								label={strings.collection.article.requestArticle.message}
+								placeholder={strings.collection.article.requestArticle.messagePlaceHolder}
+								name='message'
+								type='text'
+								validation={{ required: true, minLength: 10, maxLength: 310 }}
+								error={errors.message}
+								errorMessage={strings.collection.article.requestArticle.errors.message}
 							/>
-						</Col>
-						<Col md={6} lg={6} className='my-2'>
-							<FormInput
-								register={register}
-								label={strings.collection.article.requestArticle.endDate}
-								name='endDate'
-								type='date'
-								validation={{ required: true }} //TODO: aca validate: isValidDate
-								error={errors.startDate}
-								errorMessage={strings.collection.article.requestArticle.errors.endDate}
-							/>
-						</Col>
-					</Row>
-					<FormInput
-						register={register}
-						label={strings.collection.article.requestArticle.message}
-						placeholder={strings.collection.article.requestArticle.messagePlaceHolder}
-						name='message'
-						type='text'
-						validation={{ required: true, minLength: 10, maxLength: 310 }}
-						error={errors.message}
-						errorMessage={strings.collection.article.requestArticle.errors.message}
-					/>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button type='submit' className='bg-color-action color-grey'>
-						{strings.collection.article.requestArticle.send}
-					</Button>
-				</Modal.Footer>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button type='submit' className='bg-color-action color-grey'>
+								{strings.collection.article.requestArticle.send}
+							</Button>
+						</Modal.Footer>
+					</>
+				)}
 			</Form>
 		</div>
 	);

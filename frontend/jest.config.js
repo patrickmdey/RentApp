@@ -16,6 +16,9 @@ module.exports = {
         "^.+\\.tsx?$": "ts-jest"
 
     },
+    transformIgnorePatterns: [
+        "node_modules/(?!(react-native|my-project|redux-persist)/)"
+    ],
 
 
     // Runs special logic, such as cleaning up components

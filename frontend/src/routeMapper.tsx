@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import useUserId from './hooks/useUserId';
 import EditReview from './pages/EditReview';
 import EditArticle from './pages/EditArticle';
+import Success from './pages/Success';
 
 function RequireAuth(props: { children: JSX.Element }) {
 	const id = useUserId();
@@ -43,6 +44,7 @@ export default function RouteMapper() {
 
 				<Route path='/marketplace' element={<Marketplace />} />
 				<Route path='/' element={<Landing />} />
+				<Route path='/success' element={<Success />} />
 
 				<Route
 					path='/createArticle'

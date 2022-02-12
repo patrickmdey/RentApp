@@ -126,7 +126,9 @@ let enCollection: StringCollection = {
 					required: 'You must enter a message for the owner',
 					minLength: 'The message must have more than {minLength} characters'
 				}
-			}
+			},
+			successTitle: "The request has been sent. Soon you'll receive news from the owner",
+			successSubtitle: "For more articles click here"
 		}
 	},
 	review: {

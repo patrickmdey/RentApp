@@ -127,7 +127,9 @@ let esCollection: StringCollection = {
 				startDate: { required: 'Es obligatorio ingresar la fecha de inicio' },
 				endDate: { required: 'Es obligatorio ingresar la fecha de finalización' },
 				message: { required: 'Es obligatorio ingresar un mensaje para el dueño' }
-			}
+			},
+			successTitle: "La solicitud ha sido enviada con éxito. Pronto estarás recibiendo un mail por parte del dueño",
+			successSubtitle: "Para ver más artículos haz click aquí"
 		}
 	},
 	review: {

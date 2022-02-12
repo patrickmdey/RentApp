@@ -1,8 +1,10 @@
-import { Card, Container, Nav, Tab, Tabs } from 'react-bootstrap';
+import { Badge, Card, Container, Nav, Tab, Tabs } from 'react-bootstrap';
 import { strings } from '../i18n/i18n';
 import SentRequestList from '../components/Requests/SentRequestList';
 import ReceivedRequestList from '../components/Requests/ReceivedRequestList';
-
+import useUserId from '../hooks/useUserId';
+import { useFindUser } from '../features/api/users/usersSlice';
+import { useState, useEffect } from 'react';
 export const RECEIVED_STRING = 'received';
 export const SENT_STRING = 'sent';
 
@@ -13,6 +15,14 @@ export const states = {
 };
 
 export default function Requests() {
+	const userId = useUserId();
+
+	const { data: user } = useFindUser(`users/${userId}`);
+
+	const [receivedAmount, setReceievedAmount] = useState(0);
+
+	useEffect(() => setReceievedAmount(user && user.owner ? user.pendingRequestAmount : 0), [user]);
+
 	return (
 		<Container className='min-height'>
 			<Tab.Container id='left-tabs-example' defaultActiveKey='first'>
@@ -30,7 +40,14 @@ export default function Requests() {
 									</Nav.Item>
 									<Nav.Item>
 										<Nav.Link eventKey='second' className='request-pill w-100 text-start'>
-											<p className='my-1'>{strings.collection.requests.receivedTitle}</p>
+											<div className='d-flex'>
+												<p className='my-1'>{strings.collection.requests.receivedTitle}</p>
+												{receivedAmount > 0 && (
+													<p className='my-1'>
+														<Badge className='bg-rentapp-red ms-1'>{receivedAmount}</Badge>
+													</p>
+												)}
+											</div>
 										</Nav.Link>
 									</Nav.Item>
 								</Nav>
