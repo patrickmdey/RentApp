@@ -10,7 +10,7 @@ import FormCheckbox from './Forms/FormCheckbox';
 import { useNavigate } from 'react-router-dom';
 import MultipleImageInput from './Forms/MultipleImageInput';
 
-interface ArticleForm {
+export interface ArticleForm {
 	title: string;
 	description: string;
 	pricePerDay: number;

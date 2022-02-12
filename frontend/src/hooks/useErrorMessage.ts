@@ -11,7 +11,6 @@ export default function useErrorMessage<T>(
 	const [message, setMessage] = useState<string | null>(null);
 
 	useEffect(() => {
-		console.log(error, errorStrings, validation);
 		if (error == null || errorStrings == null || validation == null) {
 			setMessage(null);
 			return;

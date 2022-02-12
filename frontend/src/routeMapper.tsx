@@ -10,6 +10,7 @@ import Review from './pages/Review';
 import Profile from './pages/Profile';
 import useUserId from './hooks/useUserId';
 import EditReview from './pages/EditReview';
+import EditArticle from './pages/EditArticle';
 
 function RequireAuth(props: { children: JSX.Element }) {
 	const id = useUserId();
@@ -52,6 +53,14 @@ export default function RouteMapper() {
 					}
 				/>
 				<Route path={`/articles/:id`} element={<Article />} />
+				<Route
+					path='/articles/:id/edit'
+					element={
+						<RequireAuth>
+							<EditArticle />
+						</RequireAuth>
+					}
+				/>
 				<Route
 					path='/createReview'
 					element={

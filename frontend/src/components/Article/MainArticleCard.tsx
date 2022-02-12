@@ -9,6 +9,7 @@ import { Location } from '../../features/api/locations/types';
 import { useListImages } from '../../features/api/images/imagesSlice';
 import RequestForm from '../Requests/RequestForm';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function setActiveImage(src: string) {
 	const htmlImg = document.getElementById('main-img');
@@ -27,6 +28,8 @@ function MainArticleCard(props: {
 }) {
 	const { article, categories, reviews, location, isOwner } = props;
 	const { data: articleImages, isSuccess } = useListImages(article.imagesUrl);
+
+	const navigate = useNavigate();
 
 	const [show, setShow] = useState(false);
 
@@ -98,7 +101,7 @@ function MainArticleCard(props: {
 						{}
 						<Row className='my-3'>
 							{isOwner ? (
-								<Button>{strings.collection.article.edit}</Button>
+								<Button onClick={() => navigate('edit')}>{strings.collection.article.edit}</Button>
 							) : (
 								<Button onClick={handleShow}>{strings.collection.article.rent}</Button>
 							)}

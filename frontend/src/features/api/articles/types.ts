@@ -39,6 +39,5 @@ export interface UpdateArticleParameters {
 	title: string;
 	description: string;
 	pricePerDay: number;
-	rating: number;
 	categories: number[];
 }
