@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, FormControl, FormGroup, FormLabel, InputGroup } from 'react-bootstrap';
+import { Button, Card, Col, Form, FormControl, FormGroup, FormLabel, InputGroup, Row } from 'react-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { Article } from '../../features/api/articles/types';
 import { useForm, UseFormRegister } from 'react-hook-form';
@@ -47,7 +47,6 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	const [createReview, createResult] = useCreateReview();
 	const [updateReview, updateResult] = useUpdateReview();
 
-	//TODO: cambiar a la pantalla correspondiente
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (createResult.isSuccess || updateResult.isSuccess) {
@@ -59,6 +58,8 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		if (review === undefined) createReview({ ...form });
 		else updateReview({ url: review.url.toString(), rating: rating, message: form.message });
 	}
+
+	//TODO: Al crear una review tira error interno del servidor pero no dice que fue. Algo relacionado con el RentState (???)
 
 	return (
 		<Card>
@@ -78,7 +79,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 							/>
 						)}
 					</Col>
-					<Col md={1} lg={1} />
+					<Col md={2} lg={2} />
 					<Col md={7} lg={7}>
 						<h3 className='mb-2'>{article.title}</h3>
 						<Form onSubmit={handleSubmit(onSubmit)}>
@@ -105,12 +106,14 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 									}}
 								/>
 							</div>
-							<Button type='submit' className='rounded btn-block bg-color-action btn-dark'>
-								{strings.collection.register.confirmButton}
-							</Button>
+							<Row>
+								<Button type='submit' className='rounded btn-block bg-color-action btn-dark mt-3'>
+									{strings.collection.register.confirmButton}
+								</Button>
+							</Row>
 						</Form>
 					</Col>
-					<Col md={1} lg={1} />
+					{/* <Col md={1} lg={1} /> */}
 				</div>
 			</Card.Body>
 		</Card>

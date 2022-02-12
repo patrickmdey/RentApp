@@ -102,6 +102,7 @@ interface ArticleStrings {
 	descriptionTitle: string;
 	rent: string;
 	edit: string;
+	createReview: string;
 	noArticles: string;
 	timesRented: string;
 	createArticle: {

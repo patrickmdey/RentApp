@@ -3,12 +3,14 @@ import { useFindArticle } from '../features/api/articles/articlesSlice';
 import { Container } from 'react-bootstrap';
 import ReviewForm from '../components/Review/ReviewForm';
 import { strings } from '../i18n/i18n';
+import { useSearchParams } from 'react-router-dom';
 
 function Review() {
 	//TODO: getSearchParams() pero ver como es con router .v6
+	const [articleId, setArticleId] = useSearchParams();
 
 	const { data: article, isSuccess } = useFindArticle(
-		new URL('articles/74', process.env.REACT_APP_BASE_URL).toString()
+		new URL(`articles/${articleId.get('forArticle')}`, process.env.REACT_APP_BASE_URL).toString()
 	);
 
 	return (
@@ -17,7 +19,7 @@ function Review() {
 				<title>{strings.collection.review.create}</title>
 			</Helmet>
 			{isSuccess && article && (
-				<Container className='mx-auto min-height'>
+				<Container style={{ width: '50%' }} className='min-height'>
 					<ReviewForm article={article} />
 				</Container>
 			)}

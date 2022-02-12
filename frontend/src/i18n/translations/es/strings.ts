@@ -88,6 +88,7 @@ let esCollection: StringCollection = {
 		descriptionTitle: 'Descripción',
 		rent: 'Alquilar',
 		edit: 'Editar',
+		createReview: 'Escribir reseña',
 		noArticles: 'Todavía no hay artículos',
 		timesRented: 'alquileres',
 		createArticle: {
