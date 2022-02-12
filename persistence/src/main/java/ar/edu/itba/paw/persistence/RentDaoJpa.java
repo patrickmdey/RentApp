@@ -136,7 +136,7 @@ public class RentDaoJpa implements RentDao {
 
         query.setParameter("renter", renterId);
         query.setParameter("article", articleId);
-        query.setParameter("state", RentState.ACCEPTED.ordinal());
+        query.setParameter("state", RentState.ACCEPTED);
 
         return Long.parseLong(query.getSingleResult().toString()) != 0;
     }
