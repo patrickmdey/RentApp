@@ -16,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashSet;
@@ -28,13 +27,15 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-@Rollback(value = true)
+@Rollback()
 public class ArticleDaoTest {
     @Autowired
     private ArticleDao articleDao;
 
     @PersistenceContext
     private EntityManager em;
+
+    private static final float DELTA = 0.0f;
 
     @Test
     public void filterSucceedByName() {
@@ -128,7 +129,7 @@ public class ArticleDaoTest {
 
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());
-        Assert.assertEquals(pricePerDay, result.getPricePerDay());
+        Assert.assertEquals(pricePerDay, result.getPricePerDay(), DELTA);
         Assert.assertEquals(idOwner, result.getOwner().getId());
 
     }
@@ -163,7 +164,7 @@ public class ArticleDaoTest {
 
         Assert.assertEquals(title, result.getTitle());
         Assert.assertEquals(description, result.getDescription());
-        Assert.assertEquals(pricePerDay, result.getPricePerDay());
+        Assert.assertEquals(pricePerDay, result.getPricePerDay(), DELTA);
         Assert.assertEquals(idOwner, result.getOwner().getId());
     }
 

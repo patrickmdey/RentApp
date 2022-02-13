@@ -29,7 +29,7 @@ public class ImageServiceImplTest {
     @Before
     public void setUp() {
         image = new MockMultipartFile("/image/test.png", "image/png");
-        emptyImage = new MockMultipartFile("/invalidFile.png", "image/png");
+        emptyImage = new MockMultipartFile("/image/invalidFile.png", "image/png");
     }
 
     private MockMultipartFile image;
