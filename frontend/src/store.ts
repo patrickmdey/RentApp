@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { BaseApiSlice } from './features/api/baseApiSlice';
-import authReducer from './features/auth/authSlice';
-import i18nReducer from './features/i18n/i18nSlice';
+import { BaseApiSlice } from './api/baseApiSlice';
+import authReducer from './api/auth/authSlice';
+import i18nReducer from './api/i18n/i18nSlice';
 import { PERSIST, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';

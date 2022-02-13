@@ -1,4 +1,4 @@
-import { PaginatedData } from '../features/api/paginatedResponse';
+import { PaginatedData } from '../api/paginatedResponse';
 import parse from 'parse-link-header';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query/fetchBaseQuery';
 import { SerializedError } from '@reduxjs/toolkit';

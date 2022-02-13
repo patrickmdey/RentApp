@@ -1,17 +1,17 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
 import { Card, Tabs, Tab } from 'react-bootstrap';
-import { useListRentProposals } from '../../features/api/rentProposals/rentProposalsSlice';
+import { useListRentProposals } from '../../api/rentProposals/rentProposalsSlice';
 import useUserId from '../../hooks/useUserId';
 import { strings } from '../../i18n/i18n';
-import { SENT_STRING, states } from '../../pages/Request';
-import NoDataCard from '../NoData/NoDataCard';
+import { SENT_STRING, states } from '../../views/Requests';
+import NoDataCard from '../NoDataCard';
 import RequestCardList from './RequestCardList';
 import usePaginatedResponse from '../../hooks/usePaginatedResponse';
 import PagesList from '../PagesList';
-import { RentProposal } from '../../features/api/rentProposals/types';
+import { RentProposal } from '../../api/rentProposals/types';
 import LoadingComponent from '../LoadingComponent';
-import ErrorComponent from '../Errors/ErrorComponent';
+import Error from '../Error';
 
 function SentRequestList() {
 	const id = useUserId();
@@ -82,7 +82,7 @@ function SentRequestList() {
 	const anyError = pendingSError || acceptedSError || declinedSError;
 	if (anyError && 'status' in anyError)
 		return (
-			<ErrorComponent
+			<Error
 				error={anyError.status}
 				message={typeof anyError.data === 'string' ? anyError.data : undefined}
 			/>

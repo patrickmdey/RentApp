@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FieldError } from 'react-hook-form';
-import ValidationInterface from '../components/Forms/ValidationInterface';
+import ValidationInterface from '../components/FormInputs/ValidationInterface';
 import { ErrorMessageInterface } from '../i18n/types';
 
 export default function useErrorMessage<T>(

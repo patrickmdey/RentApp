@@ -2,9 +2,9 @@ import { Button, Card, Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { strings } from '../i18n/i18n';
 import React from 'react';
 import { useAppDispatch } from '../hooks';
-import { setLanguage } from '../features/i18n/i18nSlice';
+import { setLanguage } from '../api/i18n/i18nSlice';
 
-const logo = require('../images/rentapp-favicon.png');
+const logo = require('../assets/images/rentapp-favicon.png');
 
 // function Footer(props: ReduxProps) {
 export default function Footer() {

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './css/index.css';
+import './assets/css/index.css';
 import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import 'typeface-roboto';
-import './scss/app.scss';
+import './assets/scss/app.scss';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import Startup from './startup';
 import { HelmetProvider } from 'react-helmet-async';

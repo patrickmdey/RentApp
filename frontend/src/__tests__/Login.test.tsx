@@ -5,7 +5,7 @@
 import React from "react";
 import {render, fireEvent, screen, waitFor} from "@testing-library/react";
 import { MemoryRouter} from 'react-router-dom'
-import LogInComponent from "../components/LogIn";
+import LogInComponent from "../components/Forms/LoginForm";
 import {Provider} from "react-redux";
 import {persistor, store} from "../store";
 import {PersistGate} from "redux-persist/lib/integration/react";

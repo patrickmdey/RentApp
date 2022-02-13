@@ -249,7 +249,7 @@ let enCollection: StringCollection = {
 		locationNotFound: 'Location not found',
 		categoryNotFound: 'Category not found',
 		rentProposalNotFound: 'Rent proposal not found',
-		reviewNotFound: 'Review not found',
+		reviewNotFound: 'CreateReview not found',
 		cannotCreateArticle: 'Cannot create article',
 		cannotCreateProposal: 'Cannot create proposal',
 		unableToSendEmail: 'Unable to send email',

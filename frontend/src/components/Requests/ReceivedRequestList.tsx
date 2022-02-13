@@ -1,16 +1,16 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
 import { Card, Tabs, Tab } from 'react-bootstrap';
-import { useListRentProposals } from '../../features/api/rentProposals/rentProposalsSlice';
+import { useListRentProposals } from '../../api/rentProposals/rentProposalsSlice';
 import useUserId from '../../hooks/useUserId';
 import { strings } from '../../i18n/i18n';
-import { RECEIVED_STRING, states } from '../../pages/Request';
-import NoDataCard from '../NoData/NoDataCard';
+import { RECEIVED_STRING, states } from '../../views/Requests';
+import NoDataCard from '../NoDataCard';
 import RequestCardList from './RequestCardList';
 import usePaginatedResponse from '../../hooks/usePaginatedResponse';
 import PagesList from '../PagesList';
 import LoadingComponent from '../LoadingComponent';
-import ErrorComponent from '../Errors/ErrorComponent';
+import Error from '../Error';
 
 function ReceivedRequestList() {
 	const id = useUserId();
@@ -81,7 +81,7 @@ function ReceivedRequestList() {
 	const anyError = pendingRError || acceptedRError || declinedRError;
 	if (anyError && 'status' in anyError)
 		return (
-			<ErrorComponent
+			<Error
 				error={anyError.status}
 				message={typeof anyError.data === 'string' ? anyError.data : undefined}
 			/>

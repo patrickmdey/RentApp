@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer} from 'react';
-import RouteMapper from './routeMapper';
+import RouteMapper from './views/routeMapper';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {strings} from './i18n/i18n';
 import {useAppSelector} from './hooks';

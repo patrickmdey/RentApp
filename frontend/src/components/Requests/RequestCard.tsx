@@ -1,13 +1,13 @@
-import { RentProposal } from '../../features/api/rentProposals/types';
+import { RentProposal } from '../../api/rentProposals/types';
 import { Button, Card, Image, Modal, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { strings } from '../../i18n/i18n';
-import { useFindArticle } from '../../features/api/articles/articlesSlice';
-import { useFindUser } from '../../features/api/users/usersSlice';
-import { states } from '../../pages/Request';
+import { useFindArticle } from '../../api/articles/articlesSlice';
+import { useFindUser } from '../../api/users/usersSlice';
+import { states } from '../../views/Requests';
 import { useState } from 'react';
 import { CircleFill } from 'react-bootstrap-icons';
-import { useUpdateRentProposal } from '../../features/api/rentProposals/rentProposalsSlice';
+import { useUpdateRentProposal } from '../../api/rentProposals/rentProposalsSlice';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function RequestCard(props: { request: RentProposal; isSent: boolean }) {

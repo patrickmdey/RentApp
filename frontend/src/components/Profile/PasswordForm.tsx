@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { User } from '../../features/api/users/types';
-import { useUpdatePassword } from '../../features/api/users/usersSlice';
+import { User } from '../../api/users/types';
+import { useUpdatePassword } from '../../api/users/usersSlice';
 import { strings } from '../../i18n/i18n';
-import FormInput from '../Forms/FormInput';
+import FormInput from '../FormInputs/FormInput';
 
 interface ModifyPasswordData {
 	password: string;

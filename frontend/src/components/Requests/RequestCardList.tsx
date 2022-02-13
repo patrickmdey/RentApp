@@ -1,5 +1,5 @@
 import RequestCard from './RequestCard';
-import { RentProposal } from '../../features/api/rentProposals/types';
+import { RentProposal } from '../../api/rentProposals/types';
 function RequestCardList(props: { requests: RentProposal[]; isSent: boolean }) {
 	const { requests } = props;
 	return (

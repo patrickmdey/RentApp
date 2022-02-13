@@ -1,8 +1,8 @@
 import { Tab, Tabs } from 'react-bootstrap';
-import { useListArticles } from '../../features/api/articles/articlesSlice';
-import { User } from '../../features/api/users/types';
+import { useListArticles } from '../../api/articles/articlesSlice';
+import { User } from '../../api/users/types';
 import { strings } from '../../i18n/i18n';
-import ArticleCardList from '../ArticleCardList';
+import ArticleCardList from '../Article/ArticleCardList';
 
 export default function Articles(props: { user: User }) {
 	const user = props.user;

@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { strings } from '../i18n/i18n';
-import { setCredentials } from '../features/auth/authSlice';
+import { setCredentials } from '../api/auth/authSlice';
 
-import logo from '../images/rentapp-logo.png';
-import { useFindUser } from '../features/api/users/usersSlice';
+import logo from '../assets/images/rentapp-logo.png';
+import { useFindUser } from '../api/users/usersSlice';
 import useUserId from '../hooks/useUserId';
 
 function LoggedInNavBar(props: { userId: number; dispatch: Function }) {

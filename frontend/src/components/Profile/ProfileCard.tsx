@@ -3,10 +3,10 @@ import { Button, Card, Modal, ModalBody, ModalFooter, ModalTitle, Stack } from '
 import { Pencil, Lock, Trash } from 'react-bootstrap-icons';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { useNavigate } from 'react-router-dom';
-import { Location } from '../../features/api/locations/types';
-import { User } from '../../features/api/users/types';
-import { useDeleteUser } from '../../features/api/users/usersSlice';
-import { setCredentials } from '../../features/auth/authSlice';
+import { Location } from '../../api/locations/types';
+import { User } from '../../api/users/types';
+import { useDeleteUser } from '../../api/users/usersSlice';
+import { setCredentials } from '../../api/auth/authSlice';
 import { useAppDispatch } from '../../hooks';
 import PasswordForm from './PasswordForm';
 import ProfileForm from './ProfileForm';
