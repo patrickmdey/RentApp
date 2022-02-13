@@ -6,9 +6,10 @@ function OwnerCard(props: { owner: User | undefined }) {
     return (
         <Card className='card-style'>
             <Card.Title as='h3'>{strings.collection.article.ownerCardTitle}</Card.Title>
-            <hr></hr>
+            <hr/>
             <Row className='align-items-center'>
-                <div className='avatar-container col-4'> //TODO: hacerla un circulo
+                {/*TODO: hacerla un circulo*/}
+                <div className='avatar-container col-4'>
                     <img width='50%' src={props.owner?.imageUrl}/>
                 </div>
                 <span className='lead col-8'>
