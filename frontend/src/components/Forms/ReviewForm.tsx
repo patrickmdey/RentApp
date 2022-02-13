@@ -52,6 +52,8 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		if (createResult.isSuccess || updateResult.isSuccess) {
 			navigate(`/articles/${article.id}`);
 		}
+
+		//TODO: cuando vuelve a la pagina del articulo no se refresca el nuevo valor de rating
 	}, [createResult, updateResult]);
 
 	function onSubmit(form: ReviewForm) {
@@ -113,7 +115,6 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 							</Row>
 						</Form>
 					</Col>
-					{/* <Col md={1} lg={1} /> */}
 				</div>
 			</Card.Body>
 		</Card>

@@ -13,7 +13,7 @@ export interface RentProposal {
 }
 
 export interface ListRentProposalsParameters {
-	userId: number; // TODO: esto tambien seria parte del token
+	userId: number;
 	page?: number;
 	type?: string;
 	state?: string;
@@ -24,7 +24,7 @@ export interface CreateRentProposalParameters {
 	startDate: string;
 	endDate: string;
 	articleId: number;
-	renterId: number | null; // TODO: esto seria el token de auth en realidad
+	renterId: number | null;
 }
 
 export interface UpdateRentProposalParameters {
