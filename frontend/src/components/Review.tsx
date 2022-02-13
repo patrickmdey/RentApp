@@ -6,8 +6,8 @@ import { useFindUser } from '../features/api/users/usersSlice';
 import useUserId from '../hooks/useUserId';
 import Rating from './Rating';
 
-function Review(review: ReviewT) {
-	const { rating, message, createdAt, renterUrl, id } = review;
+function Review(props: { review: ReviewT; timesReviewed?: number }) {
+	const { rating, message, createdAt, renterUrl, id } = props.review;
 
 	const { data: reviewer, isSuccess } = useFindUser(renterUrl);
 
@@ -35,7 +35,7 @@ function Review(review: ReviewT) {
 								</a>
 							)}
 					</Row>
-					<Rating rating={rating} timesReviewed={-1} />
+					<Rating rating={rating} timesReviewed={props.timesReviewed} />
 					<p className='text-muted mt-2'>{message}</p>
 				</div>
 			)}

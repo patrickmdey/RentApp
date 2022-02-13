@@ -99,6 +99,7 @@ export interface ProfileString {
 
 interface ArticleStrings {
 	ownerCardTitle: string;
+	relatedTitle: string;
 	descriptionTitle: string;
 	rent: string;
 	edit: string;

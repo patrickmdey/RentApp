@@ -61,8 +61,6 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		else updateReview({ url: review.url.toString(), rating: rating, message: form.message });
 	}
 
-	//TODO: Al crear una review tira error interno del servidor pero no dice que fue. Algo relacionado con el RentState (???)
-
 	return (
 		<Card>
 			<Card.Body className='form-container'>

@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import MainArticleCard from '../components/Article/MainArticleCard';
 import ReviewList from '../components/ReviewList';
-import { useFindArticle } from '../features/api/articles/articlesSlice';
+import { useFindArticle, useListRelatedArticles } from '../features/api/articles/articlesSlice';
 import { useListCategoriesFromArticle } from '../features/api/categories/categoriesSlice';
 import { useFindLocation } from '../features/api/locations/locationsSlice';
 import { useListReviews } from '../features/api/reviews/reviewsSlice';
@@ -20,6 +20,7 @@ import usePaginatedResponse from '../hooks/usePaginatedResponse';
 import LoadingComponent from '../components/LoadingComponent';
 import ErrorComponent from '../components/Errors/ErrorComponent';
 import { useNavigate } from 'react-router';
+import ArticleCardList from '../components/ArticleCardList';
 
 // TODO: subdivide into components
 function Article() {
@@ -29,36 +30,43 @@ function Article() {
 	const navigate = useNavigate();
 
 	const {
-		data: articleData,
+		data: article,
 		isSuccess: articleIsSuccess,
 		isLoading: articleLoad,
 		error: articleError
 	} = useFindArticle(new URL(`articles/${id}`, process.env.REACT_APP_BASE_URL).toString());
 
 	const {
-		data: categoriesData,
+		data: related,
+		isSuccess: relatedIsSuccess,
+		isLoading: relatedLoad,
+		error: relatedError
+	} = useListRelatedArticles(id ? id : skipToken);
+
+	const {
+		data: categories,
 		isLoading: categoriesLoad,
 		error: categoriesError
-	} = useListCategoriesFromArticle(articleIsSuccess && articleData ? articleData.categoriesUrl : skipToken);
+	} = useListCategoriesFromArticle(articleIsSuccess && article ? article.categoriesUrl : skipToken);
 
 	const {
-		data: reviewsData,
+		data: reviews,
 		isLoading: reviewsLoad,
 		error: reviewError
-	} = useListReviews(articleIsSuccess && articleData ? articleData.reviewsUrl : skipToken);
+	} = useListReviews(articleIsSuccess && article ? article.reviewsUrl : skipToken);
 
 	const {
-		data: ownerData,
+		data: owner,
 		isSuccess: ownerIsSuccess,
 		isLoading: ownerLoad,
 		error: ownerError
-	} = useFindUser(articleIsSuccess && articleData ? articleData.ownerUrl : skipToken);
+	} = useFindUser(articleIsSuccess && article ? article.ownerUrl : skipToken);
 
 	const {
-		data: locationData,
+		data: location,
 		isLoading: locationLoad,
 		error: locationError
-	} = useFindLocation(ownerIsSuccess && ownerData ? ownerData.locationUrl : skipToken);
+	} = useFindLocation(ownerIsSuccess && owner ? owner.locationUrl : skipToken);
 
 	const {
 		data: aProp,
@@ -90,37 +98,38 @@ function Article() {
 		let acceptedRentProposal =
 			aPropSuccess &&
 			aProp &&
-			articleData &&
+			article &&
 			aProp.find(
-				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === articleData.url
+				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === article.url
 			);
 		setHasRented(acceptedRentProposal !== null && acceptedRentProposal !== undefined);
-	}, [aPropSuccess, aProp, articleData]);
+	}, [aPropSuccess, aProp, article]);
 
 	const [hasReviewed, setHasReviewed] = useState(false);
 	useEffect(
 		() =>
 			setHasReviewed(
-				reviewsData && articleData
-					? reviewsData.find(
+				reviews && article
+					? reviews.find(
 							(review) =>
-								review.renterUrl.toString() === loggedUserUrl && review.articleUrl === articleData.url
+								review.renterUrl.toString() === loggedUserUrl && review.articleUrl === article.url
 					  ) !== null
 					: false
 			),
-		[reviewsData, articleData, loggedUserUrl]
+		[reviews, article, loggedUserUrl]
 	);
 
 	const [isOwner, setIsOwner] = useState(false);
 	useEffect(
-		() => setIsOwner(ownerIsSuccess && ownerData !== undefined ? ownerData.id === loggedUserId : false),
-		[ownerData, ownerIsSuccess, loggedUserId]
+		() => setIsOwner(ownerIsSuccess && owner !== undefined ? owner.id === loggedUserId : false),
+		[owner, ownerIsSuccess, loggedUserId]
 	);
 
 	if (articleLoad || categoriesLoad || reviewsLoad || ownerLoad || locationLoad || aPropLoad)
 		return <LoadingComponent />;
 
-	const anyError = articleError || categoriesError || reviewError || ownerError || locationError || aPropError;
+	const anyError =
+		articleError || relatedError || categoriesError || reviewError || ownerError || locationError || aPropError;
 	if (anyError && 'status' in anyError)
 		return (
 			<ErrorComponent
@@ -130,25 +139,25 @@ function Article() {
 		);
 	return (
 		<>
-			{articleIsSuccess && articleData && ownerIsSuccess && ownerData && (
+			{articleIsSuccess && article && ownerIsSuccess && owner && (
 				<>
 					<Helmet>
-						<title>{articleData.title}</title>
+						<title>{article.title}</title>
 					</Helmet>
 					<Container className='min-height'>
 						<MainArticleCard
-							article={articleData}
-							categories={categoriesData}
-							reviews={reviewsData}
-							location={locationData}
+							article={article}
+							categories={categories}
+							reviews={reviews}
+							location={location}
 							isOwner={isOwner}
 						/>
 						<Row className='w-100 g-0 justify-content-between'>
 							<Col md={8} className='pe-md-3 pe-0'>
-								<ArticleDescriptionCard articleDescription={articleData.description} />
+								<ArticleDescriptionCard articleDescription={article.description} />
 							</Col>
 							<Col md={4}>
-								<OwnerCard owner={ownerData} />
+								<OwnerCard owner={owner} />
 							</Col>
 						</Row>
 						<Row className='w-100 g-0 justify-content-between'>
@@ -156,14 +165,14 @@ function Article() {
 								<div className='d-flex align-items-center justify-content-between'>
 									<Card.Title as='h3'>{strings.collection.review.reviews}</Card.Title>
 									{hasRented && !hasReviewed && (
-										<Button onClick={() => navigate(`/createReview?forArticle=${articleData.id}`)}>
+										<Button onClick={() => navigate(`/createReview?forArticle=${article.id}`)}>
 											{strings.collection.article.createReview}
 										</Button>
 									)}
 								</div>
 								<hr></hr>
-								{reviewsData ? (
-									<ReviewList reviews={reviewsData} />
+								{reviews ? (
+									<ReviewList reviews={reviews} />
 								) : (
 									<div className='d-flex justify-content-center my-auto'>
 										<p className='lead my-auto'>{strings.collection.noData.noReviews}</p>
@@ -171,7 +180,15 @@ function Article() {
 								)}
 							</Card>
 						</Row>
-						{/* TODO: Agrergar artículos similares */}
+						{relatedIsSuccess && related && (
+							<Card className='card-style'>
+								<Card.Title as='h3'>{strings.collection.article.relatedTitle}</Card.Title>
+								<hr />
+								<div className='d-flex justify-content-center align-items-center'>
+									<ArticleCardList articles={related} articlesPerRow={4} />
+								</div>
+							</Card>
+						)}
 					</Container>
 				</>
 			)}

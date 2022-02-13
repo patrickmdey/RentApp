@@ -6,7 +6,6 @@ import { strings } from '../i18n/i18n';
 import { useSearchParams } from 'react-router-dom';
 
 function Review() {
-	//TODO: getSearchParams() pero ver como es con router .v6
 	const [articleId, setArticleId] = useSearchParams();
 
 	const { data: article, isSuccess } = useFindArticle(

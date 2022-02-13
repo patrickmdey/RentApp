@@ -86,6 +86,7 @@ let esCollection: StringCollection = {
 	article: {
 		ownerCardTitle: 'Dueño',
 		descriptionTitle: 'Descripción',
+		relatedTitle: 'Otros usuarios también se interesaron por:',
 		rent: 'Alquilar',
 		edit: 'Editar',
 		createReview: 'Escribir reseña',

@@ -78,6 +78,7 @@ let enCollection: StringCollection = {
 	article: {
 		ownerCardTitle: 'Owner',
 		descriptionTitle: 'Description',
+		relatedTitle: 'Other users were also interested in',
 		rent: 'Rent',
 		edit: 'Edit',
 		createReview: 'Review',

@@ -13,7 +13,7 @@ function ReviewList(props: { reviews: ReviewT[] }) {
 				<div>
 					{reviews.map((review, i) => (
 						<div>
-							<Review key={i} {...review}></Review>
+							<Review key={i} review={review}></Review>
 							<hr />
 						</div>
 					))}

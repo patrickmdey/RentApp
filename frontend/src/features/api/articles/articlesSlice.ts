@@ -13,6 +13,10 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta)
 		}),
 
+		listRelatedArticles: build.query<Article[], string>({
+			query: (params) => `articles/${params}/related`
+		}),
+
 		createArticle: build.mutation<string | null, CreateArticleParameters>({
 			query: (jsonArticle) => {
 				let data = new FormData();
@@ -45,6 +49,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 
 export const {
 	useListArticlesQuery: useListArticles,
+	useListRelatedArticlesQuery: useListRelatedArticles,
 	useFindArticleQuery: useFindArticle,
 	useCreateArticleMutation: useCreateArticle,
 	useUpdateArticleMutation: useUpdateArticle
