@@ -32,6 +32,8 @@ public class ArticleServiceImplTest {
     @Mock
     private CategoryService categoryService;
 
+    private static final float DELTA = 0.0f;
+
     private User userOwner;
     private User userRenter;
     private List<Article> articles;
@@ -94,7 +96,7 @@ public class ArticleServiceImplTest {
         // Assert
         Assert.assertEquals(articleToCreate.getTitle(), article.getTitle());
         Assert.assertEquals(articleToCreate.getDescription(), article.getDescription());
-        Assert.assertEquals(articleToCreate.getPricePerDay(), article.getPricePerDay());
+        Assert.assertEquals(articleToCreate.getPricePerDay(), article.getPricePerDay(), DELTA);
         AssertionHelper.AssertCollectionEquals(categories, article.getCategories());
 
     }
@@ -196,7 +198,7 @@ public class ArticleServiceImplTest {
 
         Assert.assertEquals(articleToEdit.getTitle(), article.getTitle());
         Assert.assertEquals(articleToEdit.getDescription(), article.getDescription());
-        Assert.assertEquals(articleToEdit.getPricePerDay(), article.getPricePerDay());
+        Assert.assertEquals(articleToEdit.getPricePerDay(), article.getPricePerDay(), DELTA);
 
     }
 

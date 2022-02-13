@@ -87,7 +87,7 @@ public class RentServiceImplTest {
         Assert.assertEquals(rentProposal.getMessage(), result.getMessage());
         Assert.assertEquals(rentProposal.getStartDate(), result.getStartDate());
         Assert.assertEquals(rentProposal.getEndDate(), result.getEndDate());
-        Assert.assertEquals(RentState.PENDING.ordinal(), result.getState());
+        Assert.assertEquals(RentState.PENDING, result.getState());
 
     }
 
