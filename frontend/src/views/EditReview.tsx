@@ -28,10 +28,10 @@ function EditReview() {
 	if (reviewIsLoad || articleIsLoad) return <LoadingComponent />;
 
 	const anyError = reviewError || articleError;
-	if (anyError && 'status' in anyError)
+	if (anyError && 'originalStatus' in anyError)
 		return (
 			<Error
-				error={anyError.status}
+				error={anyError.originalStatus}
 				message={typeof anyError.data === 'string' ? anyError.data : undefined}
 			/>
 		);

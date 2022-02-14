@@ -11,6 +11,7 @@ import { strings } from '../i18n/i18n';
 import NoDataCard from '../components/NoDataCard';
 import LoadingComponent from '../components/LoadingComponent';
 import Error from '../components/Error';
+
 import { createSearchParams, URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -45,8 +46,7 @@ function Marketplace() {
 		})
 	);
 
-	if (error && 'status' in error)
-		return <Error error={error.status} message={typeof error.data === 'string' ? error.data : undefined} />;
+	if (error && 'originalStatus' in error) return <Error error={error.originalStatus} message={error.data} />;
 
 	return (
 		<>
