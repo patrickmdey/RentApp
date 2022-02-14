@@ -171,6 +171,7 @@ let enCollection: StringCollection = {
 		email: 'Email*',
 		emailPlaceholder: 'Enter your email',
 		location: 'Location*',
+		selectLocation: 'Select',
 		password: 'Password*',
 		passwordPlaceholder: 'Enter your password',
 		confirmPassword: 'Confirm password*',

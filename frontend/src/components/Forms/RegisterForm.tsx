@@ -23,6 +23,8 @@ interface RegisterForm {
 	image: FileList;
 }
 
+const SELECT_LOCATION: [string, string] = ['', strings.collection.register.selectLocation];
+
 export function RegisterForm() {
 	const {
 		register,
@@ -129,7 +131,14 @@ export function RegisterForm() {
 								register={register}
 								name='location'
 								label={strings.collection.register.location}
-								options={locations ? locations.map(({ id, name }) => [id, name]) : []}
+								options={
+									locations
+										? [
+												SELECT_LOCATION,
+												...locations.map(({ id, name }) => [id, name] as [string, string])
+										  ]
+										: []
+								}
 								validation={{ required: true }}
 								error={errors.location}
 								errorMessage={strings.collection.register.errors.location}
