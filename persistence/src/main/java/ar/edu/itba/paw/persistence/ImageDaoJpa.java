@@ -21,8 +21,8 @@ public class ImageDaoJpa implements ImageDao {
 
     @Override
     public DBImage create(byte[] img) {
-        DBImage image = new DBImage(img);
         try {
+            DBImage image = new DBImage(img);
             em.persist(image);
             return image;
         } catch(Exception e){

@@ -26,6 +26,8 @@ public class DBImage {
     }
 
     public DBImage(byte[] img) {
+        if (img.length == 0)
+            throw new IllegalArgumentException();
         this.img = img;
     }
 

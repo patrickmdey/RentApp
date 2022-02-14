@@ -53,8 +53,9 @@ public class ImageServiceImplTest {
     @Test(expected = CannotCreateImageException.class)
     public void createFailImageIsEmpty() {
         // Arrange
-        MockMultipartFile image = emptyImage;
         byte[] empty = new byte[0];
+        when(imageDao.create(eq(empty)))
+                .thenThrow(CannotCreateImageException.class);
 
         // Act
         imageService.create(empty);
