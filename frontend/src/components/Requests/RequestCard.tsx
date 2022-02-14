@@ -11,6 +11,7 @@ import {useUpdateRentProposal} from '../../api/rentProposals/rentProposalsSlice'
 import {useNavigate, Link} from 'react-router-dom';
 import {useListImages} from "../../api/images/imagesSlice";
 import {skipToken} from "@reduxjs/toolkit/dist/query";
+import LoadingComponent from "../LoadingComponent";
 
 export default function RequestCard(props: { request: RentProposal; isSent: boolean }) {
     const {message, startDate, endDate, marked, state, url, articleUrl, renterUrl, id} = props.request;
@@ -29,15 +30,20 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [proposalState, setProposalState] = useState(state.toString());
+
     const [declineProposal, declineResult] = useUpdateRentProposal();
     const [acceptProposal, acceptResult] = useUpdateRentProposal();
 
+
     const handleDecline = () => {
         declineProposal({state: states.declined, url: url});
+        setProposalState(states.declined);
     };
 
     const handleAccept = () => {
         acceptProposal({state: states.accepted, url: url});
+        setProposalState(states.accepted);
     };
 
     let navigate = useNavigate();
@@ -89,16 +95,18 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                                 <p> {message} </p>
                             </div>
                         </Row>
-                        {state === states.pending && !props.isSent && (
-                            <div className='d-flex justify-content-end my-2'>
-                                <button onClick={handleShow} className='btn btn-link color-danger'>
-                                    {strings.collection.requestCard.rejectButton}
-                                </button>
-                                <Button onClick={handleAccept} className='bg-color-action color-grey me-1'>
-                                    {strings.collection.requestCard.acceptButton}
-                                </Button>
-                            </div>
-                        )}
+                        {(acceptResult.isLoading || declineResult.isLoading) ?
+                            <div className='d-flex justify-content-end my-2'><LoadingComponent/></div> :
+                            proposalState === states.pending && !props.isSent && (
+                                <div className='d-flex justify-content-end my-2'>
+                                    <button onClick={handleShow} className='btn btn-link color-danger'>
+                                        {strings.collection.requestCard.rejectButton}
+                                    </button>
+                                    <Button onClick={handleAccept} className='bg-color-action color-grey me-1'>
+                                        {strings.collection.requestCard.acceptButton}
+                                    </Button>
+                                </div>
+                            )}
                     </Card>
 
                     {!props.isSent && (
