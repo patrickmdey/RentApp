@@ -80,11 +80,11 @@ function SentRequestList() {
     );
 
     const anyError = pendingSError || acceptedSError || declinedSError;
-    if (anyError && 'status' in anyError)
+    if (anyError && 'originalStatus' in anyError)
         return (
             <Error
-                error={anyError.status}
-                message={typeof anyError.data === 'string' ? anyError.data : undefined}
+                error={anyError.originalStatus}
+                message={anyError.data}
             />
         );
 

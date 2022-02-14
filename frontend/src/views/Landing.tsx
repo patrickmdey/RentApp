@@ -32,9 +32,9 @@ export default function Landing() {
 	}
 
 	const anyError = bestRatedError || mostRentedError;
-	if (anyError && 'status' in anyError)
+	if (anyError && 'originalStatus' in anyError)
 		return (
-			<Error error={anyError.status} message={typeof anyError.data === 'string' ? anyError.data : undefined} />
+			<Error error={anyError.originalStatus} message={typeof anyError.data === 'string' ? anyError.data : undefined} />
 		);
 
 	return (

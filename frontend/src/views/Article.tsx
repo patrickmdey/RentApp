@@ -130,7 +130,7 @@ function Article() {
 
 	const anyError =
 		articleError || relatedError || categoriesError || reviewError || ownerError || locationError || aPropError;
-	if (anyError && 'status' in anyError && 'originalStatus' in anyError) {
+	if (anyError && 'originalStatus' in anyError) {
 		return (
 			<Error
 				error={anyError.originalStatus}

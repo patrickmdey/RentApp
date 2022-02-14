@@ -25,10 +25,10 @@ export default function Profile() {
   );
   const [disabled, setDisabled] = useState(true);
 
-  if (error && "status" in error)
+  if (error && 'originalStatus' in error)
     return (
       <Error
-        error={error.status}
+        error={error.originalStatus}
         message={typeof error.data === "string" ? error.data : undefined}
       />
     );
