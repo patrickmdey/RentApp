@@ -183,6 +183,7 @@ export interface RegisterString {
 	email: string;
 	emailPlaceholder: string;
 	location: string;
+	selectLocation: string;
 	password: string;
 	passwordPlaceholder: string;
 	confirmPassword: string;

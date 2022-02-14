@@ -173,6 +173,7 @@ let esCollection: StringCollection = {
 		email: 'Email*',
 		emailPlaceholder: 'Ingresa tu email',
 		location: 'Localización*',
+		selectLocation: 'Seleccionar',
 		password: 'Contraseña*',
 		passwordPlaceholder: 'Ingresa tu contraseña',
 		confirmPassword: 'Confirmar contraseña*',
