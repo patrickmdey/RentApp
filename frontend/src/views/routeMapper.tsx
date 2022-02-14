@@ -12,6 +12,8 @@ import useUserId from '../hooks/useUserId';
 import EditReview from './EditReview';
 import EditArticle from './EditArticle';
 import Success from './Success';
+import Error from "../components/Error";
+import {strings} from "../i18n/i18n";
 
 function RequireAuth(props: { children: JSX.Element }) {
     const id = useUserId();
@@ -23,6 +25,7 @@ export default function RouteMapper() {
     return (
         <div>
             <Routes>
+                <Route path="*" element={<Error error={404} message={strings.collection.errors.pageNotFoundTitle}/>}/>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/register' element={<Register/>}/>
                 <Route
