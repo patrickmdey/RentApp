@@ -1,5 +1,6 @@
-import { Card } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import {Card} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+import {useListImages} from "../../api/images/imagesSlice";
 
 interface CategoryProps {
 	id: number;
@@ -7,13 +8,14 @@ interface CategoryProps {
 	url: string;
 	imageUrl: string;
 }
+
 export default function CategoryCard(props: CategoryProps) {
 	return (
 		<LinkContainer to={`/marketplace?category=${props.id}`}>
-			<Card>
+			<Card className="card-style w-50">
 				<Card.Img variant='top' src={props.imageUrl} alt={props.description} height='100rem' />
-				<Card.Body className='text-center'>
-					<Card.Title>{props.description}</Card.Title>
+				<Card.Body className='d-flex text-center justify-content-center'>
+					<Card.Title as="h4">{props.description}</Card.Title>
 				</Card.Body>
 			</Card>
 		</LinkContainer>

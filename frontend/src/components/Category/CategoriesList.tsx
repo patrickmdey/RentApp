@@ -1,15 +1,16 @@
-import { useListCategories } from '../../api/categories/categoriesSlice';
+import {useListCategories} from '../../api/categories/categoriesSlice';
 import CategoryCard from './CategoryCard';
-import { Col, Container, Row } from 'react-bootstrap';
-import { strings } from '../../i18n/i18n';
+import {Card, Col, Container, Row} from 'react-bootstrap';
+import {strings} from '../../i18n/i18n';
 
 export default function CategoriesList() {
 	const { data, isSuccess } = useListCategories();
 	return (
-		<div className='bg-color-secondary pt-3' style={{ width: '100vw' }}>
+		<Card className="card-style category-card-list bg-color-secondary">
 			<Container>
-				<h3 className='text-center mt-0 pt-0'>{strings.collection.categories.searchByCategories}</h3>
-				<Row className='g-5 pb-4'>
+				<Card.Title as="h3"> {strings.collection.categories.searchByCategories}</Card.Title>
+				<hr/>
+				<Row md={4} lg={4} className='justify-content-center'>
 					{isSuccess &&
 						data &&
 						data.map((cat) => (
@@ -19,6 +20,6 @@ export default function CategoriesList() {
 						))}
 				</Row>
 			</Container>
-		</div>
+		</Card>
 	);
 }
