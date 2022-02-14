@@ -1,16 +1,25 @@
 import paginatedResponse, { PaginatedData } from '../paginatedResponse';
 import { BaseApiSlice } from '../baseApiSlice';
 import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleParameters } from './types';
+import { urlToHttpOptions } from 'url';
 
 const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
 		findArticle: build.query<Article, string>({
-			query: (url) => url.toString()
+			query: (url) => url.toString(),
+			providesTags: (result) => (result ? [{ type: 'Article', id: result.id }] : ['Article'])
 		}),
 
 		listArticles: build.query<PaginatedData<Article[]>, ListArticleParameters>({
 			query: (params) => `articles?${new URLSearchParams(Object.entries(params)).toString()}`,
-			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta)
+			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta),
+			providesTags: (result) =>
+				result
+					? [
+							...result.data.map(({ id }) => ({ type: 'Article' as const, id: id })),
+							{ type: 'Article', id: 'PARTIAL-LIST' }
+					  ]
+					: [{ type: 'Article', id: 'PARTIAL-LIST' }]
 		}),
 
 		listRelatedArticles: build.query<Article[], string>({
@@ -42,7 +51,14 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 				url: url.toString(),
 				method: 'PUT',
 				body: args
-			})
+			}),
+			invalidatesTags: (result, error, arg) => {
+				const parts = arg.url.split('/');
+				return [
+					{ type: 'Article', id: parts[parts.length - 1] },
+					{ type: 'ArticleCategory', id: parts[parts.length - 1] }
+				];
+			}
 		})
 	})
 });

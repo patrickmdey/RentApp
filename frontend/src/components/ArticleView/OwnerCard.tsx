@@ -1,27 +1,25 @@
-import {Card, Row} from 'react-bootstrap';
-import {User} from '../../api/users/types';
-import {strings} from '../../i18n/i18n';
+import { Card, Row } from 'react-bootstrap';
+import { User } from '../../api/users/types';
+import { strings } from '../../i18n/i18n';
+import Avatar from 'react-avatar';
 
 function OwnerCard(props: { owner: User | undefined }) {
-    return (
-        <Card className='card-style'>
-            <Card.Title as='h3'>{strings.collection.article.ownerCardTitle}</Card.Title>
-            <hr/>
-            <Row className='align-items-center'>
-                {/*TODO: hacerla un circulo*/}
-                <div className='avatar-container col-4'>
-                    <img width='50%' src={props.owner?.imageUrl}/>
-                </div>
-                <span className='lead col-8'>
+	return (
+		<Card className='card-style'>
+			<Card.Title as='h3'>{strings.collection.article.ownerCardTitle}</Card.Title>
+			<hr />
+			<Row className='align-items-center'>
+				<Avatar round='100%' src={props.owner?.imageUrl} />
+				<span className='lead col-8'>
 					{props.owner && (
-                        <span>
+						<span>
 							{props.owner.firstName} {props.owner.lastName}
 						</span>
-                    )}
+					)}
 				</span>
-            </Row>
-        </Card>
-    );
+			</Row>
+		</Card>
+	);
 }
 
 export default OwnerCard;
