@@ -12,8 +12,8 @@ function ReviewList(props: { reviews: ReviewT[] }) {
 			) : (
 				<div>
 					{reviews.map((review, i) => (
-						<div>
-							<ReviewCard key={i} review={review}/>
+						<div key={i}>
+							<ReviewCard review={review} />
 							<hr />
 						</div>
 					))}
