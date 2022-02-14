@@ -59,7 +59,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								name='category'
 								label={strings.collection.filter.category}
-								value={category.toString()}
+								value={category ? category.toString() : ''}
 								options={
 									categories
 										? [UNSELECTED_DEFAULT, ...categories].map(({ id, description }) => [
@@ -93,7 +93,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								type='number'
 								label={strings.collection.filter.minPrice}
-								value={initPrice.toString()}
+								value={initPrice ? initPrice.toString() : ''}
 								name='initPrice'
 								prependIcon='$'
 							/>
@@ -101,7 +101,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								type='number'
 								label={strings.collection.filter.maxPrice}
-								value={endPrice.toString()}
+								value={endPrice ? endPrice.toString() : ''}
 								name='endPrice'
 								prependIcon='$'
 							/>

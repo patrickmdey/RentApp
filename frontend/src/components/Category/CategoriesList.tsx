@@ -13,8 +13,8 @@ export default function CategoriesList() {
 					{isSuccess &&
 						data &&
 						data.map((cat) => (
-							<Col key={cat.url.toString()}>
-								<CategoryCard key={cat.url.toString()} {...cat} />
+							<Col key={cat.id}>
+								<CategoryCard {...cat} />
 							</Col>
 						))}
 				</Row>
