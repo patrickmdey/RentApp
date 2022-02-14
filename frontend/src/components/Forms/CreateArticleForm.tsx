@@ -80,6 +80,7 @@ function CreateArticleForm() {
 								label={strings.collection.article.createArticle.articleDescription}
 								name='description'
 								type='text'
+								as='textarea'
 								error={errors.description}
 								errorMessage={strings.collection.article.createArticle.errors.description}
 								placeholder={strings.collection.article.createArticle.articleDescriptionLabel}

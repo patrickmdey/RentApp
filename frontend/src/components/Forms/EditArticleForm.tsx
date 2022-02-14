@@ -94,6 +94,7 @@ export default function EditArticleForm() {
 									label={strings.collection.article.createArticle.articleDescription}
 									name='description'
 									type='text'
+									as='textarea'
 									value={article.description}
 									error={errors.description}
 									errorMessage={strings.collection.article.createArticle.errors.description}

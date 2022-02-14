@@ -94,6 +94,7 @@ function RequestForm(props: { articleId: number }) {
 								placeholder={strings.collection.article.requestArticle.messagePlaceHolder}
 								name='message'
 								type='text'
+								as='textarea'
 								validation={{ required: true, minLength: 10, maxLength: 310 }}
 								error={errors.message}
 								errorMessage={strings.collection.article.requestArticle.errors.message}
