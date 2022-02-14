@@ -1,11 +1,13 @@
 import paginatedResponse, { PaginatedData } from '../paginatedResponse';
 import { BaseApiSlice } from '../baseApiSlice';
 import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleParameters } from './types';
+import { urlToHttpOptions } from 'url';
 
 const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
 		findArticle: build.query<Article, string>({
-			query: (url) => url.toString()
+			query: (url) => url.toString(),
+			providesTags: (result) => (result ? [{ type: 'Article' as const, id: result.id }] : ['Article'])
 		}),
 
 		listArticles: build.query<PaginatedData<Article[]>, ListArticleParameters>({
@@ -42,7 +44,14 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 				url: url.toString(),
 				method: 'PUT',
 				body: args
-			})
+			}),
+			invalidatesTags: (result, error, arg) => {
+				const parts = arg.url.split('/');
+				return [
+					{ type: 'Article', id: parts[parts.length - 1] },
+					{ type: 'ArticleCategory', id: parts[parts.length - 1] }
+				];
+			}
 		})
 	})
 });

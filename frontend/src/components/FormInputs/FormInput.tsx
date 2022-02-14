@@ -43,6 +43,7 @@ export default function FormInput<T>(props: {
 				{prependIcon != null && <InputGroup.Text>{prependIcon}</InputGroup.Text>}
 				<FormControl
 					type={type}
+					{...(type == 'number' ? { step: '0.01' } : {})}
 					defaultValue={value}
 					placeholder={placeholder}
 					{...register(name, validation)}

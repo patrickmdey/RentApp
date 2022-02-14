@@ -12,7 +12,11 @@ const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 		}),
 
 		listCategoriesFromArticle: build.query<Category[], string>({
-			query: (url) => url.toString()
+			query: (url) => url.toString(),
+			providesTags: (_, _e, args) => {
+				const parts = args.split('fromArticle=');
+				return [{ type: 'ArticleCategory', id: parts[parts.length - 1] }];
+			}
 		})
 	})
 });
