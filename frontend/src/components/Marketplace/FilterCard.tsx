@@ -24,10 +24,15 @@ const UNSELECTED_DEFAULT = {
 
 interface FilterCardProps {
 	onSubmit: (data: FilterCardForm) => void;
+	defaultValues: FilterCardForm;
 }
 
 function FilterCard(props: FilterCardProps) {
 	const { register, handleSubmit } = useForm<FilterCardForm>();
+	const {
+		defaultValues: { name, category, orderBy, location, initPrice, endPrice },
+		onSubmit
+	} = props;
 
 	const { data: categories, isSuccess: categoriesIsSucc } = useListCategories();
 	const { data: locations, isSuccess: locationsIsSucc } = useListUsedLocations();
@@ -41,18 +46,20 @@ function FilterCard(props: FilterCardProps) {
 						<h4 className='color-rentapp-black col-9'>{strings.collection.filter.title}</h4>
 					</Card.Header>
 
-					<Form onSubmit={handleSubmit(props.onSubmit)}>
+					<Form onSubmit={handleSubmit(onSubmit)}>
 						<Card.Body style={{ padding: '0px' }}>
 							<FormInput
 								register={register}
 								type='text'
 								label={strings.collection.filter.name}
+								value={name}
 								name='name'
 							/>
 							<FormSelect
 								register={register}
 								name='category'
 								label={strings.collection.filter.category}
+								value={category.toString()}
 								options={
 									categories
 										? [UNSELECTED_DEFAULT, ...categories].map(({ id, description }) => [
@@ -66,6 +73,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								name='orderBy'
 								label={strings.collection.filter.orderBy}
+								value={orderBy}
 								options={
 									orderOptions ? orderOptions.map(({ id, description }) => [id, description]) : []
 								}
@@ -74,6 +82,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								name='location'
 								label={strings.collection.filter.location}
+								value={location}
 								options={
 									locations
 										? [UNSELECTED_DEFAULT, ...locations].map(({ id, name }) => [id, name])
@@ -84,6 +93,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								type='number'
 								label={strings.collection.filter.minPrice}
+								value={initPrice.toString()}
 								name='initPrice'
 								prependIcon='$'
 							/>
@@ -91,6 +101,7 @@ function FilterCard(props: FilterCardProps) {
 								register={register}
 								type='number'
 								label={strings.collection.filter.maxPrice}
+								value={endPrice.toString()}
 								name='endPrice'
 								prependIcon='$'
 							/>
