@@ -14,7 +14,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 			query: (params) => `articles?${new URLSearchParams(Object.entries(params)).toString()}`,
 			transformResponse: (response: Article[], meta) => paginatedResponse(response, meta),
 			providesTags: (result) =>
-				result
+				result && result.data
 					? [
 							...result.data.map(({ id }) => ({ type: 'Article' as const, id: id })),
 							{ type: 'Article', id: 'PARTIAL-LIST' }
