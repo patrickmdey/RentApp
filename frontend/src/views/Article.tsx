@@ -130,13 +130,14 @@ function Article() {
 
 	const anyError =
 		articleError || relatedError || categoriesError || reviewError || ownerError || locationError || aPropError;
-	if (anyError && 'status' in anyError)
+	if (anyError && 'status' in anyError && 'originalStatus' in anyError) {
 		return (
 			<Error
-				error={anyError.status}
+				error={anyError.originalStatus}
 				message={typeof anyError.data === 'string' ? anyError.data : undefined}
 			/>
 		);
+	}
 	return (
 		<>
 			{articleIsSuccess && article && ownerIsSuccess && owner && (

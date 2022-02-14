@@ -51,12 +51,13 @@ public class ImageServiceImplTest {
     }
 
     @Test(expected = CannotCreateImageException.class)
-    public void createFailImageIsEmpty() throws IOException {
+    public void createFailImageIsEmpty() {
         // Arrange
         MockMultipartFile image = emptyImage;
+        byte[] empty = new byte[0];
 
         // Act
-        imageService.create(image.getBytes());
+        imageService.create(empty);
 
         // Assert
         Assert.fail();

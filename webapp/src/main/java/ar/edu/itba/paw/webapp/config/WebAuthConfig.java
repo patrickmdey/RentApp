@@ -38,11 +38,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    // TODO: preguntar si armamos esto o si esta bien lo que tenemos
-    // bean UsernamePasswordAuthFilter
-    // create with authenticationManager
-    // setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/authenticate", "POST"))
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
