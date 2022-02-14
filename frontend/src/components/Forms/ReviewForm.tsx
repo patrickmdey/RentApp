@@ -57,8 +57,6 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	}, [createResult, updateResult]);
 
 	function onSubmit(form: ReviewForm) {
-		console.log(review);
-		console.log(form);
 		if (review == null) createReview({ ...form });
 		else updateReview({ url: review.url.toString(), rating: rating, message: form.message });
 	}
