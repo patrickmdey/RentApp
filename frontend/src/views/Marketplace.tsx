@@ -11,21 +11,37 @@ import { strings } from '../i18n/i18n';
 import NoDataCard from '../components/NoDataCard';
 import LoadingComponent from '../components/LoadingComponent';
 import Error from '../components/Error';
+import { createSearchParams, URLSearchParamsInit, useSearchParams } from 'react-router-dom';
+
+function serialize<T>(data: T): URLSearchParamsInit {
+	return Object.entries(data);
+}
+
+function deserialize<T extends Object>(searchParams: URLSearchParams): T {
+	return Array.from(searchParams.entries()).reduce(
+		(acc, el) => ({
+			[el[0]]: el[1],
+			...acc
+		}),
+		{} as T
+	);
+}
 
 function Marketplace() {
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState<ListArticleParameters>({});
+
 	const { data, pages, error, isLoading } = usePaginatedResponse(
 		useListArticles({
 			page: page,
-			...filters
+			...(deserialize(searchParams) as Object)
 		})
 	);
 
 	if (error && 'status' in error)
-		return (
-			<Error error={error.status} message={typeof error.data === 'string' ? error.data : undefined} />
-		);
+		return <Error error={error.status} message={typeof error.data === 'string' ? error.data : undefined} />;
 
 	return (
 		<>
@@ -35,7 +51,10 @@ function Marketplace() {
 			<Container>
 				<Row className='align-items-start justify-content-center'>
 					<Col md={3} lg={3}>
-						<FilterCard onSubmit={(data) => setFilters(data)} />
+						<FilterCard
+							defaultValues={deserialize(searchParams)}
+							onSubmit={(data) => setSearchParams(serialize(data))}
+						/>
 					</Col>
 					<Col md={9} lg={9}>
 						{error ? (
