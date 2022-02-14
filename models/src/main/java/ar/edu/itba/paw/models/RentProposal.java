@@ -36,7 +36,7 @@ public class RentProposal {
     private Article article;
 
     @Transient
-    private boolean marked; //TODO ver que onda con el frontend
+    private boolean marked;
 
     /* package */ RentProposal() {
         // Just for Hibernate

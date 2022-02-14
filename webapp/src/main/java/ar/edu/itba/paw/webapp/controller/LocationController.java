@@ -36,7 +36,6 @@ public class LocationController {
     @Path("/{id}")
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response findById(@PathParam("id") final Locations id, @Context Request request) {
-        // TODO: check if etag is actually correct
         EntityTag tag = new EntityTag(id.toString());
         CacheControl cacheControl = new CacheControl();
         cacheControl.setNoTransform(true);

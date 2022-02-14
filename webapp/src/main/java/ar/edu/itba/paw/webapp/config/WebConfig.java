@@ -98,12 +98,4 @@ public class WebConfig {
 
         return messageSource;
     }
-
-    // TODO: Ver si se usa
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(20848820);
-        return multipartResolver;
-    }
 }

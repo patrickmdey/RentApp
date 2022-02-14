@@ -63,8 +63,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void tryBearerAuthentication(String header, HttpServletRequest request) throws IOException {
-        //TODO manejo de excepcion
-        // Get jwt token and validate
         final String token = header.split(" ")[1].trim();
         if (!jwtUtil.validate(token))
             return;
@@ -82,7 +80,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    // TODO: maybe separate into different filter
     private void tryBasicAuthentication(String header, HttpServletRequest request, HttpServletResponse response) {
         String encodedCredentials = header.split(" ")[1];
         try {
@@ -110,10 +107,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (BadCredentialsException | IllegalArgumentException ignored) {
-
-        } // TODO ver de informar que no se mandó bien el token base64
-
-
+            // If the request needs to be authorized it will be rejected by the next filter
+        }
     }
 
     private boolean isEmpty(String header) {
