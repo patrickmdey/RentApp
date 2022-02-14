@@ -7,6 +7,10 @@ import FormInput from '../FormInputs/FormInput';
 import FormSelect from '../FormInputs/FormSelect';
 import FormCheckbox from '../FormInputs/FormCheckbox';
 import { useListLocations } from '../../api/locations/locationsSlice';
+import { useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { setCredentials } from '../../api/auth/authSlice';
+import { useAppDispatch } from '../../hooks';
 
 interface RegisterForm {
 	firstName: string;
@@ -35,9 +39,18 @@ export function RegisterForm() {
 			image: undefined
 		}
 	});
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
 	const { data: locations } = useListLocations();
 	const [createUser, result] = useCreateUser();
-	console.log(result);
+	useEffect(() => {
+		console.log(result.data);
+		if (result.isSuccess) {
+			dispatch(setCredentials({ token: result.data, rememberMe: true }));
+			navigate('/marketplace');
+		}
+	}, [result]);
 
 	function onSubmit(data: RegisterForm) {
 		createUser({ ...data, image: data.image[0] });

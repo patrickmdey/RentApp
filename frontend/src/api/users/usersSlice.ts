@@ -7,7 +7,7 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 			query: (url) => url.toString()
 		}),
 
-		createUser: build.mutation<User, CreateUserParameters>({
+		createUser: build.mutation<string | null, CreateUserParameters>({
 			query: (jsonUser) => {
 				let data = new FormData();
 				for (let [key, val] of Object.entries(jsonUser)) data.append(key, val);
@@ -17,6 +17,14 @@ const UsersApiSlice = BaseApiSlice.injectEndpoints({
 					method: 'POST',
 					body: data
 				};
+			},
+			transformResponse: (_, meta) => {
+				const auth = meta?.response?.headers.get('Authorization');
+				if (auth == null) return null;
+
+				const token = auth.split(' ')[1];
+
+				return token;
 			}
 		}),
 
