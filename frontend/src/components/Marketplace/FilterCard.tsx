@@ -1,4 +1,4 @@
-import { Button, Card, Form, InputGroup } from 'react-bootstrap';
+import { Button, Card, Form, InputGroup, Stack } from 'react-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { useForm } from 'react-hook-form';
 import { useListCategories } from '../../api/categories/categoriesSlice';
@@ -24,6 +24,7 @@ const UNSELECTED_DEFAULT = {
 
 interface FilterCardProps {
 	onSubmit: (data: FilterCardForm) => void;
+	onClear: () => void;
 	defaultValues: FilterCardForm;
 }
 
@@ -31,6 +32,7 @@ function FilterCard(props: FilterCardProps) {
 	const { register, handleSubmit } = useForm<FilterCardForm>();
 	const {
 		defaultValues: { name, category, orderBy, location, initPrice, endPrice },
+		onClear,
 		onSubmit
 	} = props;
 
@@ -42,8 +44,11 @@ function FilterCard(props: FilterCardProps) {
 		<>
 			{categoriesIsSucc && categories && locationsIsSucc && locations && orderIsSucc && orderOptions && (
 				<Card className='card-style filters-card col-md-3 col-lg-3 col-12'>
-					<Card.Header className=' d-flex align-items-center '>
-						<h4 className='color-rentapp-black col-9'>{strings.collection.filter.title}</h4>
+					<Card.Header className='w-100 d-flex align-items-center justify-content-between'>
+						<h4 className='color-rentapp-black m-0'>{strings.collection.filter.title}</h4>
+						<Button variant='link' className='text-decoration-none p-0 m-0' onClick={() => onClear()}>
+							clear
+						</Button>
 					</Card.Header>
 
 					<Form onSubmit={handleSubmit(onSubmit)}>

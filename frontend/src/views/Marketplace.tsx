@@ -12,6 +12,7 @@ import NoDataCard from '../components/NoDataCard';
 import LoadingComponent from '../components/LoadingComponent';
 import Error from '../components/Error';
 import { createSearchParams, URLSearchParamsInit, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function serialize<T>(data: T): URLSearchParamsInit {
 	return Object.entries(data);
@@ -33,10 +34,14 @@ function Marketplace() {
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState<ListArticleParameters>({});
 
+	useEffect(() => {
+		setSearchParams(serialize(filters));
+	}, [filters]);
+
 	const { data, pages, error, isLoading } = usePaginatedResponse(
 		useListArticles({
 			page: page,
-			...(deserialize(searchParams) as Object)
+			...filters
 		})
 	);
 
@@ -53,7 +58,8 @@ function Marketplace() {
 					<Col md={3} lg={3}>
 						<FilterCard
 							defaultValues={deserialize(searchParams)}
-							onSubmit={(data) => setSearchParams(serialize(data))}
+							onClear={() => setFilters({})}
+							onSubmit={(data) => setFilters(data)}
 						/>
 					</Col>
 					<Col md={9} lg={9}>
