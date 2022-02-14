@@ -10,6 +10,8 @@ import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -38,6 +40,8 @@ public class UserController {
     @Context
     private SecurityContext securityContext;
 
+    private final Logger userLogger = LoggerFactory.getLogger(UserController.class);
+
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
     @Produces(value = {MediaType.APPLICATION_JSON,})
@@ -50,6 +54,10 @@ public class UserController {
 
         Response.ResponseBuilder responseBuilder = Response.created(uri);
         addJwtToken(responseBuilder, user);
+
+        userLogger.info("Registering new user --> email: {}, location: {}, type: {}",
+                userDto.getEmail(), userDto.getLocation(), userDto.isOwner());
+
         return responseBuilder.build();
     }
 
@@ -66,7 +74,10 @@ public class UserController {
     @Produces(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response deleteById(@PathParam("id") final long id) {
+        userLogger.info("deleting account --> id: {}", id);
+
         us.delete(id);
+
         return Response.noContent().build();
     }
 
@@ -75,6 +86,9 @@ public class UserController {
     @Consumes(value = {MediaType.APPLICATION_JSON,})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response modify(@PathParam("id") final long id, @Valid EditUserDTO userDTO) {
+        userLogger.info("Editing user --> name: {}, lastName: {}, location: {}",
+                userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
+
         us.update(id, userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLocation());
         return Response.ok().build();
     }

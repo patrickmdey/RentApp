@@ -9,6 +9,8 @@ import ar.edu.itba.paw.webapp.dto.get.ReviewDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewReviewDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditReviewDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,8 @@ public class ReviewController {
 
     @Context
     private SecurityContext securityContext;
+
+    private final Logger reviewLogger = LoggerFactory.getLogger(ReviewController.class);
 
     @GET
     @Path("/{id}")
@@ -69,6 +73,9 @@ public class ReviewController {
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(@Valid NewReviewDTO reviewDTO) {
         User user = ApiUtils.retrieveUser(securityContext, us);
+        reviewLogger.info("publishing review for article with id '{}' with params --> rating: {}, " +
+                "message: {}", reviewDTO.getArticleId(), reviewDTO.getRating(), reviewDTO.getMessage());
+
         final Review review = rs.create(reviewDTO.getRating(), reviewDTO.getMessage(),
                 reviewDTO.getArticleId(), user.getId());
 
@@ -81,6 +88,9 @@ public class ReviewController {
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication, #id)")
     public Response modifyReview(@PathParam("id") long id, @Valid EditReviewDTO reviewDTO) {
+        reviewLogger.info("editing review with id '{}' with params --> rating: {}, message: {}",
+                id, reviewDTO.getRating(), reviewDTO.getMessage());
+
         rs.update(reviewDTO.getRating(), reviewDTO.getMessage(), id);
         return Response.ok().build();
     }

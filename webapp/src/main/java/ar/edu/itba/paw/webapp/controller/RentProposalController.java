@@ -9,6 +9,8 @@ import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,9 @@ public class RentProposalController {
 
     @Context
     private SecurityContext securityContext;
+
+    private final Logger rentLogger = LoggerFactory.getLogger(RentProposalController.class);
+
 
     @GET
     @Path("/received")
@@ -79,6 +84,10 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #rentProposalDTO.renterId) && " +
             "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
     public Response createProposal(@Valid final NewRentProposalDTO rentProposalDTO) {
+        rentLogger.info("creating new rent proposal with params --> message: {}, " +
+                        "articleId: {}, renterId: {}", rentProposalDTO.getMessage(),
+                        rentProposalDTO.getArticleId(), rentProposalDTO.getRenterId());
+
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
                 rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),
                 rentProposalDTO.getArticleId(), ApiUtils.retrieveUser(securityContext, us).getId(),
