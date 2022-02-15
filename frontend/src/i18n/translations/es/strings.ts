@@ -41,7 +41,7 @@ let esCollection: StringCollection = {
 		everyCategory: 'Todas las categorías'
 	},
 
-	filterInfo:{
+	filterInfo: {
 		query: 'Nombre',
 		filtering: 'Filtrando por',
 		location: 'en',
@@ -157,7 +157,9 @@ let esCollection: StringCollection = {
 	review: {
 		reviews: 'Reseñas',
 		create: 'Crear reseña',
-		edit: 'Editar reseña'
+		edit: 'Editar reseña',
+		unauthorized: 'No eres el dueño de esta reseña',
+		back: 'Volver'
 	},
 	categories: {
 		searchByCategories: 'Buscar por categorías'

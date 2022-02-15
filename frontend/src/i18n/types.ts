@@ -1,4 +1,4 @@
-import { LocalizedStringsMethods } from "react-localization";
+import { LocalizedStringsMethods } from 'react-localization';
 
 export interface ErrorMessageInterface {
 	max?: string;
@@ -162,6 +162,8 @@ interface ReviewStrings {
 	reviews: string;
 	create: string;
 	edit: string;
+	unauthorized: string;
+	back: string;
 }
 
 interface CategoriesString {

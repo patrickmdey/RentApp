@@ -41,7 +41,7 @@ let enCollection: StringCollection = {
 		everyCategory: 'Every category'
 	},
 
-	filterInfo:{
+	filterInfo: {
 		query: 'Name',
 		filtering: 'Filtering by:',
 		location: 'in',
@@ -153,7 +153,9 @@ let enCollection: StringCollection = {
 	review: {
 		reviews: 'Reviews',
 		create: 'Create review',
-		edit: 'Edit review'
+		edit: 'Edit review',
+		unauthorized: 'You are not the owner of this review',
+		back: 'Go Back'
 	},
 	categories: {
 		searchByCategories: 'Search by categories'
@@ -254,7 +256,7 @@ let enCollection: StringCollection = {
 		noReviews: 'There are no reviews yet',
 		noMyProfileArticlesTitle: "You haven't published any article yet",
 		noMyProfileRentedArticlesTitle: "You haven't rented any article yet",
-		noMyProfileSubtitle: 'You can do so by clicking here',
+		noMyProfileSubtitle: 'You can do so by clicking here'
 	},
 
 	forms: {
