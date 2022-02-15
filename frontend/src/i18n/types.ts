@@ -1,4 +1,4 @@
-import { LocalizedStringsMethods } from 'react-localization';
+import { LocalizedStringsMethods } from "react-localization";
 
 export interface ErrorMessageInterface {
 	max?: string;
@@ -60,6 +60,14 @@ interface FilterStrings {
 	button: string;
 	everyLocation: string;
 	everyCategory: string;
+}
+
+interface FilterInfoStrings {
+	query: string;
+	location: string;
+	search: string;
+	clear: string;
+	filtering: string;
 }
 
 interface LogInStrings {
@@ -285,6 +293,7 @@ export interface StringCollection {
 	header: HeaderStrings;
 	footer: FooterStrings;
 	filter: FilterStrings;
+	filterInfo: FilterInfoStrings;
 	login: LogInStrings;
 	profile: ProfileString;
 	article: ArticleStrings;
