@@ -10,6 +10,7 @@ import { useListImages } from '../../api/images/imagesSlice';
 import RequestForm from '../Requests/RequestForm';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { userTypes } from '../../views/Article';
 
 function setActiveImage(src: string) {
 	const htmlImg = document.getElementById('main-img');
@@ -24,9 +25,9 @@ function MainArticleCard(props: {
 	categories: Category[] | undefined;
 	reviews: Review[] | undefined;
 	location: Location | undefined;
-	isOwner: boolean | undefined;
+	userType: number;
 }) {
-	const { article, categories, reviews, location, isOwner } = props;
+	const { article, categories, reviews, location, userType } = props;
 	const { data: articleImages, isSuccess } = useListImages(article.imagesUrl);
 
 	const navigate = useNavigate();
@@ -34,7 +35,12 @@ function MainArticleCard(props: {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	const handleShow = () => {
+		console.log(userType);
+		if (userType === userTypes.notLogged) {
+			navigate('/login');
+		} else setShow(true);
+	};
 
 	return (
 		<>
@@ -77,12 +83,14 @@ function MainArticleCard(props: {
 							{article.title}
 						</Card.Title>
 						<Card.Subtitle>
-							<a href='/' className='article-location d-flex mt-3 color-action align-items-center'>
-								<GeoAltFill className='mr-2' />
-								{location && <p className='lead'>{location.name}</p>}
+							<a href='/' className='article-location mt-3 color-action d-flex align-items-center'>
+								<span className='h4'>
+									<GeoAltFill />
+								</span>
+								{location && <p className='lead mt-2'>{location.name}</p>}
 							</a>
 						</Card.Subtitle>
-						<div className='d-flex flex-wrap mt-3'>
+						<div className='d-flex flex-wrap mt-2'>
 							{categories &&
 								categories.map((category, i) => (
 									<h5 key={i}>
@@ -100,7 +108,7 @@ function MainArticleCard(props: {
 						<h3 className='mt-n1 fw-bold h3 color-rentapp-red'>${article.pricePerDay}</h3>
 						{}
 						<Row className='my-3'>
-							{isOwner ? (
+							{userType === userTypes.owner ? (
 								<Button onClick={() => navigate('edit')}>{strings.collection.article.edit}</Button>
 							) : (
 								<Button onClick={handleShow}>{strings.collection.article.rent}</Button>

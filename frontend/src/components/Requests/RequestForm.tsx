@@ -17,14 +17,13 @@ interface RequestFormT {
 	renterId: number;
 }
 
-const isValidDate = (startDate: Date, endDate: Date) => startDate < endDate;
-
 function RequestForm(props: { articleId: number }) {
 	const { articleId } = props;
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
+		getValues
 	} = useForm<RequestFormT>({
 		defaultValues: {
 			message: '',
@@ -82,7 +81,10 @@ function RequestForm(props: { articleId: number }) {
 										label={strings.collection.article.requestArticle.endDate}
 										name='endDate'
 										type='date'
-										validation={{ required: true }} //TODO: aca validate: isValidDate
+										validation={{
+											required: true,
+											validate: () => getValues('startDate') < getValues('endDate')
+										}} //TODO: aca validate: isValidDate
 										error={errors.startDate}
 										errorMessage={strings.collection.article.requestArticle.errors.endDate}
 									/>

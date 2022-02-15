@@ -22,6 +22,12 @@ import Error from '../components/Error';
 import { useNavigate } from 'react-router';
 import ArticleCardList from '../components/Article/ArticleCardList';
 
+export const userTypes = {
+	notLogged: 0,
+	owner: 1,
+	notOwner: 2
+};
+
 // TODO: subdivide into components
 function Article() {
 	const { id } = useParams();
@@ -119,11 +125,17 @@ function Article() {
 		[reviews, article, loggedUserUrl]
 	);
 
-	const [isOwner, setIsOwner] = useState(false);
-	useEffect(
-		() => setIsOwner(ownerIsSuccess && owner !== undefined ? owner.id === loggedUserId : false),
-		[owner, ownerIsSuccess, loggedUserId]
-	);
+	const [userType, setuserType] = useState(userTypes.notLogged);
+	useEffect(() => {
+		console.log(owner);
+		setuserType(
+			loggedUserId === null
+				? userTypes.notLogged
+				: ownerIsSuccess && owner && owner.id === loggedUserId
+				? userTypes.owner
+				: userTypes.notOwner
+		);
+	}, [owner, ownerIsSuccess, loggedUserId]);
 
 	if (articleLoad || categoriesLoad || reviewsLoad || ownerLoad || locationLoad || aPropLoad)
 		return <LoadingComponent />;
@@ -151,7 +163,7 @@ function Article() {
 							categories={categories}
 							reviews={reviews}
 							location={location}
-							isOwner={isOwner}
+							userType={userType}
 						/>
 						<Row className='w-100 g-0 justify-content-between'>
 							<Col md={8} className='pe-md-3 pe-0'>
