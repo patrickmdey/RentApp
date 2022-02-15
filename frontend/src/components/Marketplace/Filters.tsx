@@ -34,7 +34,7 @@ function Filters(props: { filters: ListArticleParameters; removeSearchParam: Fun
 						<div className='d-flex align-items-center'>
 							<p>{strings.collection.filterInfo.filtering}</p>
 
-							{filters.category && ( //TODO agregar una cruz para sacar cada uno
+							{filters.category && (
 								<Badge className='bg-color-secondary mx-2 d-flex align-items-center justify-content-center'>
 									<p className='lead'>
 										<Tag className='me-1' />

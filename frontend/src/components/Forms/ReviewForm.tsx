@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, FormControl, FormGroup, FormLabel, InputGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, Form, FormControl, FormGroup, FormLabel, InputGroup, Row, Stack } from 'react-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { Article } from '../../api/articles/types';
 import { useForm, UseFormRegister } from 'react-hook-form';
@@ -10,6 +10,8 @@ import { Rating as SimpleStarRating } from 'react-simple-star-rating';
 import { useEffect, useState } from 'react';
 import { Review } from '../../api/reviews/types';
 import { useNavigate } from 'react-router-dom';
+import { userTypes } from '../../views/Article';
+import { useFindUser } from '../../api/users/usersSlice';
 
 interface ReviewForm {
 	rating: number;
@@ -18,12 +20,32 @@ interface ReviewForm {
 	renterId: number;
 }
 
+function UnauthorizedCard() {
+	const navigate = useNavigate();
+	return (
+		<Card>
+			<Card.Body>
+				<Card.Title>{strings.collection.review.unauthorized}</Card.Title>
+				<Card.Footer>
+					<Stack direction='horizontal'>
+						<Button className='ms-auto' onClick={() => navigate(-1)}>
+							{strings.collection.article.editArticle.errors.back}
+						</Button>
+					</Stack>
+				</Card.Footer>
+			</Card.Body>
+		</Card>
+	);
+}
+
 function ReviewForm(props: { article: Article; review?: Review }) {
 	const { article, review } = props;
 	const loggedUserId = useUserId();
 
-	var [rating, setRating] = useState(review === undefined ? 1 : review.rating);
-	var [message, setMessage] = useState(review === undefined ? '' : review.message);
+	const [rating, setRating] = useState(review === undefined ? 1 : review.rating);
+	const [message, setMessage] = useState(review === undefined ? '' : review.message);
+
+	const { data: loggedUser } = useFindUser(`users/${loggedUserId}`);
 
 	const {
 		register,
@@ -52,13 +74,15 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		if (createResult.isSuccess || updateResult.isSuccess) {
 			navigate(`/articles/${article.id}`);
 		}
-
-		//TODO: cuando vuelve a la pagina del articulo no se refresca el nuevo valor de rating
 	}, [createResult, updateResult]);
 
 	function onSubmit(form: ReviewForm) {
 		if (review == null) createReview({ ...form });
 		else updateReview({ url: review.url.toString(), rating: rating, message: form.message });
+	}
+
+	if (review != null && loggedUser != null && review.renterUrl != loggedUser.url) {
+		return <UnauthorizedCard />;
 	}
 
 	return (

@@ -34,11 +34,11 @@ function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 			title={
 				<div style={{ display: 'inline-block' }}>
 					<div className='d-flex justify-content-center align-items-center'>
-						<p className='color-grey fw-bold'>{name}</p>
+						<span className='color-grey fw-bold'>{name}</span>
 						{requestAmount > 0 && (
-							<p className='ms-1'>
+							<span className='ms-1'>
 								<Badge className='bg-rentapp-red'>{requestAmount}</Badge>
-							</p>
+							</span>
 						)}
 					</div>
 				</div>
@@ -47,32 +47,29 @@ function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 			id='collasible-nav-dropdown'
 		>
 			<NavDropdown.Item onClick={() => navigate('proposals')} style={{ display: 'inline-block' }}>
-				<div className='d-flex justify-content-center align-items-center text-center'>
+				<div>
 					<BsFillInboxFill className='me-1' />
-					<p>{strings.collection.header.requests}</p>
+					<span>{strings.collection.header.requests}</span>
 					{requestAmount > 0 && (
-						<p className=''>
-							<Badge className='bg-rentapp-red ms-1'>{requestAmount}</Badge>
-						</p>
+						<span className=''>
+							<Badge className='bg-rentapp-red'>{requestAmount}</Badge>
+						</span>
 					)}
 				</div>
 			</NavDropdown.Item>
 
-			<NavDropdown.Item onClick={() => navigate('profile')} className='d-flex align-content-center'>
-				<p>
+			<NavDropdown.Item onClick={() => navigate('profile')}>
+				<span>
 					<BsPersonFill className='me-1' />
-				</p>
-				<p>{strings.collection.header.profile}</p>
+				</span>
+				<span>{strings.collection.header.profile}</span>
 			</NavDropdown.Item>
 
-			<NavDropdown.Item
-				className='d-flex align-content-center'
-				onClick={() => dispatch(setCredentials({ token: null, rememberMe: false }))}
-			>
-				<p>
+			<NavDropdown.Item onClick={() => dispatch(setCredentials({ token: null, rememberMe: false }))}>
+				<span>
 					<BsBoxArrowInLeft className='me-1' />
-				</p>
-				<p>{strings.collection.header.logout}</p>
+				</span>
+				<span>{strings.collection.header.logout}</span>
 			</NavDropdown.Item>
 		</NavDropdown>
 	);
