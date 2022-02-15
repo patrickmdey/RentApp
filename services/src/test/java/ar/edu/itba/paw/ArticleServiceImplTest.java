@@ -132,11 +132,11 @@ public class ArticleServiceImplTest {
     @Test
     public void rentedArticlesSucceed() {
         // Arrange
-        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), null))
                 .thenReturn(articles);
 
         // Act
-        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), 1);
+        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), null, 1);
 
         // Assert
         Assert.assertEquals(articles.size(), results.size());
@@ -153,11 +153,11 @@ public class ArticleServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void rentedArticlesFailArticleDaoThrowsException() {
         // Arrange
-        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong()))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), null))
                 .thenThrow(RuntimeException.class);
 
         // Act
-        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), 1);
+        List<Article> results = articleService.get(null, null, null, null, null, null, null, userRenter.getId(), null, 1);
 
         // Assert
         Assert.fail();

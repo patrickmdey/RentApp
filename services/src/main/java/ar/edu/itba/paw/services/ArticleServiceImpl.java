@@ -32,16 +32,16 @@ public class ArticleServiceImpl implements ArticleService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice, Float endPrice, Long renterId, long page) {
+    public List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice, Float endPrice, Long renterId, Long limit, long page) {
         validateRequest(category, orderBy, user, location, initPrice, endPrice, renterId);
         if (renterId != null)
-            return rentedArticles(renterId, page);
+            return rentedArticles(renterId, page, limit);
 
         OrderOptions orderOp = OrderOptions.LOWER_ARTICLE;
         if (orderBy != null)
             orderOp = orderBy;
 
-        return this.articleDao.filter(name, category, orderOp, user, location == null ? null : (long) location.ordinal(), initPrice, endPrice, page);
+        return this.articleDao.filter(name, category, orderOp, user, location == null ? null : (long) location.ordinal(), initPrice, endPrice, limit, page);
     }
 
     @Override
@@ -52,13 +52,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional(readOnly = true)
-    public long getMaxPage(String name, Long category, Long userId, Locations location, Float initPrice, Float endPrice, Long renterId) {
+    public long getMaxPage(String name, Long category, Long userId, Locations location, Float initPrice, Float endPrice, Long renterId, Long limit) {
         validateRequest(category, null, userId, location, initPrice, endPrice, renterId);
 
         if (renterId != null)
-            return getRentedMaxPage(renterId);
+            return getRentedMaxPage(renterId, limit);
 
-        return articleDao.getMaxPage(name, category, userId, location == null ? null : (long) location.ordinal(), initPrice, endPrice);
+        return articleDao.getMaxPage(name, category, userId, location == null ? null : (long) location.ordinal(), initPrice, endPrice, limit);
     }
 
     @Override
@@ -111,11 +111,11 @@ public class ArticleServiceImpl implements ArticleService {
                     throw new IllegalArgumentException("IllegalArguments.articles.list");
     }
 
-    private List<Article> rentedArticles(long renterId, long page) {
-        return articleDao.rentedArticles(renterId, page);
+    private List<Article> rentedArticles(long renterId, long page, Long limit) {
+        return articleDao.rentedArticles(renterId, page, limit);
     }
 
-    private long getRentedMaxPage(long renterId) {
-        return articleDao.getRentedMaxPage(renterId);
+    private long getRentedMaxPage(long renterId, Long limit) {
+        return articleDao.getRentedMaxPage(renterId, limit);
     }
 }

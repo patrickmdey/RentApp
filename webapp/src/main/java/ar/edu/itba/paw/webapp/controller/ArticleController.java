@@ -48,13 +48,20 @@ public class ArticleController {
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list(@QueryParam("name") @DefaultValue("") String name, @QueryParam("category") Long category, @QueryParam("orderBy") OrderOptions orderBy, @QueryParam("user") Long user, @QueryParam("location") Locations location, @QueryParam("initPrice") Float initPrice, @QueryParam("endPrice") Float endPrice, @QueryParam("renter") Long renter, @QueryParam("page") @DefaultValue("1") long page) {
+    public Response list(@QueryParam("name") @DefaultValue("") String name,
+                         @QueryParam("category") Long category,
+                         @QueryParam("orderBy") OrderOptions orderBy, @QueryParam("user") Long user,
+                         @QueryParam("location") Locations location,
+                         @QueryParam("initPrice") Float initPrice,
+                         @QueryParam("endPrice") Float endPrice, @QueryParam("renter") Long renter,
+                         @QueryParam("limit") Long limit,
+                         @QueryParam("page") @DefaultValue("1") long page) {
 
-        final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice, endPrice, renter, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
+        final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice, endPrice, renter, limit, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
 
         if (articles.isEmpty()) return Response.noContent().build();
 
-        final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice, renter);
+        final long maxPage = as.getMaxPage(name, category, user, location, initPrice, endPrice, renter, limit);
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("name", name);
 
         if (category != null) uriBuilder.queryParam("category", category);

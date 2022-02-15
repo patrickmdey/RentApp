@@ -49,7 +49,7 @@ public class ArticleDaoTest {
         final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null,null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -67,7 +67,7 @@ public class ArticleDaoTest {
         final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -85,7 +85,7 @@ public class ArticleDaoTest {
         final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -103,7 +103,7 @@ public class ArticleDaoTest {
         final long page = 1L;
 
         // Act
-        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, page);
+        List<Article> result = articleDao.filter(name, category, orderBy, idUser, location, null, null, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());
@@ -206,7 +206,7 @@ public class ArticleDaoTest {
         final long[] expectedIds = {3, 2};
 
         // Act
-        List<Article> result = articleDao.rentedArticles(idRenter, page);
+        List<Article> result = articleDao.rentedArticles(idRenter, page, null);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(Article::getId).toArray());

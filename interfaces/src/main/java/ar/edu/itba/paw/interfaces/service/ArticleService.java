@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ArticleService {
     List<Article> get(String name, Long category, OrderOptions orderBy, Long user, Locations location, Float initPrice,
-                      Float endPrice, Long renterId, long page);
+                      Float endPrice, Long renterId, Long limit, long page);
 
     Article createArticle(String title, String description, float pricePerDay, List<Long> categories, List<byte[]> image, long idOwner);
 
@@ -17,7 +17,7 @@ public interface ArticleService {
 
     Optional<Article> findById(long articleId);
 
-    long getMaxPage(String name, Long category, Long user, Locations location, Float initPrice, Float endPrice, Long renterId);
+    long getMaxPage(String name, Long category, Long user, Locations location, Float initPrice, Float endPrice, Long renterId, Long limit);
 
     List<Article> recommendedArticles(long articleId);
 

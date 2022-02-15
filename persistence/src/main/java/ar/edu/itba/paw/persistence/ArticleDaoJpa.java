@@ -22,7 +22,7 @@ public class ArticleDaoJpa implements ArticleDao {
     private EntityManager em;
 
     @Override
-    public List<Article> rentedArticles(long renterId, long page) {
+    public List<Article> rentedArticles(long renterId, long page, Long limit) {
         OrderOptions orderOptions = OrderOptions.HIGHER_ARTICLE;
         String idsStringQuery = "SELECT id FROM article AS a WHERE id IN " + "(SELECT article_id FROM rent_proposal " +
                 "WHERE renter_id = :renter_id AND state = :state) ORDER BY " +
@@ -30,10 +30,11 @@ public class ArticleDaoJpa implements ArticleDao {
 
         Query query = em.createNativeQuery(idsStringQuery);
 
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
         query.setParameter("renter_id", renterId);
         query.setParameter("state", RentState.ACCEPTED.ordinal());
-        query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
+        query.setParameter("limit", resultsPerPage);
+        query.setParameter("offset", (page - 1) * resultsPerPage);
 
         @SuppressWarnings("unchecked")
         List<Long> rentedArticlesIds = ((List<Number>) query.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
@@ -117,20 +118,22 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice) {
+    public long getMaxPage(String name, Long category, Long user, Long location, Float initPrice, Float endPrice, Long limit) {
         Map<String, Object> params = new HashMap<>();
         Query query = em.createNativeQuery(queryBuilder(params, "COUNT(*)", name, category, user, location, initPrice, endPrice).toString());
+
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
 
         params.forEach(query::setParameter);
 
         long size = Long.parseLong(query.getSingleResult().toString());
-        int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
+        int toSum = (size % resultsPerPage == 0) ? 0 : 1;
 
-        return (size / RESULTS_PER_PAGE) + toSum;
+        return (size / resultsPerPage) + toSum;
     }
 
     @Override
-    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, Float initPrice, Float endPrice, long page) {
+    public List<Article> filter(String name, Long category, OrderOptions orderBy, Long user, Long location, Float initPrice, Float endPrice, Long limit, long page) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder idQueryBuilder = queryBuilder(params, "id", name, category, user, location, initPrice, endPrice);
         idQueryBuilder.append(" ORDER BY ");
@@ -142,8 +145,9 @@ public class ArticleDaoJpa implements ArticleDao {
         Query idQueries = em.createNativeQuery(idQueryBuilder.toString());
         params.forEach(idQueries::setParameter);
 
-        idQueries.setParameter("limit", RESULTS_PER_PAGE);
-        idQueries.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
+        idQueries.setParameter("limit", resultsPerPage);
+        idQueries.setParameter("offset", (page - 1) * resultsPerPage);
 
         @SuppressWarnings("unchecked")
         List<Long> articleIds = ((List<Number>) idQueries.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
@@ -162,7 +166,7 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    public long getRentedMaxPage(long user) {
+    public long getRentedMaxPage(long user, Long limit) {
         Query query = em.createNativeQuery("SELECT COUNT(*) FROM article WHERE id IN (" +
                 "SELECT article_id FROM rent_proposal WHERE renter_id = :renter_id AND state = :state )");
 
@@ -170,8 +174,9 @@ public class ArticleDaoJpa implements ArticleDao {
         query.setParameter("state", RentState.ACCEPTED.ordinal());
         long size = Long.parseLong(query.getSingleResult().toString());
 
-        int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
-        return (size / RESULTS_PER_PAGE) + toSum;
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
+        int toSum = (size % resultsPerPage == 0) ? 0 : 1;
+        return (size / resultsPerPage) + toSum;
     }
 
     @Override
