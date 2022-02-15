@@ -129,7 +129,8 @@ let enCollection: StringCollection = {
 					required: 'You must enter the start date'
 				},
 				endDate: {
-					required: 'You must enter an end date'
+					required: 'You must enter an end date',
+					validate: 'The end date must be later than the start date'
 				},
 				message: {
 					required: 'You must enter a message for the owner',
@@ -244,7 +245,7 @@ let enCollection: StringCollection = {
 		noReviews: 'There are no reviews yet',
 		noMyProfileArticlesTitle: "You haven't published any article yet",
 		noMyProfileRentedArticlesTitle: "You haven't rented any article yet",
-		noMyProfileSubtitle: 'You can do so by clicking here'
+		noMyProfileSubtitle: 'You can do so by clicking here',
 	},
 
 	forms: {

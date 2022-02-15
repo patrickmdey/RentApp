@@ -134,7 +134,10 @@ let esCollection: StringCollection = {
 			send: 'Enviar',
 			errors: {
 				startDate: { required: 'Es obligatorio ingresar la fecha de inicio' },
-				endDate: { required: 'Es obligatorio ingresar la fecha de finalización' },
+				endDate: {
+					required: 'Es obligatorio ingresar la fecha de finalización',
+					validate: 'La fecha de inicio no debe ser posterior a la fecha de hoy'
+				},
 				message: { required: 'Es obligatorio ingresar un mensaje para el dueño' }
 			},
 			successTitle:

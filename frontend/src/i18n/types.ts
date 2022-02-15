@@ -11,7 +11,7 @@ export interface ErrorMessageInterface {
 	disabled?: string;
 	value?: string;
 	onChange?: undefined;
-	validate?: undefined;
+	validate?: string | undefined;
 	valueAsNumber?: undefined;
 	valueAsDate?: undefined;
 	setValueAs?: undefined;

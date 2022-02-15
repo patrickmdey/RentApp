@@ -37,3 +37,10 @@ export default function Articles(props: { user: User }) {
 		</Tabs>
 	);
 }
+
+{
+	/* <NoDataCard
+	title={strings.collection.noData.noMyProfileArticlesTitle}
+	subtitle={strings.collection.noData.noMyProfileSubtitle}
+/>; */
+}
