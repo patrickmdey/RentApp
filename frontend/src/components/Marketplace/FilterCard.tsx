@@ -29,7 +29,16 @@ interface FilterCardProps {
 }
 
 function FilterCard(props: FilterCardProps) {
-	const { register, handleSubmit } = useForm<FilterCardForm>();
+	const { register, handleSubmit, reset } = useForm<FilterCardForm>({
+		defaultValues: {
+			name: '',
+			category: undefined,
+			orderBy: undefined,
+			location: undefined,
+			initPrice: NaN,
+			endPrice: NaN
+		}
+	});
 	const {
 		defaultValues: { name, category, orderBy, location, initPrice, endPrice },
 		onClear,
@@ -46,8 +55,15 @@ function FilterCard(props: FilterCardProps) {
 				<Card className='card-style filters-card col-md-3 col-lg-3 col-12'>
 					<Card.Header className='w-100 d-flex align-items-center justify-content-between'>
 						<h4 className='color-rentapp-black m-0'>{strings.collection.filter.title}</h4>
-						<Button variant='link' className='text-decoration-none p-0 m-0' onClick={() => onClear()}>
-							clear
+						<Button
+							variant='link'
+							className='text-decoration-none p-0 m-0'
+							onClick={() => {
+								onClear();
+								reset();
+							}}
+						>
+							{strings.collection.filterInfo.clear}
 						</Button>
 					</Card.Header>
 

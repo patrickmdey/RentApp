@@ -45,7 +45,11 @@ export default function FormInput<T>(props: {
 				<FormControl
 					as={as === undefined ? 'input' : as}
 					type={type}
-					{...(type == 'number' ? { step: '0.01' } : type == 'date' ? { min: Date.now.toString() } : {})} //TODO: no esta tomando la min Date
+					{...(type == 'number'
+						? { step: '0.01' }
+						: type == 'date'
+						? { min: new Date().toISOString().split('T')[0] }
+						: {})}
 					defaultValue={value}
 					placeholder={placeholder}
 					{...register(name, validation)}

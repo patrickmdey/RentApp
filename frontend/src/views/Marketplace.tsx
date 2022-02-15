@@ -32,26 +32,49 @@ function deserialize<T extends Object>(searchParams: URLSearchParams): T {
 	);
 }
 
+function processFilters(filters: ListArticleParameters) {
+	let newFilters = { ...filters };
+	if (isNaN(filters.initPrice || NaN)) delete newFilters.initPrice;
+	if (isNaN(filters.endPrice || NaN)) delete newFilters.endPrice;
+	return newFilters;
+}
+
+function useProcessedFilters(unprocessed: ListArticleParameters) {
+	const [filters, setFilters] = useState(processFilters(unprocessed));
+	useEffect(() => {
+		setFilters(processFilters(unprocessed));
+	}, [unprocessed]);
+	return filters;
+}
+
 function Marketplace() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const [page, setPage] = useState(1);
-	const [filters, setFilters] = useState<ListArticleParameters>({});
+	const [filters, setFilters] = useState<ListArticleParameters>(deserialize(searchParams));
 
-	const { data: categories, isSuccess: categIsSuccess, error: categError } = useListCategories();
+	const processedFilters = useProcessedFilters(filters);
 
 	useEffect(() => {
-		setSearchParams(serialize(filters));
+		setSearchParams(serialize(processedFilters));
 	}, [filters]);
+
+	function removeSearchParam(name: keyof ListArticleParameters) {
+		setFilters((prev) => {
+			let copy = { ...prev };
+			delete copy[name];
+			return copy;
+		});
+	}
 
 	const { data, pages, error, isLoading } = usePaginatedResponse(
 		useListArticles({
 			page: page,
-			...filters
+			...processedFilters
 		})
 	);
 
-	const anyError = error || categError;
+	const anyError = error;
 	if (anyError && 'originalStatus' in anyError)
 		return <Error error={anyError.originalStatus} message={anyError.data} />;
 
@@ -70,7 +93,7 @@ function Marketplace() {
 						/>
 					</Col>
 					<Col md={9} lg={9}>
-						<Filters filters={filters} />
+						<Filters filters={filters} removeSearchParam={removeSearchParam} />
 						{isLoading ? (
 							<LoadingComponent />
 						) : data === null || (data && data.length === 0) ? (

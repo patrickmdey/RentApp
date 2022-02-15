@@ -1,30 +1,26 @@
-import { Row, Badge } from 'react-bootstrap';
+import { Row, Badge, Button } from 'react-bootstrap';
 import { GeoAltFill, PersonFill, Tag } from 'react-bootstrap-icons';
 import { ListArticleParameters } from '../../api/articles/types';
-import { useListCategories } from '../../api/categories/categoriesSlice';
+import { useFindCategory } from '../../api/categories/categoriesSlice';
 import { strings } from '../../i18n/i18n';
-import { Category } from '../../api/categories/types';
-import { useState, useEffect } from 'react';
+import { useFindUser } from '../../api/users/usersSlice';
 
-function Filters(props: { filters: ListArticleParameters }) {
-	const { filters } = props;
-	const { data: categories, isSuccess: categIsSuccess, error: categError } = useListCategories();
+function CategoryName(props: { id: number }) {
+	const { data: category } = useFindCategory(`categories/${props.id}`);
+	return <>{category && category.description}</>;
+}
 
-	const [filterCategory, setFilterCategory] = useState('');
+function UserName(props: { id: number }) {
+	const { data: user } = useFindUser(`users/${props.id}`);
+	return <>{user && user.firstName}</>;
+}
 
-	// useEffect(
-	// 	() =>
-	// 		setFilterCategory(
-	// 			categIsSuccess &&
-	// 				categories &&
-	// 				categories.find((cat: Category) => cat.id === filters.category)?.description
-	// 		),
-	// 	[categIsSuccess, categories, filters]
-	// );
+function Filters(props: { filters: ListArticleParameters; removeSearchParam: Function }) {
+	const { filters, removeSearchParam } = props;
 
 	return (
 		<>
-			{categIsSuccess && categories && (
+			{
 				<Row className='mb-2'>
 					{filters.name && filters.name.length > 0 && (
 						<div className='d-flex align-items-center'>
@@ -43,20 +39,32 @@ function Filters(props: { filters: ListArticleParameters }) {
 									<p className='lead'>
 										<Tag className='me-1' />
 									</p>
-									<p className='me-1'>pruebinha</p>
-									<a href='${removeCategoryUrl}' className='text-light'>
+									<p className='me-1'>
+										<CategoryName id={filters.category} />
+									</p>
+									<Button
+										variant='link'
+										onClick={() => removeSearchParam('category')}
+										className='text-light text-decoration-none p-0 m-0'
+									>
 										X
-									</a>
+									</Button>
 								</Badge>
 							)}
 
 							{filters.user && (
 								<div className='badge bg-color-secondary mx-2 p-2'>
 									<PersonFill />
-									<p>{filters.user}</p>
-									<a href='${removeUserUrl}' className='text-light'>
+									<p>
+										<UserName id={filters.user} />
+									</p>
+									<Button
+										variant='link'
+										onClick={() => removeSearchParam('user')}
+										className='text-light text-decoration-none p-0 m-0'
+									>
 										X
-									</a>
+									</Button>
 								</div>
 							)}
 						</div>
@@ -71,7 +79,7 @@ function Filters(props: { filters: ListArticleParameters }) {
 						</div>
 					)}
 				</Row>
-			)}
+			}
 		</>
 	);
 }
