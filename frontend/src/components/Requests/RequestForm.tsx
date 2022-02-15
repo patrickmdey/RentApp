@@ -82,8 +82,7 @@ function RequestForm(props: { articleId: number }) {
 										name='endDate'
 										type='date'
 										validation={{
-											required: true,
-											validate: () => getValues('startDate') < getValues('endDate')
+											required: true
 										}} //TODO: aca validate: isValidDate
 										error={errors.startDate}
 										errorMessage={strings.collection.article.requestArticle.errors.endDate}
@@ -97,7 +96,12 @@ function RequestForm(props: { articleId: number }) {
 								name='message'
 								type='text'
 								as='textarea'
-								validation={{ required: true, minLength: 10, maxLength: 310 }}
+								validation={{
+									required: true,
+									minLength: 10,
+									maxLength: 310,
+									validate: () => getValues('startDate') < getValues('endDate')
+								}}
 								error={errors.message}
 								errorMessage={strings.collection.article.requestArticle.errors.message}
 							/>

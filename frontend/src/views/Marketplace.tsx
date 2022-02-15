@@ -63,9 +63,7 @@ function Marketplace() {
 						/>
 					</Col>
 					<Col md={9} lg={9}>
-						{error ? (
-							<>Oh no, there was an error</>
-						) : isLoading ? (
+						{isLoading ? (
 							<LoadingComponent />
 						) : data === null || (data && data.length === 0) ? (
 							<NoDataCard
