@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewService {
-    List<Review> getPaged(long articleId, long page);
+    List<Review> getPaged(long articleId, Long limit, long page);
 
     void update(int rating, String message, long reviewId);
 
@@ -14,7 +14,7 @@ public interface ReviewService {
 
     Review create(int rating, String message, long articleId, long renterId);
 
-    long getMaxPage(long articleId);
+    long getMaxPage(long articleId, Long limit);
 
     boolean hasReviewed(User user, long articleId);
 }

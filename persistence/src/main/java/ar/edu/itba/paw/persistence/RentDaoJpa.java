@@ -42,34 +42,37 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public long getReceivedMaxPage(long ownerId, int state) {
-        return getMaxPage(ownerId, state, this::receivedQueryBuilder, OWNER_PARAM);
+    public long getReceivedMaxPage(long ownerId, int state, Long limit) {
+        return getMaxPage(ownerId, state, this::receivedQueryBuilder, OWNER_PARAM, limit);
     }
 
     @Override
-    public long getSentMaxPage(long ownerId, int state) {
-        return getMaxPage(ownerId, state, this::sentQueryBuilder, RENTER_PARAM);
+    public long getSentMaxPage(long ownerId, int state, Long limit) {
+        return getMaxPage(ownerId, state, this::sentQueryBuilder, RENTER_PARAM, limit);
     }
 
-    private long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam) {
+    private long getMaxPage(long ownerId, int state, Function<String, StringBuilder> queryBuilder, String userParam, Long limit) {
         Query query = em.createNativeQuery(queryBuilder.apply("COUNT(*)").toString());
         query.setParameter(userParam, ownerId);
         query.setParameter("state", state);
 
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
         long size = Long.parseLong(query.getSingleResult().toString());
-        int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
+        int toSum = (size % resultsPerPage == 0) ? 0 : 1;
 
-        return (size / RESULTS_PER_PAGE) + toSum;
+        return (size / resultsPerPage) + toSum;
     }
 
 
 
-    private List<RentProposal> getRequests(long accountId, int state, long page,
+    private List<RentProposal> getRequests(long accountId, int state, Long limit, long page,
                                            Function<String, StringBuilder> queryBuilder, String userParam) {
         StringBuilder queryBuild = queryBuilder.apply("id");
         queryBuild.append("ORDER BY seen, start_date DESC, end_date DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuild.toString());
+
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
         query.setParameter("limit", RESULTS_PER_PAGE);
         query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
         query.setParameter(userParam, accountId);
@@ -91,13 +94,13 @@ public class RentDaoJpa implements RentDao {
     }
 
     @Override
-    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
-        return getRequests(ownerId, state, page, this::receivedQueryBuilder, OWNER_PARAM);
+    public List<RentProposal> ownerRequests(long ownerId, int state, Long limit, long page) {
+        return getRequests(ownerId, state, limit, page, this::receivedQueryBuilder, OWNER_PARAM);
     }
 
     @Override
-    public List<RentProposal> sentRequests(long renterId, int state, long page) {
-        return getRequests(renterId, state, page, this::sentQueryBuilder, RENTER_PARAM);
+    public List<RentProposal> sentRequests(long renterId, int state, Long limit, long page) {
+        return getRequests(renterId, state, limit, page, this::sentQueryBuilder, RENTER_PARAM);
     }
 
     @Override

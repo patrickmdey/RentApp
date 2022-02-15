@@ -50,16 +50,16 @@ public class ReviewController {
 
     @GET
     @Produces(value = {MediaType.APPLICATION_JSON,})
-    public Response list(@NotNull(message = "NotNull.getReviews.articleId") @QueryParam("fromArticle")
-                                     Integer articleId,
+    public Response list(@NotNull(message = "NotNull.getReviews.articleId") @QueryParam("fromArticle") Integer articleId,
+                         @QueryParam("limit") Long limit,
                          @QueryParam("page") @DefaultValue("1") long page) {
-        final List<ReviewDTO> reviews = rs.getPaged(articleId, page)
+        final List<ReviewDTO> reviews = rs.getPaged(articleId, limit, page)
                 .stream().map(review -> ReviewDTO.fromReview(review, uriInfo)).collect(Collectors.toList());
 
         if(reviews.isEmpty())
             return Response.noContent().build();
 
-        final long maxPage = rs.getMaxPage(articleId);
+        final long maxPage = rs.getMaxPage(articleId, limit);
 
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().queryParam("fromArticle", articleId);
 

@@ -45,7 +45,7 @@ public class RentDaoTest {
         final long[] expectedIds = {2, 3};
 
         // Act
-        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, page);
+        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(RentProposal::getId).toArray());
@@ -60,7 +60,7 @@ public class RentDaoTest {
         final long[] expectedIds = {1};
 
         // Act
-        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, page);
+        List<RentProposal> result = rentDao.ownerRequests(idOwner, state, null, page);
 
         // Assert
         Assert.assertArrayEquals(expectedIds, result.stream().mapToLong(RentProposal::getId).toArray());

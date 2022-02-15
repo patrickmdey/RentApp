@@ -5,5 +5,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface RequestsGetter {
-    List<RentProposal> get(long id, int state, long page);
+    List<RentProposal> get(long id, int state, Long limit, long page);
 }

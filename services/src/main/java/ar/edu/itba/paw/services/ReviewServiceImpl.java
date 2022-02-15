@@ -19,8 +19,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Review> getPaged(long articleId, long page) {
-        return reviewDao.getPaged(articleId, page);
+    public List<Review> getPaged(long articleId, Long limit, long page) {
+        return reviewDao.getPaged(articleId, limit, page);
     }
 
     @Override
@@ -31,8 +31,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public long getMaxPage(long articleId) {
-        return reviewDao.getMaxPage(articleId);
+    public long getMaxPage(long articleId, Long limit) {
+        return reviewDao.getMaxPage(articleId, limit);
     }
 
     @Override

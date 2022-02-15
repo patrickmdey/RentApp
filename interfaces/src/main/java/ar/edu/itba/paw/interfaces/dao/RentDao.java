@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface RentDao {
 
-    List<RentProposal> ownerRequests(long ownerId, int state, long page);
+    List<RentProposal> ownerRequests(long ownerId, int state, Long limit, long page);
 
-    List<RentProposal> sentRequests(long renterId, int state, long page);
+    List<RentProposal> sentRequests(long renterId, int state, Long limit, long page);
 
     Optional<RentProposal> findById(long id);
 
@@ -18,9 +18,9 @@ public interface RentDao {
 
     RentProposal create(String comment, RentState approved, LocalDate startDate, LocalDate endDate, long articleId, long renterId);
 
-    long getReceivedMaxPage(long ownerId, int state);
+    long getReceivedMaxPage(long ownerId, int state, Long limit);
 
-    long getSentMaxPage(long renterId, int state);
+    long getSentMaxPage(long renterId, int state, Long limit);
 
     boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
 }

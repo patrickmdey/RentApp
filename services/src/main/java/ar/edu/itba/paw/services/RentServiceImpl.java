@@ -25,20 +25,20 @@ public class RentServiceImpl implements RentService {
     @Autowired
     private EmailService emailService;
 
-    private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, long page) {
-        return getter.get(accountId, state, page);
+    private List<RentProposal> getRequests(RequestsGetter getter, long accountId, int state, Long limit, long page) {
+        return getter.get(accountId, state, limit, page);
     }
 
     @Override
     @Transactional
-    public List<RentProposal> ownerRequests(long ownerId, int state, long page) {
-        return getRequests(rentDao::ownerRequests, ownerId, state, page);
+    public List<RentProposal> ownerRequests(long ownerId, int state, Long limit, long page) {
+        return getRequests(rentDao::ownerRequests, ownerId, state, limit, page);
     }
 
     @Override
     @Transactional
-    public List<RentProposal> sentRequests(long ownerId, int state, long page) {
-        List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state, page);
+    public List<RentProposal> sentRequests(long ownerId, int state, Long limit, long page) {
+        List<RentProposal> toReturn = getRequests(rentDao::sentRequests, ownerId, state, limit, page);
         if (state != RentState.PENDING.ordinal()) {
             toReturn.forEach(proposal -> {
                 if (!proposal.getSeen()) {
@@ -54,14 +54,14 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional(readOnly = true)
-    public long getReceivedMaxPage(long ownerId, int state) {
-        return rentDao.getReceivedMaxPage(ownerId, state);
+    public long getReceivedMaxPage(long ownerId, int state, Long limit) {
+        return rentDao.getReceivedMaxPage(ownerId, state, limit);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public long getSentMaxPage(long ownerId, int state) {
-        return rentDao.getSentMaxPage(ownerId, state);
+    public long getSentMaxPage(long ownerId, int state, Long limit) {
+        return rentDao.getSentMaxPage(ownerId, state, limit);
     }
 
     @Override

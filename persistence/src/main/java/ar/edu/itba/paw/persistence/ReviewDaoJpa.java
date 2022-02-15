@@ -26,14 +26,16 @@ public class ReviewDaoJpa implements ReviewDao {
     }
 
     @Override
-    public List<Review> getPaged(long articleId, long page) {
+    public List<Review> getPaged(long articleId, Long limit, long page) {
         StringBuilder queryBuilder = queryBuilder("id");
         queryBuilder.append(" ORDER BY created_at DESC LIMIT :limit OFFSET :offset");
 
         Query query = em.createNativeQuery(queryBuilder.toString());
         query.setParameter("article_id", articleId);
-        query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
+
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
+        query.setParameter("limit", resultsPerPage);
+        query.setParameter("offset", (page - 1) * resultsPerPage);
 
         @SuppressWarnings("unchecked")
         List<Long> reviewIds = ((List<Number>) query.getResultList()).stream().mapToLong(Number::longValue).boxed().collect(Collectors.toList());
@@ -50,13 +52,14 @@ public class ReviewDaoJpa implements ReviewDao {
     }
 
     @Override
-    public long getMaxPage(long articleId) {
+    public long getMaxPage(long articleId, Long limit) {
         Query query = em.createNativeQuery(queryBuilder("COUNT(*)").toString());
         query.setParameter("article_id", articleId);
         long size = Long.parseLong(query.getSingleResult().toString());
-        int toSum = (size % RESULTS_PER_PAGE == 0) ? 0 : 1;
 
-        return (size / RESULTS_PER_PAGE) + toSum;
+        long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
+        int toSum = (size % resultsPerPage == 0) ? 0 : 1;
+        return (size / resultsPerPage) + toSum;
     }
 
     @Override

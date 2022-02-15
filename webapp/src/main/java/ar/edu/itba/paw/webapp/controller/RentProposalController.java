@@ -9,6 +9,7 @@ import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
+import ar.edu.itba.paw.webapp.utils.RentMaxPageGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,9 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                                  @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
+                                 @QueryParam("limit") Long limit,
                                  @QueryParam("page") @DefaultValue("1") int page) {
-        return listProposals(userId, state, page, rs::ownerRequests, rs::getReceivedMaxPage);
+        return listProposals(userId, state, limit, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
 
     @GET
@@ -58,23 +60,24 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                              @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
+                             @QueryParam("limit") Long limit,
                              @QueryParam("page") @DefaultValue("1") int page) {
-        return listProposals(userId, state, page, rs::sentRequests, rs::getSentMaxPage);
+        return listProposals(userId, state, limit, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
-    private Response listProposals(int userId, RentState state, int page, RequestsGetter getter,
-                                   BiFunction<Integer, Integer, Long> maxPageGetter) {
+    private Response listProposals(int userId, RentState state, Long limit, int page, RequestsGetter getter,
+                                   RentMaxPageGetter maxPageGetter) {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder()
                 .queryParam("user", userId)
                 .queryParam("state", state);
 
-        final List<RentProposalDTO> proposals = getter.get(userId, state.ordinal(), page).stream().
+        final List<RentProposalDTO> proposals = getter.get(userId, state.ordinal(), limit, page).stream().
                 map(proposal -> RentProposalDTO.fromRentProposal(proposal, uriInfo)).collect(Collectors.toList());
 
         if (proposals.isEmpty())
             return Response.noContent().build();
 
-        final Long maxPage = maxPageGetter.apply(userId, state.ordinal());
+        final long maxPage = maxPageGetter.apply(userId, state.ordinal(), limit);
         return ApiUtils.generateResponseWithLinks(Response.ok
                 (new GenericEntity<List<RentProposalDTO>>(proposals) {}), page, maxPage, uriBuilder);
     }

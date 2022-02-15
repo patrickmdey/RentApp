@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface RentService {
     Optional<RentProposal> findById(long id);
 
-    List<RentProposal> ownerRequests(long ownerId, int state, long page);
+    List<RentProposal> ownerRequests(long ownerId, int state, Long limit, long page);
 
-    List<RentProposal> sentRequests(long renterId, int state, long page);
+    List<RentProposal> sentRequests(long renterId, int state, Long limit, long page);
 
     void setRequestState(long requestId, RentState state, String webpageUrl);
 
@@ -25,9 +25,9 @@ public interface RentService {
 
     boolean hasRented(User renter, long articleId);
 
-    long getReceivedMaxPage(long ownerId, int state);
+    long getReceivedMaxPage(long ownerId, int state, Long limit);
 
-    long getSentMaxPage(long renterId, int state);
+    long getSentMaxPage(long renterId, int state, Long limit);
 
     boolean isPresentSameDate(long renterId, long articleId, LocalDate startDate, LocalDate endDate);
 }
