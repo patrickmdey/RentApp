@@ -40,6 +40,15 @@ let esCollection: StringCollection = {
 		everyLocation: 'Todas las ubicaciones',
 		everyCategory: 'Todas las categorías'
 	},
+
+	filterInfo:{
+		query: 'Nombre',
+		filtering: 'Filtrando por',
+		location: 'en',
+		search: 'Mostrando resultados para:',
+		clear: 'Limpiar'
+	},
+
 	login: {
 		title: 'Iniciar Sesión',
 		email: 'Email*',

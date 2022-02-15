@@ -40,6 +40,15 @@ let enCollection: StringCollection = {
 		everyLocation: 'Every location',
 		everyCategory: 'Every category'
 	},
+
+	filterInfo:{
+		query: 'Name',
+		filtering: 'Filtering by:',
+		location: 'in',
+		search: 'Showing results for:',
+		clear: 'clear'
+	},
+
 	login: {
 		title: 'LogIn',
 		email: 'Email*',
