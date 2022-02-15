@@ -23,10 +23,10 @@ export default function Footer() {
 				<div className='col-4'>
 					<ListGroup as='ul' className='col-6 list-unstyled'>
 						<h3 className='h3 fw-bold color-grey'>{strings.collection.footer.team}</h3>
-						<ListGroupItem bsPrefix='color-grey'>Santos Rosati</ListGroupItem>
-						<ListGroupItem bsPrefix='color-grey'>Matias Lombardi</ListGroupItem>
-						<ListGroupItem bsPrefix='color-grey'>Patrick Dey</ListGroupItem>
-						<ListGroupItem bsPrefix='color-grey'>Lucas Dell'Isola</ListGroupItem>
+						<ListGroupItem bsPrefix='color-grey fw-bold mt-2'>Santos Rosati</ListGroupItem>
+						<ListGroupItem bsPrefix='color-grey fw-bold mt-2'>Matias Lombardi</ListGroupItem>
+						<ListGroupItem bsPrefix='color-grey fw-bold mt-2'>Patrick Dey</ListGroupItem>
+						<ListGroupItem bsPrefix='color-grey fw-bold mt-2'>Lucas Dell'Isola</ListGroupItem>
 					</ListGroup>
 				</div>
 
@@ -37,11 +37,11 @@ export default function Footer() {
 						</ListGroupItem>
 						<ListGroupItem bsPrefix='lead color-grey'>
 							{strings.collection.footer.email}:
-							<a href='mailto:paw2021b3@gmail.com' className='color-secondary'>
+							<a href='mailto:paw2021b3@gmail.com' className='color-secondary ms-1 pb-1'>
 								paw2021b3@gmail.com
 							</a>
 						</ListGroupItem>
-						<ListGroupItem bsPrefix='h3 fw-bold color-grey'>
+						<ListGroupItem bsPrefix='h3 fw-bold color-grey mt-3'>
 							{strings.collection.footer.language}
 						</ListGroupItem>
 						<ListGroupItem bsPrefix=' '>
@@ -55,15 +55,12 @@ export default function Footer() {
 					</ListGroup>
 				</div>
 			</Card.Body>
+			<Card.Footer
+				className='bg-color-secondary d-flex justify-content-center align-content-center'
+				style={{ height: '40px' }}
+			>
+				<p className='fw-light'>PAW 2021b - Grupo 3</p>
+			</Card.Footer>
 		</footer>
 	);
 }
-
-// const mapStateToProps = (state: RootState) => ({
-//     lang: state.i18n.lang
-// })
-//
-// const connector = connect(mapStateToProps);
-// type ReduxProps = ConnectedProps<typeof connector>;
-//
-// export default connector(Footer);
