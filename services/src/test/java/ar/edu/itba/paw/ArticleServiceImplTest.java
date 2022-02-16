@@ -130,7 +130,7 @@ public class ArticleServiceImplTest {
     @Test
     public void rentedArticlesSucceed() {
         // Arrange
-        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), null))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), eq(null)))
                 .thenReturn(articles);
 
         // Act
