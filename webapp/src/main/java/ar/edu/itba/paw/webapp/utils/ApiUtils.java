@@ -6,9 +6,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.*;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -55,5 +53,17 @@ public class ApiUtils {
                 toReturn = Locale.forLanguageTag("es");
         }
         return toReturn;
+    }
+
+    public static Response responseWithUnconditionalCache(EntityTag tag, Object entity, Request request){
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setNoTransform(true);
+        cacheControl.setMustRevalidate(true);
+        Response.ResponseBuilder response = request.evaluatePreconditions(tag);
+
+        if (response == null)
+            response = Response.ok(entity).tag(tag);
+
+        return response.cacheControl(cacheControl).build();
     }
 }

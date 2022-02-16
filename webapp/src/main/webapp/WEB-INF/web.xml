@@ -77,7 +77,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>jersey-servlet</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
     <!--JERSEY SERVLET END-->
 
@@ -111,16 +111,6 @@
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- FRONTEND -->
-    <servlet>
-        <servlet-name>index</servlet-name>
-        <jsp-file>/build/index.html</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>index</servlet-name>
-        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
