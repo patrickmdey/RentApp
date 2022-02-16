@@ -9,6 +9,7 @@ import javax.validation.ValidatorFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -45,5 +46,14 @@ public class ApiUtils {
             throw new ConstraintViolationException(violations);
         }
         return toValidate;
+    }
+
+    public static Locale resolveLocale(List<Locale> received){
+        Locale toReturn = Locale.ENGLISH;
+        for (Locale locale : received) {
+            if (locale.toLanguageTag().contains("es"))
+                toReturn = Locale.forLanguageTag("es");
+        }
+        return toReturn;
     }
 }

@@ -7,6 +7,7 @@ import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.get.CategoryDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -43,8 +44,7 @@ public class CategoryController {
         if (categories.isEmpty())
             return Response.noContent().build();
 
-        List<Locale> languages = requestProvider.get().getAcceptableLanguages();
-        Locale lang = languages.isEmpty() ? LocaleContextHolder.getLocale() : languages.get(0);
+        Locale lang = ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages());
         List<CategoryDTO> mappedCategories = categories.stream().map((Category category) ->
                 CategoryDTO.fromCategory(category, uriInfo, messageSource, lang)).collect(Collectors.toList());
 

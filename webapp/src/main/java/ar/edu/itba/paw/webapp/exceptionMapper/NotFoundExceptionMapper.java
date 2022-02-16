@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.exceptionMapper;
 
 import ar.edu.itba.paw.models.exceptions.NotFoundException;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -24,8 +25,7 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
 
     @Override
     public Response toResponse(NotFoundException e) {
-        List<Locale> languages = requestProvider.get().getAcceptableLanguages();
-        Locale lang = languages.isEmpty() ? Locale.ENGLISH : languages.get(0);
+        Locale lang = ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages());
         return Response.status(Response.Status.NOT_FOUND).type(MediaType.TEXT_PLAIN_TYPE).
                 entity(messageSource.getMessage(e.getMessage(), null, lang)).build();
     }
