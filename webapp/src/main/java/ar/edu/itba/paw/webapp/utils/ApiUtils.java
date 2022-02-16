@@ -9,6 +9,7 @@ import javax.validation.ValidatorFactory;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriBuilder;
+import java.util.Locale;
 import java.util.Set;
 
 public class ApiUtils {

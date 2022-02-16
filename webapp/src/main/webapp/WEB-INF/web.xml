@@ -44,7 +44,7 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!--EMPIEZA-->
+    <!--JERSEY SERVLET START-->
     <servlet>
         <servlet-name>jersey-servlet</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -77,9 +77,9 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>jersey-servlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-    <!--TERMINA-->
+    <!--JERSEY SERVLET END-->
 
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -87,7 +87,7 @@
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/*</url-pattern> <!--TODO solo api o todo?-->
     </filter-mapping>
 
     <filter>
@@ -96,7 +96,7 @@
     </filter>
     <filter-mapping>
         <filter-name>openEntityManagerInViewFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/*</url-pattern> <!--TODO solo api o todo?-->
     </filter-mapping>
 
     <filter>
@@ -105,13 +105,22 @@
     </filter>
     <filter-mapping>
         <filter-name>cacheFilter</filter-name>
-        <!-- TODO : set to correct path -->
         <url-pattern>/build/*</url-pattern>
     </filter-mapping>
 
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- FRONTEND -->
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <jsp-file>/build/index.html</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
