@@ -3,7 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
+import ar.edu.itba.paw.webapp.utils.JwtTokenUtil;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;

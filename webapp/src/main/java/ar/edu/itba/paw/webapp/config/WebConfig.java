@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.webapp.config;
 
-import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
+import ar.edu.itba.paw.webapp.utils.JwtTokenUtil;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import javax.validation.Validation;
@@ -41,15 +41,15 @@ public class WebConfig {
 
         dataSource.setDriverClass(org.postgresql.Driver.class);
 
-//        dataSource.setUrl("jdbc:postgresql://localhost:5432/paw"); //LOCAL
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/paw"); //LOCAL
+
+        dataSource.setUsername("postgres"); //LOCAL
+        dataSource.setPassword("root"); //LOCAL
 //
-//        dataSource.setUsername("postgres"); //LOCAL
-//        dataSource.setPassword("root"); //LOCAL
-
-        dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
-
-        dataSource.setUsername("paw-2021b-3");
-        dataSource.setPassword("hqpefZ04Y");
+//        dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
+//
+//        dataSource.setUsername("paw-2021b-3");
+//        dataSource.setPassword("hqpefZ04Y");
 
         return dataSource;
     }

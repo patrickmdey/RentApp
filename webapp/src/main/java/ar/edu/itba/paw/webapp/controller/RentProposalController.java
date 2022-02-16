@@ -9,7 +9,7 @@ import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
-import ar.edu.itba.paw.webapp.utils.RentMaxPageGetter;
+import ar.edu.itba.paw.interfaces.RentMaxPageGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @Component
