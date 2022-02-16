@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.helpers;
 
 import org.junit.Assert;
-
 import java.util.Collection;
 
 public class AssertionHelper {

@@ -23,5 +23,4 @@ public @interface UniqueRentRequest {
     String articleId();
 
     String renterId();
-
 }

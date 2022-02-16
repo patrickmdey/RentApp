@@ -31,7 +31,7 @@ public class NewRentProposalDTO {
     private Integer articleId;
 
     @NotNull(message = "NotNull.rentForm.articleId")
-    private long renterId;
+    private Long renterId;
 
     public LocalDate getStartDate() {
         return startDate;
@@ -61,7 +61,7 @@ public class NewRentProposalDTO {
         return articleId;
     }
 
-    public void setArticleId(int articleId) {
+    public void setArticleId(Integer articleId) {
         this.articleId = articleId;
     }
 
@@ -69,7 +69,7 @@ public class NewRentProposalDTO {
         return renterId;
     }
 
-    public void setRenterId(long renterId) {
+    public void setRenterId(Long renterId) {
         this.renterId = renterId;
     }
 }

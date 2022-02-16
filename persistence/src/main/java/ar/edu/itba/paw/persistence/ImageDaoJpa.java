@@ -29,5 +29,4 @@ public class ImageDaoJpa implements ImageDao {
             throw new CannotCreateImageException();
         }
     }
-
 }

@@ -180,24 +180,3 @@ public class RentDaoTest {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

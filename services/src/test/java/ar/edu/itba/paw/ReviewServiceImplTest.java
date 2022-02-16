@@ -12,9 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.time.LocalDate;
-
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
@@ -29,25 +27,22 @@ public class ReviewServiceImplTest {
 
     @Before
     public void setUp() {
-        this.userOwner = new User(1, "owner@mail.com", "password", "owner",
+        User userOwner = new User(1, "owner@mail.com", "password", "owner",
                 "owner", Locations.values()[3], null, UserType.OWNER);
-        this.userRenter = new User(2, "renter@mail.com", "password", "renter",
+        User userRenter = new User(2, "renter@mail.com", "password", "renter",
                 "renter", Locations.values()[5], null, UserType.RENTER);
 
-        this.article = new Article(123, "bike", "fast bike", 400F, userOwner);
+        Article article = new Article(123, "bike", "fast bike", 400F, userOwner);
 
         this.review = new Review(
                 786,
                 "Good product",
                 LocalDate.now()
         );
-        this.review.setArticle(this.article);
-        this.review.setRenter(this.userRenter);
+        this.review.setArticle(article);
+        this.review.setRenter(userRenter);
     }
 
-    private User userOwner;
-    private User userRenter;
-    private Article article;
     private Review review;
 
     @Test
@@ -120,5 +115,4 @@ public class ReviewServiceImplTest {
         // Assert
         Assert.fail();
     }
-
 }

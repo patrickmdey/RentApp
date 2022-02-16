@@ -18,7 +18,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-
 @Service
 public class EmailServiceImpl implements EmailService {
     private static final ClassPathResource LOGO = new ClassPathResource("/image/rentapp-logo.png");

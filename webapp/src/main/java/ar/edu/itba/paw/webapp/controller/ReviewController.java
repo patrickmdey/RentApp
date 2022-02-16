@@ -42,14 +42,14 @@ public class ReviewController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final Review review = rs.findById(id).orElseThrow(ReviewNotFoundException::new);
         return Response.ok(ReviewDTO.fromReview(review, uriInfo)).build();
     }
 
     @GET
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@NotNull(message = "NotNull.getReviews.articleId") @QueryParam("fromArticle") Integer articleId,
                          @QueryParam("limit") Long limit,
                          @QueryParam("page") @DefaultValue("1") long page) {
@@ -68,8 +68,8 @@ public class ReviewController {
     }
 
     @POST
-    @Produces(value = {MediaType.APPLICATION_JSON,})
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(@Valid NewReviewDTO reviewDTO) {
         User user = ApiUtils.retrieveUser(securityContext, us);
@@ -84,7 +84,7 @@ public class ReviewController {
     }
 
     @PUT
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication, #id)")
     public Response modifyReview(@PathParam("id") long id, @Valid EditReviewDTO reviewDTO) {

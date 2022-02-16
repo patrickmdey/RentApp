@@ -99,5 +99,4 @@ public class ReviewDaoJpa implements ReviewDao {
     public Optional<Review> findById(long reviewId) {
         return Optional.ofNullable(em.find(Review.class, reviewId));
     }
-
 }

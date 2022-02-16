@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +53,7 @@ public class CategoryDaoTest {
         Assert.assertEquals(idCategory,result.getId());
     }
 
+    @Test
     public void findByIdFailCategoryNotFound() {
         // Arrange
         final long idCategory = 2000;

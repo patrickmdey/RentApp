@@ -188,7 +188,7 @@ public class ArticleDaoTest {
         // Arrange
         final String title = "Moto";
         final String description = "moto para andar";
-        final Float pricePerDay = 123F;
+        final float pricePerDay = 123F;
         final long idOwner = 99999;
 
         // Act
@@ -283,5 +283,4 @@ public class ArticleDaoTest {
         // Assert
         Assert.assertEquals(expectedImagesCount, result.size());
     }
-
 }

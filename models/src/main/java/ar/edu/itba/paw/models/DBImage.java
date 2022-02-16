@@ -27,7 +27,7 @@ public class DBImage {
 
     public DBImage(byte[] img) {
         if (img.length == 0)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("IllegalArguments.images.create");
         this.img = img;
     }
 
@@ -41,6 +41,10 @@ public class DBImage {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

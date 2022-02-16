@@ -52,5 +52,4 @@ public class UniqueRentRequestValidator implements ConstraintValidator<UniqueRen
         field.setAccessible(true);
         return field.get(object);
     }
-
 }

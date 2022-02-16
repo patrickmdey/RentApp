@@ -1,11 +1,8 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.CategoryService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
-import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.get.CategoryDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.server.ContainerRequest;
@@ -37,6 +34,7 @@ public class CategoryController {
     private UriInfo uriInfo;
 
     @GET
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@QueryParam("fromArticle") Integer articleId) {
         List<Category> categories;
         categories = cs.listCategories(articleId);
@@ -53,7 +51,7 @@ public class CategoryController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final Category category = cs.findById(id).orElseThrow(CategoryNotFoundException::new);
         List<Locale> languages = requestProvider.get().getAcceptableLanguages();

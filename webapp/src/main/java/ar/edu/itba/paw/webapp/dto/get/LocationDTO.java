@@ -40,5 +40,4 @@ public class LocationDTO {
     public void setUrl(URI url) {
         this.url = url;
     }
-
 }

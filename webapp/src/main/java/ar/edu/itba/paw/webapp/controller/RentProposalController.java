@@ -44,7 +44,7 @@ public class RentProposalController {
 
     @GET
     @Path("/received")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                                  @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
@@ -55,7 +55,7 @@ public class RentProposalController {
 
     @GET
     @Path("/sent")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                              @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
@@ -82,7 +82,7 @@ public class RentProposalController {
     }
 
     @POST
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #rentProposalDTO.renterId) && " +
             "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
     public Response createProposal(@Valid final NewRentProposalDTO rentProposalDTO) {
@@ -100,7 +100,7 @@ public class RentProposalController {
 
     @PUT
     @Path("/{id}")
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO) {
         rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());
