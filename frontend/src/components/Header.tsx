@@ -79,13 +79,13 @@ function LoggedOutNavBar() {
 	return (
 		<React.Fragment>
 			<LinkContainer to='/login'>
-				<Nav.Link as='h6' className='active fw-bold'>
+				<Nav.Link as='a' className='active fw-bold'>
 					{strings.collection.header.login}
 				</Nav.Link>
 			</LinkContainer>
 
 			<LinkContainer to='/register'>
-				<Nav.Link as='h6' className='active fw-bold'>
+				<Nav.Link as='a' className='active fw-bold'>
 					{strings.collection.header.signup}
 				</Nav.Link>
 			</LinkContainer>
@@ -109,13 +109,13 @@ export default function Header() {
 				<Navbar.Collapse className='mt-2' id='responsive-nav-bar'>
 					<Nav className='ms-auto d-flex align-items-center'>
 						<LinkContainer to='/marketplace'>
-							<Nav.Link as='h6' className='active fw-bold nav-bar-link'>
+							<Nav.Link as='a' className='active fw-bold nav-bar-link'>
 								{strings.collection.header.marketplace}
 							</Nav.Link>
 						</LinkContainer>
 
 						<LinkContainer to='/createArticle'>
-							<Nav.Link as='h6' className='active fw-bold nav-bar-link'>
+							<Nav.Link as='a' className='active fw-bold nav-bar-link'>
 								{strings.collection.header.publishArticle}
 							</Nav.Link>
 						</LinkContainer>

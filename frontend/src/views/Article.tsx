@@ -28,7 +28,6 @@ export const userTypes = {
 	notOwner: 2
 };
 
-// TODO: subdivide into components
 function Article() {
 	const { id } = useParams();
 	const loggedUserId = useUserId();

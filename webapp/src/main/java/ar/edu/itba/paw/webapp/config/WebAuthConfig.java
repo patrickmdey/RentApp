@@ -54,12 +54,12 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permit all preflight requests
-                .antMatchers(HttpMethod.POST, "/users").anonymous()
-                .antMatchers(HttpMethod.POST, "/proposals").hasAuthority("OWNER")
-                .antMatchers(HttpMethod.PUT, "/proposals").hasAuthority("OWNER")
-                .antMatchers( "/proposals/received").hasAuthority("OWNER")
-                .antMatchers("/proposals/sent").authenticated()
-                .antMatchers(HttpMethod.POST, "/articles").hasAuthority("OWNER")
+                .antMatchers(HttpMethod.POST, "/api/users").anonymous()
+                .antMatchers(HttpMethod.POST, "/api/proposals").hasAuthority("OWNER")
+                .antMatchers(HttpMethod.PUT, "/api/proposals").hasAuthority("OWNER")
+                .antMatchers( "/api/proposals/received").hasAuthority("OWNER")
+                .antMatchers("/api/proposals/sent").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/articles").hasAuthority("OWNER")
                 .anyRequest().permitAll()
                 .and().exceptionHandling()
                 .authenticationEntryPoint((request, response, ex) -> response.sendError(

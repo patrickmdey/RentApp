@@ -83,12 +83,17 @@ function MainArticleCard(props: {
 							{article.title}
 						</Card.Title>
 						<Card.Subtitle>
-							<a href='/' className='article-location mt-3 color-action d-flex align-items-center'>
-								<span className='h4'>
-									<GeoAltFill />
-								</span>
-								{location && <p className='lead mt-2'>{location.name}</p>}
-							</a>
+							{location && (
+								<a
+									href={`/marketplace?location=${location.name}`}
+									className='article-location mt-3 color-action d-flex align-items-center'
+								>
+									<span className='h4'>
+										<GeoAltFill />
+									</span>
+									<p className='lead mt-2'>{location.name}</p>
+								</a>
+							)}
 						</Card.Subtitle>
 						<div className='d-flex flex-wrap mt-2'>
 							{categories &&
