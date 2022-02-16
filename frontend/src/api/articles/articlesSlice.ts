@@ -1,7 +1,6 @@
 import paginatedResponse, { PaginatedData } from '../paginatedResponse';
 import { BaseApiSlice } from '../baseApiSlice';
 import { Article, ListArticleParameters, CreateArticleParameters, UpdateArticleParameters } from './types';
-import { urlToHttpOptions } from 'url';
 
 const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
@@ -52,7 +51,7 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 				method: 'PUT',
 				body: args
 			}),
-			invalidatesTags: (result, error, arg) => {
+			invalidatesTags: (_, __, arg) => {
 				const parts = arg.url.split('/');
 				return [
 					{ type: 'Article', id: parts[parts.length - 1] },

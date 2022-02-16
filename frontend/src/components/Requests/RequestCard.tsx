@@ -1,6 +1,5 @@
 import { RentProposal } from '../../api/rentProposals/types';
 import { Button, Card, Image, Modal, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { useFindArticle } from '../../api/articles/articlesSlice';
 import { useFindUser } from '../../api/users/usersSlice';
@@ -8,13 +7,13 @@ import { states } from '../../views/Requests';
 import { useState } from 'react';
 import { CircleFill } from 'react-bootstrap-icons';
 import { useUpdateRentProposal } from '../../api/rentProposals/rentProposalsSlice';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useListImages } from '../../api/images/imagesSlice';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import LoadingComponent from '../LoadingComponent';
 
 export default function RequestCard(props: { request: RentProposal; isSent: boolean }) {
-	const { message, startDate, endDate, marked, state, url, articleUrl, renterUrl, id } = props.request;
+	const { message, startDate, endDate, marked, state, url, articleUrl, renterUrl } = props.request;
 
 	const { data: article, isSuccess: articleSuccess } = useFindArticle(articleUrl);
 

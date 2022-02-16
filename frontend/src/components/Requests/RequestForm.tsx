@@ -1,7 +1,6 @@
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useCreateRentProposal } from '../../api/rentProposals/rentProposalsSlice';
-import { CreateRentProposalParameters } from '../../api/rentProposals/types';
 import { strings } from '../../i18n/i18n';
 import FormInput from '../FormInputs/FormInput';
 import useUserId from '../../hooks/useUserId';

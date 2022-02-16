@@ -1,6 +1,5 @@
 import { Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
 
 interface CategoryProps {
 	id: number;

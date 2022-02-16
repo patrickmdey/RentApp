@@ -9,7 +9,6 @@ import NoDataCard from '../NoDataCard';
 import RequestCardList from './RequestCardList';
 import usePaginatedResponse from '../../hooks/usePaginatedResponse';
 import PagesList from '../PagesList';
-import {RentProposal} from '../../api/rentProposals/types';
 import LoadingComponent from '../LoadingComponent';
 import Error from '../Error';
 

@@ -1,4 +1,4 @@
-import { Card, Container } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Article } from '../../api/articles/types';
 import { useListImages } from '../../api/images/imagesSlice';

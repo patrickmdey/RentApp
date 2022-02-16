@@ -1,9 +1,8 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useEffect, useState } from 'react';
 import { Button, Card, Form, Stack } from 'react-bootstrap';
-import { CartFill } from 'react-bootstrap-icons';
 import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFindArticle, useUpdateArticle } from '../../api/articles/articlesSlice';
 import { useListCategories, useListCategoriesFromArticle } from '../../api/categories/categoriesSlice';
 import { useFindUser } from '../../api/users/usersSlice';

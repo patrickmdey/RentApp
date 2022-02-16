@@ -1,46 +1,44 @@
-import { Tab, Tabs } from 'react-bootstrap';
-import { useListArticles } from '../../api/articles/articlesSlice';
-import { User } from '../../api/users/types';
-import { strings } from '../../i18n/i18n';
-import ArticleCardList from '../Article/ArticleCardList';
+import { Tab, Tabs } from "react-bootstrap";
+import { useListArticles } from "../../api/articles/articlesSlice";
+import { User } from "../../api/users/types";
+import { strings } from "../../i18n/i18n";
+import ArticleCardList from "../Article/ArticleCardList";
 
 export default function Articles(props: { user: User }) {
-	const user = props.user;
-	const {
-		data: publishedArticles,
-		isSuccess,
-		error
-	} = useListArticles({
-		user: user.id
-	});
+  const user = props.user;
+  const { data: publishedArticles } = useListArticles({
+    user: user.id,
+  });
 
-	const {
-		data: rentedArticles,
-		isSuccess: rentedIsSuccess,
-		error: rentedError
-	} = useListArticles({
-		renter: user.id
-	});
+  const { data: rentedArticles } = useListArticles({
+    renter: user.id,
+  });
 
-	const defaultActiveTab = user.owner ? 'published' : 'rented';
+  const defaultActiveTab = user.owner ? "published" : "rented";
 
-	return (
-		<Tabs defaultActiveKey={defaultActiveTab} id='article_tabs' className='mb-3'>
-			{user.owner && (
-				<Tab eventKey='published' title={strings.collection.profile.createdArticles}>
-					<ArticleCardList articles={publishedArticles?.data || []} articlesPerRow={3} />
-				</Tab>
-			)}
-			<Tab eventKey='rented' title={strings.collection.profile.rentedArticles}>
-				<ArticleCardList articles={rentedArticles?.data || []} articlesPerRow={3} />
-			</Tab>
-		</Tabs>
-	);
-}
-
-{
-	/* <NoDataCard
-	title={strings.collection.noData.noMyProfileArticlesTitle}
-	subtitle={strings.collection.noData.noMyProfileSubtitle}
-/>; */
+  return (
+    <Tabs
+      defaultActiveKey={defaultActiveTab}
+      id="article_tabs"
+      className="mb-3"
+    >
+      {user.owner && (
+        <Tab
+          eventKey="published"
+          title={strings.collection.profile.createdArticles}
+        >
+          <ArticleCardList
+            articles={publishedArticles?.data || []}
+            articlesPerRow={3}
+          />
+        </Tab>
+      )}
+      <Tab eventKey="rented" title={strings.collection.profile.rentedArticles}>
+        <ArticleCardList
+          articles={rentedArticles?.data || []}
+          articlesPerRow={3}
+        />
+      </Tab>
+    </Tabs>
+  );
 }

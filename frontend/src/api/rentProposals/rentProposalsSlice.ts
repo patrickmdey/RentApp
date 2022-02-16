@@ -5,7 +5,6 @@ import {
 	CreateRentProposalParameters,
 	UpdateRentProposalParameters
 } from './types';
-import {Article} from "../articles/types";
 import paginatedResponse, {PaginatedData} from "../paginatedResponse";
 
 const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({

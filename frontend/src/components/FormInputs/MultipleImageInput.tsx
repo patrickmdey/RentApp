@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Col, FormControl, FormGroup, FormLabel, Image, InputGroup, Row } from 'react-bootstrap';
+import { Col, FormGroup, FormLabel, InputGroup, Row } from 'react-bootstrap';
 import { UseFormRegister, Path } from 'react-hook-form';
 import ImageInput from './ImageInput';
 import ImagePreview from './ImagePreview';

@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { Badge, Button, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { useAppDispatch } from '../hooks';
+import { Badge, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';

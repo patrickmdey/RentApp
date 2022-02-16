@@ -44,7 +44,6 @@ function Article() {
 	const {
 		data: related,
 		isSuccess: relatedIsSuccess,
-		isLoading: relatedLoad,
 		error: relatedError
 	} = useListRelatedArticles(id ? id : skipToken);
 

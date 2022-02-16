@@ -14,7 +14,6 @@ export default function Profile() {
 	const {
 		data: user,
 		isLoading: userIsLoading,
-		isSuccess: userIsSuccess,
 		error
 	} = useFindUser(new URL(`users/${id}`, process.env.REACT_APP_BASE_URL).toString());
 

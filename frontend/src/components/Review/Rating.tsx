@@ -1,4 +1,3 @@
-import { Star, StarFill } from 'react-bootstrap-icons';
 import { Rating as SimpleStarRating } from 'react-simple-star-rating';
 function Rating(props: { rating: number; timesReviewed: number | undefined }) {
 	const { rating, timesReviewed } = props;

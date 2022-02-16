@@ -1,5 +1,5 @@
 import { BaseApiSlice } from '../baseApiSlice';
-import { Review, ListReviewParameters, CreateReviewParameters, UpdateReviewParameters } from './types';
+import { Review, CreateReviewParameters, UpdateReviewParameters } from './types';
 
 const ReviewsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
