@@ -53,7 +53,7 @@ function FilterCard(props: FilterCardProps) {
 		<>
 			{categoriesIsSucc && categories && locationsIsSucc && locations && orderIsSucc && orderOptions && (
 				<Card className='card-style filters-card col-md-3 col-lg-3 col-12'>
-					<Card.Header className='w-100 d-flex align-items-center justify-content-between'>
+					<Card.Title className='w-100 d-flex align-items-center justify-content-between'>
 						<h4 className='color-rentapp-black m-0'>{strings.collection.filter.title}</h4>
 						<Button
 							variant='link'
@@ -65,7 +65,8 @@ function FilterCard(props: FilterCardProps) {
 						>
 							{strings.collection.filterInfo.clear}
 						</Button>
-					</Card.Header>
+					</Card.Title>
+					<hr />
 
 					<Form onSubmit={handleSubmit(onSubmit)}>
 						<Card.Body style={{ padding: '0px' }}>
