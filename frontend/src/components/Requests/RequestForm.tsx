@@ -81,9 +81,10 @@ function RequestForm(props: { articleId: number }) {
 										name='endDate'
 										type='date'
 										validation={{
-											required: true
-										}} //TODO: aca validate: isValidDate
-										error={errors.startDate}
+											required: true,
+											validate: () => getValues('startDate') < getValues('endDate')
+										}}
+										error={errors.endDate}
 										errorMessage={strings.collection.article.requestArticle.errors.endDate}
 									/>
 								</Col>
@@ -98,8 +99,7 @@ function RequestForm(props: { articleId: number }) {
 								validation={{
 									required: true,
 									minLength: 10,
-									maxLength: 310,
-									validate: () => getValues('startDate') < getValues('endDate')
+									maxLength: 310
 								}}
 								error={errors.message}
 								errorMessage={strings.collection.article.requestArticle.errors.message}
