@@ -30,7 +30,7 @@ function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 
 	return (
 		<NavDropdown
-			as='h6'
+			as='span'
 			title={
 				<div style={{ display: 'inline-block' }}>
 					<div className='d-flex justify-content-center align-items-center'>

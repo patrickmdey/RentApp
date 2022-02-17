@@ -30,6 +30,10 @@ p {
 	color: var(--color-rentapp-black);
 }
 
+img {
+	object-fit: contain;
+}
+
 .error {
 	color: var(--color-danger) !important;
 	margin: 3px 0;
@@ -254,7 +258,13 @@ a.request-pill.active {
 .marketplace-card-img-container {
 	display: flex;
 	justify-content: center;
-	height: 60%;
+	height: 260px;
+}
+
+.marketplace-card-img-container img {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
 }
 
 .card-image {
