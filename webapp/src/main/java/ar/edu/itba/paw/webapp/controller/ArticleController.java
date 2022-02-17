@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Min;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -54,7 +55,7 @@ public class ArticleController {
                          @QueryParam("initPrice") Float initPrice,
                          @QueryParam("endPrice") Float endPrice, @QueryParam("renter") Long renter,
                          @QueryParam("limit") Long limit,
-                         @QueryParam("page") @DefaultValue("1") long page) {
+                         @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") long page) {
 
         final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice, endPrice, renter, limit, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
 

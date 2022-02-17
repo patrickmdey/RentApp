@@ -22,11 +22,11 @@ public class ApiUtils {
         response.link(uri.clone().queryParam("page", 1).build(), "first");
         response.link(uri.clone().queryParam("page", maxPage).build(), "last");
 
-        if(currentPage > 1) {
+        if(currentPage > 1 && currentPage <= maxPage) {
             response.link(uri.clone().queryParam("page", currentPage - 1).build(), "prev");
         }
 
-        if(currentPage < maxPage) {
+        if(currentPage < maxPage && currentPage >= 1) {
             response.link(uri.clone().queryParam("page", currentPage + 1).build(), "next");
         }
 
