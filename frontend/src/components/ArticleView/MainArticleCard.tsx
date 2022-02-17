@@ -7,7 +7,7 @@ import Rating from '../Review/Rating';
 import { strings } from '../../i18n/i18n';
 import { Location } from '../../api/locations/types';
 import { useListImages } from '../../api/images/imagesSlice';
-import RequestForm from '../Requests/RequestForm';
+import RequestForm from '../Forms/RequestForm';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userTypes } from '../../views/Article';
