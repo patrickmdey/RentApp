@@ -61,7 +61,7 @@ public class NewRentProposalDTO {
         return articleId;
     }
 
-    public void setArticleId(Integer articleId) {
+    public void setArticleId(int articleId) {
         this.articleId = articleId;
     }
 
@@ -69,7 +69,7 @@ public class NewRentProposalDTO {
         return renterId;
     }
 
-    public void setRenterId(Long renterId) {
+    public void setRenterId(long renterId) {
         this.renterId = renterId;
     }
 }
