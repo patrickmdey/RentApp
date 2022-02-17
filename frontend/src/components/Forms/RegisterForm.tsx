@@ -1,7 +1,7 @@
 import { Button, Card, Form, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { strings } from '../../i18n/i18n';
-import { BsEyeSlash } from 'react-icons/bs';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { useCreateUser } from '../../api/users/usersSlice';
 import FormInput from '../FormInputs/FormInput';
 import FormSelect from '../FormInputs/FormSelect';
@@ -22,6 +22,10 @@ interface RegisterForm {
 	confirmPassword: string;
 	isOwner: boolean;
 	image: FileList;
+}
+
+function ToggleShowIcon(props: { show: boolean }) {
+	return props.show ? <BsEyeSlash /> : <BsEye />;
 }
 
 export function RegisterForm() {
@@ -46,13 +50,24 @@ export function RegisterForm() {
 	const dispatch = useAppDispatch();
 
 	const { data: locations } = useListLocations();
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 	const [createUser, result] = useCreateUser();
+
 	const [emailAlreadyInUse, setEmailAlreadyInUse] = useState(false);
 	const [submitLoading, setSubmitLoading] = useState(false);
+
 	useEffect(() => {
 		if (result.error) {
 			setSubmitLoading(false);
-			setEmailAlreadyInUse(true);
+			console.log(result.error);
+			if (
+				'data' in result.error &&
+				typeof result.error.data === 'string' &&
+				result.error.data.includes('email: ')
+			)
+				setEmailAlreadyInUse(true);
 		}
 		if (result.isSuccess) {
 			dispatch(setCredentials({ token: result.data, rememberMe: true }));
@@ -130,7 +145,9 @@ export function RegisterForm() {
 									name='password'
 									type='password'
 									placeholder={strings.collection.register.passwordPlaceholder}
-									appendIcon={<BsEyeSlash />}
+									appendIcon={<ToggleShowIcon show={showPassword} />}
+									show={showPassword}
+									appendIconOnClick={() => setShowPassword((prev) => !prev)}
 									error={errors.password}
 									errorMessage={strings.collection.login.errors.password}
 									validation={{ required: true, minLength: 8, maxLength: 20 }}
@@ -143,7 +160,9 @@ export function RegisterForm() {
 									name='confirmPassword'
 									type='password'
 									placeholder={strings.collection.register.passwordPlaceholder}
-									appendIcon={<BsEyeSlash />}
+									appendIcon={<ToggleShowIcon show={showConfirmPassword} />}
+									show={showConfirmPassword}
+									appendIconOnClick={() => setShowConfirmPassword((prev) => !prev)}
 									validation={{
 										required: true,
 										minLength: 8,
