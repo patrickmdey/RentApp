@@ -41,7 +41,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	const { article, review } = props;
 	const loggedUserId = useUserId();
 
-	const [rating, setRating] = useState(review === undefined ? 1 : review.rating);
+	const [rating, setRating] = useState(review == null ? 1 : review.rating);
 	const message = review == null ? '' : review.message;
 
 	const { data: loggedUser } = useFindUser(`users/${loggedUserId}`);
@@ -76,6 +76,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	}, [createResult, updateResult, article, navigate]);
 
 	function onSubmit(form: ReviewFormInterface) {
+		console.log(form);
 		if (review == null) createReview({ ...form });
 		else
 			updateReview({

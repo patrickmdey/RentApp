@@ -46,7 +46,6 @@ function CreateArticleForm() {
 	}, [result, navigate]);
 
 	function onSubmit(data: ArticleForm) {
-		console.log(data);
 		createArticle(data);
 	}
 
