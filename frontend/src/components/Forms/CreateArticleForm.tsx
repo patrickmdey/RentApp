@@ -132,7 +132,11 @@ function CreateArticleForm() {
 							/>
 						</div>
 						<div className='d-grid gap-2'>
-							<Button className='bg-color-action btn-dark mt-3 mb-2' type='submit'>
+							<Button
+								className='bg-color-action btn-dark mt-3 mb-2'
+								type='submit'
+								data-testid='submit-button'
+							>
 								{strings.collection.article.createArticle.create}
 							</Button>
 						</div>

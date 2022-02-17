@@ -28,6 +28,7 @@ export default function ImageInput<T>(props: { label?: string; onSelect: Functio
 							inputRef.current.value = '';
 						}
 					}}
+					data-testid='image'
 				/>
 			</InputGroup>
 		</FormGroup>

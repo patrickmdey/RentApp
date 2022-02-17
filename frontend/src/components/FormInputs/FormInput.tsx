@@ -55,6 +55,7 @@ export default function FormInput<T>(props: {
 					{...register(name, validation)}
 					isInvalid={error != null}
 					disabled={disabled}
+					data-testid={name}
 				/>
 				{appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
 				{errorDesc && <FormControl.Feedback type='invalid'>{errorDesc}</FormControl.Feedback>}

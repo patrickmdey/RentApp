@@ -14,7 +14,13 @@ export default function FormCheckbox<T>(props: {
 	return (
 		<FormGroup>
 			<InputGroup>
-				<Form.Check label={label} {...register(name, validation)} value={value} defaultChecked={checked} />
+				<Form.Check
+					label={label}
+					{...register(name, validation)}
+					value={value}
+					defaultChecked={checked}
+					data-testid={value}
+				/>
 			</InputGroup>
 		</FormGroup>
 	);
