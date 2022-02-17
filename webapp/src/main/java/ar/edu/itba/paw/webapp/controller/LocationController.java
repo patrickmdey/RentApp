@@ -40,6 +40,6 @@ public class LocationController {
         EntityTag tag = new EntityTag(id.toString());
         LocationDTO location = LocationDTO.fromLocation(id, uriInfo);
 
-        return ApiUtils.responseWithUnconditionalCache(tag, location, request);
+        return ApiUtils.responseWithConditionalCache(tag, location, request);
     }
 }

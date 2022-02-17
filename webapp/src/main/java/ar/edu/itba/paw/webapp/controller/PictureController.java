@@ -41,6 +41,6 @@ public class PictureController {
         DBImage img = is.findById(id).orElseThrow(ImageNotFoundException::new);
         EntityTag tag = new EntityTag(String.valueOf(id));
 
-        return ApiUtils.responseWithUnconditionalCache(tag, img.getImg(), request);
+        return ApiUtils.responseWithConditionalCache(tag, img.getImg(), request);
     }
 }

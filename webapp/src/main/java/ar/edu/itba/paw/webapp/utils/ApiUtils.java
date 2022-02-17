@@ -55,7 +55,7 @@ public class ApiUtils {
         return toReturn;
     }
 
-    public static Response responseWithUnconditionalCache(EntityTag tag, Object entity, Request request){
+    public static Response responseWithConditionalCache(EntityTag tag, Object entity, Request request){
         CacheControl cacheControl = new CacheControl();
         cacheControl.setNoTransform(true);
         cacheControl.setMustRevalidate(true);
