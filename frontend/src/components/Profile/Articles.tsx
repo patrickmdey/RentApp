@@ -6,6 +6,7 @@ import ArticleCardList from "../Article/ArticleCardList";
 import usePaginatedResponse from "../../hooks/usePaginatedResponse";
 import {useState} from "react";
 import PagesList from "../PagesList";
+import NoDataCard from "../NoDataCard";
 
 export default function Articles(props: { user: User }) {
     const user = props.user;
@@ -30,21 +31,31 @@ export default function Articles(props: { user: User }) {
                 <Tab
                     eventKey="published"
                     title={strings.collection.profile.createdArticles}
-                >
-                    <ArticleCardList
-                        articles={publishedArticles || []}
-                        articlesPerRow={3}
-                    />
-                    <PagesList pages={publishedArticlesPages} page={publishedArticlesPage}
-                               setPage={setPublishedArticlesPage}/>
+                >{publishedArticles && publishedArticles.length > 0 ?
+                    <>
+                        <ArticleCardList
+                            articles={publishedArticles || []}
+                            articlesPerRow={3}
+                        />
+                        <PagesList pages={publishedArticlesPages} page={publishedArticlesPage}
+                                   setPage={setPublishedArticlesPage}/>
+                    </>
+                    : <NoDataCard title={strings.collection.noData.noMyProfileArticlesTitle}
+                                  subtitle={strings.collection.noData.noMyProfileSubtitle}/>
+                }
                 </Tab>
             )}
             <Tab eventKey="rented" title={strings.collection.profile.rentedArticles}>
-                <ArticleCardList
-                    articles={rentedArticles || []}
-                    articlesPerRow={3}
-                /><PagesList pages={rentedArticlesPages} page={rentedArticlesPage}
-                             setPage={setRentedArticlesPage}/>
+                {rentedArticles && rentedArticles.length > 0 ?
+                    <>
+                        <ArticleCardList
+                            articles={rentedArticles || []}
+                            articlesPerRow={3}
+                        /><PagesList pages={rentedArticlesPages} page={rentedArticlesPage}
+                                     setPage={setRentedArticlesPage}/>
+                    </> : <NoDataCard title={strings.collection.noData.noMyProfileRentedArticlesTitle}
+                                      subtitle={strings.collection.noData.noMyProfileSubtitle}/>
+                }
             </Tab>
         </Tabs>
     );
