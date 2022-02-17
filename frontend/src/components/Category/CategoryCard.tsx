@@ -11,7 +11,7 @@ interface CategoryProps {
 export default function CategoryCard(props: CategoryProps) {
 	return (
 		<LinkContainer to={`/marketplace?category=${props.id}`}>
-			<Card>
+			<Card className="category-card">
 				<Card.Body>
 					<Card.Img variant='top' src={props.imageUrl} alt={props.description} height='80rem' />
 					<div className='d-flex text-center justify-content-center pt-3'>
