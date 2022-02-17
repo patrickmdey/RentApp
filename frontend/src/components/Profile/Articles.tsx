@@ -41,7 +41,7 @@ export default function Articles(props: { user: User }) {
                                    setPage={setPublishedArticlesPage}/>
                     </>
                     : <NoDataCard title={strings.collection.noData.noMyProfileArticlesTitle}
-                                  subtitle={strings.collection.noData.noMyProfileSubtitle}/>
+                                  subtitle=''/>
                 }
                 </Tab>
             )}
@@ -54,7 +54,7 @@ export default function Articles(props: { user: User }) {
                         /><PagesList pages={rentedArticlesPages} page={rentedArticlesPage}
                                      setPage={setRentedArticlesPage}/>
                     </> : <NoDataCard title={strings.collection.noData.noMyProfileRentedArticlesTitle}
-                                      subtitle={strings.collection.noData.noMyProfileSubtitle}/>
+                                      subtitle=''/>
                 }
             </Tab>
         </Tabs>
