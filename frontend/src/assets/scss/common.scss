@@ -30,6 +30,10 @@ p {
 	color: var(--color-rentapp-black);
 }
 
+img {
+	object-fit: contain;
+}
+
 .error {
 	color: var(--color-danger) !important;
 	margin: 3px 0;

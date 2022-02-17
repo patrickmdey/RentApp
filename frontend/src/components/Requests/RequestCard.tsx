@@ -68,7 +68,7 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
 						<Row>
 							<div className='col-3'>
 								{imagesSuccess && images && images[0] && (
-									<Image src={images[0].url.toString()} width='200px' />
+									<Image src={images[0].url.toString()} width='100%' />
 								)}
 							</div>
 							<div className='col-9'>
