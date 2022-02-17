@@ -67,7 +67,8 @@ let esCollection: StringCollection = {
 			password: {
 				required: 'Es obligatorio ingresar una contraseña',
 				minLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres',
-				maxLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres'
+				maxLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres',
+				validate: 'Las contraseñas deben ser iguales'
 			},
 			loginFail: 'El usuario o la contraseña ingresada son incorrectos'
 		}
