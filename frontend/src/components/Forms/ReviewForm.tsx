@@ -1,18 +1,18 @@
-import { Button, Card, Col, Form, Row, Stack } from 'react-bootstrap';
-import { strings } from '../../i18n/i18n';
-import { Article } from '../../api/articles/types';
-import { useForm } from 'react-hook-form';
-import { useCreateReview, useUpdateReview } from '../../api/reviews/reviewsSlice';
-import useUserId from '../../hooks/useUserId';
-import FormInput from '../FormInputs/FormInput';
-import { useListImages } from '../../api/images/imagesSlice';
-import { Rating as SimpleStarRating } from 'react-simple-star-rating';
 import { useEffect, useState } from 'react';
-import { Review } from '../../api/reviews/types';
+import { Button, Card, Col, Form, Row, Stack } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { Rating as SimpleStarRating } from 'react-simple-star-rating';
+import { Article } from '../../api/articles/types';
+import { useListImages } from '../../api/images/imagesSlice';
+import { useCreateReview, useUpdateReview } from '../../api/reviews/reviewsSlice';
+import { Review } from '../../api/reviews/types';
 import { useFindUser } from '../../api/users/usersSlice';
+import useUserId from '../../hooks/useUserId';
+import { strings } from '../../i18n/i18n';
+import FormInput from '../FormInputs/FormInput';
 
-interface ReviewForm {
+interface ReviewFormInterface {
 	rating: number;
 	message: string;
 	articleId: number;
@@ -42,7 +42,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 	const loggedUserId = useUserId();
 
 	const [rating, setRating] = useState(review === undefined ? 1 : review.rating);
-	const [message, setMessage] = useState(review === undefined ? '' : review.message);
+	const message = review == null ? '' : review.message;
 
 	const { data: loggedUser } = useFindUser(`users/${loggedUserId}`);
 
@@ -51,7 +51,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		handleSubmit,
 		setValue,
 		formState: { errors }
-	} = useForm<ReviewForm>({
+	} = useForm<ReviewFormInterface>({
 		defaultValues: {
 			rating: rating,
 			message: message,
@@ -60,10 +60,10 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		}
 	});
 
-	useEffect(() => setValue('rating', rating), [rating]);
-	useEffect(() => setValue('message', message), [message]);
+	useEffect(() => setValue('rating', rating), [rating, setValue]);
+	useEffect(() => setValue('message', message), [message, setValue]);
 
-	const { data: articleImages, isSuccess, isLoading } = useListImages(article.imagesUrl);
+	const { data: articleImages, isSuccess } = useListImages(article.imagesUrl);
 
 	const [createReview, createResult] = useCreateReview();
 	const [updateReview, updateResult] = useUpdateReview();
@@ -73,9 +73,9 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 		if (createResult.isSuccess || updateResult.isSuccess) {
 			navigate(`/articles/${article.id}`);
 		}
-	}, [createResult, updateResult]);
+	}, [createResult, updateResult, article, navigate]);
 
-	function onSubmit(form: ReviewForm) {
+	function onSubmit(form: ReviewFormInterface) {
 		if (review == null) createReview({ ...form });
 		else
 			updateReview({
@@ -85,7 +85,7 @@ function ReviewForm(props: { article: Article; review?: Review }) {
 			});
 	}
 
-	if (review != null && loggedUser != null && review.renterUrl != loggedUser.url) {
+	if (review != null && loggedUser != null && review.renterUrl !== loggedUser.url) {
 		return <UnauthorizedCard />;
 	}
 

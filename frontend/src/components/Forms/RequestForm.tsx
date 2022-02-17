@@ -41,7 +41,7 @@ function RequestForm(props: { articleId: number }) {
 
 	useEffect(() => {
 		if (result.isSuccess) navigate('/success');
-	}, [result]);
+	}, [result, navigate]);
 
 	function onSubmit(data: RequestFormT) {
 		createRequest({

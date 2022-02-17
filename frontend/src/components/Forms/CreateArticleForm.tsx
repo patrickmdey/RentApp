@@ -37,13 +37,13 @@ function CreateArticleForm() {
 
 	useEffect(() => {
 		register('images', { required: true, min: 1, max: 5 });
-	}, []);
+	}, [register]);
 
 	const [createArticle, result] = useCreateArticle();
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (result.isSuccess) navigate(`/articles/${result.data}`);
-	}, [result]);
+	}, [result, navigate]);
 
 	function onSubmit(data: ArticleForm) {
 		console.log(data);

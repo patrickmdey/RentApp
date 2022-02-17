@@ -54,7 +54,7 @@ function Marketplace() {
 
 	useEffect(() => {
 		setSearchParams(serialize(processedFilters));
-	}, [filters]);
+	}, [filters, setSearchParams, processedFilters]);
 
 	function removeSearchParam(name: keyof ListArticleParameters) {
 		setFilters((prev) => {

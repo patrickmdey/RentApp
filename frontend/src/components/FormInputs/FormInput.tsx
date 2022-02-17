@@ -1,11 +1,9 @@
-import { ElementType, MouseEventHandler } from 'react';
+import { ElementType } from 'react';
 import { FormGroup, FormLabel, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FieldError, Path, UseFormRegister } from 'react-hook-form';
 import useErrorMessage from '../../hooks/useErrorMessage';
 import { ErrorMessageInterface } from '../../i18n/types';
 import ValidationInterface from './ValidationInterface';
-
-const defaultFunc = () => {};
 
 export default function FormInput<T>(props: {
 	register: UseFormRegister<T>;

@@ -13,7 +13,7 @@ import { setCredentials } from '../../api/auth/authSlice';
 import { useAppDispatch } from '../../hooks';
 import LoadingComponent from '../LoadingComponent';
 
-interface RegisterForm {
+interface RegisterFormInterface {
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -35,7 +35,7 @@ export function RegisterForm() {
 		handleSubmit,
 		getValues,
 		formState: { errors }
-	} = useForm<RegisterForm>({
+	} = useForm<RegisterFormInterface>({
 		defaultValues: {
 			firstName: '',
 			lastName: '',
@@ -73,9 +73,9 @@ export function RegisterForm() {
 			dispatch(setCredentials({ token: result.data, rememberMe: true }));
 			navigate('/marketplace');
 		}
-	}, [result]);
+	}, [result, dispatch, navigate]);
 
-	function onSubmit(data: RegisterForm) {
+	function onSubmit(data: RegisterFormInterface) {
 		createUser({ ...data, image: data.image[0] });
 		setSubmitLoading(true);
 		setEmailAlreadyInUse(false);

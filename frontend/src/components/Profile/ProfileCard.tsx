@@ -30,7 +30,7 @@ export default function ProfileCard(props: {
 			dispatch(setCredentials({ token: null, rememberMe: false }));
 			navigate('/login');
 		}
-	}, [deleteUserResult]);
+	}, [deleteUserResult, dispatch, navigate]);
 
 	return (
 		<>

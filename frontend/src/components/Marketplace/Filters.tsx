@@ -1,4 +1,4 @@
-import { Row, Badge, Button, Stack, Col } from 'react-bootstrap';
+import { Row, Badge, Stack, Col } from 'react-bootstrap';
 import { GeoAltFill, PersonFill, Tag, XCircle } from 'react-bootstrap-icons';
 import { ListArticleParameters } from '../../api/articles/types';
 import { useFindCategory } from '../../api/categories/categoriesSlice';

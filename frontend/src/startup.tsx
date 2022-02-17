@@ -18,7 +18,7 @@ export default function Startup() {
 		strings.setLanguage(lang);
 		dispatch(BaseApiSlice.util.invalidateTags(['Category', 'OrderOptions']));
 		forceUpdate();
-	}, [lang]);
+	}, [lang, dispatch]);
 
 	useEffect(() => {
 		forceUpdate();

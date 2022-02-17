@@ -21,15 +21,15 @@ export default function MultipleImageInput<T>(props: {
 	const [files, setFiles] = useState<File[]>([]);
 	const [removedIdx, setRemovedIdx] = useState(-1);
 	const [previews, setPreviews] = useState<string[]>([]);
-	useEffect(() => setValue(files), [files]);
+	useEffect(() => setValue(files), [files, setValue]);
 
 	useEffect(() => {
-		if (files.length == max) setAddInput(false);
+		if (files.length === max) setAddInput(false);
 		else if (!addInput) setAddInput(true);
-	}, [files]);
+	}, [files, addInput, max]);
 
 	useEffect(() => {
-		if (removedIdx != -1) {
+		if (removedIdx !== -1) {
 			setPreviews((prev) => {
 				const copy = [...prev];
 				copy.splice(removedIdx, 1);
@@ -38,7 +38,7 @@ export default function MultipleImageInput<T>(props: {
 			setRemovedIdx(-1);
 			return;
 		}
-		if (files.length == 0) {
+		if (files.length === 0) {
 			setPreviews([]);
 			return;
 		}
@@ -48,7 +48,7 @@ export default function MultipleImageInput<T>(props: {
 			const r = reader.result;
 			if (r != null) setPreviews((prev) => [...prev, r.toString()]);
 		};
-	}, [files]);
+	}, [files, removedIdx]);
 
 	return (
 		<FormGroup>
