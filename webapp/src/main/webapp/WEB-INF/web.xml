@@ -87,7 +87,7 @@
     </filter>
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/api/*</url-pattern> <!--TODO solo api o todo?-->
+        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -96,7 +96,7 @@
     </filter>
     <filter-mapping>
         <filter-name>openEntityManagerInViewFilter</filter-name>
-        <url-pattern>/api/*</url-pattern> <!--TODO solo api o todo?-->
+        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
     <filter>

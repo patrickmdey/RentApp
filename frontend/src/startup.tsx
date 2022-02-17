@@ -18,7 +18,6 @@ export default function Startup() {
 	}, [lang]);
 
 	useEffect(() => {
-		strings.setLanguage(lang);
 		forceUpdate();
 	}, [token]);
 
