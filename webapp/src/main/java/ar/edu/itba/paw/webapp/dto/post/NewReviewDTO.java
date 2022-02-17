@@ -14,7 +14,7 @@ public class NewReviewDTO extends EditReviewDTO {
         return articleId;
     }
 
-    public void setArticleId(Integer articleId) {
+    public void setArticleId(int articleId) {
         this.articleId = articleId;
     }
 
@@ -22,7 +22,7 @@ public class NewReviewDTO extends EditReviewDTO {
         return renterId;
     }
 
-    public void setRenterId(Integer renterId) {
+    public void setRenterId(int renterId) {
         this.renterId = renterId;
     }
 }

@@ -104,7 +104,7 @@ public class UserDaoTest {
     }
 
 
-    @Test(expected = Test.None.class)
+    @Test()
     public void deleteSucceed() {
         // Arrange
         final long userId = 1;

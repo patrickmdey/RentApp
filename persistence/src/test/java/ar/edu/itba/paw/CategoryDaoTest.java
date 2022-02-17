@@ -24,7 +24,6 @@ public class CategoryDaoTest {
     @Autowired
     private CategoryDao categoryDao;
 
-
     @Test
     public void listAllSucceed() {
         // Arrange

@@ -66,7 +66,7 @@ public class ArticleServiceImplTest {
     public void createSucceed() {
 
         // Arrange
-        Article articleToCreate = articles.stream().findFirst().get();
+        Article articleToCreate = articles.stream().findFirst().orElseThrow(ArticleNotFoundException::new);
 
         when(articleDao.createArticle(
                 eq(articleToCreate.getTitle()),
@@ -75,10 +75,8 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getOwner().getId())
         )).thenReturn(articleToCreate);
 
-        categories.forEach(t -> {
-            when(categoryService.findById(eq(t.getId())))
-                    .thenReturn(Optional.of(t));
-        });
+        categories.forEach(t -> when(categoryService.findById(eq(t.getId())))
+                .thenReturn(Optional.of(t)));
 
 
         // Act
@@ -103,7 +101,7 @@ public class ArticleServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void createFailArticleDaoThrowsException() {
         // Arrange
-        Article articleToCreate = articles.stream().findFirst().get();
+        Article articleToCreate = articles.stream().findFirst().orElseThrow(ArticleNotFoundException::new);
 
         when(articleDao.createArticle(
                 eq(articleToCreate.getTitle()),
