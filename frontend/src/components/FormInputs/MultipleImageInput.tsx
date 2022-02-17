@@ -21,12 +21,12 @@ export default function MultipleImageInput<T>(props: {
 	const [files, setFiles] = useState<File[]>([]);
 	const [removedIdx, setRemovedIdx] = useState(-1);
 	const [previews, setPreviews] = useState<string[]>([]);
-	useEffect(() => setValue(files), [files, setValue]);
+	useEffect(() => setValue(files), [files]);
 
 	useEffect(() => {
 		if (files.length === max) setAddInput(false);
 		else if (!addInput) setAddInput(true);
-	}, [files, addInput, max]);
+	}, [files, max]);
 
 	useEffect(() => {
 		if (removedIdx !== -1) {
@@ -38,7 +38,7 @@ export default function MultipleImageInput<T>(props: {
 			setRemovedIdx(-1);
 			return;
 		}
-		if (files.length === 0) {
+		if (files.length == 0) {
 			setPreviews([]);
 			return;
 		}
