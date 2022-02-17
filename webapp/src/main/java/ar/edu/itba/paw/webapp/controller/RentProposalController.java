@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -49,7 +50,7 @@ public class RentProposalController {
     public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                                  @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                                  @QueryParam("limit") Long limit,
-                                 @QueryParam("page") @DefaultValue("1") int page) {
+                                 @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") int page) {
         return listProposals(userId, state, limit, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
 
@@ -60,7 +61,7 @@ public class RentProposalController {
     public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                              @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                              @QueryParam("limit") Long limit,
-                             @QueryParam("page") @DefaultValue("1") int page) {
+                             @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") int page) {
         return listProposals(userId, state, limit, page, rs::sentRequests, rs::getSentMaxPage);
     }
 

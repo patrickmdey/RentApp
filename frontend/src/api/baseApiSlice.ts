@@ -10,6 +10,7 @@ export const BaseApiSlice = createApi({
 			const state = getState() as RootState;
 			// console.log('token', state);
 			if (state && state.auth.token) headers.set('Authorization', 'Bearer ' + state.auth.token);
+			headers.set('Accept-Language', state.i18n.lang);
 
 			return headers;
 		}
