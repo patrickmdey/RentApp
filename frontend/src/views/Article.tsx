@@ -117,7 +117,8 @@ function Article() {
 			aProp.find(
 				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === article.url
 			);
-		setHasRented(acceptedRentProposal !== null && acceptedRentProposal !== undefined);
+
+		setHasRented(acceptedRentProposal != false && acceptedRentProposal != null);
 	}, [aPropSuccess, aProp, article]);
 
 	const [hasReviewed, setHasReviewed] = useState(false);
