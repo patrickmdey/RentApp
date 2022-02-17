@@ -62,7 +62,8 @@ let enCollection: StringCollection = {
             email: {
                 required: 'You must enter your email',
                 minLength: 'Mail must have between {minLength} and {maxLength} characters',
-                maxLength: 'Mail must have between {minLength} and {maxLength} characters'
+                maxLength: 'Mail must have between {minLength} and {maxLength} characters',
+                validate: 'Mail is already in use'
             },
             password: {
                 required: 'You must enter your password',
@@ -204,12 +205,10 @@ let enCollection: StringCollection = {
             firstName: {
                 required: 'You must enter your first name',
                 minLength: 'First name must have between {minLength} and {maxLength} characters',
-                maxLength: 'First name must have between {minLength} and {maxLength} characters'
             },
             lastName: {
                 required: 'You must enter your last name',
                 minLength: 'Last name must have between {minLength} and {maxLength} characters',
-                maxLength: 'Last name must have between {minLength} and {maxLength} characters'
             },
             location: {required: 'You must select your location'},
             image: {required: 'You must upload an image'}
