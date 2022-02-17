@@ -13,7 +13,6 @@ function CategoryName(props: { id: number }) {
 function UserName(props: { id: number }) {
 	const { data: user } = useFindUser(`users/${props.id}`);
 	return <>{user && user.firstName}</>;
-	l;
 }
 
 function Filters(props: { filters: ListArticleParameters; removeSearchParam: Function }) {
