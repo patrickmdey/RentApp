@@ -85,7 +85,7 @@ function MainArticleCard(props: {
 						<Card.Subtitle>
 							{location && (
 								<a
-									href={`/marketplace?location=${location.name}`}
+									onClick={() => navigate(`/marketplace?location=${location.name}`)}
 									className='article-location mt-3 color-action d-flex align-items-center'
 								>
 									<span className='h4'>
