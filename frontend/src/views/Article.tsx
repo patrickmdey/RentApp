@@ -111,16 +111,17 @@ function Article() {
 
 	useEffect(() => {
 		let acceptedRentProposal =
-			aPropSuccess &&
-			aProp &&
-			article &&
-			aProp.find(
-				(proposal) =>
-					new Date(proposal.startDate + 'T00:00:00').getTime() <= new Date().setHours(0, 0, 0, 0) &&
-					proposal.articleUrl === article.url
-			);
+			(aPropSuccess &&
+				aProp &&
+				article &&
+				aProp.find(
+					(proposal) =>
+						new Date(proposal.startDate + 'T00:00:00').getTime() <= new Date().setHours(0, 0, 0, 0) &&
+						proposal.articleUrl === article.url
+				)) ||
+			null;
 
-		setHasRented(acceptedRentProposal !== false && acceptedRentProposal != null);
+		setHasRented(acceptedRentProposal != null);
 	}, [aPropSuccess, aProp, article]);
 
 	const [hasReviewed, setHasReviewed] = useState(false);
