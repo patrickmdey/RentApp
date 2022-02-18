@@ -21,8 +21,10 @@ export default function Requests() {
     const {data: user} = useFindUser(`users/${userId}`);
 
     const [receivedAmount, setReceievedAmount] = useState(0);
+    const [sentAmount, setSentAmount] = useState(0);
 
     useEffect(() => setReceievedAmount(user && user.owner ? user.pendingRequestAmount : 0), [user]);
+    useEffect(() => setSentAmount(user ? user.acceptedRequestAmount : 0), [user]);
 
     return (
         <Container className='min-height'>
@@ -38,6 +40,11 @@ export default function Requests() {
                                         <Nav.Link className='request-pill w-100 text-start mb-1'
                                                   eventKey='first'>
                                             <p className='my-1'>{strings.collection.requests.sentTitle}</p>
+                                            {sentAmount > 0 && (
+                                                <p className='my-1'>
+                                                    <Badge className='bg-rentapp-red ms-1'>{sentAmount}</Badge>
+                                                </p>
+                                            )}
                                         </Nav.Link>
                                     </Nav.Item>
                                     <Nav.Item>
@@ -60,10 +67,10 @@ export default function Requests() {
                     <div className='col-md-9 col-lg-9 col-12 '>
                         <Tab.Content>
                             <Tab.Pane eventKey='first'>
-                                <SentRequestList/>
+                                <SentRequestList acceptedAmount={sentAmount}/>
                             </Tab.Pane>
                             <Tab.Pane eventKey='second'>
-                                <ReceivedRequestList/>
+                                <ReceivedRequestList pendingAmount={receivedAmount}/>
                             </Tab.Pane>
                         </Tab.Content>
                     </div>

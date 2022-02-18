@@ -109,8 +109,6 @@ function Article() {
 
 	const [hasRented, setHasRented] = useState(false);
 
-	// new Date('2022-02-18T00:00:00') >= new Date().setHours(0,0,0,0)
-
 	useEffect(() => {
 		let acceptedRentProposal =
 			aPropSuccess &&
