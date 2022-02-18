@@ -113,8 +113,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMailRequestDenied(RentProposal rentProposal, User owner, String webpageUrl) {
-        Context thymeleafContext = getThymeleafContext(rentProposal, owner);
+    public void sendMailRequestDenied(RentProposal rentProposal, User renter, String webpageUrl) {
+        Context thymeleafContext = getThymeleafContext(rentProposal, renter);
         long categoryId = rentProposal.getArticle().getCategories().stream().findFirst().orElseThrow(CategoryNotFoundException::new).getId();
         thymeleafContext.setVariable("callbackUrl", webpageUrl + "/marketplace?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);

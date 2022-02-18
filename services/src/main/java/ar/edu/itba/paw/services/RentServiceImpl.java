@@ -107,7 +107,7 @@ public class RentServiceImpl implements RentService {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentProposal.setState(RentState.DECLINED);
 
-        emailService.sendMailRequestDenied(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
+        emailService.sendMailRequestDenied(rentProposal, rentProposal.getRenter(), webpageUrl);
     }
 
     @Override
