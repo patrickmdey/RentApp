@@ -12,7 +12,7 @@ function Error(props: {
         <div className='d-flex flex-column justify-content-center align-items-center'>
             <img src={errorImage}/>
             <h3 className='fw-bold'>Error {error}</h3>
-            <p className='lead'>{message}</p>
+            {message && message.length < 30 && <p className='lead'>{message}</p>}
             <a onClick={() => navigate("/")}>{strings.collection.errors.pageNotFoundSubtitle}</a>
         </div>
     );
