@@ -1,5 +1,5 @@
 import { Button, Image } from 'react-bootstrap';
-import { CircleFill, XCircle, XCircleFill } from 'react-bootstrap-icons';
+import { XCircleFill } from 'react-bootstrap-icons';
 
 export default function ImagePreview(props: { img: string; onDelete: Function }) {
 	const { img, onDelete } = props;
