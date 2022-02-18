@@ -4,7 +4,8 @@ import { Category } from './types';
 const CategoriesApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
 		findCategory: build.query<Category, string>({
-			query: (url) => url.toString()
+			query: (url) => url.toString(),
+			providesTags: (result) => (result ? [{ type: 'Category', id: result.id }] : ['Category'])
 		}),
 
 		listCategories: build.query<Category[], void>({

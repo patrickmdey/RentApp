@@ -11,7 +11,7 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 	endpoints: (build) => ({
 		findProposal: build.query<RentProposal, string>({
 			query: (url) => url.toString(),
-			providesTags: (result) => (result ? [{ type: 'Proposals', id: result.id }] : ['Proposals'])
+			providesTags: (result) => (result ? [{ type: 'Proposal', id: result.id }] : ['Proposal'])
 		}),
 
 		listProposals: build.query<PaginatedData<RentProposal[]>, ListRentProposalsParameters>({
@@ -21,10 +21,10 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 			providesTags: (result) =>
 				result && result.data
 					? [
-							...result.data.map(({ id }) => ({ type: 'Proposals' as const, id: id })),
-							{ type: 'Proposals', id: 'PARTIAL-LIST' }
+							...result.data.map(({ id }) => ({ type: 'Proposal' as const, id: id })),
+							{ type: 'Proposal', id: 'PARTIAL-LIST' }
 					  ]
-					: [{ type: 'Proposals', id: 'PARTIAL-LIST' }],
+					: [{ type: 'Proposal', id: 'PARTIAL-LIST' }],
 
 			keepUnusedDataFor: 5
 		}),
@@ -34,7 +34,8 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 				url: 'proposals',
 				method: 'POST',
 				body: args
-			})
+			}),
+			invalidatesTags: [{ type: 'Proposal', id: 'PARTIAL-LIST' }]
 		}),
 
 		updateProposal: build.mutation<void, UpdateRentProposalParameters>({
@@ -45,7 +46,7 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: (_, __, arg) => {
 				const parts = arg.url.split('/');
-				return [{ type: 'Proposals', id: parts[parts.length - 1] }];
+				return [{ type: 'Proposal', id: parts[parts.length - 1] }];
 			}
 		})
 	})
