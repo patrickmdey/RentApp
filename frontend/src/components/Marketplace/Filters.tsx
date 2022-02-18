@@ -1,5 +1,5 @@
-import { Row, Badge, Button, Stack, Col } from 'react-bootstrap';
-import { CloudSleetFill, GeoAltFill, PersonFill, Tag, XCircle } from 'react-bootstrap-icons';
+import { Row, Badge, Stack, Col } from 'react-bootstrap';
+import { GeoAltFill, PersonFill, Tag, XCircle } from 'react-bootstrap-icons';
 import { ListArticleParameters } from '../../api/articles/types';
 import { useFindCategory } from '../../api/categories/categoriesSlice';
 import { strings } from '../../i18n/i18n';
@@ -51,24 +51,18 @@ function Filters(props: { filters: ListArticleParameters; removeSearchParam: Fun
 									)}
 
 									{filters.user && (
-										<div className='badge bg-color-secondary mx-2 p-2'>
-											<PersonFill />
-											<p>
+										<Badge className='bg-color-secondary justify-content-center align-items-center ms-2'>
+											<Stack className='color-rentapp-black' direction='horizontal' gap={1}>
+												<PersonFill />
 												<UserName id={filters.user} />
-											</p>
-											<Button
-												variant='link'
-												onClick={() => removeSearchParam('user')}
-												className='text-light text-decoration-none p-0 m-0'
-											>
-												X
-											</Button>
-										</div>
+												<XCircle onClick={() => removeSearchParam('user')} />
+											</Stack>
+										</Badge>
 									)}
 								</span>
 							)}
 						</Col>
-						<Col md={2} lg={2}></Col>
+						<Col md={2} lg={2} />
 						<Col md={3} lg={3}>
 							{filters.location && (
 								<div className='d-flex align-items-center justify-content-end'>

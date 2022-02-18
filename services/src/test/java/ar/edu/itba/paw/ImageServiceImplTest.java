@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import java.io.IOException;
-
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
@@ -29,11 +28,9 @@ public class ImageServiceImplTest {
     @Before
     public void setUp() {
         image = new MockMultipartFile("/image/test.png", "image/png");
-        emptyImage = new MockMultipartFile("/image/invalidFile.png", "image/png");
     }
 
     private MockMultipartFile image;
-    private MockMultipartFile emptyImage;
 
     @Test
     public void createSucceed() throws IOException {
@@ -54,8 +51,7 @@ public class ImageServiceImplTest {
     public void createFailImageIsEmpty() {
         // Arrange
         byte[] empty = new byte[0];
-        when(imageDao.create(eq(empty)))
-                .thenThrow(CannotCreateImageException.class);
+        when(imageDao.create(eq(empty))).thenThrow(CannotCreateImageException.class);
 
         // Act
         imageService.create(empty);
@@ -64,5 +60,4 @@ public class ImageServiceImplTest {
         Assert.fail();
 
     }
-
 }

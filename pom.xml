@@ -28,6 +28,8 @@
         <org.hibernate.jpa.version>1.0.0.Final</org.hibernate.jpa.version>
         <jersey.version>3.0-SNAPSHOT</jersey.version>
         <jwt.version>0.11.2</jwt.version>
+        <frontend.plugin.version>1.9.1</frontend.plugin.version>
+        <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
     </properties>
     <repositories>
         <repository>
@@ -343,9 +345,17 @@
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.9.1</version>
+                    <version>${frontend.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven.war.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
+
+
 </project>

@@ -49,6 +49,10 @@ public class Review {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public int getRating() {
         return rating;
     }

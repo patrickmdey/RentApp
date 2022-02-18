@@ -14,10 +14,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -68,7 +66,7 @@ public class ArticleServiceImplTest {
     public void createSucceed() {
 
         // Arrange
-        Article articleToCreate = articles.stream().findFirst().get();
+        Article articleToCreate = articles.stream().findFirst().orElseThrow(ArticleNotFoundException::new);
 
         when(articleDao.createArticle(
                 eq(articleToCreate.getTitle()),
@@ -77,10 +75,8 @@ public class ArticleServiceImplTest {
                 eq(articleToCreate.getOwner().getId())
         )).thenReturn(articleToCreate);
 
-        categories.forEach(t -> {
-            when(categoryService.findById(eq(t.getId())))
-                    .thenReturn(Optional.of(t));
-        });
+        categories.forEach(t -> when(categoryService.findById(eq(t.getId())))
+                .thenReturn(Optional.of(t)));
 
 
         // Act
@@ -105,7 +101,7 @@ public class ArticleServiceImplTest {
     @Test(expected = RuntimeException.class)
     public void createFailArticleDaoThrowsException() {
         // Arrange
-        Article articleToCreate = articles.stream().findFirst().get();
+        Article articleToCreate = articles.stream().findFirst().orElseThrow(ArticleNotFoundException::new);
 
         when(articleDao.createArticle(
                 eq(articleToCreate.getTitle()),
@@ -132,7 +128,7 @@ public class ArticleServiceImplTest {
     @Test
     public void rentedArticlesSucceed() {
         // Arrange
-        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), null))
+        when(articleDao.rentedArticles(eq(userRenter.getId()), anyLong(), eq(null)))
                 .thenReturn(articles);
 
         // Act
@@ -251,6 +247,4 @@ public class ArticleServiceImplTest {
         // Assert
         Assert.fail();
     }
-
-
 }

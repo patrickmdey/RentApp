@@ -1,4 +1,4 @@
-import {Badge, Card, Container, Nav, Tab, Tabs} from 'react-bootstrap';
+import {Badge, Card, Container, Nav, Tab} from 'react-bootstrap';
 import {strings} from '../i18n/i18n';
 import SentRequestList from '../components/Requests/SentRequestList';
 import ReceivedRequestList from '../components/Requests/ReceivedRequestList';

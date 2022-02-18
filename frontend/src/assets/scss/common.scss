@@ -1,22 +1,22 @@
 :root {
-	--color-primary: #1a394e;
-	--color-action: #22577a;
-	--color-secondary: #93c4e6;
-	--color-rentapp-black: #06121a;
-	--color-rentapp-red: #ff6b4d;
-	--color-grey: #eaedea;
-	--color-danger: red;
-	--color-white: white;
-	--color-light-grey: #f6f6f6;
-	--color-dark-grey: #a0a0a0;
+  --color-primary: #1a394e;
+  --color-action: #22577a;
+  --color-secondary: #93c4e6;
+  --color-rentapp-black: #06121a;
+  --color-rentapp-red: #ff6b4d;
+  --color-grey: #eaedea;
+  --color-danger: red;
+  --color-white: white;
+  --color-light-grey: #f6f6f6;
+  --color-dark-grey: #a0a0a0;
 }
 
 html {
-	overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 body {
-	overflow-y: visible;
+  overflow-y: visible;
 }
 
 h1,
@@ -26,266 +26,280 @@ h4,
 h5,
 h6,
 p {
-	font-family: 'Noto Sans', sans-serif;
-	color: var(--color-rentapp-black);
+  font-family: 'Noto Sans', sans-serif;
+  color: var(--color-rentapp-black);
+}
+
+img {
+  object-fit: contain;
 }
 
 .error {
-	color: var(--color-danger) !important;
-	margin: 3px 0;
+  color: var(--color-danger) !important;
+  margin: 3px 0;
 }
 
 a.nav-link:hover {
-	color: var(--color-secondary) !important;
+  color: var(--color-secondary) !important;
 }
 
 i.overflow-icon:hover {
-	color: var(--color-secondary) !important;
+  color: var(--color-secondary) !important;
 }
 
 .color-primary {
-	color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
 }
 
 .bg-color-primary {
-	background-color: var(--color-primary) !important;
+  background-color: var(--color-primary) !important;
 }
 
 .color-action {
-	color: var(--color-action) !important;
+  color: var(--color-action) !important;
 }
 
 .bg-color-action {
-	background-color: var(--color-action) !important;
+  background-color: var(--color-action) !important;
 }
 
 .color-danger {
-	color: var(--color-danger) !important;
+  color: var(--color-danger) !important;
 }
 
 .bg-color-danger {
-	background-color: var(--color-danger) !important;
+  background-color: var(--color-danger) !important;
 }
 
 .color-secondary {
-	color: var(--color-secondary) !important;
+  color: var(--color-secondary) !important;
 }
 
 .bg-color-secondary {
-	background-color: var(--color-secondary) !important;
+  background-color: var(--color-secondary) !important;
 }
 
 .color-rentapp-black {
-	color: var(--color-rentapp-black) !important;
+  color: var(--color-rentapp-black) !important;
 }
 
 .bg-color-rentapp-black {
-	background-color: var(--color-rentapp-black) !important;
+  background-color: var(--color-rentapp-black) !important;
 }
 
 .color-rentapp-red {
-	color: var(--color-rentapp-red) !important;
+  color: var(--color-rentapp-red) !important;
 }
 
 .bg-color-rentapp-red {
-	background-color: var(--color-rentapp-red) !important;
+  background-color: var(--color-rentapp-red) !important;
 }
 
 .color-grey {
-	color: var(--color-grey) !important;
+  color: var(--color-grey) !important;
 }
 
 .bg-color-grey {
-	background-color: var(--color-grey) !important;
+  background-color: var(--color-grey) !important;
 }
 
 .color-white {
-	color: var(--color-white) !important;
+  color: var(--color-white) !important;
 }
 
 .bg-color-white {
-	background-color: var(--color-white) !important;
+  background-color: var(--color-white) !important;
 }
 
 .nav-bar-style {
-	height: 75px;
-	align-items: center;
+  height: 75px;
+  align-items: center;
 }
 
 .container-height {
-	min-height: 85vh;
+  min-height: 85vh;
 }
 
 .error-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
 
 .main-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-left: 15%;
-	margin-right: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .min-height {
-	min-height: 100vh;
+  min-height: 100vh;
 }
 
 .main-margins {
-	margin: 0 15%;
+  margin: 0 15%;
 }
 
 .landing-margins {
-	margin: 0 10%;
+  margin: 0 10%;
 }
 
 .card-style {
-	background-color: #fff;
-	padding: 25px;
-	border: 1px solid #eee;
-	border-radius: 6px;
-	margin: 0 0 8px;
-	width: 100%;
+  background-color: #fff;
+  padding: 25px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin: 0 0 8px;
+  width: 100%;
 }
 
 a.request-pill.active {
-	background-color: var(--color-action);
+  background-color: var(--color-action);
 }
 
 .landing-title-container {
-	background-color: var(--color-white);
-	min-height: 40vh;
-	padding: 10px;
-	margin: 0 0 5px;
+  background-color: var(--color-white);
+  min-height: 40vh;
+  padding: 10px;
+  margin: 0 0 5px;
 }
 
 .landing-category-container {
-	padding: 20px;
-	width: 100%;
-	justify-content: center;
-	align-items: center;
-	margin: 0 !important;
+  padding: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 !important;
 }
 
 .category-card-list {
-	margin: 0 auto;
+  margin: 0 auto;
 }
 
 .card-style.filters-card {
-	height: auto;
-	margin: 0;
+  height: auto;
+  margin: 0;
 }
 
 .filter-container {
-	height: 25px;
+  height: 25px;
 }
 
 .form-container {
-	margin: 0 5%;
+  margin: 0 5%;
 }
 
 .form-container > * {
-	margin: 3% 0;
+  margin: 3% 0;
 }
 
 .footer-style {
-	height: 230px;
-	width: 100%;
-	bottom: 0;
-	justify-content: center;
-	margin-top: 30px;
+  height: 230px;
+  width: 100%;
+  bottom: 0;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .footer-image-col {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 }
 
 .profile-articles {
-	min-height: 250px;
-	padding: 10px 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  min-height: 250px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card.my-requests-card {
-	min-height: 200px;
-	border: 1px solid var(--color-dark-grey);
-	background-color: var(--color-light-grey);
+  min-height: 200px;
+  border: 1px solid var(--color-dark-grey);
+  background-color: var(--color-light-grey);
 }
 
 .footer-col {
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 }
 
 .nav-link.request-pill[aria-selected='true'] {
-	background-color: var(--color-secondary) !important;
+  background-color: var(--color-secondary) !important;
 }
 
 .marketplace-card-style {
-	padding: 7px;
-	height: 470px;
-	width: 100%;
-	margin: 0 0;
-	box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
+  padding: 7px;
+  height: 470px;
+  width: 100%;
+  margin: 0 0;
+  box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
 }
 
 .marketplace-card-style:hover {
-	box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
 }
 
 .marketplace-card-info-container {
-	margin-top: 3px;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	height: 200px;
+  margin-top: 3px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  height: 200px;
 }
 
 .marketplace-card-img-container {
-	display: flex;
-	justify-content: center;
-	height: 60%;
+  display: flex;
+  justify-content: center;
+  height: 260px;
+}
+
+.marketplace-card-img-container img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 
 .card-image {
-	width: 100%;
-	height: auto;
-	object-fit: contain;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .category-list-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
-	column-gap: 1%;
-	row-gap: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
+  column-gap: 1%;
+  row-gap: 1em;
 }
 
-//$react-rater-link: #ccc !default; // color of star not rated
-//$react-rater-hover: red !default; // color of star on hover
-//$react-rater-active: var(--color-rentapp-red) !default; // color of star rated
-
 h3.request-card-title {
-	color: var(--color-action);
+  color: var(--color-action);
 }
 
 h3.request-card-title:hover {
-	color: var(--color-secondary);
+  color: var(--color-secondary);
 }
 
 .request-pill:hover {
-	background-color: var(--color-grey);
+  background-color: var(--color-grey);
 }
 
 .nav-bar-link:hover {
-	color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.category-card {
+  box-shadow: 0 0.125rem 0.25rem rgba($black, 0.075);
+}
+
+.category-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba($black, 0.15);
 }

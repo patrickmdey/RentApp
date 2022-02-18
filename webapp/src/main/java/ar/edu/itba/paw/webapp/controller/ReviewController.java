@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -42,17 +43,17 @@ public class ReviewController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final Review review = rs.findById(id).orElseThrow(ReviewNotFoundException::new);
         return Response.ok(ReviewDTO.fromReview(review, uriInfo)).build();
     }
 
     @GET
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@NotNull(message = "NotNull.getReviews.articleId") @QueryParam("fromArticle") Integer articleId,
                          @QueryParam("limit") Long limit,
-                         @QueryParam("page") @DefaultValue("1") long page) {
+                         @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") long page) {
         final List<ReviewDTO> reviews = rs.getPaged(articleId, limit, page)
                 .stream().map(review -> ReviewDTO.fromReview(review, uriInfo)).collect(Collectors.toList());
 
@@ -68,8 +69,8 @@ public class ReviewController {
     }
 
     @POST
-    @Produces(value = {MediaType.APPLICATION_JSON,})
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkCanReview(authentication, #reviewDTO.articleId)")
     public Response createReview(@Valid NewReviewDTO reviewDTO) {
         User user = ApiUtils.retrieveUser(securityContext, us);
@@ -84,7 +85,7 @@ public class ReviewController {
     }
 
     @PUT
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsReviewOwner(authentication, #id)")
     public Response modifyReview(@PathParam("id") long id, @Valid EditReviewDTO reviewDTO) {

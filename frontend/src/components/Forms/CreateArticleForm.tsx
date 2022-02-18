@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Form, Card, Button, FormControl } from 'react-bootstrap';
+import { Form, Card, Button } from 'react-bootstrap';
 import { useListCategories } from '../../api/categories/categoriesSlice';
 import { strings } from '../../i18n/i18n';
-import { Category } from '../../api/categories/types';
 import { useForm } from 'react-hook-form';
 import { useCreateArticle } from '../../api/articles/articlesSlice';
 import FormInput from '../FormInputs/FormInput';
@@ -38,16 +37,15 @@ function CreateArticleForm() {
 
 	useEffect(() => {
 		register('images', { required: true, min: 1, max: 5 });
-	}, []);
+	}, [register]);
 
 	const [createArticle, result] = useCreateArticle();
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (result.isSuccess) navigate(`/articles/${result.data}`);
-	}, [result]);
+	}, [result, navigate]);
 
 	function onSubmit(data: ArticleForm) {
-		console.log(data);
 		createArticle(data);
 	}
 

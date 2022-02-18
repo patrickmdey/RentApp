@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
 import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.Min;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -47,7 +47,7 @@ public class ArticleController {
     private final Logger articleLogger = LoggerFactory.getLogger(ArticleController.class);
 
     @GET
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@QueryParam("name") @DefaultValue("") String name,
                          @QueryParam("category") Long category,
                          @QueryParam("orderBy") OrderOptions orderBy, @QueryParam("user") Long user,
@@ -55,7 +55,7 @@ public class ArticleController {
                          @QueryParam("initPrice") Float initPrice,
                          @QueryParam("endPrice") Float endPrice, @QueryParam("renter") Long renter,
                          @QueryParam("limit") Long limit,
-                         @QueryParam("page") @DefaultValue("1") long page) {
+                         @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") long page) {
 
         final List<ArticleDTO> articles = as.get(name, category, orderBy, user, location, initPrice, endPrice, renter, limit, page).stream().map(article -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
 
@@ -78,13 +78,13 @@ public class ArticleController {
 
         if (renter != null) uriBuilder.queryParam("renter", renter);
 
-        return ApiUtils.generateResponseWithLinks(Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {
-        }), page, maxPage, uriBuilder);
+        return ApiUtils.generateResponseWithLinks(Response.ok
+                (new GenericEntity<List<ArticleDTO>>(articles) {}), page, maxPage, uriBuilder);
     }
 
     @POST
-    @Produces(value = {MediaType.APPLICATION_JSON,})
-    @Consumes(value = {MediaType.MULTIPART_FORM_DATA,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
+    @Consumes(value = {MediaType.MULTIPART_FORM_DATA})
     public Response create(FormDataMultiPart body) {
         NewArticleDTO articleDTO = ApiUtils.validateBean(NewArticleDTO.fromMultipartData(body), validatorFactory);
         final Article article = as.createArticle(articleDTO.getTitle(), articleDTO.getDescription(), articleDTO.getPricePerDay(),
@@ -101,14 +101,14 @@ public class ArticleController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final Article article = as.findById(id).orElseThrow(ArticleNotFoundException::new);
         return Response.ok(ArticleDTO.fromArticle(article, uriInfo)).build();
     }
 
     @PUT
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @Path("/{id}")
     @PreAuthorize("@webSecurity.checkIsArticleOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, @Valid EditArticleDTO articleDTO) {
@@ -123,11 +123,11 @@ public class ArticleController {
 
     @GET
     @Path("/{id}/related")
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response related(@PathParam("id") long id) {
         List<ArticleDTO> articles = as.recommendedArticles(id).stream().map((Article article) -> ArticleDTO.fromArticle(article, uriInfo)).collect(Collectors.toList());
 
         if (articles.isEmpty()) return Response.noContent().build();
-        return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {
-        }).build();
+        return Response.ok(new GenericEntity<List<ArticleDTO>>(articles) {}).build();
     }
 }

@@ -1,5 +1,5 @@
-import { ElementType, useEffect, useState } from 'react';
-import { FormGroup, FormLabel, InputGroup, FormControl } from 'react-bootstrap';
+import { ElementType } from 'react';
+import { FormGroup, FormLabel, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FieldError, Path, UseFormRegister } from 'react-hook-form';
 import useErrorMessage from '../../hooks/useErrorMessage';
 import { ErrorMessageInterface } from '../../i18n/types';
@@ -11,6 +11,7 @@ export default function FormInput<T>(props: {
 	name: Path<T>;
 	type: string;
 	as?: ElementType;
+	show?: boolean;
 	disabled?: boolean;
 	value?: string;
 	error?: FieldError | null;
@@ -18,6 +19,7 @@ export default function FormInput<T>(props: {
 	placeholder?: string;
 	prependIcon?: JSX.Element | string | null;
 	appendIcon?: JSX.Element | null;
+	appendIconOnClick?: Function;
 	validation?: Partial<ValidationInterface<T>>;
 }) {
 	const {
@@ -29,10 +31,12 @@ export default function FormInput<T>(props: {
 		errorMessage,
 		type,
 		as,
+		show,
 		disabled,
 		placeholder,
 		prependIcon,
 		appendIcon,
+		appendIconOnClick,
 		validation
 	} = props;
 
@@ -44,10 +48,10 @@ export default function FormInput<T>(props: {
 				{prependIcon != null && <InputGroup.Text>{prependIcon}</InputGroup.Text>}
 				<FormControl
 					as={as === undefined ? 'input' : as}
-					type={type}
-					{...(type == 'number'
+					type={type === 'password' && show ? 'text' : type}
+					{...(type === 'number'
 						? { step: '0.01' }
-						: type == 'date'
+						: type === 'date'
 						? { min: new Date().toISOString().split('T')[0] }
 						: {})}
 					defaultValue={value}
@@ -57,7 +61,22 @@ export default function FormInput<T>(props: {
 					disabled={disabled}
 					data-testid={name}
 				/>
-				{appendIcon != null && <InputGroup.Text>{appendIcon}</InputGroup.Text>}
+				{appendIcon != null && (
+					<InputGroup.Text style={{ position: 'relative', width: '35px' }}>
+						{appendIconOnClick ? (
+							<Button
+								variant='link'
+								className='text-decoration-none m-0 p-0'
+								style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}
+								onClick={(_) => appendIconOnClick()}
+							>
+								{appendIcon}
+							</Button>
+						) : (
+							{ appendIcon }
+						)}
+					</InputGroup.Text>
+				)}
 				{errorDesc && <FormControl.Feedback type='invalid'>{errorDesc}</FormControl.Feedback>}
 			</InputGroup>
 		</FormGroup>

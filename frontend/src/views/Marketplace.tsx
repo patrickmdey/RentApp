@@ -11,11 +11,8 @@ import { strings } from '../i18n/i18n';
 import NoDataCard from '../components/NoDataCard';
 import LoadingComponent from '../components/LoadingComponent';
 import Error from '../components/Error';
-
-import { createSearchParams, URLSearchParamsInit, useSearchParams } from 'react-router-dom';
+import { URLSearchParamsInit, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { GeoAltFill } from 'react-bootstrap-icons';
-import { useListCategories } from '../api/categories/categoriesSlice';
 import Filters from '../components/Marketplace/Filters';
 
 function serialize<T>(data: T): URLSearchParamsInit {
@@ -57,7 +54,7 @@ function Marketplace() {
 
 	useEffect(() => {
 		setSearchParams(serialize(processedFilters));
-	}, [filters]);
+	}, [filters, setSearchParams, processedFilters]);
 
 	function removeSearchParam(name: keyof ListArticleParameters) {
 		setFilters((prev) => {

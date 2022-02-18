@@ -6,9 +6,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class ApiUtils {
@@ -22,11 +22,11 @@ public class ApiUtils {
         response.link(uri.clone().queryParam("page", 1).build(), "first");
         response.link(uri.clone().queryParam("page", maxPage).build(), "last");
 
-        if(currentPage > 1) {
+        if(currentPage > 1 && currentPage <= maxPage) {
             response.link(uri.clone().queryParam("page", currentPage - 1).build(), "prev");
         }
 
-        if(currentPage < maxPage) {
+        if(currentPage < maxPage && currentPage >= 1) {
             response.link(uri.clone().queryParam("page", currentPage + 1).build(), "next");
         }
 
@@ -44,5 +44,26 @@ public class ApiUtils {
             throw new ConstraintViolationException(violations);
         }
         return toValidate;
+    }
+
+    public static Locale resolveLocale(List<Locale> received){
+        Locale toReturn = Locale.ENGLISH;
+        for (Locale locale : received) {
+            if (locale.toLanguageTag().contains("es"))
+                toReturn = Locale.forLanguageTag("es");
+        }
+        return toReturn;
+    }
+
+    public static Response responseWithConditionalCache(EntityTag tag, Object entity, Request request){
+        CacheControl cacheControl = new CacheControl();
+        cacheControl.setNoTransform(true);
+        cacheControl.setMustRevalidate(true);
+        Response.ResponseBuilder response = request.evaluatePreconditions(tag);
+
+        if (response == null)
+            response = Response.ok(entity).tag(tag);
+
+        return response.cacheControl(cacheControl).build();
     }
 }

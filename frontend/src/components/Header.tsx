@@ -1,5 +1,5 @@
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { Badge, Button, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { useAppDispatch } from '../hooks';
+import { Badge, Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import React, { useEffect, useState } from 'react';
 import { BsBoxArrowInLeft, BsFillInboxFill, BsPersonFill } from 'react-icons/bs';
@@ -30,7 +30,7 @@ function LoggedInNavBar(props: { userId: number; dispatch: Function }) {
 
 	return (
 		<NavDropdown
-			as='h6'
+			as='span'
 			title={
 				<div style={{ display: 'inline-block' }}>
 					<div className='d-flex justify-content-center align-items-center'>
@@ -79,13 +79,13 @@ function LoggedOutNavBar() {
 	return (
 		<React.Fragment>
 			<LinkContainer to='/login'>
-				<Nav.Link as='h6' className='active fw-bold'>
+				<Nav.Link as='a' className='active fw-bold'>
 					{strings.collection.header.login}
 				</Nav.Link>
 			</LinkContainer>
 
 			<LinkContainer to='/register'>
-				<Nav.Link as='h6' className='active fw-bold'>
+				<Nav.Link as='a' className='active fw-bold'>
 					{strings.collection.header.signup}
 				</Nav.Link>
 			</LinkContainer>
@@ -109,13 +109,13 @@ export default function Header() {
 				<Navbar.Collapse className='mt-2' id='responsive-nav-bar'>
 					<Nav className='ms-auto d-flex align-items-center'>
 						<LinkContainer to='/marketplace'>
-							<Nav.Link as='h6' className='active fw-bold nav-bar-link'>
+							<Nav.Link as='a' className='active fw-bold nav-bar-link'>
 								{strings.collection.header.marketplace}
 							</Nav.Link>
 						</LinkContainer>
 
 						<LinkContainer to='/createArticle'>
-							<Nav.Link as='h6' className='active fw-bold nav-bar-link'>
+							<Nav.Link as='a' className='active fw-bold nav-bar-link'>
 								{strings.collection.header.publishArticle}
 							</Nav.Link>
 						</LinkContainer>

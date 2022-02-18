@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Modal, ModalBody, ModalFooter, ModalTitle, Stack } from 'react-bootstrap';
+import { Button, Card, Modal, ModalBody, ModalFooter, Stack } from 'react-bootstrap';
 import { Pencil, Lock, Trash } from 'react-bootstrap-icons';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ export default function ProfileCard(props: {
 			dispatch(setCredentials({ token: null, rememberMe: false }));
 			navigate('/login');
 		}
-	}, [deleteUserResult]);
+	}, [deleteUserResult, dispatch, navigate]);
 
 	return (
 		<>

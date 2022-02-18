@@ -1,9 +1,8 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useEffect, useState } from 'react';
 import { Button, Card, Form, Stack } from 'react-bootstrap';
-import { CartFill } from 'react-bootstrap-icons';
 import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useFindArticle, useUpdateArticle } from '../../api/articles/articlesSlice';
 import { useListCategories, useListCategoriesFromArticle } from '../../api/categories/categoriesSlice';
 import { useFindUser } from '../../api/users/usersSlice';
@@ -47,12 +46,12 @@ export default function EditArticleForm() {
 
 	const navigate = useNavigate();
 	const [editArticle, result] = useUpdateArticle();
+	const { id } = useParams();
 
 	useEffect(() => {
 		if (result.isSuccess) navigate(`/articles/${id}`);
-	}, [result]);
+	}, [result, id, navigate]);
 
-	const { id } = useParams();
 	const userId = useUserId();
 
 	const { data: article } = useFindArticle(`articles/${id}`);
@@ -71,7 +70,7 @@ export default function EditArticleForm() {
 		<Card className='card-style create-card'>
 			{article != null && categories != null && articleCategories && user && (
 				<>
-					{article.ownerUrl != user.url ? (
+					{article.ownerUrl !== user.url ? (
 						<UnauthorizedCard id={id} />
 					) : (
 						<Form onSubmit={handleSubmit(onSubmit, () => setSubmited(true))}>
@@ -123,7 +122,7 @@ export default function EditArticleForm() {
 											key={cat.id}
 											register={register}
 											name='categories'
-											checked={articleCategories.findIndex((c) => c.id === cat.id) != -1}
+											checked={articleCategories.findIndex((c) => c.id === cat.id) !== -1}
 											validation={{ required: true }}
 											label={cat.description}
 											value={cat.id}

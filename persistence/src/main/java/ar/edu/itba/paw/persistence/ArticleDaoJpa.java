@@ -180,7 +180,6 @@ public class ArticleDaoJpa implements ArticleDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Article> recommendedArticles(long articleId) {
         Query idQuery = em.createNativeQuery("SELECT id FROM article AS a1 WHERE a1.id != :article_id AND a1.id IN (SELECT a2.id " +
                 "FROM article AS a2 JOIN rent_proposal rp1 ON a2.id = rp1.article_id " +

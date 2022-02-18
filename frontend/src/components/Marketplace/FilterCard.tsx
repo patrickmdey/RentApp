@@ -1,4 +1,4 @@
-import { Button, Card, Form, InputGroup, Stack } from 'react-bootstrap';
+import { Button, Card, Form } from 'react-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { useForm } from 'react-hook-form';
 import { useListCategories } from '../../api/categories/categoriesSlice';
@@ -16,12 +16,6 @@ interface FilterCardForm {
 	initPrice: number;
 }
 
-const UNSELECTED_DEFAULT = {
-	id: '',
-	description: strings.collection.filter.everyCategory,
-	name: strings.collection.filter.everyLocation
-};
-
 interface FilterCardProps {
 	onSubmit: (data: FilterCardForm) => void;
 	onClear: () => void;
@@ -29,6 +23,11 @@ interface FilterCardProps {
 }
 
 function FilterCard(props: FilterCardProps) {
+	const UNSELECTED_DEFAULT = {
+		id: '',
+		description: strings.collection.filter.everyCategory,
+		name: strings.collection.filter.everyLocation
+	};
 	const { register, handleSubmit, reset } = useForm<FilterCardForm>({
 		defaultValues: {
 			name: '',

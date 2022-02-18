@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.webapp.exceptionMapper;
 
 import ar.edu.itba.paw.models.exceptions.InternalErrorException;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -10,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -25,8 +25,7 @@ public class InternalErrorExceptionMapper implements ExceptionMapper<InternalErr
 
     @Override
     public Response toResponse(InternalErrorException e) {
-        List<Locale> languages = requestProvider.get().getAcceptableLanguages();
-        Locale lang = languages.isEmpty() ? Locale.ENGLISH : languages.get(0);
+        Locale lang = ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages());
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN_TYPE).
                 entity(messageSource.getMessage(e.getMessage(), null, lang)).build();
     }

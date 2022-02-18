@@ -1,6 +1,5 @@
 import {RentProposal} from '../../api/rentProposals/types';
 import {Button, Card, Image, Modal, Row} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
 import {strings} from '../../i18n/i18n';
 import {useFindArticle} from '../../api/articles/articlesSlice';
 import {useFindUser} from '../../api/users/usersSlice';
@@ -8,22 +7,21 @@ import {states} from '../../views/Requests';
 import {useState} from 'react';
 import {CircleFill} from 'react-bootstrap-icons';
 import {useUpdateRentProposal} from '../../api/rentProposals/rentProposalsSlice';
-import {useNavigate, Link} from 'react-router-dom';
-import {useListImages} from "../../api/images/imagesSlice";
-import {skipToken} from "@reduxjs/toolkit/dist/query";
-import LoadingComponent from "../LoadingComponent";
+import {useNavigate} from 'react-router-dom';
+import {useListImages} from '../../api/images/imagesSlice';
+import {skipToken} from '@reduxjs/toolkit/dist/query';
+import LoadingComponent from '../LoadingComponent';
 
 export default function RequestCard(props: { request: RentProposal; isSent: boolean }) {
-    const {message, startDate, endDate, marked, state, url, articleUrl, renterUrl, id} = props.request;
+    const {message, startDate, endDate, marked, state, url, articleUrl, renterUrl} = props.request;
 
     const {data: article, isSuccess: articleSuccess} = useFindArticle(articleUrl);
 
     const {data: renter, isSuccess: renterSuccess} = useFindUser(renterUrl);
 
-    const {
-        data: images,
-        isSuccess: imagesSuccess
-    } = useListImages(articleSuccess && article ? article.imagesUrl : skipToken);
+    const {data: images, isSuccess: imagesSuccess} = useListImages(
+        articleSuccess && article ? article.imagesUrl : skipToken
+    );
 
     const [show, setShow] = useState(false);
 
@@ -35,10 +33,10 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
     const [declineProposal, declineResult] = useUpdateRentProposal();
     const [acceptProposal, acceptResult] = useUpdateRentProposal();
 
-
     const handleDecline = () => {
         declineProposal({state: states.declined, url: url});
         setProposalState(states.declined);
+        handleClose();
     };
 
     const handleAccept = () => {
@@ -48,8 +46,7 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
 
     let navigate = useNavigate();
     const goToArticle = (articleId: number) => {
-        let path = new URL(`/articles/${articleId}`, process.env.REACT_APP_BASE_URL);
-        navigate(path);
+        navigate(`/articles/${articleId}`);
     };
     return (
         <>
@@ -71,9 +68,9 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                         <hr/>
                         <Row>
                             <div className='col-3'>
-                                {imagesSuccess && images && images[0] &&
-                                    <Image src={images[0].url.toString()} width='200px'/>
-                                }
+                                {imagesSuccess && images && images[0] && (
+                                    <Image src={images[0].url.toString()} width='100%'/>
+                                )}
                             </div>
                             <div className='col-9'>
                                 <p className='lead mb-2'>
@@ -95,9 +92,13 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                                 <p> {message} </p>
                             </div>
                         </Row>
-                        {(acceptResult.isLoading || declineResult.isLoading) ?
-                            <div className='d-flex justify-content-end my-2'><LoadingComponent/></div> :
-                            proposalState === states.pending && !props.isSent && (
+                        {acceptResult.isLoading || declineResult.isLoading ? (
+                            <div className='d-flex justify-content-end my-2'>
+                                <LoadingComponent/>
+                            </div>
+                        ) : (
+                            proposalState === states.pending &&
+                            !props.isSent && (
                                 <div className='d-flex justify-content-end my-2'>
                                     <button onClick={handleShow} className='btn btn-link color-danger'>
                                         {strings.collection.requestCard.rejectButton}
@@ -106,7 +107,8 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                                         {strings.collection.requestCard.acceptButton}
                                     </Button>
                                 </div>
-                            )}
+                            )
+                        )}
                     </Card>
 
                     {!props.isSent && (

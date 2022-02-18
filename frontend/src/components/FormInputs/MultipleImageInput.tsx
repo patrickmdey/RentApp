@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Col, FormControl, FormGroup, FormLabel, Image, InputGroup, Row } from 'react-bootstrap';
+import { Col, FormGroup, FormLabel, InputGroup, Row } from 'react-bootstrap';
 import { UseFormRegister, Path } from 'react-hook-form';
 import ImageInput from './ImageInput';
 import ImagePreview from './ImagePreview';
@@ -24,12 +24,12 @@ export default function MultipleImageInput<T>(props: {
 	useEffect(() => setValue(files), [files]);
 
 	useEffect(() => {
-		if (files.length == max) setAddInput(false);
+		if (files.length === max) setAddInput(false);
 		else if (!addInput) setAddInput(true);
-	}, [files]);
+	}, [files, max]);
 
 	useEffect(() => {
-		if (removedIdx != -1) {
+		if (removedIdx !== -1) {
 			setPreviews((prev) => {
 				const copy = [...prev];
 				copy.splice(removedIdx, 1);
@@ -48,7 +48,7 @@ export default function MultipleImageInput<T>(props: {
 			const r = reader.result;
 			if (r != null) setPreviews((prev) => [...prev, r.toString()]);
 		};
-	}, [files]);
+	}, [files, removedIdx]);
 
 	return (
 		<FormGroup>

@@ -31,7 +31,7 @@ public class NewRentProposalDTO {
     private Integer articleId;
 
     @NotNull(message = "NotNull.rentForm.articleId")
-    private long renterId;
+    private Long renterId;
 
     public LocalDate getStartDate() {
         return startDate;

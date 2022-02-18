@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.LocationService;
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.webapp.dto.get.LocationDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
@@ -37,14 +38,8 @@ public class LocationController {
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response findById(@PathParam("id") final Locations id, @Context Request request) {
         EntityTag tag = new EntityTag(id.toString());
-        CacheControl cacheControl = new CacheControl();
-        cacheControl.setNoTransform(true);
-        cacheControl.setMustRevalidate(true);
+        LocationDTO location = LocationDTO.fromLocation(id, uriInfo);
 
-        Response.ResponseBuilder response = request.evaluatePreconditions(tag);
-        if (response == null)
-            response = Response.ok(LocationDTO.fromLocation(id, uriInfo)).tag(tag);
-
-        return response.cacheControl(cacheControl).build();
+        return ApiUtils.responseWithConditionalCache(tag, location, request);
     }
 }

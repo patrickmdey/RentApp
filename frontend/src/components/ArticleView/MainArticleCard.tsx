@@ -7,7 +7,7 @@ import Rating from '../Review/Rating';
 import { strings } from '../../i18n/i18n';
 import { Location } from '../../api/locations/types';
 import { useListImages } from '../../api/images/imagesSlice';
-import RequestForm from '../Requests/RequestForm';
+import RequestForm from '../Forms/RequestForm';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userTypes } from '../../views/Article';
@@ -83,18 +83,26 @@ function MainArticleCard(props: {
 							{article.title}
 						</Card.Title>
 						<Card.Subtitle>
-							<a href='/' className='article-location mt-3 color-action d-flex align-items-center'>
-								<span className='h4'>
-									<GeoAltFill />
-								</span>
-								{location && <p className='lead mt-2'>{location.name}</p>}
-							</a>
+							{location && (
+								<a
+									onClick={() => navigate(`/marketplace?location=${location.id}`)}
+									className='article-location mt-3 color-action d-flex align-items-center'
+								>
+									<span className='h4'>
+										<GeoAltFill />
+									</span>
+									<p className='lead mt-2'>{location.name}</p>
+								</a>
+							)}
 						</Card.Subtitle>
 						<div className='d-flex flex-wrap mt-2'>
 							{categories &&
 								categories.map((category, i) => (
 									<h5 key={i}>
-										<Badge className='m-1 bg-color-grey color-rentapp-black'>
+										<Badge
+											onClick={() => navigate(`/marketplace?category=${category.id}`)}
+											className='m-1 bg-color-grey color-rentapp-black'
+										>
 											{category.description}
 										</Badge>
 									</h5>

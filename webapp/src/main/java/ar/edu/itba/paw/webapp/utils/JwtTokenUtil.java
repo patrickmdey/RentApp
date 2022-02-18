@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.webapp.auth;
+package ar.edu.itba.paw.webapp.utils;
 
 import ar.edu.itba.paw.models.User;
 import io.jsonwebtoken.Claims;

@@ -1,12 +1,10 @@
 package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.CategoryService;
-import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
-import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
-import ar.edu.itba.paw.webapp.dto.get.ArticleDTO;
 import ar.edu.itba.paw.webapp.dto.get.CategoryDTO;
+import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -36,6 +34,7 @@ public class CategoryController {
     private UriInfo uriInfo;
 
     @GET
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response list(@QueryParam("fromArticle") Integer articleId) {
         List<Category> categories;
         categories = cs.listCategories(articleId);
@@ -43,8 +42,7 @@ public class CategoryController {
         if (categories.isEmpty())
             return Response.noContent().build();
 
-        List<Locale> languages = requestProvider.get().getAcceptableLanguages();
-        Locale lang = languages.isEmpty() ? LocaleContextHolder.getLocale() : languages.get(0);
+        Locale lang = ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages());
         List<CategoryDTO> mappedCategories = categories.stream().map((Category category) ->
                 CategoryDTO.fromCategory(category, uriInfo, messageSource, lang)).collect(Collectors.toList());
 
@@ -53,7 +51,7 @@ public class CategoryController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final Category category = cs.findById(id).orElseThrow(CategoryNotFoundException::new);
         List<Locale> languages = requestProvider.get().getAcceptableLanguages();

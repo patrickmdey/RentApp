@@ -1,5 +1,5 @@
 import CategoriesList from '../components/Category/CategoriesList';
-import { Card, Container, Row } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import LandingTitle from '../components/Landing/LandingTitle';
 import ArticleCardList from '../components/Article/ArticleCardList';
 import { useListArticles } from '../api/articles/articlesSlice';

@@ -1,7 +1,6 @@
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useCreateRentProposal } from '../../api/rentProposals/rentProposalsSlice';
-import { CreateRentProposalParameters } from '../../api/rentProposals/types';
 import { strings } from '../../i18n/i18n';
 import FormInput from '../FormInputs/FormInput';
 import useUserId from '../../hooks/useUserId';
@@ -42,7 +41,7 @@ function RequestForm(props: { articleId: number }) {
 
 	useEffect(() => {
 		if (result.isSuccess) navigate('/success');
-	}, [result]);
+	}, [result, navigate]);
 
 	function onSubmit(data: RequestFormT) {
 		createRequest({
@@ -82,9 +81,10 @@ function RequestForm(props: { articleId: number }) {
 										name='endDate'
 										type='date'
 										validation={{
-											required: true
-										}} //TODO: aca validate: isValidDate
-										error={errors.startDate}
+											required: true,
+											validate: () => getValues('startDate') < getValues('endDate')
+										}}
+										error={errors.endDate}
 										errorMessage={strings.collection.article.requestArticle.errors.endDate}
 									/>
 								</Col>
@@ -99,8 +99,7 @@ function RequestForm(props: { articleId: number }) {
 								validation={{
 									required: true,
 									minLength: 10,
-									maxLength: 310,
-									validate: () => getValues('startDate') < getValues('endDate')
+									maxLength: 310
 								}}
 								error={errors.message}
 								errorMessage={strings.collection.article.requestArticle.errors.message}

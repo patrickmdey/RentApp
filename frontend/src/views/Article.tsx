@@ -21,6 +21,7 @@ import LoadingComponent from '../components/LoadingComponent';
 import Error from '../components/Error';
 import { useNavigate } from 'react-router';
 import ArticleCardList from '../components/Article/ArticleCardList';
+import PagesList from '../components/PagesList';
 
 export const userTypes = {
 	notLogged: 0,
@@ -28,12 +29,11 @@ export const userTypes = {
 	notOwner: 2
 };
 
-// TODO: subdivide into components
 function Article() {
 	const { id } = useParams();
 	const loggedUserId = useUserId();
-	// if (id == null) return <>Error</>;
 	const navigate = useNavigate();
+	const [reviewPage, setReviewPage] = useState(1);
 
 	const {
 		data: article,
@@ -45,7 +45,6 @@ function Article() {
 	const {
 		data: related,
 		isSuccess: relatedIsSuccess,
-		isLoading: relatedLoad,
 		error: relatedError
 	} = useListRelatedArticles(id ? id : skipToken);
 
@@ -58,8 +57,18 @@ function Article() {
 	const {
 		data: reviews,
 		isLoading: reviewsLoad,
-		error: reviewError
-	} = useListReviews(articleIsSuccess && article ? article.reviewsUrl : skipToken);
+		error: reviewError,
+		pages: reviewPages
+	} = usePaginatedResponse(
+		useListReviews(
+			articleIsSuccess && article
+				? {
+						articleId: article.id,
+						page: reviewPage
+				  }
+				: skipToken
+		)
+	);
 
 	const {
 		data: owner,
@@ -108,7 +117,8 @@ function Article() {
 			aProp.find(
 				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === article.url
 			);
-		setHasRented(acceptedRentProposal !== null && acceptedRentProposal !== undefined);
+
+		setHasRented(acceptedRentProposal != false && acceptedRentProposal != null);
 	}, [aPropSuccess, aProp, article]);
 
 	const [hasReviewed, setHasReviewed] = useState(false);
@@ -183,9 +193,12 @@ function Article() {
 										</Button>
 									)}
 								</div>
-								<hr></hr>
+								<hr />
 								{reviews ? (
-									<ReviewList reviews={reviews} />
+									<>
+										<ReviewList reviews={reviews} />
+										<PagesList pages={reviewPages} page={reviewPage} setPage={setReviewPage} />
+									</>
 								) : (
 									<div className='d-flex justify-content-center my-auto'>
 										<p className='lead my-auto'>{strings.collection.noData.noReviews}</p>

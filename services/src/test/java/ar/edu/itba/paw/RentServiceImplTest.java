@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -36,7 +35,7 @@ public class RentServiceImplTest {
     public void setUp() {
         this.userOwner = new User(1, "owner@mail.com", "password",
                 "owner", "owner", Locations.values()[3], null, UserType.OWNER);
-        this.userRenter = new User(2, "renter@mail.com", "password", "renter",
+        User userRenter = new User(2, "renter@mail.com", "password", "renter",
                 "renter", Locations.values()[5], null, UserType.RENTER);
 
         Article article = new Article(123, "bike", "fast bike", 400F, userOwner);
@@ -54,7 +53,6 @@ public class RentServiceImplTest {
     }
 
     private User userOwner;
-    private User userRenter;
     private RentProposal rentProposal;
 
 

@@ -12,10 +12,8 @@ import java.time.ZoneId;
 public class CacheFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getRequestURI().contains("index.html")) {
-            response.setHeader("Cache-Control", "public, max-age=" + ApiUtils.CACHE_MAX_AGE + ", immutable");
-            response.setHeader("Expires", LocalDate.now().plusYears(1).atStartOfDay().atZone(ZoneId.systemDefault()).toString());
-        }
+        response.setHeader("Cache-Control", "public, max-age=" + ApiUtils.CACHE_MAX_AGE + ", immutable");
+        response.setHeader("Expires", LocalDate.now().plusYears(1).atStartOfDay().atZone(ZoneId.systemDefault()).toString());
         filterChain.doFilter(request, response);
     }
 }

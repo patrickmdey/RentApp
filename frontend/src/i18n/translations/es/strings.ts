@@ -62,12 +62,14 @@ let esCollection: StringCollection = {
 			email: {
 				required: 'Es obligatorio ingresar un email',
 				minLength: 'El mail debe tener entre {minLength} y {maxLength} caracteres',
-				maxLength: 'El mail debe tener entre {minLength} y {maxLength} caracteres'
+				maxLength: 'El mail debe tener entre {minLength} y {maxLength} caracteres',
+				validate: 'El mail ingresado ya se encuentra en uso'
 			},
 			password: {
 				required: 'Es obligatorio ingresar una contraseña',
 				minLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres',
-				maxLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres'
+				maxLength: 'La contraseña debe tener entre {minLength} y {maxLength} caracteres',
+				validate: 'Las contraseñas deben ser iguales'
 			},
 			loginFail: 'El usuario o la contraseña ingresada son incorrectos'
 		}
@@ -147,7 +149,10 @@ let esCollection: StringCollection = {
 					required: 'Es obligatorio ingresar la fecha de finalización',
 					validate: 'La fecha de inicio no debe ser posterior a la fecha de hoy'
 				},
-				message: { required: 'Es obligatorio ingresar un mensaje para el dueño' }
+				message: {
+					required: 'Es obligatorio ingresar un mensaje para el dueño',
+					minLength: 'El mensaje debe tener mas de {minLength} caracteres'
+				}
 			},
 			successTitle:
 				'La solicitud ha sido enviada con éxito. Pronto estarás recibiendo un mail por parte del dueño',

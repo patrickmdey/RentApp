@@ -9,19 +9,19 @@ import ar.edu.itba.paw.webapp.dto.get.RentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
-import ar.edu.itba.paw.webapp.utils.RentMaxPageGetter;
+import ar.edu.itba.paw.interfaces.RentMaxPageGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @Component
@@ -45,23 +45,23 @@ public class RentProposalController {
 
     @GET
     @Path("/received")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listReceived(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                                  @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                                  @QueryParam("limit") Long limit,
-                                 @QueryParam("page") @DefaultValue("1") int page) {
+                                 @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") int page) {
         return listProposals(userId, state, limit, page, rs::ownerRequests, rs::getReceivedMaxPage);
     }
 
     @GET
     @Path("/sent")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #userId)")
     public Response listSent(@NotNull(message = "NotNull.listProposals.userId") @QueryParam("user") Integer userId,
                              @NotNull(message = "NotNull.proposals.state") @QueryParam("state") RentState state,
                              @QueryParam("limit") Long limit,
-                             @QueryParam("page") @DefaultValue("1") int page) {
+                             @QueryParam("page") @DefaultValue("1") @Min(value = 1, message = "List.minPage") int page) {
         return listProposals(userId, state, limit, page, rs::sentRequests, rs::getSentMaxPage);
     }
 
@@ -83,7 +83,7 @@ public class RentProposalController {
     }
 
     @POST
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #rentProposalDTO.renterId) && " +
             "!@webSecurity.checkIsArticleOwner(authentication, #rentProposalDTO.articleId)")
     public Response createProposal(@Valid final NewRentProposalDTO rentProposalDTO) {
@@ -101,7 +101,7 @@ public class RentProposalController {
 
     @PUT
     @Path("/{id}")
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO) {
         rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());

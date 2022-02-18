@@ -1,4 +1,3 @@
-import { Row } from 'react-bootstrap';
 import { Review as ReviewT } from '../../api/reviews/types';
 import { strings } from '../../i18n/i18n';
 import ReviewCard from './ReviewCard';

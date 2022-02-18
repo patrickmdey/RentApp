@@ -1,7 +1,7 @@
 import { Button, Card, Form, Row, Stack } from 'react-bootstrap';
 import { strings } from '../../i18n/i18n';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useLogin } from '../../api/authentication/authenticationSlice';
 import FormInput from '../FormInputs/FormInput';

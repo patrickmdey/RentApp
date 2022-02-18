@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import java.time.LocalDate;
 
 @Repository
@@ -73,8 +72,8 @@ public class RentDaoJpa implements RentDao {
         Query query = em.createNativeQuery(queryBuild.toString());
 
         long resultsPerPage = limit == null ? RESULTS_PER_PAGE : limit;
-        query.setParameter("limit", RESULTS_PER_PAGE);
-        query.setParameter("offset", (page - 1) * RESULTS_PER_PAGE);
+        query.setParameter("limit", resultsPerPage);
+        query.setParameter("offset", (page - 1) * resultsPerPage);
         query.setParameter(userParam, accountId);
         query.setParameter("state", state);
 

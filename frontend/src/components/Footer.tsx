@@ -1,6 +1,5 @@
 import { Button, Card, Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { strings } from '../i18n/i18n';
-import React from 'react';
 import { useAppDispatch } from '../hooks';
 import { setLanguage } from '../api/i18n/i18nSlice';
 

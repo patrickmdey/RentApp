@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.Article;
 import ar.edu.itba.paw.models.Category;
 import ar.edu.itba.paw.models.DBImage;
 import ar.edu.itba.paw.models.OrderOptions;
+import ar.edu.itba.paw.models.exceptions.ArticleNotFoundException;
 import ar.edu.itba.paw.models.exceptions.CannotCreateArticleException;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
 import org.junit.Assert;
@@ -188,7 +189,7 @@ public class ArticleDaoTest {
         // Arrange
         final String title = "Moto";
         final String description = "moto para andar";
-        final Float pricePerDay = 123F;
+        final float pricePerDay = 123F;
         final long idOwner = 99999;
 
         // Act
@@ -220,7 +221,7 @@ public class ArticleDaoTest {
         final Long timesRented = 1L;
 
         // Act
-        Article article = articleDao.findById(articleId).get();
+        Article article = articleDao.findById(articleId).orElseThrow(ArticleNotFoundException::new);
         Long result = article.getTimesRented();
 
         // Assert
@@ -234,7 +235,7 @@ public class ArticleDaoTest {
         final int expectedRating = 3;
 
         // Act
-        Article article = articleDao.findById(idArticle).get();
+        Article article = articleDao.findById(idArticle).orElseThrow(ArticleNotFoundException::new);
         int result = article.getRating();
 
         // Assert
@@ -248,7 +249,7 @@ public class ArticleDaoTest {
         final long expectedTimesReviewed = 2;
 
         // Act
-        Article article = articleDao.findById(idArticle).get();
+        Article article = articleDao.findById(idArticle).orElseThrow(ArticleNotFoundException::new);
         long result = article.getTimesReviewed();
 
         // Assert
@@ -263,7 +264,7 @@ public class ArticleDaoTest {
         expectedCategories.add(new Category(3, "Category.Cars"));
 
         // Act
-        Article article = articleDao.findById(idArticle).get();
+        Article article = articleDao.findById(idArticle).orElseThrow(ArticleNotFoundException::new);
         Set<Category> result = article.getCategories();
 
         // Assert
@@ -277,11 +278,10 @@ public class ArticleDaoTest {
         final int expectedImagesCount = 1;
 
         // Act
-        Article article = articleDao.findById(idArticle).get();
+        Article article = articleDao.findById(idArticle).orElseThrow(ArticleNotFoundException::new);
         List<DBImage> result = article.getImages();
 
         // Assert
         Assert.assertEquals(expectedImagesCount, result.size());
     }
-
 }

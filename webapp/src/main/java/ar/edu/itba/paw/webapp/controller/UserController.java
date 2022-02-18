@@ -3,7 +3,7 @@ package ar.edu.itba.paw.webapp.controller;
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.models.exceptions.UserNotFoundException;
-import ar.edu.itba.paw.webapp.auth.JwtTokenUtil;
+import ar.edu.itba.paw.webapp.utils.JwtTokenUtil;
 import ar.edu.itba.paw.webapp.dto.get.UserDTO;
 import ar.edu.itba.paw.webapp.dto.post.NewUserDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
@@ -44,7 +44,7 @@ public class UserController {
 
     @POST
     @Consumes({MediaType.MULTIPART_FORM_DATA})
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response create(FormDataMultiPart body) {
         NewUserDTO userDto = ApiUtils.validateBean(NewUserDTO.fromMultipartData(body), validatorFactory);
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
@@ -63,7 +63,7 @@ public class UserController {
 
     @GET
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     public Response getById(@PathParam("id") final long id) {
         final User user = us.findById(id).orElseThrow(UserNotFoundException::new);
         return Response.ok(UserDTO.fromUser(user, uriInfo)).build();
@@ -71,7 +71,7 @@ public class UserController {
 
     @DELETE
     @Path("/{id}")
-    @Produces(value = {MediaType.APPLICATION_JSON,})
+    @Produces(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response deleteById(@PathParam("id") final long id) {
         userLogger.info("deleting account --> id: {}", id);
@@ -83,7 +83,7 @@ public class UserController {
 
     @PUT
     @Path("/{id}")
-    @Consumes(value = {MediaType.APPLICATION_JSON,})
+    @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response modify(@PathParam("id") final long id, @Valid EditUserDTO userDTO) {
         userLogger.info("Editing user --> name: {}, lastName: {}, location: {}",
@@ -95,7 +95,7 @@ public class UserController {
 
     @PUT
     @Path("/{id}/password")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(value= {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsSameUser(authentication, #id)")
     public Response changePassword(@PathParam("id") final long id, @Valid EditPasswordDTO passwordDTO) {
         us.updatePassword(id, passwordDTO.getPassword());

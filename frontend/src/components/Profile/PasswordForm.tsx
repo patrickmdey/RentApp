@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { User } from '../../api/users/types';
@@ -17,19 +17,17 @@ export default function PasswordForm(props: { user: User; onDone: Function }) {
 	const {
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors }
 	} = useForm<ModifyPasswordData>();
-
-	const [passwordsMatch, setPasswordsMatch] = useState(true);
 
 	const [modifyPassword, result] = useUpdatePassword();
 
 	useEffect(() => {
 		if (result.isSuccess) onDone();
-	}, [result]);
+	}, [result, onDone]);
 
 	function onSubmit(data: ModifyPasswordData) {
-		if (data.password != data.confirmPassword) return setPasswordsMatch(false);
 		modifyPassword({ ...data, url: new URL('password', user.url + '/').toString() });
 	}
 
@@ -53,17 +51,19 @@ export default function PasswordForm(props: { user: User; onDone: Function }) {
 						type='password'
 						name='confirmPassword'
 						label={strings.collection.profile.passwordForm.confirmPassword}
-						validation={{ required: true, minLength: 8, maxLength: 16 }}
+						validation={{
+							required: true,
+							minLength: 8,
+							maxLength: 16,
+							validate: () => getValues('password') === getValues('confirmPassword')
+						}}
 						error={errors.confirmPassword}
 						errorMessage={strings.collection.login.errors.password}
 					/>
 				</Col>
-				{!passwordsMatch && (
-					<p className='text-danger'>{strings.collection.profile.passwordForm.errors.fieldsMatch});</p>
-				)}
 			</Row>
 			<Stack direction='horizontal' className='mt-3'>
-				<Button onClick={(e) => onDone()} variant='outline-danger' className='ms-auto'>
+				<Button onClick={(_) => onDone()} variant='outline-danger' className='ms-auto'>
 					{strings.collection.profile.passwordForm.cancel}
 				</Button>
 				<Button type='submit' className='ms-2'>
