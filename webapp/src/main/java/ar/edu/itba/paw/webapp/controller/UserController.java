@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
 import javax.ws.rs.*;
@@ -34,6 +36,9 @@ public class UserController {
     @Autowired
     private JwtTokenUtil jwtUtil;
 
+    @Autowired
+    private ServletContext servletContext;
+
     @Context
     private UriInfo uriInfo;
 
@@ -49,7 +54,8 @@ public class UserController {
         NewUserDTO userDto = ApiUtils.validateBean(NewUserDTO.fromMultipartData(body), validatorFactory);
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
                 userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
-                uriInfo.getAbsolutePath().toString());
+                uriInfo.getAbsolutePathBuilder().replacePath(null).build().toString()
+                        + servletContext.getContextPath());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
 
         Response.ResponseBuilder responseBuilder = Response.created(uri);

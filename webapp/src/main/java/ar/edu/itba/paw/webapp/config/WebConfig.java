@@ -45,10 +45,10 @@ public class WebConfig {
         dataSource.setUsername("postgres"); //LOCAL
         dataSource.setPassword("root"); //LOCAL
 
-//        dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
+        //dataSource.setUrl("jdbc:postgresql://10.16.1.110:5432/paw-2021b-3"); //aca va la dir del servidor
 //
-//        dataSource.setUsername("paw-2021b-3");
-//        dataSource.setPassword("hqpefZ04Y");
+        //dataSource.setUsername("paw-2021b-3");
+        //dataSource.setPassword("hqpefZ04Y");
 
         return dataSource;
     }

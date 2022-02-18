@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -33,6 +35,9 @@ public class RentProposalController {
 
     @Autowired
     private UserService us;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @Context
     private UriInfo uriInfo;
@@ -94,7 +99,8 @@ public class RentProposalController {
         final RentProposal rentProposal = rs.create(rentProposalDTO.getMessage(),
                 rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),
                 rentProposalDTO.getArticleId(), ApiUtils.retrieveUser(securityContext, us).getId(),
-                uriInfo.toString());
+                uriInfo.getAbsolutePathBuilder().replacePath(null).build().toString()
+                        + servletContext.getContextPath());
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(rentProposal.getId())).build();
         return Response.created(uri).build();
     }
@@ -104,7 +110,8 @@ public class RentProposalController {
     @Consumes(value = {MediaType.APPLICATION_JSON})
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO) {
-        rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePath().toString());
+        rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePathBuilder()
+                .replacePath(null).build().toString() + servletContext.getContextPath());
         return Response.ok().build();
     }
 }

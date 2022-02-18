@@ -57,12 +57,12 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestToOwner(thymeleafContext, webpageUrl, owner);
+        sendMailRequestToOwner(thymeleafContext, webpageUrl);
         sendMailRequestToRenter(thymeleafContext, webpageUrl);
     }
 
-    private void sendMailRequestToOwner(Context context, String webpageUrl, User owner) {
-        context.setVariable("callbackUrl", webpageUrl + "/proposals/received?state=PENDING&user=" + owner.getId());
+    private void sendMailRequestToOwner(Context context, String webpageUrl) {
+        context.setVariable("callbackUrl", webpageUrl + "/proposals");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
                 emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
@@ -92,15 +92,15 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl, owner);
+        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl);
 
         sendMailRequestConfirmationToRenter(thymeleafContext,
                 rentProposal.getArticle().getCategories().stream().findFirst()
                         .orElseThrow(CategoryNotFoundException::new).getId(), webpageUrl);
     }
 
-    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl, User owner) {
-        context.setVariable("callbackUrl", webpageUrl + "/proposals/received?state=ACCEPTED&user=" + owner.getId());
+    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl) {
+        context.setVariable("callbackUrl", webpageUrl + "/proposals");
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
