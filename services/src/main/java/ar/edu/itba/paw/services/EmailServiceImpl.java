@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -56,12 +57,12 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestToOwner(thymeleafContext, webpageUrl);
+        sendMailRequestToOwner(thymeleafContext, webpageUrl, owner);
         sendMailRequestToRenter(thymeleafContext, webpageUrl);
     }
 
-    private void sendMailRequestToOwner(Context context, String webpageUrl) {
-        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/received/pending");
+    private void sendMailRequestToOwner(Context context, String webpageUrl, User owner) {
+        context.setVariable("callbackUrl", webpageUrl + "/proposals/received?state=PENDING&user=" + owner.getId());
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
                 emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
@@ -81,7 +82,7 @@ public class EmailServiceImpl implements EmailService {
         Context context = new Context();
         context.setVariable("name", newUser.getFirstName());
         context.setVariable("email", newUser.getEmail());
-        context.setVariable("callbackUrl", webpageUrl + "/user/login");
+        context.setVariable("callbackUrl", webpageUrl + "/login");
         String htmlBody = thymeleafTemplateEngine.process("new-user.html", context);
         sendHtmlMessage(newUser.getEmail(),
                 emailMessageSource.getMessage("email.newUser.subject", null, LocaleContextHolder.getLocale())
@@ -91,15 +92,15 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl) {
         Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl);
+        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl, owner);
 
         sendMailRequestConfirmationToRenter(thymeleafContext,
                 rentProposal.getArticle().getCategories().stream().findFirst()
                         .orElseThrow(CategoryNotFoundException::new).getId(), webpageUrl);
     }
 
-    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl) {
-        context.setVariable("callbackUrl", webpageUrl + "/user/my-requests/received/accepted");
+    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl, User owner) {
+        context.setVariable("callbackUrl", webpageUrl + "/proposals/received?state=ACCEPTED&user=" + owner.getId());
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
