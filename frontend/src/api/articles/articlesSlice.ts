@@ -42,7 +42,8 @@ const ArticlesApiSlice = BaseApiSlice.injectEndpoints({
 				const headers = meta?.response?.headers.get('Location')?.split('/');
 				if (headers == null) return null;
 				return headers[headers.length - 1];
-			}
+			},
+			invalidatesTags: [{ type: 'Article', id: 'PARTIAL-LIST' }]
 		}),
 
 		updateArticle: build.mutation<void, UpdateArticleParameters>({
