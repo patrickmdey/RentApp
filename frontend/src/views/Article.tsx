@@ -115,7 +115,7 @@ function Article() {
 			aProp &&
 			article &&
 			aProp.find(
-				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === article.url
+				(proposal) => Date.parse(proposal.startDate) <= Date.now() && proposal.articleUrl === article.url
 			);
 
 		setHasRented(acceptedRentProposal != false && acceptedRentProposal != null);

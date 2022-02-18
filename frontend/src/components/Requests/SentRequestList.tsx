@@ -1,6 +1,6 @@
 import {skipToken} from '@reduxjs/toolkit/dist/query';
 import {useState} from 'react';
-import {Card, Tabs, Tab} from 'react-bootstrap';
+import {Card, Tabs, Tab, Badge} from 'react-bootstrap';
 import {useListRentProposals} from '../../api/rentProposals/rentProposalsSlice';
 import useUserId from '../../hooks/useUserId';
 import {strings} from '../../i18n/i18n';
@@ -12,7 +12,7 @@ import PagesList from '../PagesList';
 import LoadingComponent from '../LoadingComponent';
 import Error from '../Error';
 
-function SentRequestList() {
+function SentRequestList(props: { acceptedAmount: number }) {
     const id = useUserId();
 
     const [key, setKey] = useState('pending');
@@ -105,7 +105,12 @@ function SentRequestList() {
                         />
                     )}
                 </Tab>
-                <Tab eventKey='accepted' title={strings.collection.requests.acceptedTitle}>
+                <Tab eventKey='accepted' title={<div className="d-flex align-items-center">
+                    <p>{strings.collection.requests.acceptedTitle}</p>{props.acceptedAmount > 0 && (
+                    <p className='my-1'>
+                        <Badge className='bg-rentapp-red ms-1'>{props.acceptedAmount}</Badge>
+                    </p>
+                )}</div>}>
                     {aSLoad ? (
                         <LoadingComponent/>
                     ) : acceptedSSucc && acceptedS && acceptedS.length > 0 ? (
