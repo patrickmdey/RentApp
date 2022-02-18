@@ -115,7 +115,9 @@ function Article() {
 			aProp &&
 			article &&
 			aProp.find(
-				(proposal) => Date.parse(proposal.startDate) <= Date.now() && proposal.articleUrl === article.url
+				(proposal) =>
+					new Date(proposal.startDate + 'T00:00:00').getTime() <= new Date().setHours(0, 0, 0, 0) &&
+					proposal.articleUrl === article.url
 			);
 
 		setHasRented(acceptedRentProposal != false && acceptedRentProposal != null);
