@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.RentState;
 import ar.edu.itba.paw.models.User;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface RentService {
@@ -14,14 +15,10 @@ public interface RentService {
 
     List<RentProposal> sentRequests(long renterId, int state, Long limit, long page);
 
-    void setRequestState(long requestId, RentState state, String webpageUrl);
-
-    void acceptRequest(long requestId, String webpageUrl);
-
-    void rejectRequest(long requestId, String webpageUrl);
+    void setRequestState(long requestId, RentState state, String webpageUrl, Locale locale);
 
     RentProposal create(String comment, LocalDate startDate, LocalDate endDate, long articleId,
-                        long renterId, String webpageUrl);
+                        long renterId, String webpageUrl, Locale locale);
 
     boolean hasRented(User renter, long articleId);
 

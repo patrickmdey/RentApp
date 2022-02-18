@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.PersistenceException;
 import java.io.IOException;
+import java.util.Locale;
 
 import static org.mockito.Mockito.*;
 
@@ -74,12 +75,12 @@ public class UserServiceImplTest {
         )).thenReturn(user);
         doNothing()
                 .when(emailService)
-                .sendNewUserMail(eq(user), eq(""));
+                .sendNewUserMail(eq(user), eq(""), eq(Locale.ENGLISH));
 
         // Act
         User result = userService.register(user.getEmail(), password,
                 user.getFirstName(), user.getLastName(),
-                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), ""
+                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), "", Locale.ENGLISH
         );
 
         // Assert
@@ -107,7 +108,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), ""
+                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), "", Locale.ENGLISH
         );
 
         // Assert
@@ -124,7 +125,7 @@ public class UserServiceImplTest {
         // Act
         userService.register(
                 user.getEmail(), password, user.getFirstName(), user.getLastName(),
-                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), ""
+                user.getLocation(), image.getBytes(), user.getType().getIsOwner(), "", Locale.ENGLISH
         );
 
         // Assert

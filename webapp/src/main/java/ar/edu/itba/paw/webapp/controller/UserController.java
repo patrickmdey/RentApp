@@ -10,12 +10,13 @@ import ar.edu.itba.paw.webapp.dto.put.EditPasswordDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditUserDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.server.ContainerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.validation.ValidatorFactory;
@@ -45,6 +46,9 @@ public class UserController {
     @Context
     private SecurityContext securityContext;
 
+    @Inject
+    private javax.inject.Provider<ContainerRequest> requestProvider;
+
     private final Logger userLogger = LoggerFactory.getLogger(UserController.class);
 
     @POST
@@ -55,7 +59,8 @@ public class UserController {
         final User user = us.register(userDto.getEmail(), userDto.getPassword(), userDto.getFirstName(),
                 userDto.getLastName(), userDto.getLocation(), userDto.getImage(), userDto.isOwner(),
                 uriInfo.getAbsolutePathBuilder().replacePath(null).build().toString()
-                        + servletContext.getContextPath());
+                        + servletContext.getContextPath(),
+                ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages()));
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
 
         Response.ResponseBuilder responseBuilder = Response.created(uri);

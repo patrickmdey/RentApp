@@ -8,16 +8,15 @@ import ar.edu.itba.paw.models.exceptions.CategoryNotFoundException;
 import ar.edu.itba.paw.models.exceptions.UnableToSendEmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Locale;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -55,76 +54,76 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl) {
-        Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestToOwner(thymeleafContext, webpageUrl);
-        sendMailRequestToRenter(thymeleafContext, webpageUrl);
+    public void sendMailRequest(RentProposal rentProposal, User owner, String webpageUrl, Locale locale) {
+        Context thymeleafContext = getThymeleafContext(rentProposal, owner, locale);
+        sendMailRequestToOwner(thymeleafContext, webpageUrl, locale);
+        sendMailRequestToRenter(thymeleafContext, webpageUrl, locale);
     }
 
-    private void sendMailRequestToOwner(Context context, String webpageUrl) {
+    private void sendMailRequestToOwner(Context context, String webpageUrl, Locale locale) {
         context.setVariable("callbackUrl", webpageUrl + "/proposals");
         String htmlBody = thymeleafTemplateEngine.process("owner-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("ownerEmail"),
-                emailMessageSource.getMessage("email.newRequest.owner", null, LocaleContextHolder.getLocale())
+                emailMessageSource.getMessage("email.newRequest.owner", null, locale)
                         + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
-    private void sendMailRequestToRenter(Context context, String webpageUrl) {
+    private void sendMailRequestToRenter(Context context, String webpageUrl, Locale locale) {
         context.setVariable("callbackUrl", webpageUrl + "/marketplace");
         String htmlBody = thymeleafTemplateEngine.process("renter-rent-request.html", context);
         sendHtmlMessage((String) context.getVariable("renterEmail"),
-                emailMessageSource.getMessage("email.newRequest.renter", null, LocaleContextHolder.getLocale())
+                emailMessageSource.getMessage("email.newRequest.renter", null, locale)
                         + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
     @Override
-    public void sendNewUserMail(User newUser, String webpageUrl) {
+    public void sendNewUserMail(User newUser, String webpageUrl, Locale locale) {
         Context context = new Context();
         context.setVariable("name", newUser.getFirstName());
         context.setVariable("email", newUser.getEmail());
         context.setVariable("callbackUrl", webpageUrl + "/login");
         String htmlBody = thymeleafTemplateEngine.process("new-user.html", context);
         sendHtmlMessage(newUser.getEmail(),
-                emailMessageSource.getMessage("email.newUser.subject", null, LocaleContextHolder.getLocale())
+                emailMessageSource.getMessage("email.newUser.subject", null, locale)
                 , htmlBody);
     }
 
     @Override
-    public void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl) {
-        Context thymeleafContext = getThymeleafContext(rentProposal, owner);
-        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl);
+    public void sendMailRequestConfirmation(RentProposal rentProposal, User owner, String webpageUrl, Locale locale) {
+        Context thymeleafContext = getThymeleafContext(rentProposal, owner, locale);
+        sendMailRequestConfirmationToOwner(thymeleafContext, webpageUrl, locale);
 
         sendMailRequestConfirmationToRenter(thymeleafContext,
                 rentProposal.getArticle().getCategories().stream().findFirst()
-                        .orElseThrow(CategoryNotFoundException::new).getId(), webpageUrl);
+                        .orElseThrow(CategoryNotFoundException::new).getId(), webpageUrl, locale);
     }
 
-    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl) {
+    private void sendMailRequestConfirmationToOwner(Context context, String webpageUrl, Locale locale) {
         context.setVariable("callbackUrl", webpageUrl + "/proposals");
         String htmlBody = thymeleafTemplateEngine.process("owner-request-accepted.html", context);
-        sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale()) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
+        sendHtmlMessage((String) context.getVariable("ownerEmail"), emailMessageSource.getMessage("email.accepted.renter", null, locale) + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
-    private void sendMailRequestConfirmationToRenter(Context context, long categoryId, String webpageUrl) {
+    private void sendMailRequestConfirmationToRenter(Context context, long categoryId, String webpageUrl, Locale locale) {
         context.setVariable("callbackUrl", webpageUrl + "/marketplace?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-accepted.html", context);
-        sendHtmlMessage((String) context.getVariable("renterEmail"), emailMessageSource.getMessage("email.accepted.renter", null, LocaleContextHolder.getLocale())
+        sendHtmlMessage((String) context.getVariable("renterEmail"), emailMessageSource.getMessage("email.accepted.renter", null, locale)
                 + context.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
     @Override
-    public void sendMailRequestDenied(RentProposal rentProposal, User renter, String webpageUrl) {
-        Context thymeleafContext = getThymeleafContext(rentProposal, renter);
+    public void sendMailRequestDenied(RentProposal rentProposal, User renter, String webpageUrl, Locale locale) {
+        Context thymeleafContext = getThymeleafContext(rentProposal, renter, locale);
         long categoryId = rentProposal.getArticle().getCategories().stream().findFirst().orElseThrow(CategoryNotFoundException::new).getId();
         thymeleafContext.setVariable("callbackUrl", webpageUrl + "/marketplace?category=" + categoryId);
         String htmlBody = thymeleafTemplateEngine.process("renter-request-denied.html", thymeleafContext);
-        sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, LocaleContextHolder.getLocale())
+        sendHtmlMessage((String) thymeleafContext.getVariable("renterEmail"), emailMessageSource.getMessage("email.deniedRequest", null, locale)
                 + thymeleafContext.getVariable("articleName"), htmlBody, RESOURCE_NAME, LOGO);
     }
 
 
-    private Context getThymeleafContext(RentProposal rentProposal, User owner) {
-        Context thymeleafContext = new Context(LocaleContextHolder.getLocale());
+    private Context getThymeleafContext(RentProposal rentProposal, User owner, Locale locale) {
+        Context thymeleafContext = new Context(locale);
         Article article = rentProposal.getArticle();
         User renter = rentProposal.getRenter();
         thymeleafContext.setVariable("renterName", renter.getFirstName());

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -46,14 +47,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User register(String email, String password, String firstName, String lastName, Locations location, byte[] img, boolean isOwner, String webpageUrl) {
+    public User register(String email, String password, String firstName, String lastName, Locations location, byte[] img, boolean isOwner, String webpageUrl, Locale locale) {
         String passwordHash = passwordEncoder.encode(password);
         DBImage dbImg = imageService.create(img);
 
         UserType type = isOwner ? UserType.OWNER : UserType.RENTER;
 
         User user = userDao.register(email, passwordHash, firstName, lastName, location, dbImg, type);
-        emailService.sendNewUserMail(user, webpageUrl);
+        emailService.sendNewUserMail(user, webpageUrl, locale);
 
         return user;
     }
