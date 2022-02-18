@@ -21,7 +21,7 @@ const RentProposalsApiSlice = BaseApiSlice.injectEndpoints({
 			providesTags: (result) =>
 				result && result.data
 					? [
-							...result.data.map(({ id }) => ({ type: 'Proposals' as const, id: id })),
+							...result.data.map(({ id }) => ({ type: 'Proposal' as const, id: id })),
 							{ type: 'Proposal', id: 'PARTIAL-LIST' }
 					  ]
 					: [{ type: 'Proposal', id: 'PARTIAL-LIST' }],
