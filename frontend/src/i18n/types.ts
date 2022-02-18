@@ -116,6 +116,7 @@ interface ArticleStrings {
 	createReview: string;
 	noArticles: string;
 	timesRented: string;
+	priceText: string,
 	createArticle: {
 		title: string;
 		create: string;
