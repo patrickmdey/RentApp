@@ -109,13 +109,17 @@ function Article() {
 
 	const [hasRented, setHasRented] = useState(false);
 
+	// new Date('2022-02-18T00:00:00') >= new Date().setHours(0,0,0,0)
+
 	useEffect(() => {
 		let acceptedRentProposal =
 			aPropSuccess &&
 			aProp &&
 			article &&
 			aProp.find(
-				(proposal) => Date.parse(proposal.startDate) < Date.now() && proposal.articleUrl === article.url
+				(proposal) =>
+					new Date(proposal.startDate + 'T00:00:00').getTime() <= new Date().setHours(0, 0, 0, 0) &&
+					proposal.articleUrl === article.url
 			);
 
 		setHasRented(acceptedRentProposal != false && acceptedRentProposal != null);
