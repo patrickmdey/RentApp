@@ -54,7 +54,7 @@ export default function RequestCard(props: { request: RentProposal; isSent: bool
                 <>
                     <Card className='card-style my-requests-card my-2'>
                         <div className='d-flex align-items-center'>
-                            {marked && !props.isSent && <CircleFill className='color-rentapp-red me-3'/>}
+                            {marked && <CircleFill className='color-rentapp-red me-3'/>}
 
                             <h3
                                 onClick={() => {

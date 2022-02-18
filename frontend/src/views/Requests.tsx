@@ -37,8 +37,9 @@ export default function Requests() {
                                 <hr/>
                                 <Nav variant='pills' className='flex-column'>
                                     <Nav.Item>
-                                        <Nav.Link className='request-pill w-100 text-start mb-1'
-                                                  eventKey='first'>
+                                        <Nav.Link
+                                            className='request-pill w-100 text-start mb-1 d-flex align-items-center'
+                                            eventKey='first'>
                                             <p className='my-1'>{strings.collection.requests.sentTitle}</p>
                                             {sentAmount > 0 && (
                                                 <p className='my-1'>
@@ -50,7 +51,7 @@ export default function Requests() {
                                     <Nav.Item>
                                         <Nav.Link eventKey='second'
                                                   className='request-pill w-100 text-start'>
-                                            <div className='d-flex'>
+                                            <div className='d-flex align-items-center'>
                                                 <p className='my-1'>{strings.collection.requests.receivedTitle}</p>
                                                 {receivedAmount > 0 && (
                                                     <p className='my-1'>

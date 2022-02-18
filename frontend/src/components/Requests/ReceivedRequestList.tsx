@@ -91,7 +91,8 @@ function ReceivedRequestList(props: { pendingAmount: number }) {
         <Card className='card-style min-height'>
             <Tabs activeKey={key} onSelect={(k) => k != null && setKey(k)}>
                 <Tab eventKey='pending'
-                     title={<div><p>{strings.collection.requests.pendingTitle}</p>{props.pendingAmount > 0 && (
+                     title={<div className="d-flex align-items-center">
+                         <p>{strings.collection.requests.pendingTitle}</p>{props.pendingAmount > 0 && (
                          <p className='my-1'>
                              <Badge className='bg-rentapp-red ms-1'>{props.pendingAmount}</Badge>
                          </p>)}
