@@ -2,6 +2,7 @@ package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.Locations;
 import ar.edu.itba.paw.models.User;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface UserService {
@@ -9,7 +10,7 @@ public interface UserService {
 
     Optional<User> findByEmail(String email);
 
-    User register(String email, String password, String firstName, String lastName, Locations location, byte[] img, boolean isOwner, String webpageUrl);
+    User register(String email, String password, String firstName, String lastName, Locations location, byte[] img, boolean isOwner, String webpageUrl, Locale locale);
 
     void update(long id, String firstName, String lastName, Locations location);
 

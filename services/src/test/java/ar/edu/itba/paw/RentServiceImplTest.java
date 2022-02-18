@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import static org.mockito.Mockito.*;
 
@@ -69,7 +70,7 @@ public class RentServiceImplTest {
         )).thenReturn(rentProposal);
 
         doNothing().when(emailService).sendMailRequest(
-                eq(rentProposal), eq(userOwner), eq("")
+                eq(rentProposal), eq(userOwner), eq(""), eq(Locale.ENGLISH)
         );
 
         // Act
@@ -78,7 +79,7 @@ public class RentServiceImplTest {
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                rentProposal.getRenter().getId(), ""
+                rentProposal.getRenter().getId(), "", Locale.ENGLISH
         );
 
         // Assert
@@ -108,7 +109,7 @@ public class RentServiceImplTest {
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                rentProposal.getRenter().getId(), ""
+                rentProposal.getRenter().getId(), "", Locale.ENGLISH
         );
 
         // Assert
@@ -135,7 +136,7 @@ public class RentServiceImplTest {
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                rentProposal.getRenter().getId(), ""
+                rentProposal.getRenter().getId(), "", Locale.ENGLISH
         );
 
         // Assert
@@ -161,7 +162,7 @@ public class RentServiceImplTest {
                 rentProposal.getStartDate(),
                 rentProposal.getEndDate(),
                 rentProposal.getArticle().getId(),
-                rentProposal.getRenter().getId(), ""
+                rentProposal.getRenter().getId(), "", Locale.ENGLISH
         );
 
         // Assert

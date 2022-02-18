@@ -10,12 +10,13 @@ import ar.edu.itba.paw.webapp.dto.post.NewRentProposalDTO;
 import ar.edu.itba.paw.webapp.dto.put.EditRentProposalDTO;
 import ar.edu.itba.paw.webapp.utils.ApiUtils;
 import ar.edu.itba.paw.interfaces.RentMaxPageGetter;
+import org.glassfish.jersey.server.ContainerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
-
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -44,6 +45,9 @@ public class RentProposalController {
 
     @Context
     private SecurityContext securityContext;
+
+    @Inject
+    private javax.inject.Provider<ContainerRequest> requestProvider;
 
     private final Logger rentLogger = LoggerFactory.getLogger(RentProposalController.class);
 
@@ -100,7 +104,8 @@ public class RentProposalController {
                 rentProposalDTO.getStartDate(), rentProposalDTO.getEndDate(),
                 rentProposalDTO.getArticleId(), ApiUtils.retrieveUser(securityContext, us).getId(),
                 uriInfo.getAbsolutePathBuilder().replacePath(null).build().toString()
-                        + servletContext.getContextPath());
+                        + servletContext.getContextPath(),
+                ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages()));
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(rentProposal.getId())).build();
         return Response.created(uri).build();
     }
@@ -111,7 +116,8 @@ public class RentProposalController {
     @PreAuthorize("@webSecurity.checkIsRentOwner(authentication, #id)")
     public Response modify(@PathParam("id") long id, @Valid final EditRentProposalDTO rentProposalDTO) {
         rs.setRequestState(id, rentProposalDTO.getState(), uriInfo.getAbsolutePathBuilder()
-                .replacePath(null).build().toString() + servletContext.getContextPath());
+                .replacePath(null).build().toString() + servletContext.getContextPath(),
+                ApiUtils.resolveLocale(requestProvider.get().getAcceptableLanguages()));
         return Response.ok().build();
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -73,41 +74,37 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public RentProposal create(String message, LocalDate startDate, LocalDate endDate, long articleId,
-                               long renterId, String webpageUrl) {
+                               long renterId, String webpageUrl, Locale locale) {
         RentProposal proposal = rentDao.create(message, RentState.PENDING, startDate, endDate, articleId, renterId);
-        emailService.sendMailRequest(proposal, proposal.getArticle().getOwner(), webpageUrl);
+        emailService.sendMailRequest(proposal, proposal.getArticle().getOwner(), webpageUrl, locale);
 
         return proposal;
     }
 
     @Override
     @Transactional
-    public void setRequestState(long requestId, RentState state, String webpageUrl) {
+    public void setRequestState(long requestId, RentState state, String webpageUrl, Locale locale) {
         if (state.getIsPending())
             throw new CannotEditRequestException();
 
         if (state.getIsAccepted())
-            acceptRequest(requestId, webpageUrl);
+            acceptRequest(requestId, webpageUrl, locale);
         else
-            rejectRequest(requestId, webpageUrl);
+            rejectRequest(requestId, webpageUrl, locale);
     }
 
-    @Override
-    @Transactional
-    public void acceptRequest(long requestId, String webpageUrl) {
+    private void acceptRequest(long requestId, String webpageUrl, Locale locale) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentProposal.setState(RentState.ACCEPTED);
 
-        emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl);
+        emailService.sendMailRequestConfirmation(rentProposal, rentProposal.getArticle().getOwner(), webpageUrl, locale);
     }
 
-    @Override
-    @Transactional
-    public void rejectRequest(long requestId, String webpageUrl) {
+    private void rejectRequest(long requestId, String webpageUrl, Locale locale) {
         RentProposal rentProposal = rentDao.findById(requestId).orElseThrow(RentProposalNotFoundException::new);
         rentProposal.setState(RentState.DECLINED);
 
-        emailService.sendMailRequestDenied(rentProposal, rentProposal.getRenter(), webpageUrl);
+        emailService.sendMailRequestDenied(rentProposal, rentProposal.getRenter(), webpageUrl, locale);
     }
 
     @Override
